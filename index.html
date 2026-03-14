@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Site Performance — Project Board</title>
+<title>Ops Dashboard — Project Board</title>
 <style>
   :root {
     --bg: #0d1117;
@@ -114,7 +114,7 @@
 <body>
 
 <header>
-  <h1>⚡ <span>Site Performance</span> — Project Board</h1>
+  <h1>⚡ <span>Ops Dashboard</span> — Project Board</h1>
   <div class="tabs">
     <button class="tab active" onclick="switchBoard('crown')">👑 Crown Office</button>
     <button class="tab" onclick="switchBoard('shirtsy')">👕 Shirtsy</button>
@@ -122,6 +122,7 @@
     <button class="tab" onclick="switchBoard('lux')">✨ Lux Neon</button>
     <button class="tab" onclick="switchBoard('coconut')">🥥 Coconut Bikini</button>
     <button class="tab" onclick="switchBoard('reclaimed')">♻️ Reclaimed Closet</button>
+    <button class="tab" onclick="switchBoard('virtus')" style="border-color:#d4a017;color:#d4a017">🏠 Virtus Realty</button>
   </div>
 </header>
 
@@ -131,6 +132,7 @@
 <div id="board-lux" class="board"></div>
 <div id="board-coconut" class="board"></div>
 <div id="board-reclaimed" class="board"></div>
+<div id="board-virtus" class="board"></div>
 
 <div class="toast" id="toast"></div>
 <div class="modal-overlay" id="modal" onclick="if(event.target===this)closeModal()">
@@ -896,6 +898,292 @@ const projects = {
       }
     ]
   }
+  virtus: {
+    name: "Virtus Realty Group",
+    icon: "🏠",
+    url: "virtusrealtygroup.com",
+    baseline: { ttfb: "—", total: "—", size: "—", platform: "New Build — Next.js" },
+    tasks: [
+      {
+        id: "virtus-1",
+        title: "Apply for BeachesMLS RESO Web API Access",
+        priority: "critical",
+        category: "speed",
+        status: "todo",
+        impact: "BLOCKER — cannot build MLS integration without API credentials",
+        description: "The entire platform depends on live MLS data. Nicolas needs to apply as a licensed Realtor for RESO Web API access from BeachesMLS (Broward, Palm Beaches & St. Lucie Realtors). This is the one task only Lex can do — Jackie cannot apply on his behalf.",
+        steps: [
+          "Log into your MLS Matrix account at https://beaches.mlsmatrix.com",
+          "Look for Settings or Developer section for RESO Web API access",
+          "If not available in Matrix, call your association directly",
+          "Tell them: 'I need RESO Web API developer credentials for a custom-built IDX brokerage website'",
+          "Sign the IDX/VOW license agreement and Data Access Agreement (DAA)",
+          "They will issue: API base URL, access token, and approved field list",
+          "Alternative fast path: Go to https://rworld.com/idx and fill out the IDX data feed request form",
+          "Send Jackie the credentials once received"
+        ],
+        expected: "API credentials that allow us to pull 40,000+ live listings, price changes, status updates every 15 minutes.",
+        risk: "No risk. This is standard for licensed agents. Approval typically takes 3-10 business days."
+      },
+      {
+        id: "virtus-2",
+        title: "Phase 1: Scaffold Next.js Project & Deploy",
+        priority: "critical",
+        category: "speed",
+        status: "todo",
+        impact: "Foundation for the entire platform — Jackie can do this now",
+        description: "Set up the Next.js 14+ project with Tailwind CSS, shadcn/ui, and deploy to Vercel. This creates the base that everything else builds on. Can proceed without MLS credentials.",
+        steps: [
+          "Run: npx create-next-app@latest virtus-realty --typescript --tailwind --app",
+          "Install shadcn/ui component library",
+          "Set up project structure: /app, /components, /lib, /api",
+          "Configure Tailwind with custom brand design tokens",
+          "Set up Vercel project and connect to GitHub repo",
+          "Deploy initial scaffold to virtusrealtygroup.com",
+          "Configure environment variables for all API keys",
+          "Set up CI/CD: push to main → auto-deploy"
+        ],
+        expected: "Live Next.js site on virtusrealtygroup.com with base styling and routing. Sub-1-second load times on Vercel edge CDN.",
+        risk: "No risk. Standard scaffold. Can be done in a few hours."
+      },
+      {
+        id: "virtus-3",
+        title: "Phase 1: Set Up Supabase Database & Schema",
+        priority: "critical",
+        category: "speed",
+        status: "todo",
+        impact: "PostgreSQL database for listings, leads, users, agent logs",
+        description: "Provision Supabase project with PostgreSQL. Create all tables per the blueprint: listings, leads, users, agent_logs, saved_searches. This is the data layer everything connects to.",
+        steps: [
+          "Create Supabase project (free tier to start)",
+          "Run migration: Create listings table (listing_id, status, list_price, address_full, city, zip_code, bedrooms, bathrooms, sqft, property_type, lat/lng, photos_json, description, days_on_market, list_date, last_synced)",
+          "Create leads table (id, name, email, phone, type, score, source, city, created_at)",
+          "Create saved_searches table (user_id, criteria_json, last_notified)",
+          "Create agent_logs table (agent_name, task, status, records_affected, timestamp)",
+          "Set up Row Level Security policies",
+          "Configure Supabase Auth for lead accounts",
+          "Test all CRUD operations"
+        ],
+        expected: "Production-ready PostgreSQL database with all tables, indexes, and security policies.",
+        risk: "Low risk. Schema changes are easy to migrate later."
+      },
+      {
+        id: "virtus-4",
+        title: "Phase 2: Build MLS Data Sync Agent",
+        priority: "high",
+        category: "speed",
+        status: "todo",
+        impact: "Core engine — pulls live listings every 15 minutes from BeachesMLS",
+        description: "Build the MLS Data Agent that polls the BeachesMLS RESO API every 15 minutes. Pulls new listings, price changes, status changes (Active→Pending→Sold), syncs photos to CDN. REQUIRES API credentials from Task 1.",
+        steps: [
+          "Build Node.js/Python worker script for RESO API polling",
+          "Implement: pull new Active listings added in last 15 minutes",
+          "Implement: pull status changes (Active→Pending, Pending→Sold, price reductions)",
+          "Download new photos, resize to web dimensions, upload to Cloudflare R2 / S3",
+          "Normalize all JSON data to PostgreSQL listings table schema",
+          "Flag listings matching saved search criteria → trigger notification",
+          "Log all operations to agent_logs table",
+          "Error handling: retry 3x with exponential backoff, then alert",
+          "Set up cron job: every 15 minutes"
+        ],
+        expected: "40,000+ listings synced to PostgreSQL. Real-time updates every 15 min. Photo CDN delivery.",
+        risk: "Medium risk. Depends on API format and rate limits. Build with fallback to IDX if RESO is slow to approve."
+      },
+      {
+        id: "virtus-5",
+        title: "Phase 2: Build Homepage & Property Search",
+        priority: "high",
+        category: "speed",
+        status: "todo",
+        impact: "The front door — hero search, featured listings, city quick-search",
+        description: "Build the homepage with full-width property search bar, featured listings carousel (AI-selected), city quick-search buttons, home valuation CTA, testimonials, and neighborhood guide cards.",
+        steps: [
+          "Hero section with search bar (city, property type, price range filters)",
+          "Featured Listings carousel — AI-selected: new, price-reduced, best value",
+          "City quick-search buttons: Hollywood, Hallandale Beach, Dania Beach, Aventura, Miramar",
+          "Home Valuation CTA section (seller lead magnet)",
+          "Testimonials and social proof section",
+          "Latest Market Report preview with email opt-in",
+          "Neighborhood guide cards with photos and links",
+          "Mobile-responsive design, Core Web Vitals optimized"
+        ],
+        expected: "Professional homepage that converts visitors into searchers and captures leads.",
+        risk: "Low risk. Can build with mock data before MLS is connected."
+      },
+      {
+        id: "virtus-6",
+        title: "Phase 2: Build Listing Detail Pages",
+        priority: "high",
+        category: "speed",
+        status: "todo",
+        impact: "Each listing gets a unique SEO-optimized page with lead capture",
+        description: "Build the listing detail page template at /listings/[mls-id]-[address-slug]. Full photo gallery, property details, interactive map, AI-generated description, mortgage calculator, schedule showing form, similar listings.",
+        steps: [
+          "Photo gallery (carousel + grid view) with CDN-optimized images",
+          "Price, beds, baths, sqft, days on market prominently displayed",
+          "Interactive map with Google Maps/Mapbox (nearby schools, restaurants, transit)",
+          "AI-generated property description (SEO-optimized rewrite of MLS remarks)",
+          "Mortgage calculator widget with current rate estimates",
+          "'Schedule a Showing' form (→ Google Calendar + CRM)",
+          "'Save Listing' feature (requires account → lead capture)",
+          "Similar listings carousel powered by AI recommendations",
+          "Neighborhood stats: median price, avg DOM, price per sqft (live from MLS)",
+          "JSON-LD RealEstateListing schema markup"
+        ],
+        expected: "Every listing has a unique, SEO-optimized page that ranks in Google and captures leads.",
+        risk: "Low risk. Template-based — build once, works for all 40K+ listings."
+      },
+      {
+        id: "virtus-7",
+        title: "Phase 2: Build City Landing Pages (10 cities)",
+        priority: "high",
+        category: "seo",
+        status: "todo",
+        impact: "SEO play — rank for '[City] FL homes for sale' across South Florida",
+        description: "Build 10 city-specific landing pages at /homes-for-sale/[city]-fl. Each page has live MLS stats, featured listings for that city, neighborhood breakdowns, and buyer guide content. These are the primary SEO traffic drivers.",
+        steps: [
+          "Create template at /homes-for-sale/[city]-fl",
+          "Cities: Hollywood, Hallandale Beach, Dania Beach, Aventura, Miramar, Fort Lauderdale, Pembroke Pines, Davie, Plantation, Weston",
+          "Each page: live MLS stats (median price, inventory, avg DOM)",
+          "Featured listings grid filtered by city",
+          "Neighborhood breakdown sections with links to neighborhood pages",
+          "Buyer guide content (500-800 words, AI-generated, SEO-optimized)",
+          "FAQ section with FAQPage schema markup",
+          "Email opt-in for city-specific market updates",
+          "Dynamic meta title: '[City] FL Homes for Sale | Virtus Realty Group'",
+          "Submit all to Google Search Console for indexing"
+        ],
+        expected: "Rank page 1 for long-tail city searches within 3-6 months. Each page targets 5-10 keywords.",
+        risk: "No risk. Content pages are pure SEO upside."
+      },
+      {
+        id: "virtus-8",
+        title: "Phase 2: Build Home Valuation Tool (Seller Funnel)",
+        priority: "high",
+        category: "seo",
+        status: "todo",
+        impact: "Primary seller lead capture — 'What is my home worth?'",
+        description: "Build the seller lead magnet at /what-is-my-home-worth. Multi-step form: address input with Google Places autocomplete, property details, AI-generated instant valuation, gated full report behind email capture.",
+        steps: [
+          "Step 1: Address input with Google Places autocomplete",
+          "Step 2: Collect bedrooms, bathrooms, sqft, condition, recent upgrades",
+          "Step 3: AI generates instant estimated value range using comp data",
+          "Step 4: Show estimated range, gate full report behind email capture",
+          "Step 5: Email captured → Klaviyo Seller Nurture flow triggered",
+          "Step 6: Nicolas receives instant SMS/email notification",
+          "Step 7: CRM record auto-created with full lead profile",
+          "Target keyword: 'what is my home worth [city] FL'"
+        ],
+        expected: "10-40+ seller leads per month. Seller leads are high-value — one listing = $10-30K+ commission.",
+        risk: "Low risk. The valuation is an estimate — clearly labeled. Full CMA offered as follow-up."
+      },
+      {
+        id: "virtus-9",
+        title: "Phase 3: Configure Klaviyo Email Flows (7 flows)",
+        priority: "medium",
+        category: "seo",
+        status: "todo",
+        impact: "Automated email nurture for buyers and sellers",
+        description: "Set up all 7 Klaviyo flows: Buyer Welcome Series, Listing Alert Drip, Seller Valuation Flow, Monthly Market Report, Open House Announcements, Re-engagement Campaign, New Listing Alert.",
+        steps: [
+          "Buyer Welcome Series: Day 0 welcome + top listings, Day 3 buyer guide, Day 7 neighborhood highlights, Day 14 market report",
+          "Listing Alert Drip: Instant new matches, weekly digest, monthly price drop alerts",
+          "Seller Valuation Flow: Instant estimate, Day 1 selling tips, Day 3 free CMA offer, Day 7 consultation CTA",
+          "Monthly Market Report: 1st of month, city-specific data, top listings, price trends",
+          "Open House Announcements: 3 days before + morning of to local subscribers",
+          "Re-engagement: Day 60 'still looking?', Day 75 best values, Day 90 unsubscribe or stay",
+          "New Listing Alert: To matching subscribers within 30 minutes of listing publish",
+          "Create segments: Active Buyers, Hot Leads, Seller Prospects, city-specific, price range, property type"
+        ],
+        expected: "Fully automated lead nurture. 25-40% open rates, 15-25% click-to-open.",
+        risk: "Low risk. Klaviyo skill already exists. Build flows using existing Brevo/Klaviyo integration."
+      },
+      {
+        id: "virtus-10",
+        title: "Phase 3: Deploy SEO Content Agent",
+        priority: "medium",
+        category: "seo",
+        status: "todo",
+        impact: "Automated daily SEO content — blogs, city pages, neighborhood guides",
+        description: "Deploy the SEO Content Agent that generates one blog post per day, updates city pages monthly with fresh MLS stats, writes weekly neighborhood guides, generates meta descriptions for all new listing pages.",
+        steps: [
+          "Build daily cron job: generate one SEO blog post per day at 6 AM ET",
+          "Target keyword clusters: city buyer searches, neighborhood, lifestyle, seller intent, market data",
+          "Auto-update city landing pages monthly with fresh MLS stats",
+          "Write and publish one neighborhood guide per week",
+          "Generate meta titles and descriptions for every new listing page",
+          "Create FAQ schema markup for all city and neighborhood pages",
+          "Submit newly published URLs to Google Search Console indexing API",
+          "Use Semrush API to validate keyword targets and track rankings"
+        ],
+        expected: "30+ pieces of content per month. 50,000+ monthly organic visitors within 12 months.",
+        risk: "Low risk. AI-generated content reviewed for quality. All content follows E-E-A-T guidelines."
+      },
+      {
+        id: "virtus-11",
+        title: "Phase 3: Deploy Market Intelligence Agent",
+        priority: "medium",
+        category: "seo",
+        status: "todo",
+        impact: "Monthly market reports — automated analysis with charts and email distribution",
+        description: "Deploy the Market Intelligence Agent that generates monthly market reports on the 1st of each month. Pulls sold data, calculates stats, writes narrative commentary, creates charts, publishes to web, emails subscribers.",
+        steps: [
+          "Pull prior month sold data from PostgreSQL",
+          "Calculate: median sale price, avg DOM, list-to-sale ratio, inventory count",
+          "Generate neighborhood-level breakdowns for each target city",
+          "Write narrative market commentary (500-800 words) using Claude API",
+          "Create charts using Recharts or Chart.js",
+          "Publish to /market-report/[city]-[month]-[year] with schema markup",
+          "Send market report email to subscriber list via Klaviyo",
+          "Schedule: 1st of every month at 7 AM ET"
+        ],
+        expected: "Authoritative market reports that drive recurring traffic, email subscribers, and position Nicolas as the local expert.",
+        risk: "Low risk. Data-driven reports. Clearly labeled as AI-assisted analysis."
+      },
+      {
+        id: "virtus-12",
+        title: "Phase 3: Deploy Lead Conversion Agent",
+        priority: "medium",
+        category: "speed",
+        status: "todo",
+        impact: "Real-time lead routing — hot leads get SMS to Nicolas in <60 seconds",
+        description: "Deploy the Lead Conversion Agent that processes every form submission in real-time. Scores leads (Hot/Warm/Cold), routes Hot leads instantly to Nicolas via SMS, enrolls all leads in appropriate Klaviyo flows, creates CRM records.",
+        steps: [
+          "Webhook receiver for all form submissions (showing, valuation, search, opt-in)",
+          "Lead scoring: Hot (showing request/call), Warm (valuation/3+ saved), Cold (email opt-in)",
+          "Hot leads: Instant SMS + email to Nicolas, create CRM deal",
+          "Warm leads: Enroll in Klaviyo drip, create CRM contact",
+          "Cold leads: 90-day nurture sequence via Klaviyo",
+          "Seller leads: Generate instant comp analysis, email within 5 minutes",
+          "Log all lead interactions to CRM with source, page, behavior data",
+          "Target: <60 second response time for Hot leads"
+        ],
+        expected: "No lead falls through the cracks. Hot leads contacted within 60 seconds. Full automation of lead pipeline.",
+        risk: "Low risk. Webhook-based, tested with dummy leads before going live."
+      },
+      {
+        id: "virtus-13",
+        title: "Set Up Social Media Automation Pipeline",
+        priority: "low",
+        category: "seo",
+        status: "todo",
+        impact: "Auto-post new listings to Instagram, Facebook, TikTok, YouTube, GBP",
+        description: "Build the social media automation pipeline using Make.com or Zapier. New listings trigger AI-generated platform-specific captions, photo formatting, and scheduled posting across all channels.",
+        steps: [
+          "Set up Make.com account and connect to PostgreSQL webhook",
+          "New listing → Claude API generates platform-specific captions",
+          "Property photos pulled from CDN, resized per platform specs",
+          "Schedule via Buffer: Instagram (2/day), Facebook (1/day), TikTok (3/week)",
+          "Google Business Profile auto-post via GBP API",
+          "YouTube descriptions and tags generated by AI",
+          "Log all post performance for weekly analytics",
+          "Hashtag strategy: local (#HollywoodFLRealEstate) + lifestyle (#WaterfrontLiving) + trending"
+        ],
+        expected: "Automated social presence across all platforms. Zero manual posting required.",
+        risk: "Low risk. Buffer handles scheduling. Start with Instagram + GBP, expand to others."
+      }
+    ]
+  }
 };
 
 // State
@@ -1065,6 +1353,7 @@ function moveTask(id, status) {
   renderBoard('lux');
   renderBoard('coconut');
   renderBoard('reclaimed');
+  renderBoard('virtus');
   
   if (status === 'execute') {
     const task = findTask(id);
@@ -1096,6 +1385,7 @@ renderBoard('goodneon');
 renderBoard('lux');
 renderBoard('coconut');
 renderBoard('reclaimed');
+renderBoard('virtus');
 </script>
 </body>
 </html>
