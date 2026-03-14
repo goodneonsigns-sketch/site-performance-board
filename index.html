@@ -93,6 +93,41 @@
   .toast { position:fixed; bottom:24px; right:24px; background:#1f6feb; color:#fff; padding:14px 24px; border-radius:10px; font-size:14px; font-weight:500; z-index:200; opacity:0; transform:translateY(20px); transition:all .3s ease; pointer-events:none; }
   .toast.show { opacity:1; transform:translateY(0); }
   
+  /* Mobile Responsive */
+  @media (max-width: 1024px) {
+    .columns { grid-template-columns:repeat(2,1fr); }
+  }
+  @media (max-width: 768px) {
+    header { padding:16px; flex-direction:column; align-items:flex-start; gap:12px; }
+    header h1 { font-size:17px; }
+    .tabs { margin-left:0; flex-wrap:wrap; gap:6px; width:100%; }
+    .tab { padding:6px 12px; font-size:12px; flex:1; min-width:0; text-align:center; white-space:nowrap; }
+    .board { padding:16px; }
+    .columns { grid-template-columns:1fr; gap:12px; }
+    .col-body { min-height:auto; }
+    .site-header { flex-direction:column; align-items:flex-start; gap:8px; }
+    .site-baseline { flex-wrap:wrap; gap:10px; }
+    .baseline-card { flex:1 1 45%; min-width:120px; }
+    .baseline-card .value { font-size:20px; }
+    .task-card { padding:12px; }
+    .task-title { font-size:13px; }
+    .task-impact { font-size:11px; }
+    .modal { border-radius:12px; max-height:90vh; margin:16px; }
+    .modal-header { padding:16px; }
+    .modal-header h2 { font-size:16px; }
+    .modal-body { padding:16px; }
+    .modal-body p, .modal-body li { font-size:13px; }
+    .modal-footer { padding:12px 16px; flex-wrap:wrap; }
+    .btn { padding:10px 16px; font-size:13px; flex:1; text-align:center; }
+    .toast { bottom:16px; right:16px; left:16px; text-align:center; }
+  }
+  @media (max-width: 400px) {
+    .tabs { gap:4px; }
+    .tab { padding:5px 8px; font-size:11px; }
+    .baseline-card { flex:1 1 100%; }
+    header h1 { font-size:15px; }
+  }
+  
   .benchmark-bar { margin-top:12px; }
   .benchmark-label { font-size:12px; color:var(--muted); margin-bottom:4px; }
   .benchmark-track { height:6px; background:var(--border); border-radius:3px; overflow:hidden; }
