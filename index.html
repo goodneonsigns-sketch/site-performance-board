@@ -120,6 +120,8 @@
     <button class="tab" onclick="switchBoard('shirtsy')">👕 Shirtsy</button>
     <button class="tab" onclick="switchBoard('goodneon')">💡 GoodNeon</button>
     <button class="tab" onclick="switchBoard('lux')">✨ Lux Neon</button>
+    <button class="tab" onclick="switchBoard('coconut')">🥥 Coconut Bikini</button>
+    <button class="tab" onclick="switchBoard('reclaimed')">♻️ Reclaimed Closet</button>
   </div>
 </header>
 
@@ -127,6 +129,8 @@
 <div id="board-shirtsy" class="board"></div>
 <div id="board-goodneon" class="board"></div>
 <div id="board-lux" class="board"></div>
+<div id="board-coconut" class="board"></div>
+<div id="board-reclaimed" class="board"></div>
 
 <div class="toast" id="toast"></div>
 <div class="modal-overlay" id="modal" onclick="if(event.target===this)closeModal()">
@@ -620,6 +624,278 @@ const projects = {
       }
     ]
   }
+  coconut: {
+    name: "Coconut Bikini",
+    icon: "🥥",
+    url: "coconutbikini.com",
+    baseline: { ttfb: "110ms", total: "243ms", size: "198 KB", platform: "Shopify" },
+    tasks: [
+      {
+        id: "coconut-1",
+        title: "SEO: Expand Beyond Brand Keywords",
+        priority: "critical",
+        category: "seo",
+        status: "todo",
+        impact: "128 organic keywords, 395 monthly traffic — massive room to grow",
+        description: "Coconut Bikini ranks #1 for 'coconut bikini' (480 vol) which drives 97% of traffic. The site is almost entirely dependent on branded search. Non-brand keywords like 'royal blue bikini' (1000 vol, pos 46) and 'purple one piece swimwear' (480 vol, pos 96) show potential but rank too low to drive traffic.",
+        steps: [
+          "Identify top 20 non-brand keywords with highest search volume from Semrush data",
+          "Priority targets: 'royal blue bikini' (1000 vol), 'purple one piece swimwear' (480 vol), 'coconut swimwear' (50 vol, pos 3 — almost there)",
+          "Create or optimize collection pages for color-specific bikini searches",
+          "Write unique product descriptions targeting specific keyword variations",
+          "Add blog content: '2025 Bikini Trends', 'Best Blue Bikinis for Summer', etc.",
+          "Optimize meta titles and descriptions for each collection page",
+          "Build internal links between blog posts and collection pages"
+        ],
+        expected: "Move 5-10 non-brand keywords to page 1 within 3 months. Double organic traffic from ~400 to ~800/month.",
+        risk: "No risk. SEO improvements are additive. Content takes 4-12 weeks to rank."
+      },
+      {
+        id: "coconut-2",
+        title: "Set Up Klaviyo Email Flows",
+        priority: "critical",
+        category: "seo",
+        status: "todo",
+        impact: "Automated revenue capture from existing traffic",
+        description: "Coconut Bikini has an ambassador program and active brand presence (Swim Week, fashion shows at Lux Neon) but likely no automated email flows. For a fashion/swimwear brand, email is typically 20-30% of revenue.",
+        steps: [
+          "Connect Coconut Bikini to Klaviyo (if not already — check if account exists)",
+          "Create Welcome Series: brand story, ambassador program pitch, first purchase discount",
+          "Create Abandoned Cart flow: 3-email sequence with product images",
+          "Create Post-Purchase flow: styling tips, care instructions, review request",
+          "Create Browse Abandonment flow: 'Still thinking about this?' with viewed products",
+          "Create Ambassador-specific flow: onboarding sequence for new ambassadors",
+          "Set up exit-intent popup on site with 10-15% off first order"
+        ],
+        expected: "Email flows typically generate 20-30% of e-commerce revenue. At current traffic levels, expect $500-2000/month additional revenue.",
+        risk: "Low risk. Don't over-discount — bikini is a premium/lifestyle brand. Keep offers aligned with brand positioning."
+      },
+      {
+        id: "coconut-3",
+        title: "Backlink Building: Leverage Fashion Events",
+        priority: "high",
+        category: "seo",
+        status: "todo",
+        impact: "Currently 151 backlinks from 90 domains — needs more authority",
+        description: "Coconut Bikini has great PR content (Fusion Swim Week 2025, G7 Dolce Hotel showcase, casting calls at Lux Neon) but only 90 referring domains. Each event should generate press coverage and backlinks.",
+        steps: [
+          "Compile list of all press coverage from Swim Week and fashion events",
+          "Reach out to fashion bloggers and local Miami press for coverage",
+          "Submit to swimwear/fashion directories and listicles",
+          "Create a 'Press' page on the site linking to all coverage",
+          "Cross-link with Lux Neon Art Gallery (they host Coconut Bikini events)",
+          "Submit to 'Best Swimwear Brands' roundup articles",
+          "Target: 50 new referring domains in 3 months"
+        ],
+        expected: "More referring domains = higher domain authority = better rankings for competitive terms like 'royal blue bikini'.",
+        risk: "No risk. Outreach is time-intensive but only upside."
+      },
+      {
+        id: "coconut-4",
+        title: "Set Up AdRoll Retargeting",
+        priority: "high",
+        category: "seo",
+        status: "todo",
+        impact: "Recapture browsing visitors — swimwear is highly visual and impulse-driven",
+        description: "Shirtsy and GoodNeon already have AdRoll campaigns. Coconut Bikini doesn't. For a visual product like bikinis, retargeting with product images is extremely effective.",
+        steps: [
+          "Create Coconut Bikini as an advertiser in AdRoll",
+          "Install AdRoll pixel on Shopify store",
+          "Create audience segments: All Visitors, Product Viewers, Cart Abandoners, Ambassador Page Visitors",
+          "Start Retargeting campaign at $20-25/day",
+          "Use lifestyle/model photography as ad creative (Swim Week shots work great)",
+          "Create Lookalike Prospecting campaign at $15-20/day",
+          "Monitor for 2 weeks, adjust targeting and creative"
+        ],
+        expected: "5-15% recapture of bounced visitors. Visual products like bikinis have high retargeting ROI.",
+        risk: "Low financial risk at $35-45/day test budget. Kill underperformers after 2 weeks."
+      },
+      {
+        id: "coconut-5",
+        title: "Optimize 'Miami Dolphins' Adjacent Keywords",
+        priority: "medium",
+        category: "seo",
+        status: "todo",
+        impact: "Miami Dolphins crop top ranks #13 (110 vol) — quick win to page 1",
+        description: "Coconut Bikini ranks #13 for 'miami dolphins crop top' (110 monthly searches). This is just outside page 1. With some optimization, this could be a nice traffic driver — sports fan apparel crossover with swimwear brand.",
+        steps: [
+          "Optimize the Miami Dolphins crop top product page: title, description, meta tags",
+          "Add 'Miami Dolphins' to relevant collection/category pages",
+          "Create a blog post: 'Game Day Style: Miami Dolphins Bikinis & Crop Tops'",
+          "Add schema markup (Product) with price, availability, reviews",
+          "Build 2-3 internal links from other pages to this product",
+          "Consider expanding sports team crossover line if this converts well"
+        ],
+        expected: "Move from #13 to top 5 for 'miami dolphins crop top'. ~50-80 additional monthly visits.",
+        risk: "No risk. Quick optimization win."
+      },
+      {
+        id: "coconut-6",
+        title: "Site Speed: Monitor & Maintain",
+        priority: "low",
+        category: "speed",
+        status: "todo",
+        impact: "Preventive — site is fast (110ms TTFB on Shopify)",
+        description: "Coconut Bikini is on Shopify with a 110ms TTFB and 243ms total load — excellent performance. Processing time is 285ms server-side. No speed issues to fix, just monitor.",
+        steps: [
+          "Add to Semrush Site Audit project for ongoing monitoring",
+          "Configure weekly crawl schedule",
+          "Check for unused Shopify apps that could add JS bloat",
+          "Ensure product images are optimized (Shopify auto-serves WebP but check originals)",
+          "Add to Monday weekly performance report"
+        ],
+        expected: "Maintain sub-300ms load times. Catch any degradation early.",
+        risk: "No risk. Monitoring only."
+      }
+    ]
+  },
+  reclaimed: {
+    name: "Reclaimed Closet",
+    icon: "♻️",
+    url: "reclaimedcloset.com",
+    baseline: { ttfb: "93ms", total: "248ms", size: "402 KB", platform: "Shopify" },
+    tasks: [
+      {
+        id: "reclaimed-1",
+        title: "SEO: Emergency — Almost Zero Organic Traffic",
+        priority: "critical",
+        category: "seo",
+        status: "todo",
+        impact: "Only 33 keywords ranking, 3 monthly organic visits — needs complete SEO overhaul",
+        description: "Reclaimed Closet has almost no organic presence. Semrush rank is 10,145,109 (compared to Coconut Bikini at 1,884,201). Only 3 monthly organic visits. The one bright spot: 'dodgers corset' ranks #4 (140 vol) driving 100% of what little traffic exists. The site needs a ground-up SEO strategy.",
+        steps: [
+          "Audit all existing product pages — check for duplicate/thin content",
+          "The site title says 'Game Day Apparel with Custom Apparel Design Solutions Pro' — this is generic and keyword-stuffed. Rebrand to something authentic",
+          "Create unique, detailed product descriptions for every product (not manufacturer copy)",
+          "Identify target keyword clusters: team-specific corsets, custom game day apparel, sports crop tops",
+          "Build collection pages optimized for each sports team (Eagles, Dolphins, Cowboys, Dodgers, etc.)",
+          "Create a proper homepage with clear value proposition and internal links",
+          "Submit sitemap to Google Search Console and request indexing"
+        ],
+        expected: "Establish baseline SEO presence. Target: 100+ ranking keywords and 200+ monthly organic visits within 3 months.",
+        risk: "No risk. The current state is effectively zero — any improvement is pure gain."
+      },
+      {
+        id: "reclaimed-2",
+        title: "Capitalize on 'Dodgers Corset' #4 Ranking",
+        priority: "critical",
+        category: "seo",
+        status: "todo",
+        impact: "Already #4 for 'dodgers corset' (140 vol) — push to #1",
+        description: "This is Reclaimed Closet's only real organic asset right now. Ranking #4 for 'dodgers corset' means the product page has some authority. Optimizing it and building supporting content could push it to #1 and create a template for other team keywords.",
+        steps: [
+          "Fully optimize the Dodgers corset product page: title, meta description, H1, image alt tags",
+          "Add detailed product description with keywords: 'Dodgers corset top', 'LA Dodgers game day corset', 'baseball corset'",
+          "Add customer reviews/photos if available",
+          "Create a blog post: 'Game Day Fashion: The Best Dodgers Corset Tops for 2026'",
+          "Build internal links from homepage and collection pages to this product",
+          "Add Product schema markup with price, availability, reviews",
+          "Replicate this template for Eagles (#22 for 'philadelphia eagles corset'), Cowboys, Dolphins, etc."
+        ],
+        expected: "Push 'dodgers corset' from #4 to #1-2. Scale the template to 10+ team keywords. This single strategy could 10x organic traffic.",
+        risk: "No risk. Optimizing existing rankings is the highest-ROI SEO activity."
+      },
+      {
+        id: "reclaimed-3",
+        title: "Build Team-Specific Landing Pages",
+        priority: "high",
+        category: "seo",
+        status: "todo",
+        impact: "Target high-volume team apparel keywords across all major sports",
+        description: "Reclaimed Closet has products for multiple teams (Eagles, Dolphins, Cowboys, Dodgers, Panthers, Lions) but likely no dedicated collection pages optimized for each. Team-specific searches have massive volume: 'Eagles bucket hat' (390 vol), 'Eagles puffer jacket' (390 vol), 'Miami Dolphins crop top' (110 vol).",
+        steps: [
+          "Create dedicated collection pages for each team: /collections/dodgers, /collections/eagles, /collections/dolphins, etc.",
+          "Optimize each collection page with team-specific keywords in title, meta, H1",
+          "Add unique collection descriptions (not just product grids)",
+          "Cross-link between collections: 'Also check out our Eagles collection'",
+          "Add team logo/colors to collection page design for visual appeal",
+          "Target both men's and women's keywords where applicable",
+          "Submit new URLs to Google Search Console for fast indexing"
+        ],
+        expected: "Each team page targets 5-10 keywords. With 6+ teams, that's 30-60 keyword targets. Realistic goal: rank top 20 for 15+ terms within 3 months.",
+        risk: "No risk. More indexed pages = more opportunities to rank."
+      },
+      {
+        id: "reclaimed-4",
+        title: "Set Up Klaviyo Email Marketing",
+        priority: "high",
+        category: "seo",
+        status: "todo",
+        impact: "Capture and monetize the small traffic that exists",
+        description: "With only 3 organic visits/month, every visitor is precious. Email capture and automated flows ensure no potential customer is wasted. Sports apparel has strong seasonal/game-day purchase triggers.",
+        steps: [
+          "Connect Reclaimed Closet to Klaviyo",
+          "Create game-day triggered emails (send promos before big games for each team)",
+          "Create Welcome Series: brand story, custom ordering process, first order discount",
+          "Create Abandoned Cart flow with product images",
+          "Create 'Season Opener' campaign templates for NFL/MLB/NBA seasons",
+          "Set up exit-intent popup: 'Get 15% off your first custom piece'",
+          "Segment by team preference for targeted sends"
+        ],
+        expected: "Even with low traffic, email flows prevent lost sales. As SEO traffic grows, email becomes a multiplier.",
+        risk: "Low risk. Essential infrastructure for growth."
+      },
+      {
+        id: "reclaimed-5",
+        title: "Fix Site Title & Branding",
+        priority: "high",
+        category: "seo",
+        status: "todo",
+        impact: "Current title 'Game Day Apparel with Custom Apparel Design Solutions Pro' is hurting credibility",
+        description: "The homepage title reads like a generic dropship site, not a custom game day fashion brand. This affects CTR from search results, brand perception, and trust. The Blockify IP Blocker extension is also installed — need to check if it's blocking legitimate traffic/bots.",
+        steps: [
+          "Change homepage title to something brand-forward: 'Reclaimed Closet | Custom Game Day Apparel & Corsets'",
+          "Update meta description to highlight the custom/unique angle and charity (5% to Dan Marino Foundation)",
+          "Review the Blockify IP blocker settings — ensure it's not blocking Googlebot or legitimate traffic",
+          "Create an About page telling the brand story (custom pieces, charity angle, team spirit)",
+          "Add trust signals: Dan Marino Foundation badge, custom order process, customer photos",
+          "Update social media profiles to match new branding"
+        ],
+        expected: "Better CTR from search results. Improved brand trust. The charity angle (Dan Marino Foundation) is a strong differentiator — use it.",
+        risk: "Low risk. Title/meta changes take effect within 1-2 weeks as Google recrawls."
+      },
+      {
+        id: "reclaimed-6",
+        title: "Backlink Strategy: Sports & Fashion Crossover",
+        priority: "medium",
+        category: "seo",
+        status: "todo",
+        impact: "191 backlinks from 91 domains — decent base, needs targeted growth",
+        description: "Reclaimed Closet actually has a reasonable backlink profile (91 referring domains) for a site with almost no traffic. This suggests the domain has some existing authority that's not being leveraged due to poor on-page SEO.",
+        steps: [
+          "Audit existing backlinks — identify which domains are linking and why",
+          "Pitch to sports fashion bloggers: 'Custom game day corsets and crop tops'",
+          "Submit to team fan site directories and forums",
+          "Leverage the Dan Marino Foundation connection for .org backlinks",
+          "Create shareable content: 'Best Game Day Outfits for [Team] Fans 2026'",
+          "Partner with sports influencers for product features",
+          "Target: 30 new quality referring domains in 3 months"
+        ],
+        expected: "Combined with on-page SEO fixes, more backlinks will accelerate ranking improvements.",
+        risk: "No risk. Outreach is time-intensive but pure upside."
+      },
+      {
+        id: "reclaimed-7",
+        title: "Site Speed: Reduce Page Weight",
+        priority: "medium",
+        category: "speed",
+        status: "todo",
+        impact: "402 KB homepage is the heaviest of all Shopify sites — needs trimming",
+        description: "While TTFB is excellent at 93ms (Shopify handles this), the page size at 402KB is double Lux Neon (194KB) and double Coconut Bikini (198KB). This is likely unoptimized images or heavy theme/app scripts. The Blockify extension is also adding JS overhead.",
+        steps: [
+          "Audit Shopify apps — remove any unused ones (Blockify IP blocker is adding scripts)",
+          "Check if Blockify is actually needed — it may be blocking legitimate traffic",
+          "Optimize all product/hero images (compress, resize to max 1200px wide)",
+          "Check theme for unused CSS/JS files",
+          "Enable lazy loading for below-fold images",
+          "Target: reduce homepage below 250KB",
+          "Add to Monday weekly performance report"
+        ],
+        expected: "Cut page weight by 40%. Faster mobile loads. Better Core Web Vitals.",
+        risk: "Low risk on Shopify. Removing unused apps is safe. Test after each change."
+      }
+    ]
+  }
 };
 
 // State
@@ -787,6 +1063,8 @@ function moveTask(id, status) {
   renderBoard('shirtsy');
   renderBoard('goodneon');
   renderBoard('lux');
+  renderBoard('coconut');
+  renderBoard('reclaimed');
   
   if (status === 'execute') {
     const task = findTask(id);
@@ -816,6 +1094,8 @@ renderBoard('crown');
 renderBoard('shirtsy');
 renderBoard('goodneon');
 renderBoard('lux');
+renderBoard('coconut');
+renderBoard('reclaimed');
 </script>
 </body>
 </html>
