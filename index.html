@@ -100,8 +100,9 @@
   @media (max-width: 768px) {
     header { padding:16px; flex-direction:column; align-items:flex-start; gap:12px; }
     header h1 { font-size:17px; }
-    .tabs { margin-left:0; flex-wrap:wrap; gap:6px; width:100%; }
-    .tab { padding:6px 12px; font-size:12px; flex:1; min-width:0; text-align:center; white-space:nowrap; }
+    .tabs { margin-left:0; gap:6px; width:100%; overflow-x:auto; -webkit-overflow-scrolling:touch; flex-wrap:nowrap; padding-bottom:4px; scrollbar-width:none; }
+    .tabs::-webkit-scrollbar { display:none; }
+    .tab { padding:8px 14px; font-size:12px; flex:0 0 auto; text-align:center; white-space:nowrap; }
     .board { padding:16px; }
     .columns { grid-template-columns:1fr; gap:12px; }
     .col-body { min-height:auto; }
