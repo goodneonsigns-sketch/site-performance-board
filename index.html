@@ -37,7 +37,7 @@
   .board { padding:24px 32px; display:none; }
   .board.active { display:block; }
   
-  .columns { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+  .columns { display:grid; grid-template-columns:repeat(4,1fr); gap:20px; }
   .column { background:var(--card); border-radius:12px; border:1px solid var(--border); overflow:hidden; }
   .col-header { padding:16px; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:10px; }
   .col-header h3 { font-size:14px; font-weight:600; }
@@ -86,6 +86,12 @@
   .btn-outline:hover { background:var(--border); }
   .btn-move { background:transparent; color:var(--yellow); border-color:var(--yellow); }
   .btn-move:hover { background:rgba(210,153,34,.15); }
+  .btn-execute { background:rgba(255,123,0,.15); color:#ff7b00; border-color:#ff7b00; }
+  .btn-execute:hover { background:rgba(255,123,0,.3); }
+  .execute-glow { animation: glow 2s ease-in-out infinite alternate; }
+  @keyframes glow { from { box-shadow:0 0 5px rgba(255,123,0,.2); } to { box-shadow:0 0 15px rgba(255,123,0,.4); } }
+  .toast { position:fixed; bottom:24px; right:24px; background:#1f6feb; color:#fff; padding:14px 24px; border-radius:10px; font-size:14px; font-weight:500; z-index:200; opacity:0; transform:translateY(20px); transition:all .3s ease; pointer-events:none; }
+  .toast.show { opacity:1; transform:translateY(0); }
   
   .benchmark-bar { margin-top:12px; }
   .benchmark-label { font-size:12px; color:var(--muted); margin-bottom:4px; }
@@ -122,6 +128,7 @@
 <div id="board-goodneon" class="board"></div>
 <div id="board-lux" class="board"></div>
 
+<div class="toast" id="toast"></div>
 <div class="modal-overlay" id="modal" onclick="if(event.target===this)closeModal()">
   <div class="modal">
     <div class="modal-header">
@@ -631,6 +638,7 @@ function renderBoard(key) {
   const board = document.getElementById(`board-${key}`);
   
   const todo = proj.tasks.filter(t => getStatus(t.id) === 'todo');
+  const execute = proj.tasks.filter(t => getStatus(t.id) === 'execute');
   const inProgress = proj.tasks.filter(t => getStatus(t.id) === 'in-progress');
   const done = proj.tasks.filter(t => getStatus(t.id) === 'done');
   
@@ -667,6 +675,13 @@ function renderBoard(key) {
           <span class="badge">${todo.length}</span>
         </div>
         <div class="col-body">${todo.map(t => taskCard(t)).join('')}</div>
+      </div>
+      <div class="column ${execute.length ? 'execute-glow' : ''}" style="border-color:${execute.length ? '#ff7b00' : 'var(--border)'}">
+        <div class="col-header">
+          <h3>⚡ Jackie Execute</h3>
+          <span class="badge" style="${execute.length ? 'background:#ff7b00;color:#fff' : ''}">${execute.length}</span>
+        </div>
+        <div class="col-body">${execute.map(t => taskCard(t)).join('')}${execute.length === 0 ? '<p style="color:var(--muted);font-size:12px;padding:12px;text-align:center;">Drag tasks here or click "Send to Jackie" to queue for execution</p>' : ''}</div>
       </div>
       <div class="column">
         <div class="col-header">
@@ -734,7 +749,14 @@ function openTask(id) {
   if (status === 'todo') {
     footerHtml = `
       <button class="btn btn-outline" onclick="closeModal()">Close</button>
-      <button class="btn btn-primary" onclick="moveTask('${id}','in-progress')">▶ Start Task</button>
+      <button class="btn btn-execute" onclick="moveTask('${id}','execute')">⚡ Send to Jackie</button>
+      <button class="btn btn-primary" onclick="moveTask('${id}','in-progress')">▶ Start Manually</button>
+    `;
+  } else if (status === 'execute') {
+    footerHtml = `
+      <button class="btn btn-outline" onclick="moveTask('${id}','todo')">↩ Back to To Do</button>
+      <button class="btn btn-primary" onclick="moveTask('${id}','in-progress')">▶ In Progress</button>
+      <button class="btn btn-success" onclick="moveTask('${id}','done')">✅ Mark Done</button>
     `;
   } else if (status === 'in-progress') {
     footerHtml = `
@@ -751,6 +773,13 @@ function openTask(id) {
   document.getElementById('modal').classList.add('open');
 }
 
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
 function moveTask(id, status) {
   setStatus(id, status);
   closeModal();
@@ -758,6 +787,14 @@ function moveTask(id, status) {
   renderBoard('shirtsy');
   renderBoard('goodneon');
   renderBoard('lux');
+  
+  if (status === 'execute') {
+    const task = findTask(id);
+    showToast(`⚡ "${task.title}" queued for Jackie!`);
+  } else if (status === 'done') {
+    const task = findTask(id);
+    showToast(`✅ "${task.title}" marked done!`);
+  }
 }
 
 function closeModal() {
