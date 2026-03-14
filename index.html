@@ -1373,11 +1373,43 @@ function openTask(id) {
   document.getElementById('modal').classList.add('open');
 }
 
+const GIST_ID = '1d08fe33b525435f950f756847fc3fbb';
+
+function getGHToken() {
+  let tk = localStorage.getItem('gh_sync_token');
+  if (!tk) {
+    tk = prompt('Paste your GitHub token to enable Jackie sync (stored locally, one-time):');
+    if (tk) localStorage.setItem('gh_sync_token', tk);
+  }
+  return tk;
+}
+
 function showToast(msg) {
   const t = document.getElementById('toast');
   t.textContent = msg;
   t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+async function syncQueueToGist() {
+  const tk = getGHToken();
+  if (!tk) { showToast('❌ No token — sync disabled'); return; }
+  const allTasks = [];
+  for (const key of Object.keys(projects)) {
+    for (const t of projects[key].tasks) {
+      if (getStatus(t.id) === 'execute') {
+        allTasks.push({ id: t.id, title: t.title, project: key, priority: t.priority, queuedAt: new Date().toISOString() });
+      }
+    }
+  }
+  try {
+    const resp = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
+      method: 'PATCH',
+      headers: { 'Authorization': `token ${tk}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ files: { 'queue.json': { content: JSON.stringify({ tasks: allTasks, lastUpdated: new Date().toISOString() }, null, 2) } } })
+    });
+    if (!resp.ok) { localStorage.removeItem('gh_sync_token'); showToast('❌ Sync failed — try again'); }
+  } catch(e) { console.error('Queue sync failed:', e); }
 }
 
 function moveTask(id, status) {
@@ -1393,10 +1425,14 @@ function moveTask(id, status) {
   
   if (status === 'execute') {
     const task = findTask(id);
-    showToast(`⚡ "${task.title}" queued for Jackie!`);
+    showToast(`⚡ "${task.title}" sent to Jackie!`);
+    syncQueueToGist();
   } else if (status === 'done') {
     const task = findTask(id);
     showToast(`✅ "${task.title}" marked done!`);
+    syncQueueToGist();
+  } else {
+    syncQueueToGist();
   }
 }
 
