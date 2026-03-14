@@ -37,7 +37,7 @@
   .board { padding:24px 32px; display:none; }
   .board.active { display:block; }
   
-  .columns { display:grid; grid-template-columns:repeat(4,1fr); gap:20px; }
+  .columns { display:grid; grid-template-columns:repeat(5,1fr); gap:20px; }
   .column { background:var(--card); border-radius:12px; border:1px solid var(--border); overflow:hidden; }
   .col-header { padding:16px; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:10px; }
   .col-header h3 { font-size:14px; font-weight:600; }
@@ -90,10 +90,19 @@
   .btn-execute:hover { background:rgba(255,123,0,.3); }
   .execute-glow { animation: glow 2s ease-in-out infinite alternate; }
   @keyframes glow { from { box-shadow:0 0 5px rgba(255,123,0,.2); } to { box-shadow:0 0 15px rgba(255,123,0,.4); } }
+  .lex-glow { animation: lexglow 2s ease-in-out infinite alternate; }
+  @keyframes lexglow { from { box-shadow:0 0 5px rgba(136,71,255,.2); } to { box-shadow:0 0 15px rgba(136,71,255,.4); } }
+  .lex-tag { background:rgba(136,71,255,.15); color:#8847ff; font-size:10px; padding:2px 6px; border-radius:4px; font-weight:600; }
+  .lex-card { border-left:3px solid #8847ff; }
+  .lex-card .task-title { font-size:13px; }
+  .lex-card .task-desc { font-size:12px; color:var(--muted); margin-top:4px; line-height:1.4; }
   .toast { position:fixed; bottom:24px; right:24px; background:#1f6feb; color:#fff; padding:14px 24px; border-radius:10px; font-size:14px; font-weight:500; z-index:200; opacity:0; transform:translateY(20px); transition:all .3s ease; pointer-events:none; }
   .toast.show { opacity:1; transform:translateY(0); }
   
   /* Mobile Responsive */
+  @media (max-width: 1200px) {
+    .columns { grid-template-columns:repeat(3,1fr); }
+  }
   @media (max-width: 1024px) {
     .columns { grid-template-columns:repeat(2,1fr); }
   }
@@ -1226,6 +1235,41 @@ const projects = {
 let taskStates = {};
 try { taskStates = JSON.parse(localStorage.getItem('perf-board-states') || '{}'); } catch(e) {}
 
+// Lex's manual tasks (persisted in localStorage, synced from gist)
+let lexTasks = {};
+try { lexTasks = JSON.parse(localStorage.getItem('lex-tasks') || '{}'); } catch(e) {}
+function saveLexTasks() { localStorage.setItem('lex-tasks', JSON.stringify(lexTasks)); }
+function getLexTasks(projectKey) { return (lexTasks[projectKey] || []).filter(t => !t.completed); }
+function getLexTasksDone(projectKey) { return (lexTasks[projectKey] || []).filter(t => t.completed); }
+function completeLexTask(projectKey, taskId) {
+  if (!lexTasks[projectKey]) return;
+  const t = lexTasks[projectKey].find(x => x.id === taskId);
+  if (t) { t.completed = true; t.completedAt = new Date().toISOString(); }
+  saveLexTasks();
+  renderAllBoards();
+  showToast('✅ Nice work, Lex!');
+}
+function reopenLexTask(projectKey, taskId) {
+  if (!lexTasks[projectKey]) return;
+  const t = lexTasks[projectKey].find(x => x.id === taskId);
+  if (t) { t.completed = false; delete t.completedAt; }
+  saveLexTasks();
+  renderAllBoards();
+}
+function addLexTask(projectKey, title, description, priority) {
+  if (!lexTasks[projectKey]) lexTasks[projectKey] = [];
+  lexTasks[projectKey].push({
+    id: 'lex-' + Date.now(),
+    title: title,
+    description: description || '',
+    priority: priority || 'medium',
+    completed: false,
+    createdAt: new Date().toISOString(),
+    addedBy: 'jackie'
+  });
+  saveLexTasks();
+}
+
 function saveStates() {
   localStorage.setItem('perf-board-states', JSON.stringify(taskStates));
 }
@@ -1241,6 +1285,8 @@ function renderBoard(key) {
   const execute = proj.tasks.filter(t => getStatus(t.id) === 'execute');
   const inProgress = proj.tasks.filter(t => getStatus(t.id) === 'in-progress');
   const done = proj.tasks.filter(t => getStatus(t.id) === 'done');
+  const lexPending = getLexTasks(key);
+  const lexDone = getLexTasksDone(key);
   
   let html = `
     <div class="site-header">
@@ -1283,6 +1329,13 @@ function renderBoard(key) {
         </div>
         <div class="col-body">${execute.map(t => taskCard(t)).join('')}${execute.length === 0 ? '<p style="color:var(--muted);font-size:12px;padding:12px;text-align:center;">Drag tasks here or click "Send to Jackie" to queue for execution</p>' : ''}</div>
       </div>
+      <div class="column ${lexPending.length ? 'lex-glow' : ''}" style="border-color:${lexPending.length ? '#8847ff' : 'var(--border)'}">
+        <div class="col-header">
+          <h3>👤 Lex To Do</h3>
+          <span class="badge" style="${lexPending.length ? 'background:#8847ff;color:#fff' : ''}">${lexPending.length}</span>
+        </div>
+        <div class="col-body">${lexPending.map(t => lexTaskCard(t, key, false)).join('')}${lexPending.length === 0 ? '<p style="color:var(--muted);font-size:12px;padding:12px;text-align:center;">Tasks from Jackie that need your attention will appear here</p>' : ''}</div>
+      </div>
       <div class="column">
         <div class="col-header">
           <h3>🔧 In Progress</h3>
@@ -1293,9 +1346,9 @@ function renderBoard(key) {
       <div class="column">
         <div class="col-header">
           <h3>✅ Done</h3>
-          <span class="badge">${done.length}</span>
+          <span class="badge">${done.length + lexDone.length}</span>
         </div>
-        <div class="col-body">${done.map(t => taskCard(t)).join('')}</div>
+        <div class="col-body">${done.map(t => taskCard(t)).join('')}${lexDone.map(t => lexTaskCard(t, key, true)).join('')}</div>
       </div>
     </div>
   `;
@@ -1314,6 +1367,50 @@ function taskCard(t) {
       <div class="task-impact">⚡ ${t.impact}</div>
     </div>
   `;
+}
+
+function lexTaskCard(t, projectKey, isDone) {
+  return `
+    <div class="task-card lex-card" onclick="openLexTask('${projectKey}','${t.id}')" style="${isDone ? 'opacity:0.5' : ''}">
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
+        <span class="lex-tag">👤 LEX</span>
+        <span class="tag ${t.priority}">${t.priority}</span>
+      </div>
+      <div class="task-title">${t.title}</div>
+      ${t.description ? `<div class="lex-card task-desc">${t.description.length > 100 ? t.description.slice(0,100) + '...' : t.description}</div>` : ''}
+    </div>
+  `;
+}
+
+function openLexTask(projectKey, taskId) {
+  const tasks = (lexTasks[projectKey] || []);
+  const t = tasks.find(x => x.id === taskId);
+  if (!t) return;
+  document.getElementById('modal-title').textContent = t.title;
+  document.getElementById('modal-body').innerHTML = `
+    <div style="display:flex;gap:8px;margin-bottom:16px;">
+      <span class="lex-tag">👤 Assigned to Lex</span>
+      <span class="tag ${t.priority}">${t.priority}</span>
+      <span style="font-size:12px;color:var(--muted);">Added by ${t.addedBy || 'Jackie'} · ${new Date(t.createdAt).toLocaleDateString()}</span>
+    </div>
+    ${t.description ? `<h4>Details</h4><p>${t.description}</p>` : ''}
+    ${t.steps ? `<h4>Steps</h4><ol>${t.steps.map(s => '<li>' + s + '</li>').join('')}</ol>` : ''}
+    ${t.completed ? `<div class="expected"><span>Completed:</span> ${new Date(t.completedAt).toLocaleString()}</div>` : ''}
+  `;
+  let footerHtml = '';
+  if (t.completed) {
+    footerHtml = `
+      <button class="btn btn-outline" onclick="closeModal()">Close</button>
+      <button class="btn btn-move" onclick="reopenLexTask('${projectKey}','${taskId}');closeModal()">↩ Reopen</button>
+    `;
+  } else {
+    footerHtml = `
+      <button class="btn btn-outline" onclick="closeModal()">Close</button>
+      <button class="btn btn-success" onclick="completeLexTask('${projectKey}','${taskId}');closeModal()">✅ Mark Done</button>
+    `;
+  }
+  document.getElementById('modal-footer').innerHTML = footerHtml;
+  document.getElementById('modal').classList.add('open');
 }
 
 function findTask(id) {
@@ -1412,16 +1509,64 @@ async function syncQueueToGist() {
   } catch(e) { console.error('Queue sync failed:', e); }
 }
 
+function renderAllBoards() {
+  renderBoard('crown'); renderBoard('shirtsy'); renderBoard('goodneon');
+  renderBoard('lux'); renderBoard('coconut'); renderBoard('reclaimed'); renderBoard('virtus');
+}
+
+// On load, check gist for Lex tasks Jackie may have added
+async function pullLexTasksFromGist() {
+  const tk = localStorage.getItem('gh_sync_token');
+  if (!tk) return;
+  try {
+    const resp = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
+      headers: { 'Authorization': `token ${tk}` }
+    });
+    if (!resp.ok) return;
+    const data = await resp.json();
+    const lexFile = data.files && data.files['lex-tasks.json'];
+    if (!lexFile) return;
+    const remote = JSON.parse(lexFile.content);
+    if (remote && remote.tasks) {
+      let changed = false;
+      for (const rt of remote.tasks) {
+        if (!lexTasks[rt.project]) lexTasks[rt.project] = [];
+        if (!lexTasks[rt.project].find(x => x.id === rt.id)) {
+          lexTasks[rt.project].push(rt);
+          changed = true;
+        }
+      }
+      if (changed) { saveLexTasks(); renderAllBoards(); showToast('📥 New tasks from Jackie!'); }
+    }
+  } catch(e) { console.error('Pull lex tasks failed:', e); }
+}
+
+async function pushLexTaskToGist(task) {
+  const tk = getGHToken();
+  if (!tk) return;
+  try {
+    // Read current
+    const resp = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
+      headers: { 'Authorization': `token ${tk}` }
+    });
+    const data = await resp.json();
+    const lexFile = data.files && data.files['lex-tasks.json'];
+    let existing = { tasks: [], lastUpdated: '' };
+    if (lexFile) { try { existing = JSON.parse(lexFile.content); } catch(e) {} }
+    existing.tasks.push(task);
+    existing.lastUpdated = new Date().toISOString();
+    await fetch(`https://api.github.com/gists/${GIST_ID}`, {
+      method: 'PATCH',
+      headers: { 'Authorization': `token ${tk}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ files: { 'lex-tasks.json': { content: JSON.stringify(existing, null, 2) } } })
+    });
+  } catch(e) { console.error('Push lex task failed:', e); }
+}
+
 function moveTask(id, status) {
   setStatus(id, status);
   closeModal();
-  renderBoard('crown');
-  renderBoard('shirtsy');
-  renderBoard('goodneon');
-  renderBoard('lux');
-  renderBoard('coconut');
-  renderBoard('reclaimed');
-  renderBoard('virtus');
+  renderAllBoards();
   
   if (status === 'execute') {
     const task = findTask(id);
@@ -1451,13 +1596,9 @@ function switchBoard(key) {
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
 // Initial render
-renderBoard('crown');
-renderBoard('shirtsy');
-renderBoard('goodneon');
-renderBoard('lux');
-renderBoard('coconut');
-renderBoard('reclaimed');
-renderBoard('virtus');
+renderAllBoards();
+// Pull any Lex tasks Jackie added via gist
+setTimeout(() => pullLexTasksFromGist(), 1000);
 </script>
 </body>
 </html>
