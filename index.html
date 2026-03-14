@@ -112,11 +112,15 @@
   <div class="tabs">
     <button class="tab active" onclick="switchBoard('crown')">👑 Crown Office</button>
     <button class="tab" onclick="switchBoard('shirtsy')">👕 Shirtsy</button>
+    <button class="tab" onclick="switchBoard('goodneon')">💡 GoodNeon</button>
+    <button class="tab" onclick="switchBoard('lux')">✨ Lux Neon</button>
   </div>
 </header>
 
 <div id="board-crown" class="board active"></div>
 <div id="board-shirtsy" class="board"></div>
+<div id="board-goodneon" class="board"></div>
+<div id="board-lux" class="board"></div>
 
 <div class="modal-overlay" id="modal" onclick="if(event.target===this)closeModal()">
   <div class="modal">
@@ -377,6 +381,237 @@ const projects = {
         risk: "Low risk."
       }
     ]
+  },
+  goodneon: {
+    name: "GoodNeon",
+    icon: "💡",
+    url: "goodneon.com",
+    baseline: { ttfb: "~2.7s (peak)", total: "0.3s–2.7s", size: "150 KB", platform: "WordPress" },
+    tasks: [
+      {
+        id: "goodneon-1",
+        title: "Fix Cache-Control Header (max-age=3)",
+        priority: "critical",
+        category: "speed",
+        status: "todo",
+        impact: "Pages currently expire every 3 SECONDS — fixing this is the #1 priority",
+        description: "GoodNeon has the worst cache configuration of all four sites. The Cache-Control header is set to max-age=3, must-revalidate — meaning every page expires after just 3 seconds. This makes caching completely useless. Every visitor effectively hits the origin server on every request.",
+        steps: [
+          "Log into WordPress admin for goodneon.com",
+          "Check which plugin or theme is setting Cache-Control: max-age=3",
+          "Common culprits: WooCommerce, caching plugins in 'development mode', or custom code in functions.php",
+          "Search wp-content/themes/*/functions.php and wp-content/plugins/*/includes/ for 'max-age=3' or 'must-revalidate'",
+          "Change to Cache-Control: public, max-age=3600, s-maxage=7200 (1hr browser, 2hr CDN)",
+          "Or install a proper caching plugin (WP Rocket, LiteSpeed Cache) which will set correct headers automatically",
+          "Verify: curl -sI https://goodneon.com | grep cache-control → should show max-age=3600 or higher"
+        ],
+        expected: "Pages cached for 1+ hours instead of 3 seconds. Massive reduction in origin server load. Consistent fast response times.",
+        risk: "Low risk. The current value is broken — almost any change is an improvement. Test product pages and cart/checkout after changing."
+      },
+      {
+        id: "goodneon-2",
+        title: "Install WP Caching Plugin",
+        priority: "critical",
+        category: "speed",
+        status: "todo",
+        impact: "Origin TTFB from variable ~2.7s → consistent ~0.2s",
+        description: "GoodNeon's response time swings wildly from 0.3s to 2.7s, which means the WordPress origin has no page caching. When the server is under any load, it tanks. A caching plugin stores pre-built HTML pages.",
+        steps: [
+          "Log into WordPress admin → Plugins → Add New",
+          "Install LiteSpeed Cache (if on LiteSpeed server) or WP Rocket (paid, best) or W3 Total Cache (free)",
+          "Enable Page Cache in plugin settings",
+          "Enable Object Cache if Redis/Memcached is available",
+          "Enable Browser Cache",
+          "Configure cache exclusions: /cart/*, /checkout/*, /my-account/*",
+          "Test: visit homepage 3 times — response should be consistent under 300ms"
+        ],
+        expected: "Eliminates the wild TTFB swings. Consistent sub-300ms origin responses. This plus fixing cache-control will transform the site.",
+        risk: "Low risk. Standard WordPress optimization. Will likely also fix the cache-control issue if the current bad header is coming from a misconfigured plugin."
+      },
+      {
+        id: "goodneon-3",
+        title: "Enable Cloudflare Edge Caching",
+        priority: "high",
+        category: "speed",
+        status: "todo",
+        impact: "Global edge-cached pages in ~50ms",
+        description: "Cloudflare is in front of GoodNeon but cf-cache-status shows DYNAMIC — it's passing everything through to the origin. Combined with the 3-second cache-control, Cloudflare has nothing to work with.",
+        steps: [
+          "Log into Cloudflare dashboard → select goodneon.com",
+          "Go to Rules → Page Rules (or Cache Rules)",
+          "Add bypass rules first: goodneon.com/wp-admin/* → Bypass, goodneon.com/cart/* → Bypass, goodneon.com/checkout/* → Bypass, goodneon.com/my-account/* → Bypass",
+          "Add catch-all: goodneon.com/* → Cache Level: Cache Everything, Edge TTL: 2 hours",
+          "Enable Auto Minify (JS, CSS, HTML) in Speed settings",
+          "Enable Brotli compression",
+          "Purge cache: Caching → Purge Everything"
+        ],
+        expected: "Static pages served from Cloudflare edge globally (~50ms). Only dynamic pages hit origin.",
+        risk: "Medium risk. Must exclude cart, checkout, and logged-in pages. Test the full purchase flow after enabling."
+      },
+      {
+        id: "goodneon-4",
+        title: "Optimize Product Images",
+        priority: "high",
+        category: "speed",
+        status: "todo",
+        impact: "Faster mobile loads, better Core Web Vitals",
+        description: "GoodNeon sells custom neon signs, LED art, and 3D prints — image-heavy products. Unoptimized product images significantly impact mobile performance and LCP scores.",
+        steps: [
+          "Install ShortPixel or Smush plugin in WordPress",
+          "Bulk optimize all product images in media library",
+          "Enable WebP conversion (25-35% smaller than JPEG)",
+          "Enable lazy loading for below-the-fold images",
+          "Set max product image dimensions (1200px wide)",
+          "Compress hero/banner images separately (these affect LCP most)",
+          "Verify: total homepage weight should be under 1.5MB"
+        ],
+        expected: "40-60% reduction in image weight. Faster LCP. Better mobile experience for customers browsing neon sign options.",
+        risk: "Low risk. Originals preserved. WebP falls back to JPEG/PNG for older browsers."
+      },
+      {
+        id: "goodneon-5",
+        title: "Add Security Headers",
+        priority: "medium",
+        category: "seo",
+        status: "todo",
+        impact: "Better security posture, trust signals for B2B customers",
+        description: "GoodNeon has no security headers. Since GoodNeon offers Net60 B2B terms, security trust signals matter — businesses evaluating vendors will notice.",
+        steps: [
+          "In Cloudflare → SSL/TLS → Edge Certificates → enable HSTS (max-age: 15768000)",
+          "Add security headers via Cloudflare Transform Rules: X-Content-Type-Options: nosniff, X-Frame-Options: SAMEORIGIN, Referrer-Policy: strict-origin-when-cross-origin",
+          "Or add via .htaccess if preferred",
+          "Test at securityheaders.com"
+        ],
+        expected: "A+ security headers rating. Better trust for B2B Net60 applicants.",
+        risk: "Low risk. Standard headers. Only enable HSTS after confirming SSL works everywhere."
+      },
+      {
+        id: "goodneon-6",
+        title: "SEO: Target Long-Tail Neon Keywords",
+        priority: "medium",
+        category: "seo",
+        status: "todo",
+        impact: "Better organic traffic — 'neon signs' (KD 71) is too competitive, long-tail is the play",
+        description: "Semrush data shows 'neon signs' has a keyword difficulty of 71/100 — very hard to rank for. GoodNeon needs to target specific long-tail terms where competition is lower and buyer intent is higher.",
+        steps: [
+          "Pull keyword ideas from Semrush for goodneon.com (use Keyword Magic Tool or API)",
+          "Identify long-tail opportunities: 'custom neon signs for business', 'LED wall art custom', 'neon sign for wedding', 'custom 3D printed sign', 'net 60 neon signs wholesale'",
+          "Create dedicated landing pages for top 5-10 long-tail keywords",
+          "Optimize existing product pages with target keywords in titles, meta descriptions, H1s",
+          "Add schema markup (Product, LocalBusiness) to key pages",
+          "Submit updated sitemap to Google Search Console",
+          "Monitor rankings weekly via Semrush Projects"
+        ],
+        expected: "Rank on page 1 for 5-10 long-tail keywords within 2-3 months. Higher-intent traffic = better conversion rates.",
+        risk: "Low risk. SEO improvements don't break anything. Results take 4-12 weeks to materialize."
+      }
+    ]
+  },
+  lux: {
+    name: "Lux Neon Art Gallery",
+    icon: "✨",
+    url: "luxneonartgallery.com",
+    baseline: { ttfb: "95ms", total: "214ms", size: "194 KB", platform: "Shopify" },
+    tasks: [
+      {
+        id: "lux-1",
+        title: "Local SEO: Optimize Semrush Listing",
+        priority: "high",
+        category: "seo",
+        status: "todo",
+        impact: "Better visibility in Google Maps and local 'near me' searches",
+        description: "Lux Neon is a physical gallery in Dania Beach, FL. Local SEO is critical — people searching 'art gallery near me', 'neon art dania beach', or 'things to do in dania beach' need to find you. Semrush Listing Management is already connected with the location data.",
+        steps: [
+          "Verify Google Business Profile is claimed and fully optimized",
+          "Ensure NAP (Name, Address, Phone) is consistent across all directories: Lux Neon Art Gallery, 1210 Stirling Road #1a, Dania Beach, FL 33004, +1 954 477 2768",
+          "Add high-quality photos of the gallery (interior, exhibitions, events) to Google Business Profile",
+          "Set up regular Google Business posts (events, new exhibitions, promotions)",
+          "Use Semrush Listing Management to push correct info to all directories",
+          "Respond to all Google reviews (positive and negative)",
+          "Add LocalBusiness schema markup to the website"
+        ],
+        expected: "Improved Google Maps ranking for local searches. More foot traffic from 'near me' queries. Better visibility in Dania Beach / Fort Lauderdale area.",
+        risk: "No risk. Pure upside. Local SEO is free traffic."
+      },
+      {
+        id: "lux-2",
+        title: "Set Up Klaviyo Email Flows",
+        priority: "high",
+        category: "seo",
+        status: "todo",
+        impact: "Automated revenue from email — welcome series, post-visit, events",
+        description: "Klaviyo is connected for Lux but likely has no automated flows set up. For a gallery, email flows drive repeat visits, event attendance, and art sales.",
+        steps: [
+          "Create a Welcome Series flow (triggered on signup): introduce the gallery, highlight current exhibitions, invite to visit",
+          "Create a Post-Purchase flow: thank you, share artist info, invite to next event",
+          "Create an Event Announcement template: reusable for new exhibitions, opening nights, special events",
+          "Create a Win-Back flow: re-engage visitors who haven't opened emails in 60+ days",
+          "Set up a signup form on luxneonartgallery.com (pop-up or embedded)",
+          "Segment lists: Collectors (purchased art), Visitors (attended events), Subscribers (email only)"
+        ],
+        expected: "Automated email revenue. Higher event attendance. Repeat gallery visits. Build a collector/patron community.",
+        risk: "Low risk. Flows only send to opted-in subscribers. Don't over-email — 1-2/week max for gallery audience."
+      },
+      {
+        id: "lux-3",
+        title: "Core Web Vitals Monitoring",
+        priority: "medium",
+        category: "speed",
+        status: "todo",
+        impact: "Preventive — keep the fastest site fast",
+        description: "Lux is the fastest site at 95ms TTFB on Shopify. The goal here isn't to fix anything — it's to set up monitoring so we catch any degradation early. Shopify theme updates or new apps can silently slow things down.",
+        steps: [
+          "Set up a Semrush Site Audit for luxneonartgallery.com (project already exists)",
+          "Configure weekly crawl schedule",
+          "Enable Core Web Vitals monitoring in the audit",
+          "Review any existing audit findings and fix quick wins",
+          "Check Shopify theme for unused apps/scripts that could be removed",
+          "Add to Monday weekly report for ongoing tracking"
+        ],
+        expected: "Early warning system for any performance regression. Maintain the sub-200ms load times.",
+        risk: "No risk. Monitoring only."
+      },
+      {
+        id: "lux-4",
+        title: "Content Strategy: Gallery Events & Artist Features",
+        priority: "medium",
+        category: "seo",
+        status: "todo",
+        impact: "Organic traffic growth through unique, local content",
+        description: "Lux has a unique advantage — it's a physical gallery with real events, artists, and exhibitions. This is content gold for SEO. Blog posts about exhibitions, artist interviews, and event recaps create unique content that competitors can't replicate.",
+        steps: [
+          "Create a blog/news section on the Shopify site if not already present",
+          "Write a post for each current/upcoming exhibition",
+          "Feature artist profiles with their work and story",
+          "Post event recaps with photos after each opening/event",
+          "Target keywords: 'neon art exhibition south florida', 'art gallery dania beach', 'contemporary neon art'",
+          "Share blog posts via Klaviyo email and social media",
+          "Add Event schema markup for upcoming gallery events"
+        ],
+        expected: "Unique content drives organic traffic. Event schema gets rich snippets in Google. Builds authority as a destination gallery.",
+        risk: "No risk. Content creation is pure upside. Aim for 2-4 posts per month."
+      },
+      {
+        id: "lux-5",
+        title: "Retargeting: Set Up AdRoll Campaign",
+        priority: "low",
+        category: "seo",
+        status: "todo",
+        impact: "Recapture website visitors who didn't convert",
+        description: "Shirtsy and GoodNeon already have AdRoll campaigns running. Lux doesn't yet. For a gallery selling art, retargeting visitors who browsed but didn't buy or book a visit can be highly effective — art purchases are often considered decisions.",
+        steps: [
+          "Set up Lux Neon as an advertiser in AdRoll",
+          "Install the AdRoll pixel on the Shopify site",
+          "Create audience segments: All Visitors, Product Viewers, Cart Abandoners",
+          "Start with a Retargeting campaign at $15-20/day budget",
+          "Creative: showcase the gallery experience, featured art pieces",
+          "Monitor for 2 weeks before scaling",
+          "Add to Monday weekly report"
+        ],
+        expected: "Recapture 5-15% of bounced visitors. Art buyers often need multiple touchpoints before purchasing.",
+        risk: "Low financial risk at $15-20/day test budget. Monitor ROI after 2 weeks."
+      }
+    ]
   }
 };
 
@@ -521,6 +756,8 @@ function moveTask(id, status) {
   closeModal();
   renderBoard('crown');
   renderBoard('shirtsy');
+  renderBoard('goodneon');
+  renderBoard('lux');
 }
 
 function closeModal() {
@@ -540,6 +777,8 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal()
 // Initial render
 renderBoard('crown');
 renderBoard('shirtsy');
+renderBoard('goodneon');
+renderBoard('lux');
 </script>
 </body>
 </html>
