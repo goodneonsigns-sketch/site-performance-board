@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Jackie - Shopify OAuth</title>
+<style>
+body { background: #0d1117; color: #e6edf3; font-family: Arial, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+.card { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 40px; max-width: 600px; text-align: center; }
+h1 { color: #ff7b00; }
+.code { background: #0d1117; border: 1px solid #ff7b00; border-radius: 8px; padding: 16px; font-family: monospace; font-size: 18px; word-break: break-all; margin: 20px 0; cursor: pointer; }
+.code:hover { background: #1a1f2b; }
+.copy-btn { background: #ff7b00; color: #fff; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-size: 16px; }
+.info { color: #8b949e; font-size: 14px; margin-top: 16px; }
+</style>
+</head>
+<body>
+<div class="card">
+<h1>⚡ Jackie OAuth</h1>
+<p>Authorization code received!</p>
+<div class="code" id="code" onclick="copyCode()">Loading...</div>
+<button class="copy-btn" onclick="copyCode()">📋 Copy Code</button>
+<p class="info">Paste this code in Discord for Jackie to complete the connection.</p>
+</div>
+<script>
+const params = new URLSearchParams(window.location.search);
+const code = params.get('code');
+const shop = params.get('shop');
+const el = document.getElementById('code');
+if (code) {
+    el.textContent = code;
+    document.querySelector('p').textContent = `Authorization code for ${shop || 'your store'}:`;
+} else {
+    el.textContent = 'No code found in URL';
+    el.style.borderColor = '#f85149';
+}
+function copyCode() {
+    if (code) {
+        navigator.clipboard.writeText(code);
+        document.querySelector('.copy-btn').textContent = '✅ Copied!';
+        setTimeout(() => document.querySelector('.copy-btn').textContent = '📋 Copy Code', 2000);
+    }
+}
+</script>
+</body>
+</html>
