@@ -1526,11 +1526,10 @@ function renderAllBoards() {
 // On load, check gist for Lex tasks Jackie may have added
 async function pullLexTasksFromGist() {
   const tk = localStorage.getItem('gh_sync_token');
-  if (!tk) return;
+  // Try authenticated first, fall back to public gist access
+  const headers = tk ? { 'Authorization': `token ${tk}` } : {};
   try {
-    const resp = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
-      headers: { 'Authorization': `token ${tk}` }
-    });
+    const resp = await fetch(`https://api.github.com/gists/${GIST_ID}`, { headers });
     if (!resp.ok) return;
     const data = await resp.json();
     const lexFile = data.files && data.files['lex-tasks.json'];
@@ -1538,8 +1537,15 @@ async function pullLexTasksFromGist() {
     const remote = JSON.parse(lexFile.content);
     if (remote && remote.tasks) {
       let changed = false;
+      // Sync completion status from localStorage back to remote tasks
       for (const rt of remote.tasks) {
         if (!lexTasks[rt.project]) lexTasks[rt.project] = [];
+        const existing = lexTasks[rt.project].find(x => x.id === rt.id);
+        if (existing) {
+          // Update existing task with remote data but keep local completion status
+          if (!existing.completed && rt.completed) { existing.completed = rt.completed; existing.completedAt = rt.completedAt; changed = true; }
+          continue;
+        }
         if (!lexTasks[rt.project].find(x => x.id === rt.id)) {
           lexTasks[rt.project].push(rt);
           changed = true;
