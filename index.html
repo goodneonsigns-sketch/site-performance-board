@@ -37,7 +37,14 @@
   .board { padding:24px 32px; display:none; }
   .board.active { display:block; }
   
-  .columns { display:grid; grid-template-columns:repeat(5,1fr); gap:20px; }
+  /* Lex Personal To Do — always visible */
+  .lex-todo-section { background:var(--card); border:2px solid #8847ff; border-radius:12px; margin-bottom:20px; overflow:hidden; }
+  .lex-todo-section .col-header { border-bottom:1px solid #8847ff33; }
+  .lex-todo-section .col-header h3 { color:#bc8cff; }
+  .lex-todo-section .col-body { display:flex; flex-wrap:wrap; gap:8px; padding:12px; min-height:auto; }
+  .lex-todo-section .col-body .task-card { flex:1 1 280px; max-width:400px; margin:0; }
+  .lex-todo-section .empty-msg { color:var(--muted); font-size:13px; padding:8px 4px; }
+  .columns { display:grid; grid-template-columns:repeat(4,1fr); gap:20px; }
   .column { background:var(--card); border-radius:12px; border:1px solid var(--border); overflow:hidden; }
   .col-header { padding:16px; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:10px; }
   .col-header h3 { font-size:14px; font-weight:600; }
@@ -101,7 +108,7 @@
   
   /* Mobile Responsive */
   @media (max-width: 1200px) {
-    .columns { grid-template-columns:repeat(3,1fr); }
+    .columns { grid-template-columns:repeat(2,1fr); }
   }
   @media (max-width: 1024px) {
     .columns { grid-template-columns:repeat(2,1fr); }
@@ -115,6 +122,8 @@
     .board { padding:16px; }
     .columns { grid-template-columns:1fr; gap:12px; }
     .col-body { min-height:auto; }
+    .lex-todo-section .col-body { flex-direction:column; }
+    .lex-todo-section .col-body .task-card { max-width:100%; }
     .site-header { flex-direction:column; align-items:flex-start; gap:8px; }
     .site-baseline { flex-wrap:wrap; gap:10px; }
     .baseline-card { flex:1 1 45%; min-width:120px; }
@@ -1314,6 +1323,13 @@ function renderBoard(key) {
         <div class="value ${done.length === proj.tasks.length ? 'good' : ''}">${done.length}/${proj.tasks.length}</div>
       </div>
     </div>
+    <div class="lex-todo-section ${lexPending.length ? 'lex-glow' : ''}">
+      <div class="col-header">
+        <h3>👤 Lex To Do</h3>
+        <span class="badge" style="${lexPending.length ? 'background:#8847ff;color:#fff' : ''}">${lexPending.length}</span>
+      </div>
+      <div class="col-body">${lexPending.map(t => lexTaskCard(t, key, false)).join('')}${lexPending.length === 0 ? '<p class="empty-msg">No tasks from Jackie right now — you\'re all clear! ✨</p>' : ''}</div>
+    </div>
     <div class="columns">
       <div class="column">
         <div class="col-header">
@@ -1328,13 +1344,6 @@ function renderBoard(key) {
           <span class="badge" style="${execute.length ? 'background:#ff7b00;color:#fff' : ''}">${execute.length}</span>
         </div>
         <div class="col-body">${execute.map(t => taskCard(t)).join('')}${execute.length === 0 ? '<p style="color:var(--muted);font-size:12px;padding:12px;text-align:center;">Drag tasks here or click "Send to Jackie" to queue for execution</p>' : ''}</div>
-      </div>
-      <div class="column ${lexPending.length ? 'lex-glow' : ''}" style="border-color:${lexPending.length ? '#8847ff' : 'var(--border)'}">
-        <div class="col-header">
-          <h3>👤 Lex To Do</h3>
-          <span class="badge" style="${lexPending.length ? 'background:#8847ff;color:#fff' : ''}">${lexPending.length}</span>
-        </div>
-        <div class="col-body">${lexPending.map(t => lexTaskCard(t, key, false)).join('')}${lexPending.length === 0 ? '<p style="color:var(--muted);font-size:12px;padding:12px;text-align:center;">Tasks from Jackie that need your attention will appear here</p>' : ''}</div>
       </div>
       <div class="column">
         <div class="col-header">
