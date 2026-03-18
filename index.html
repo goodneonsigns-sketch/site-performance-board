@@ -206,14 +206,14 @@ const projects = {
     name: "Crown Office Supplies",
     icon: "👑",
     url: "crownofficesupplies.com",
-    baseline: { ttfb: "1,139ms", total: "1,207ms", size: "353 KB", platform: "WordPress + WooCommerce" },
+    baseline: { ttfb: "190ms", total: "250ms", size: "353 KB", platform: "WordPress + WooCommerce" },
     tasks: [
       {
         id: "crown-1",
         title: "Install WP Caching Plugin",
         priority: "critical",
         category: "speed",
-        status: "todo",
+        status: "done",
         impact: "TTFB from 1.1s → ~0.2s (5x faster)",
         description: "The origin server takes 1.1 seconds to respond because WordPress generates every page from scratch. A caching plugin stores pre-built HTML so the server responds instantly.",
         steps: [
@@ -233,7 +233,7 @@ const projects = {
         title: "Fix Cloudflare Cache Settings",
         priority: "critical",
         category: "speed",
-        status: "todo",
+        status: "done",
         impact: "Edge-cached pages load in ~50ms globally",
         description: "Cloudflare is in front of Crown but cf-cache-status shows DYNAMIC — it's not caching HTML pages. Visitors hit the origin server every time, defeating the purpose of having a CDN.",
         steps: [
@@ -328,14 +328,14 @@ const projects = {
     name: "Shirtsy",
     icon: "👕",
     url: "shirtsy.com",
-    baseline: { ttfb: "~1.8s", total: "~1.8s", size: "N/A", platform: "WordPress + WooCommerce" },
+    baseline: { ttfb: "80ms", total: "120ms", size: "N/A", platform: "WordPress + WooCommerce" },
     tasks: [
       {
         id: "shirtsy-1",
         title: "Fix Cloudflare BYPASS Issue",
         priority: "critical",
         category: "speed",
-        status: "todo",
+        status: "done",
         impact: "Currently Cloudflare is actively refusing to cache — fixing this alone is huge",
         description: "Shirtsy's Cloudflare returns cf-cache-status: BYPASS, which means there's an active rule or plugin telling Cloudflare NOT to cache. This is worse than Crown's DYNAMIC status — someone explicitly configured it to bypass.",
         steps: [
@@ -355,7 +355,7 @@ const projects = {
         title: "Install WP Caching Plugin",
         priority: "critical",
         category: "speed",
-        status: "todo",
+        status: "done",
         impact: "Origin response time from ~1.5s → ~0.2s",
         description: "Even after fixing Cloudflare, the origin server needs to be fast for cache misses, admin pages, and dynamic content. WordPress is generating pages from scratch on every request.",
         steps: [
