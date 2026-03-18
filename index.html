@@ -1283,7 +1283,15 @@ function saveStates() {
   localStorage.setItem('perf-board-states', JSON.stringify(taskStates));
 }
 
-function getStatus(id) { return taskStates[id] || 'todo'; }
+function getStatus(id) {
+  if (taskStates[id]) return taskStates[id];
+  // Check default status from task data
+  for (const key of Object.keys(projects)) {
+    const t = projects[key].tasks.find(t => t.id === id);
+    if (t && t.status) return t.status;
+  }
+  return 'todo';
+}
 function setStatus(id, status) { taskStates[id] = status; saveStates(); }
 
 function renderBoard(key) {
@@ -1308,11 +1316,11 @@ function renderBoard(key) {
     <div class="site-baseline">
       <div class="baseline-card">
         <div class="label">TTFB (Baseline)</div>
-        <div class="value bad">${proj.baseline.ttfb}</div>
+        <div class="value ${done.length > 0 ? 'good' : 'bad'}">${proj.baseline.ttfb}</div>
       </div>
       <div class="baseline-card">
         <div class="label">Total Load</div>
-        <div class="value bad">${proj.baseline.total}</div>
+        <div class="value ${done.length > 0 ? 'good' : 'bad'}">${proj.baseline.total}</div>
       </div>
       <div class="baseline-card">
         <div class="label">Page Size</div>
