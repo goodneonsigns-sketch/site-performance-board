@@ -177,6 +177,7 @@
     <button class="tab" onclick="switchBoard('coconut')">🥥 Coconut Bikini</button>
     <button class="tab" onclick="switchBoard('reclaimed')">♻️ Reclaimed Closet</button>
     <button class="tab" onclick="switchBoard('virtus')" style="border-color:#d4a017;color:#d4a017">🏠 Virtus Realty</button>
+    <button class="tab" onclick="switchBoard('system')" style="border-color:#ff6b6b;color:#ff6b6b">⚙️ System Config</button>
   </div>
 </header>
 
@@ -1439,6 +1440,182 @@ const projects = {
         ],
         expected: "Automated social presence across all platforms. Zero manual posting required.",
         risk: "Low risk. Buffer handles scheduling. Start with Instagram + GBP, expand to others."
+      }
+    ]
+  },
+  system: {
+    name: "System Configuration",
+    icon: "⚙️",
+    url: "jackiespanties.com",
+    baseline: { ttfb: "—", total: "—", size: "—", platform: "OpenClaw Agent Infrastructure" },
+    tasks: [
+      {
+        id: "sys-1",
+        title: "Build Jessica's Customer Dept AGENTS.md",
+        priority: "critical",
+        category: "seo",
+        status: "todo",
+        impact: "Enables 20 new customer lifecycle agents across all 7 businesses",
+        description: "Create Jessica's expanded AGENTS.md with full Customer Department structure: Sales, Retention, Reputation, Service, Complaint Resolution. 20 sub-agents with model assignments, delegation patterns, and QC checklists.",
+        steps: ["Define all 20 agent IDs and configs in openclaw.json", "Create AGENTS.md with delegation instructions", "Create skills directory for customer ops", "Set up Klaviyo/Brevo skill symlinks for relevant agents", "Test Jessica spawn + delegation chain"],
+        expected: "Jessica can receive customer lifecycle tasks and delegate to her 20-agent team.",
+        risk: "Low. Config only — no external actions."
+      },
+      {
+        id: "sys-2",
+        title: "Write System Prompts: Customer Dept B2B Agents",
+        priority: "critical",
+        category: "seo",
+        status: "todo",
+        impact: "Each sub-agent knows its role, triggers, workflow, stop conditions, and escalation rules",
+        description: "Write full system prompts for all 20 Customer Dept sub-agents. Each prompt includes: role, trigger condition, step-by-step workflow, decision logic, stop conditions, escalation rules, tone guidance, tools available, and what the agent must never do.",
+        steps: ["Write prompts for Sales team (4 agents)", "Write prompts for Retention team (4 agents)", "Write prompts for Reputation team (4 agents)", "Write prompts for Service team (4 agents)", "Write prompts for Complaint Resolution team (4 agents)", "Review all for brand consistency"],
+        expected: "All 20 agents have clear, actionable system prompts. No ambiguity in behavior.",
+        risk: "None. Documentation only."
+      },
+      {
+        id: "sys-3",
+        title: "Write Email Sequences: B2B (Crown, Shirtsy, GoodNeon)",
+        priority: "critical",
+        category: "seo",
+        status: "todo",
+        impact: "Full email copy for the customer lifecycle — 3 business variants",
+        description: "Write all email copy for Phase 1 B2B businesses. Per business: approval welcome, catalog orientation, Days 1/3/5/7 nudge, Days 8/12/17 conversion push, first order thank-you, reorder reminder, milestone emails, at-risk warning, win-back (3 touches), Trifecta cross-sell.",
+        steps: ["Write Crown email sequence (all touchpoints)", "Write Shirtsy sequence (include proof loop branch)", "Write GoodNeon sequence (NET60 wider timing)", "Write Trifecta cross-sell emails (3 variants)", "Review for brand voice consistency per Brand Vault"],
+        expected: "~30+ email templates ready for Klaviyo deployment.",
+        risk: "None. All drafts for Lex review before deployment."
+      },
+      {
+        id: "sys-4",
+        title: "Build Klaviyo Flows: B2B Businesses",
+        priority: "high",
+        category: "seo",
+        status: "todo",
+        impact: "Automated email sequences with triggers, timing, and exit conditions",
+        description: "Build the actual Klaviyo flow structure for Crown, Shirtsy, GoodNeon. Define: flow names, triggers, exit conditions, email sequence with timing, segments, dynamic fields, personalization tokens.",
+        steps: ["Design flow architecture for each business", "Map triggers (account approved, order placed, proof ready, etc.)", "Set exit conditions (stop on order, stop on reorder)", "Define segments: Approved-No Order, Active, At-Risk, Dormant, Key Account, VIP", "Build flows in Klaviyo (or provide specs for manual build)"],
+        expected: "Fully automated customer lifecycle running in Klaviyo.",
+        risk: "Low. Flows can be paused/edited anytime."
+      },
+      {
+        id: "sys-5",
+        title: "Build CRM Field Setup",
+        priority: "high",
+        category: "seo",
+        status: "todo",
+        impact: "Account lifecycle tracking across all businesses",
+        description: "Define and implement CRM fields for customer lifecycle tracking. Fields: account status, business type, credit limit, credit terms, order count, lifetime spend, last order date, predicted reorder date, open proof status, invoice status.",
+        steps: ["Map fields to existing tools (WooCommerce custom fields, Klaviyo properties, Shopify metafields)", "Create custom properties in Klaviyo for each business", "Define status lifecycle transitions", "Decide on HubSpot (or confirm existing tools are sufficient)"],
+        expected: "Complete customer data model across all 7 businesses.",
+        risk: "Low. Adding fields doesn't break anything."
+      },
+      {
+        id: "sys-6",
+        title: "Build Trifecta Cross-Sell Integration",
+        priority: "high",
+        category: "seo",
+        status: "todo",
+        impact: "Every B2B customer sees all 3 businesses — Crown ↔ Shirtsy ↔ GoodNeon",
+        description: "Design and build the Trifecta cross-sell system. When a customer is acquired on any B2B business, introduce the other two. Integrated into post-first-order and account growth phases.",
+        steps: ["Design cross-sell trigger points in customer journey", "Write cross-sell email templates (Crown→Shirtsy/GoodNeon, etc.)", "Build Klaviyo segments for cross-business targeting", "Define attribution tracking (which business referred which)", "Test flow end-to-end"],
+        expected: "Higher average customer value across the B2B portfolio.",
+        risk: "Low. Cross-sell emails are value-add, not spam."
+      },
+      {
+        id: "sys-7",
+        title: "Build Sandra's Design Dept AGENTS.md",
+        priority: "high",
+        category: "seo",
+        status: "todo",
+        impact: "Enables 12 creative agents with Brand Vault enforcement",
+        description: "Create Sandra's AGENTS.md with full Design Department structure: Image Generation, Document Design, UI/UX, Website Design. 12 sub-agents with model assignments. Include the complete Brand Vault as reference.",
+        steps: ["Define all 12 agent IDs and configs in openclaw.json", "Create AGENTS.md with Brand Vault + delegation instructions", "Create skills directory", "Set up skill symlinks (Shopify, WordPress, Cloudflare for page builders)", "Test Sandra spawn + delegation chain"],
+        expected: "Sandra can receive creative requests and delegate to her 12-agent team.",
+        risk: "Low. Config only."
+      },
+      {
+        id: "sys-8",
+        title: "Write System Prompts: Design Dept Agents",
+        priority: "high",
+        category: "seo",
+        status: "todo",
+        impact: "Each design agent knows its role, brand constraints, and output format",
+        description: "Write system prompts for all 12 Design Dept sub-agents. Each prompt includes: role, required inputs, step-by-step process, output format, brand compliance check, human approval gates.",
+        steps: ["Write prompts for Image Generation team (4 agents)", "Write prompts for Document Design team (3 agents)", "Write prompts for UI/UX team (3 agents)", "Write prompts for Website Design team (3 agents — includes SEO)"],
+        expected: "All 12 agents produce brand-compliant, ready-to-use outputs.",
+        risk: "None. Documentation only."
+      },
+      {
+        id: "sys-9",
+        title: "Build 7 Brand Style Guides",
+        priority: "high",
+        category: "seo",
+        status: "todo",
+        impact: "Source of truth for all creative output across 7 businesses",
+        description: "Create complete brand style guides for each business using the Brand Vault as foundation. Each guide: brand overview, color palette (hex/RGB/CMYK), typography, logo usage, voice & tone, photography style, design do's and don'ts.",
+        steps: ["Build Crown style guide", "Build Shirtsy style guide", "Build GoodNeon style guide", "Build Lux Neon style guide", "Build Reclaimed Closet style guide", "Build Coconut Bikini style guide", "Build Virtus Realty style guide", "Lex approval on all 7"],
+        expected: "Any agent or designer can pick up any brand and stay on-identity.",
+        risk: "None. Reference docs. Require Lex approval."
+      },
+      {
+        id: "sys-10",
+        title: "Connect Google Ads API",
+        priority: "high",
+        category: "speed",
+        status: "todo",
+        impact: "Direct access to Google Ads data for Lux and all accounts",
+        description: "OAuth tokens and developer token are saved. Getting 501 'UNIMPLEMENTED' error — Google Cloud project needs to be linked to Google Ads Manager account. Lex needs to complete this step.",
+        steps: ["Lex: Link Cloud project 743931807036 to Google Ads Manager 543-649-2290 in API Center", "Jackie: Test API connection", "Pull Lux campaign data", "Set up automated reporting cron job"],
+        expected: "Full API access to all Google Ads accounts under the manager.",
+        risk: "None. Read access first."
+      },
+      {
+        id: "sys-11",
+        title: "Connect Gmail Integration",
+        priority: "medium",
+        category: "seo",
+        status: "todo",
+        impact: "Agents can draft and send emails directly",
+        description: "Needed for Customer Department email sending. Currently agents can write emails but can't send them. Gmail API or SMTP integration required.",
+        steps: ["Enable Gmail API in Google Cloud Console", "Create OAuth credentials for Gmail scope", "Build email sending skill", "Test with draft-only mode first"],
+        expected: "Agents can draft emails for review, and send approved emails.",
+        risk: "Medium. Email sending requires careful controls — human approval gates."
+      },
+      {
+        id: "sys-12",
+        title: "Connect Google Calendar Integration",
+        priority: "medium",
+        category: "seo",
+        status: "todo",
+        impact: "Lux event scheduling, Virtus showing coordination",
+        description: "Needed for Lux venue/event management and Virtus showing scheduling. Google Calendar API for availability checks and event creation.",
+        steps: ["Enable Google Calendar API in Cloud Console", "Create OAuth credentials for Calendar scope", "Build calendar skill", "Test with read-only first"],
+        expected: "Agents can check availability and create events.",
+        risk: "Low with read-only. Medium with write access."
+      },
+      {
+        id: "sys-13",
+        title: "Connect Image Generation Tool",
+        priority: "medium",
+        category: "seo",
+        status: "todo",
+        impact: "Design Dept can generate images, not just write prompts",
+        description: "Sandra's Image Generation agents can write detailed prompts but need an actual tool to generate images. Options: Midjourney (best quality), DALL-E (OpenAI API), Firefly (Adobe), Stable Diffusion (self-hosted).",
+        steps: ["Lex: Choose image generation platform", "Set up API access / account", "Build image generation skill", "Test with product mockups for each brand"],
+        expected: "On-demand image generation following Brand Vault constraints.",
+        risk: "Low. Cost varies by platform."
+      },
+      {
+        id: "sys-14",
+        title: "Daily Content Engine: Review & Approve First Batch",
+        priority: "high",
+        category: "seo",
+        status: "todo",
+        impact: "9 pieces of content per day once approved",
+        description: "Cron jobs create 7 blog posts (1 per company) and 2 Lux SEO pages daily starting at 1:00 PM ET. First batch needs Lex review to calibrate quality. Once approved, Jackie publishes autonomously.",
+        steps: ["Review today's 7 blog post drafts", "Review today's 2 Lux SEO page drafts", "Approve quality and tone", "Jackie begins publishing autonomously"],
+        expected: "270 pieces of content per month across all businesses.",
+        risk: "Low. All content reviewed before first autonomous publish."
       }
     ]
   }
