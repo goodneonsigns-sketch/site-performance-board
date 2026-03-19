@@ -321,6 +321,78 @@ const projects = {
         ],
         expected: "HTML, CSS, JS transferred at 30-40% smaller size. Faster page loads especially on slower connections.",
         risk: "Very low risk. Standard web optimization."
+      },
+      {
+        id: "crown-7",
+        title: "Enable Cloudflare Minification (CSS/HTML/JS)",
+        priority: "medium",
+        category: "speed",
+        status: "todo",
+        impact: "5-15% smaller page transfers",
+        description: "Minification removes whitespace and comments from HTML, CSS, and JS. Free on Cloudflare but currently disabled on Crown.",
+        steps: ["Cloudflare → Speed → Optimization → Enable Auto Minify for HTML, CSS, JS", "Purge cache after enabling", "Verify minified output in browser DevTools"],
+        expected: "Smaller transfer sizes, slightly faster parsing.",
+        risk: "Low risk. Rare edge cases with poorly written JS. Easy to revert."
+      },
+      {
+        id: "crown-8",
+        title: "Investigate Desktop Bot Traffic (86% Bounce Rate)",
+        priority: "high",
+        category: "seo",
+        status: "todo",
+        impact: "Clean analytics data, better ad targeting, reduced server load",
+        description: "GA4 shows 86.3% desktop bounce rate vs 41.8% mobile. This pattern strongly suggests bot traffic getting through Cloudflare on desktop. Distorts all metrics.",
+        steps: ["Pull GA4 desktop traffic by source/medium", "Check for suspicious referral domains", "Review Cloudflare Bot Analytics (if available on Free plan)", "Add rate limiting rules for suspicious patterns", "Consider enabling Bot Fight Mode in Cloudflare"],
+        expected: "Cleaner analytics data. May significantly reduce reported desktop traffic if bots are filtered.",
+        risk: "Medium. Must not block legitimate crawlers (Googlebot, etc.)."
+      },
+      {
+        id: "crown-9",
+        title: "Add Rate Limiting on Cloudflare",
+        priority: "medium",
+        category: "seo",
+        status: "todo",
+        impact: "Protection against abuse, reduced bot traffic",
+        description: "Crown has no rate limiting configured. High-volume bot traffic could impact server performance and skew analytics.",
+        steps: ["Cloudflare → Security → Rate Limiting", "Create rule: >100 requests/min from single IP → Challenge", "Exclude known good bots (Googlebot IPs)", "Monitor for false positives"],
+        expected: "Reduced bot traffic, cleaner metrics, better server performance.",
+        risk: "Low-medium. Monitor after enabling to ensure legitimate users aren't blocked."
+      },
+      {
+        id: "crown-10",
+        title: "Protect /net30-application/ Page",
+        priority: "high",
+        category: "seo",
+        status: "todo",
+        impact: "Protect highest-value page (#1 by views, 3,598/week)",
+        description: "The NET30 application page is Crown's most visited page and most valuable conversion point. It needs additional protection against scraping and abuse.",
+        steps: ["Add Cloudflare rule to challenge suspicious traffic on /net30-application/", "Consider Turnstile CAPTCHA on the application form", "Monitor form submissions for spam patterns"],
+        expected: "Reduced spam applications, protected conversion funnel.",
+        risk: "Low. Turnstile is invisible to most real users."
+      },
+      {
+        id: "crown-11",
+        title: "Build Customer Dept: Onboarding Emails (Phase 1)",
+        priority: "high",
+        category: "seo",
+        status: "todo",
+        impact: "Automated customer lifecycle — convert NET30 approvals to first orders",
+        description: "Part of Jessica's Customer Department build. Write and deploy the welcome email sequence for new NET30 account approvals: welcome email (Hour 0), catalog orientation (Hour 2), Days 1/3/5/7 nudge sequence.",
+        steps: ["Write Crown-specific email copy for all 7 touchpoints", "Build Klaviyo flows with proper triggers and timing", "Set stop conditions (stop all emails when first order placed)", "Include Trifecta cross-sell (introduce Shirtsy + GoodNeon)"],
+        expected: "Higher first-order conversion rate from approved NET30 accounts.",
+        risk: "Low. Emails are drafts until Lex approves."
+      },
+      {
+        id: "crown-12",
+        title: "Redesign NET30 Application Landing Page",
+        priority: "high",
+        category: "seo",
+        status: "todo",
+        impact: "Higher conversion rate on #1 traffic page",
+        description: "Part of Sandra's Design Department build. CRO audit and redesign of the NET30 application page — compelling hero, benefit bullets, trust badges, simplified form, social proof.",
+        steps: ["Run CRO audit on current page", "Design new wireframe with conversion optimizations", "Build in WooCommerce/WordPress", "A/B test if possible"],
+        expected: "Increased NET30 application completion rate.",
+        risk: "Medium. Requires Lex approval before publishing."
       }
     ]
   },
@@ -446,6 +518,30 @@ const projects = {
         ],
         expected: "Improved security score. Standard best practice.",
         risk: "Low risk."
+      },
+      {
+        id: "shirtsy-7",
+        title: "Build Customer Dept: Onboarding + Proof Loop Emails",
+        priority: "high",
+        category: "seo",
+        status: "todo",
+        impact: "Automated lifecycle — convert NET30 approvals, manage proof process",
+        description: "Jessica's Customer Department. Write Shirtsy-specific email sequences including the NB Designer proof loop (order → proof → approve → production → ship). Two tracks: catalog orders and custom print orders.",
+        steps: ["Write welcome + catalog orientation emails (Shirtsy-specific)", "Write Days 1/3/5/7 nudge sequence", "Write proof loop emails (proof ready, reminder, approved, shipped)", "Build Klaviyo flows with branching for catalog vs custom", "Include Trifecta cross-sell (Crown + GoodNeon)", "NEVER mention NB Designer — always say 'our production team'"],
+        expected: "Faster proof approvals, higher first-order conversion, cross-sell revenue.",
+        risk: "Low. Emails are drafts until Lex approves."
+      },
+      {
+        id: "shirtsy-8",
+        title: "Enable WAF (Pro Plan Available)",
+        priority: "medium",
+        category: "seo",
+        status: "todo",
+        impact: "Enhanced security against attacks",
+        description: "Shirtsy is on Cloudflare Pro plan which includes WAF (Web Application Firewall). Currently disabled.",
+        steps: ["Cloudflare → Security → WAF → Enable managed rules", "Start with Cloudflare Managed Ruleset", "Monitor for false positives for 1 week", "Fine-tune as needed"],
+        expected: "Protection against common web attacks (SQL injection, XSS, etc.).",
+        risk: "Medium. WAF rules can occasionally block legitimate requests. Monitor closely after enabling."
       }
     ]
   },
@@ -571,6 +667,42 @@ const projects = {
         ],
         expected: "Rank on page 1 for 5-10 long-tail keywords within 2-3 months. Higher-intent traffic = better conversion rates.",
         risk: "Low risk. SEO improvements don't break anything. Results take 4-12 weeks to materialize."
+      },
+      {
+        id: "goodneon-7",
+        title: "Audit Cloudflare SSL/TLS & Security Settings",
+        priority: "high",
+        category: "speed",
+        status: "todo",
+        impact: "SSL strict mode, TLS 1.2 minimum — same fixes as Crown and Shirtsy",
+        description: "GoodNeon's Cloudflare zone hasn't been audited yet. Crown and Shirtsy both needed SSL upgraded to strict and TLS minimum raised to 1.2.",
+        steps: ["Check current SSL mode (likely flexible)", "Install origin SSL cert if needed", "Upgrade to Full (Strict)", "Set minimum TLS to 1.2", "Enable Always Use HTTPS", "Review firewall rules"],
+        expected: "Secure end-to-end encryption. Better security posture.",
+        risk: "Medium. SSL mode change requires origin cert. Test after changing."
+      },
+      {
+        id: "goodneon-8",
+        title: "Build Customer Dept: Onboarding + Proof Loop (NET60)",
+        priority: "high",
+        category: "seo",
+        status: "todo",
+        impact: "Automated NET60 customer lifecycle with wider timing windows",
+        description: "Jessica's Customer Department. GoodNeon uses NET60 (not NET30) so all timing thresholds are wider. Two tracks: store inventory (ship direct) and custom signs (proof loop). In-house proof creation.",
+        steps: ["Write GoodNeon-specific welcome + orientation emails", "Write Days 1/3/5/7 nudge (wider spacing than Crown/Shirtsy)", "Write proof loop emails (proof ready, 24h/48h reminders, approved, Day 7 update, shipped, installed)", "Build Klaviyo flows with NET60 timing", "Include Trifecta cross-sell (Crown + Shirtsy)"],
+        expected: "Higher first-order conversion, proactive proof management, cross-sell revenue.",
+        risk: "Low. Emails are drafts until Lex approves."
+      },
+      {
+        id: "goodneon-9",
+        title: "Build NET60 Application Landing Page",
+        priority: "high",
+        category: "seo",
+        status: "todo",
+        impact: "Higher conversion on NET60 applications",
+        description: "Sandra's Design Department. CRO-optimized landing page for NET60 credit applications — neon/LED business-focused benefits, sign imagery, social proof from installed businesses.",
+        steps: ["CRO audit current application page", "Design conversion-optimized wireframe", "Build in WooCommerce", "Lex approval required before publish"],
+        expected: "Increased NET60 application completion rate.",
+        risk: "Medium. Requires Lex approval."
       }
     ]
   },
@@ -677,6 +809,42 @@ const projects = {
         ],
         expected: "Recapture 5-15% of bounced visitors. Art buyers often need multiple touchpoints before purchasing.",
         risk: "Low financial risk at $15-20/day test budget. Monitor ROI after 2 weeks."
+      },
+      {
+        id: "lux-6",
+        title: "Connect Google Ads API",
+        priority: "high",
+        category: "seo",
+        status: "todo",
+        impact: "Direct access to Google Ads performance data and campaign management",
+        description: "OAuth tokens and developer token are ready. Getting 501 error — need to link Google Cloud project (743931807036) to Google Ads Manager account (543-649-2290). Lex needs to complete this in Google Ads API Center.",
+        steps: ["Link Google Cloud project 743931807036 to Google Ads Manager 543-649-2290", "Test API connection", "Pull Lux campaign performance data", "Set up automated reporting"],
+        expected: "Full API access to Google Ads — pull metrics, manage campaigns, automate reporting.",
+        risk: "No risk. Read-only access initially."
+      },
+      {
+        id: "lux-7",
+        title: "Build Customer Dept: Venue/Event + VIP Workflows",
+        priority: "high",
+        category: "seo",
+        status: "todo",
+        impact: "Automated event lead qualification, VIP patron retention, post-event CSAT",
+        description: "Jessica's Customer Department. Lux has unique customer types: venue/event leads, gallery buyers, wine club members, VIP patrons. Each needs a specific workflow.",
+        steps: ["Write event lead qualification sequence (inquiry → proposal → follow-up → booking)", "Write gallery buyer post-purchase flow (thank you → next exhibition invite)", "Write wine club member flow (event confirmation → membership offer)", "Write VIP quarterly outreach", "Write post-event CSAT survey with escalation on low scores", "Build all in Klaviyo"],
+        expected: "Higher event conversion rate, repeat gallery visits, wine club growth.",
+        risk: "Low. Emails are drafts until Lex approves."
+      },
+      {
+        id: "lux-8",
+        title: "Daily SEO Pages: Local Business Neon Signs",
+        priority: "medium",
+        category: "seo",
+        status: "todo",
+        impact: "2 new SEO-rich pages per day targeting local business niches",
+        description: "Cron job creates 2 Lux SEO pages daily at 3:00 PM and 3:30 PM ET. Each targets a different local business niche for custom neon signs (bars, salons, restaurants, studios, etc.).",
+        steps: ["Review first batch of SEO pages (today's cron)", "Approve quality and tone", "Publish approved pages to Shopify", "Monitor organic traffic growth"],
+        expected: "60 new SEO pages per month. Long-tail keyword dominance for local neon sign searches.",
+        risk: "Low. All pages saved as drafts for review first."
       }
     ]
   },
@@ -802,6 +970,30 @@ const projects = {
         ],
         expected: "Maintain sub-300ms load times. Catch any degradation early.",
         risk: "No risk. Monitoring only."
+      },
+      {
+        id: "coconut-7",
+        title: "Build Customer Dept: Ambassador Program Automation",
+        priority: "high",
+        category: "seo",
+        status: "todo",
+        impact: "Automated ambassador onboarding, monthly check-ins, collection launch coordination",
+        description: "Jessica's Customer Department. Coconut's ambassador program is a key sales engine. Automate: application review, welcome kits, monthly check-ins, inactive re-engagement, collection launch coordination.",
+        steps: ["Write ambassador application review criteria (Micro/Mid/Macro tiers)", "Write welcome email with ambassador kit, codes, guidelines", "Write monthly check-in flow", "Write 30-day inactive re-engagement", "Write collection launch ambassador coordination emails", "Build all in Klaviyo"],
+        expected: "Higher ambassador retention, coordinated launches, more UGC.",
+        risk: "Low. Emails are drafts until Lex approves."
+      },
+      {
+        id: "coconut-8",
+        title: "Build Ambassador Program Page (Shopify)",
+        priority: "high",
+        category: "seo",
+        status: "todo",
+        impact: "Higher-converting ambassador application page",
+        description: "Sandra's Design Department. Build a dedicated ambassador program page showing tiers, benefits, requirements, and application form. Mobile-first (most visitors on phone).",
+        steps: ["CRO audit current ambassador page", "Design new page with lifestyle imagery, tier breakdown, application CTA", "Build in Shopify", "Lex approval required before publish"],
+        expected: "More quality ambassador applications.",
+        risk: "Medium. Requires Lex approval."
       }
     ]
   },
@@ -949,6 +1141,18 @@ const projects = {
         ],
         expected: "Cut page weight by 40%. Faster mobile loads. Better Core Web Vitals.",
         risk: "Low risk on Shopify. Removing unused apps is safe. Test after each change."
+      },
+      {
+        id: "reclaimed-8",
+        title: "Build Customer Dept: Seasonal Reactivation + International Shipping",
+        priority: "medium",
+        category: "seo",
+        status: "todo",
+        impact: "Seasonal campaigns timed to sports calendar, international shipping service rules",
+        description: "Jessica's Customer Department. Track customers by sport season (NFL, NBA, MLB, NCAA). Send 'new season, new look' campaigns 3 weeks before each season. International shipping service rules for 27+ countries.",
+        steps: ["Map sports calendar to email triggers", "Write seasonal reactivation emails per sport", "Write international shipping service templates (customs holds, lost packages)", "Write group order discount trigger (5+ pieces)", "Build Klaviyo flows with seasonal timing"],
+        expected: "Seasonal reactivation drives repeat purchases. Better international customer experience.",
+        risk: "Low. Emails are drafts until Lex approves."
       }
     ]
   },
