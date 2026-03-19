@@ -188,6 +188,7 @@
 <div id="board-coconut" class="board"></div>
 <div id="board-reclaimed" class="board"></div>
 <div id="board-virtus" class="board"></div>
+<div id="board-system" class="board"></div>
 
 <div class="toast" id="toast"></div>
 <div class="modal-overlay" id="modal" onclick="if(event.target===this)closeModal()">
@@ -1910,6 +1911,7 @@ async function syncQueueToGist() {
 function renderAllBoards() {
   renderBoard('crown'); renderBoard('shirtsy'); renderBoard('goodneon');
   renderBoard('lux'); renderBoard('coconut'); renderBoard('reclaimed'); renderBoard('virtus');
+  renderBoard('system');
 }
 
 // On load, check gist for Lex tasks Jackie may have added
