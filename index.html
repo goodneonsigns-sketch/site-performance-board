@@ -312,7 +312,7 @@ const projects = {
         title: "Enable GZIP/Brotli Compression",
         priority: "medium",
         category: "speed",
-        status: "todo",
+        status: "done",
         impact: "30-40% smaller transfer size",
         description: "Verify that Brotli or GZIP compression is active. Cloudflare should handle this but it's worth confirming the origin also compresses responses.",
         steps: [
@@ -485,23 +485,21 @@ const projects = {
       },
       {
         id: "shirtsy-5",
-        title: "Set Up Cloudflare Page Rules",
+        title: "Set Up Cloudflare Cache Rules",
         priority: "medium",
         category: "speed",
-        status: "todo",
-        impact: "Global edge caching for static pages",
-        description: "After fixing the BYPASS issue, set up proper page rules to cache static content at the edge while keeping dynamic pages (cart, checkout, account) fresh.",
+        status: "done",
+        impact: "Edge caching with override_origin — TTFB 85ms → HIT",
+        description: "Cache Rule (ID b07d12de) with override_origin bypasses WooCommerce no-store headers. Excludes wp-admin, wp-login, cart, checkout, my-account, logged-in users, and woo sessions. Old Page Rules deleted (they overrode Cache Rule exclusions). TTFB dropped from 1.5s to 0.08s — 19x improvement.",
         steps: [
-          "Cloudflare → Rules → Page Rules",
-          "Rule 1: shirtsy.com/wp-admin/* → Cache Level: Bypass",
-          "Rule 2: shirtsy.com/cart/* → Cache Level: Bypass",
-          "Rule 3: shirtsy.com/checkout/* → Cache Level: Bypass",
-          "Rule 4: shirtsy.com/my-account/* → Cache Level: Bypass",
-          "Rule 5: shirtsy.com/* → Cache Level: Cache Everything, Edge TTL: 2 hours",
-          "Enable Auto Minify (JS, CSS, HTML) in Speed settings",
-          "Purge full cache after setup"
+          "✅ Cache Rule created with override_origin",
+          "✅ Page Rules deleted (conflicted with Cache Rule)",
+          "✅ Edge TTL: 2h, Browser TTL: 5m",
+          "✅ WP login firewall rule paused (caused lockout)",
+          "✅ Turnstile plugin deactivated",
+          "✅ Verified HIT on product and category pages"
         ],
-        expected: "Product pages, homepage, category pages all served from Cloudflare edge globally. Cache misses still hit the (now-cached) origin.",
+        expected: "Product pages served from Cloudflare edge. 19x faster than origin.",
         risk: "Medium risk. Order of page rules matters (most specific first). Test checkout flow thoroughly."
       },
       {
