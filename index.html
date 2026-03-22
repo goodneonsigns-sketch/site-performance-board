@@ -174,6 +174,7 @@
     <button class="tab" onclick="switchBoard('shirtsy')">👕 Shirtsy</button>
     <button class="tab" onclick="switchBoard('goodneon')">💡 GoodNeon</button>
     <button class="tab" onclick="switchBoard('lux')">✨ Lux Neon</button>
+    <button class="tab" onclick="switchBoard('luxdo')" style="border-color:#3b82f6;color:#3b82f6">🇩🇴 Lux Neon DR</button>
     <button class="tab" onclick="switchBoard('coconut')">🥥 Coconut Bikini</button>
     <button class="tab" onclick="switchBoard('reclaimed')">♻️ Reclaimed Closet</button>
     <button class="tab" onclick="switchBoard('virtus')" style="border-color:#d4a017;color:#d4a017">🏠 Virtus Realty</button>
@@ -185,6 +186,7 @@
 <div id="board-shirtsy" class="board"></div>
 <div id="board-goodneon" class="board"></div>
 <div id="board-lux" class="board"></div>
+<div id="board-luxdo" class="board"></div>
 <div id="board-coconut" class="board"></div>
 <div id="board-reclaimed" class="board"></div>
 <div id="board-virtus" class="board"></div>
@@ -844,6 +846,119 @@ const projects = {
         steps: ["✅ 2 daily SEO page crons running (3:00 PM + 3:30 PM ET)", "✅ First page published as Shopify page", "✅ 89 neon SEO blog posts published", "Monitor organic traffic growth via GA4"],
         expected: "60 new SEO pages per month. Long-tail keyword dominance for local neon sign searches.",
         risk: "Low. Fully automated."
+      }
+    ]
+  },
+  luxdo: {
+    name: "Lux Neon DR 🇩🇴",
+    icon: "🇩🇴",
+    url: "luxneon.do",
+    baseline: { ttfb: "—", total: "—", size: "—", platform: "Shopify (planned)" },
+    tasks: [
+      {
+        id: "luxdo-1",
+        title: "Acquire Hosting & Set Up Shopify Store",
+        priority: "high",
+        category: "infrastructure",
+        status: "todo",
+        impact: "Foundation for the entire Dominican Republic operation",
+        description: "Set up Shopify store for luxneon.do. Install Paristheme to match US Lux brand identity. Configure for Spanish language, Dominican Peso (DOP) or USD pricing.",
+        steps: [
+          "Open Shopify store and connect luxneon.do domain",
+          "Install Paristheme (same as US Lux)",
+          "Configure store language to Spanish",
+          "Set up currency (DOP and/or USD)",
+          "Configure Shopify Payments (sandbox mode initially)",
+          "Set up basic pages: Inicio, Galería, Letreros de Neón, Contacto"
+        ],
+        notes: "Lex is setting up banking — payments in sandbox mode for now."
+      },
+      {
+        id: "luxdo-2",
+        title: "Brand Identity & Content Translation",
+        priority: "high",
+        category: "content",
+        status: "todo",
+        impact: "Professional Spanish-language brand presence matching US quality",
+        description: "Translate and adapt Lux Neon USA brand for Dominican market. All content in Spanish. Adapt messaging for local market (Gazcue, Santo Domingo).",
+        steps: [
+          "Translate core pages: About, Gallery, Custom Neon, Contact",
+          "Adapt product descriptions for DR market",
+          "Create location-specific SEO content (Santo Domingo, Gazcue)",
+          "Set up Spanish email templates",
+          "Create local phone/WhatsApp contact info"
+        ],
+        notes: "Gallery + Neon only for now. Events expansion later."
+      },
+      {
+        id: "luxdo-3",
+        title: "Social Media Setup",
+        priority: "medium",
+        category: "marketing",
+        status: "in-progress",
+        impact: "Instagram and Facebook are primary discovery channels in DR",
+        description: "Set up Facebook and Instagram profiles for Lux Neon DR. Brand consistency with US Lux but localized for Dominican audience.",
+        steps: [
+          "Create Instagram business profile (@luxneon.do or similar)",
+          "Create Facebook business page",
+          "Set up brand assets (logo, cover photos, highlights)",
+          "Plan initial content calendar (Spanish)",
+          "Connect to Meta Business Suite for management"
+        ],
+        notes: "Lex is setting up FB and IG now."
+      },
+      {
+        id: "luxdo-4",
+        title: "Product Catalog — Neon Signs",
+        priority: "medium",
+        category: "products",
+        status: "todo",
+        impact: "Revenue-ready product listings for custom and pre-designed signs",
+        description: "Create product catalog adapted for DR market. Indoor AND outdoor neon signs. Pricing in local currency. Weather-resistant options highlighted for tropical climate.",
+        steps: [
+          "Import/adapt product catalog from US Lux",
+          "Add outdoor/weather-resistant neon sign category",
+          "Set DR-appropriate pricing",
+          "Create Spanish product descriptions",
+          "Generate product mockup images",
+          "Set up custom neon sign request form (Spanish)"
+        ],
+        notes: "Can clone many products from US store and translate."
+      },
+      {
+        id: "luxdo-5",
+        title: "Payment Processing & Banking",
+        priority: "high",
+        category: "infrastructure",
+        status: "blocked",
+        impact: "Cannot take orders without payment processing",
+        description: "Set up payment processing for Dominican Republic. Evaluate Shopify Payments fees and USD/DOP conversion impact. Consider local alternatives.",
+        steps: [
+          "Open local bank account (in progress)",
+          "Evaluate Shopify Payments DR fees and FX conversion",
+          "Consider Cardnet/VisaNet as local alternatives",
+          "Set up PayPal as backup payment option",
+          "Enable bank transfer / SINPE as local option",
+          "Test checkout flow end-to-end"
+        ],
+        notes: "Lex is working on banking. Shopify Payments sandbox for now."
+      },
+      {
+        id: "luxdo-6",
+        title: "Local SEO — Santo Domingo",
+        priority: "medium",
+        category: "seo",
+        status: "todo",
+        impact: "Organic discovery for 'letreros de neón Santo Domingo' and related searches",
+        description: "Local SEO strategy for Dominican market. Target: Gazcue, Zona Colonial, Piantini, Naco, Santo Domingo searches.",
+        steps: [
+          "Claim Google Business Profile for Gazcue location",
+          "Create local landing pages (Santo Domingo, Gazcue, Piantini)",
+          "Set up Spanish SEO keywords research",
+          "Submit to local DR business directories",
+          "Set up Google Analytics (GA4)"
+        ],
+        notes: "Key terms: letreros de neón, letreros LED, letreros personalizados, galería de arte Santo Domingo"
       }
     ]
   },
