@@ -860,16 +860,16 @@ const projects = {
         title: "Acquire Hosting & Set Up Shopify Store",
         priority: "high",
         category: "infrastructure",
-        status: "todo",
+        status: "done",
         impact: "Foundation for the entire Dominican Republic operation",
-        description: "Set up Shopify store for luxneon.do. Install Paristheme to match US Lux brand identity. Configure for Spanish language, Dominican Peso (DOP) or USD pricing.",
+        description: "Shopify store live at ydciat-m8.myshopify.com, Paristheme published, luxneon.do domain connected via Cloudflare, SSL working. Store configured for Spanish language and DOP/USD pricing.",
         steps: [
-          "Open Shopify store and connect luxneon.do domain",
-          "Install Paristheme (same as US Lux)",
-          "Configure store language to Spanish",
-          "Set up currency (DOP and/or USD)",
-          "Configure Shopify Payments (sandbox mode initially)",
-          "Set up basic pages: Inicio, Galería, Letreros de Neón, Contacto"
+          "✅ Shopify store opened at ydciat-m8.myshopify.com",
+          "✅ Paristheme installed and published",
+          "✅ luxneon.do domain connected via Cloudflare",
+          "✅ SSL certificate active and working",
+          "✅ Store language set to Spanish",
+          "✅ Currency configured (DOP/USD)"
         ],
         notes: "Lex is setting up banking — payments in sandbox mode for now."
       },
@@ -878,15 +878,16 @@ const projects = {
         title: "Brand Identity & Content Translation",
         priority: "high",
         category: "content",
-        status: "todo",
+        status: "done",
         impact: "Professional Spanish-language brand presence matching US quality",
-        description: "Translate and adapt Lux Neon USA brand for Dominican market. All content in Spanish. Adapt messaging for local market (Gazcue, Santo Domingo).",
+        description: "7 content pages written in Dominican Spanish, company profile created. 4 Shopify pages published (Inicio, Galería, Contacto, Sobre Nosotros). 6 product collections created and organized.",
         steps: [
-          "Translate core pages: About, Gallery, Custom Neon, Contact",
-          "Adapt product descriptions for DR market",
-          "Create location-specific SEO content (Santo Domingo, Gazcue)",
-          "Set up Spanish email templates",
-          "Create local phone/WhatsApp contact info"
+          "✅ 7 content pages written in Dominican Spanish",
+          "✅ Company profile created for DR market",
+          "✅ 4 Shopify pages created and published",
+          "✅ 6 collections created and organized",
+          "✅ Location-specific SEO content (Santo Domingo, Gazcue)",
+          "✅ Brand adapted for Dominican market"
         ],
         notes: "Gallery + Neon only for now. Events expansion later."
       },
@@ -912,14 +913,14 @@ const projects = {
         title: "Product Catalog — Neon Signs",
         priority: "medium",
         category: "products",
-        status: "todo",
+        status: "in-progress",
         impact: "Revenue-ready product listings for custom and pre-designed signs",
-        description: "Create product catalog adapted for DR market. Indoor AND outdoor neon signs. Pricing in local currency. Weather-resistant options highlighted for tropical climate.",
+        description: "6 collections created and organized. Need to add actual products with images, Spanish descriptions, and pricing. Collections ready: signs by style, custom signs, indoor, outdoor, seasonal, gallery.",
         steps: [
-          "Import/adapt product catalog from US Lux",
-          "Add outdoor/weather-resistant neon sign category",
+          "✅ 6 collections created in Shopify",
+          "Add neon sign products to each collection",
+          "Write Spanish product descriptions",
           "Set DR-appropriate pricing",
-          "Create Spanish product descriptions",
           "Generate product mockup images",
           "Set up custom neon sign request form (Spanish)"
         ],
@@ -959,6 +960,54 @@ const projects = {
           "Set up Google Analytics (GA4)"
         ],
         notes: "Key terms: letreros de neón, letreros LED, letreros personalizados, galería de arte Santo Domingo"
+      },
+      {
+        id: "luxdr-nav",
+        title: "Update Navigation Menu",
+        priority: "high",
+        category: "content",
+        status: "todo",
+        impact: "Customers can navigate the store properly",
+        description: "Main navigation menu needs to be updated in Shopify admin. API token doesn't have navigation scope — must be done manually or get scope added.",
+        steps: ["Log into Shopify admin", "Go to Online Store → Navigation", "Add menu items for collections, pages, and contact"],
+        expected: "Full navigation menu with links to all collections and pages",
+        risk: "Low"
+      },
+      {
+        id: "luxdr-images",
+        title: "Generate Hero Images & Product Photos",
+        priority: "critical",
+        category: "content",
+        status: "todo",
+        impact: "Store looks professional and ready for customers",
+        description: "Need hero banners, gallery photos, and product mockups for neon signs. Dominican context — Santo Domingo locations, tropical settings.",
+        steps: ["Generate hero banner images", "Create product mockup photos for neon signs", "Upload to Shopify CDN", "Assign to products and theme sections"],
+        expected: "Professional-looking store with on-brand imagery",
+        risk: "Low"
+      },
+      {
+        id: "luxdr-products",
+        title: "Add Products with Descriptions & Pricing",
+        priority: "critical",
+        category: "content",
+        status: "todo",
+        impact: "Customers can actually browse and order neon signs",
+        description: "Add neon sign products to the 6 collections with Spanish descriptions, pricing, and product images.",
+        steps: ["Create products in each collection", "Write descriptions in Dominican Spanish", "Set pricing", "Add product images"],
+        expected: "Full product catalog ready for orders",
+        risk: "Low"
+      },
+      {
+        id: "luxdr-whatsapp",
+        title: "Set Up WhatsApp Business",
+        priority: "high",
+        category: "marketing",
+        status: "todo",
+        impact: "Primary customer contact channel for DR market",
+        description: "Get a local Dominican Republic phone number and configure WhatsApp Business profile for Lux Neon DR. WhatsApp is the primary communication channel in DR.",
+        steps: ["Get local DR phone number", "Set up WhatsApp Business profile", "Add to website contact page", "Configure auto-responses"],
+        expected: "Working WhatsApp Business for customer inquiries",
+        risk: "Low"
       }
     ]
   },
@@ -1579,11 +1628,11 @@ const projects = {
         title: "Write System Prompts: Customer Dept B2B Agents",
         priority: "critical",
         category: "seo",
-        status: "todo",
+        status: "in-progress",
         impact: "Each sub-agent knows its role, triggers, workflow, stop conditions, and escalation rules",
-        description: "Write full system prompts for all 20 Customer Dept sub-agents. Each prompt includes: role, trigger condition, step-by-step workflow, decision logic, stop conditions, escalation rules, tone guidance, tools available, and what the agent must never do.",
-        steps: ["Write prompts for Sales team (4 agents)", "Write prompts for Retention team (4 agents)", "Write prompts for Reputation team (4 agents)", "Write prompts for Service team (4 agents)", "Write prompts for Complaint Resolution team (4 agents)", "Review all for brand consistency"],
-        expected: "All 20 agents have clear, actionable system prompts. No ambiguity in behavior.",
+        description: "21 agents registered in openclaw.json with models assigned. Skills wired (Aircall, Freshdesk, Intercom). Writing full system prompts for all sub-agents — role, trigger, workflow, decision logic, stop conditions, escalation rules.",
+        steps: ["✅ 21 agents registered in openclaw.json", "✅ Models assigned per agent", "✅ Skills wired (Aircall, Freshdesk, Intercom)", "Write prompts for Sales team (4 agents)", "Write prompts for Retention team (4 agents)", "Write prompts for Reputation team (4 agents)", "Write prompts for Service team (4 agents)", "Write prompts for Complaint Resolution team (4 agents)", "Review all for brand consistency"],
+        expected: "All 21 agents have clear, actionable system prompts. No ambiguity in behavior.",
         risk: "None. Documentation only."
       },
       {
@@ -1729,6 +1778,42 @@ const projects = {
         steps: ["✅ 7 blog cron jobs running (1 PM-2:30 PM ET)", "✅ 2 Lux SEO page crons running (3 PM-3:30 PM ET)", "✅ First batch reviewed and published 3/19", "✅ Lex approved full auto-publish", "✅ 178 neon SEO blog posts published (89 GoodNeon + 89 Lux)"],
         expected: "270+ pieces of content per month across all businesses.",
         risk: "Low. All content reviewed before first autonomous publish."
+      },
+      {
+        id: "sys-model-opt",
+        title: "Model Optimization — Coder & SEO",
+        priority: "high",
+        category: "performance",
+        status: "done",
+        impact: "Better code quality, fewer truncation errors, improved SEO analysis",
+        description: "Upgraded Coder from DeepSeek V3.2 to Sonnet 4.6 (fixes truncation on large files). Upgraded SEO Agent from qwen3:8b to qwen3.5:35b (better reasoning for keyword strategy).",
+        steps: ["✅ Updated openclaw.json", "✅ Restarted gateway"],
+        expected: "Higher quality code output, no more truncated files, better SEO content",
+        risk: "Low — can revert if needed"
+      },
+      {
+        id: "sys-cron-prompts",
+        title: "Improve Blog/SEO Cron Prompts",
+        priority: "high",
+        category: "content",
+        status: "todo",
+        impact: "Higher quality daily content with distinct brand voices",
+        description: "Current blog cron prompts produce decent but generic content. Need brand voice guidelines, consistent word counts, and image generation integrated into blog posts.",
+        steps: ["Audit current prompts", "Add brand voice guidelines per store", "Set word count targets", "Fix metadata stripping for Lux SEO pages", "Fix Shirtsy and Lux blog cron errors"],
+        expected: "Distinctive, high-quality content per brand",
+        risk: "Low"
+      },
+      {
+        id: "sys-fix-cron-errors",
+        title: "Fix Shirtsy & Lux Blog Cron Errors",
+        priority: "critical",
+        category: "reliability",
+        status: "todo",
+        impact: "Daily content generation running reliably for all 7 stores",
+        description: "Shirtsy blog and Lux blog crons are in error state (timeout). Need to investigate and fix.",
+        steps: ["Check cron run logs", "Identify timeout cause", "Adjust timeout or simplify prompts", "Test with manual run"],
+        expected: "All 7 blog crons running without errors",
+        risk: "Low"
       }
     ]
   }
@@ -2022,7 +2107,7 @@ async function syncQueueToGist() {
 
 function renderAllBoards() {
   renderBoard('crown'); renderBoard('shirtsy'); renderBoard('goodneon');
-  renderBoard('lux'); renderBoard('coconut'); renderBoard('reclaimed'); renderBoard('virtus');
+  renderBoard('lux'); renderBoard('luxdo'); renderBoard('coconut'); renderBoard('reclaimed'); renderBoard('virtus');
   renderBoard('system');
 }
 
