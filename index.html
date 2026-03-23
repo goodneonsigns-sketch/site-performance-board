@@ -345,7 +345,7 @@ const projects = {
         category: "seo",
         status: "done",
         impact: "Clean analytics data, better ad targeting, reduced server load",
-        description: "Investigation complete: 82%+ desktop traffic was bots from Singapore (55.8%) and China (13.8%). JS Challenge rule added for SG/CN. Super Bot Fight Mode enabled. Definitely automated traffic blocked. Full report: projects/crown/bot-traffic-investigation.md",
+        description: "Investigation complete: 82%+ desktop traffic was bots from Singapore (55.8%) and China (13.8%). JS Challenge rule added for SG/CN. ⚠️ Super Bot Fight Mode was tried on 3/23 but blocked ALL traffic — disabled immediately. Use targeted WAF rules instead. Full report: projects/crown/bot-traffic-investigation.md",
         steps: ["Pull GA4 desktop traffic by source/medium", "Check for suspicious referral domains", "Review Cloudflare Bot Analytics (if available on Free plan)", "Add rate limiting rules for suspicious patterns", "Consider enabling Bot Fight Mode in Cloudflare"],
         expected: "Cleaner analytics data. May significantly reduce reported desktop traffic if bots are filtered.",
         risk: "Medium. Must not block legitimate crawlers (Googlebot, etc.)."
@@ -397,6 +397,24 @@ const projects = {
         steps: ["Run CRO audit on current page", "Design new wireframe with conversion optimizations", "Build in WooCommerce/WordPress", "A/B test if possible"],
         expected: "Increased NET30 application completion rate.",
         risk: "Medium. Requires Lex approval before publishing."
+      },
+      {
+        id: "crown-13",
+        title: "Origin Lockdown: Cloudflare IPs Only",
+        priority: "high",
+        category: "seo",
+        status: "todo",
+        impact: "Prevent direct-IP attacks like the Shirtsy brute force incident",
+        description: "After the Shirtsy brute force attack (3/23), Crown's origin (161.35.187.88) should also be locked down to accept traffic from Cloudflare IPs only. This prevents attackers from bypassing Cloudflare by hitting the origin directly.",
+        steps: [
+          "SSH into Crown origin server (161.35.187.88)",
+          "Configure UFW/iptables to allow HTTP/HTTPS only from Cloudflare IP ranges",
+          "Whitelist home IP 96.71.53.106 for direct access",
+          "Test: verify site still loads through Cloudflare",
+          "Test: verify direct-IP access is blocked"
+        ],
+        expected: "Crown origin protected from direct-IP attacks, matching Shirtsy's security posture.",
+        risk: "Low. Same procedure as Shirtsy. Test before and after."
       }
     ]
   },
@@ -544,6 +562,44 @@ const projects = {
         steps: ["Cloudflare → Security → WAF → Enable managed rules", "Start with Cloudflare Managed Ruleset", "Monitor for false positives for 1 week", "Fine-tune as needed"],
         expected: "Protection against common web attacks (SQL injection, XSS, etc.).",
         risk: "Medium. WAF rules can occasionally block legitimate requests. Monitor closely after enabling."
+      },
+      {
+        id: "shirtsy-9",
+        title: "Origin Lockdown: Cloudflare IPs Only + Rate Limit wp-login.php",
+        priority: "critical",
+        category: "speed",
+        status: "done",
+        impact: "Brute force attack mitigated — origin now only accepts Cloudflare traffic",
+        description: "Shirtsy origin (159.65.217.183) was under brute force attack on wp-login.php, exhausting PHP-FPM workers (max_children reached). Attackers were hitting the origin IP directly, bypassing Cloudflare. Fixed with: (1) UFW/iptables locked to Cloudflare IPs only, (2) Nginx rate limiting on wp-login.php, (3) PHP-FPM max_children increased, (4) Cloudflare security level raised to HIGH, (5) WAF rate limit on wp-login.php: 5 req/min per IP, block 2min.",
+        steps: [
+          "✅ PHP-FPM restarted (immediate fix)",
+          "✅ UFW/iptables: origin locked to Cloudflare IPs only",
+          "✅ Nginx rate limiting added on wp-login.php",
+          "✅ PHP-FPM max_children increased",
+          "✅ Cloudflare security level raised to HIGH",
+          "✅ WAF rate limit: wp-login.php 5 req/min per IP, 2min block (cf.colo.id characteristic)",
+          "✅ Home IP 96.71.53.106 whitelisted on Cloudflare"
+        ],
+        expected: "Origin protected from direct-IP attacks. wp-login.php rate limited at both Cloudflare and Nginx layers.",
+        risk: "Low. All changes defensive. Whitelisted our own IP."
+      },
+      {
+        id: "shirtsy-10",
+        title: "⚠️ Super Bot Fight Mode Incident — DO NOT RE-ENABLE",
+        priority: "critical",
+        category: "speed",
+        status: "done",
+        impact: "SBFM blocked ALL traffic to both Crown and Shirtsy — resolved by disabling",
+        description: "Super Bot Fight Mode was enabled during bot mitigation work on 3/23. It blocked ALL visitors (not just bots) with 403 'Sorry, you have been blocked'. Both Crown and Shirtsy went down for ~56 minutes. Resolved by Lex setting 'Definitely Automated' to 'Allow' in Cloudflare dashboard. Our API token lacks bot_management permission — cannot fix via API. LESSON: NEVER enable SBFM without testing. It is extremely aggressive.",
+        steps: [
+          "✅ SBFM disabled on both Crown and Shirtsy",
+          "✅ Both sites restored immediately",
+          "✅ Home IP whitelisted as additional safety",
+          "⚠️ DO NOT re-enable Super Bot Fight Mode",
+          "⚠️ API token needs bot_management permission if we ever want API control"
+        ],
+        expected: "Sites accessible to all visitors. Bot mitigation handled via WAF rules instead of SBFM.",
+        risk: "RESOLVED. Do not touch SBFM again."
       }
     ]
   },
@@ -1814,6 +1870,44 @@ const projects = {
         steps: ["Check cron run logs", "Identify timeout cause", "Adjust timeout or simplify prompts", "Test with manual run"],
         expected: "All 7 blog crons running without errors",
         risk: "Low"
+      },
+      {
+        id: "sys-incident-log",
+        title: "Incident Log — 2026-03-23",
+        priority: "medium",
+        category: "reliability",
+        status: "done",
+        impact: "3 incidents resolved in one day — all documented",
+        description: "March 23 incident summary: (1) Super Bot Fight Mode blocked ALL traffic to Crown + Shirtsy for ~56 min — resolved by disabling SBFM. (2) Shirtsy brute force attack on wp-login.php exhausted PHP-FPM workers — resolved with origin lockdown + rate limiting. (3) Local model (qwen3.5:35b) had catastrophic hallucination generating 3000+ lines of gibberish during Shirtsy investigation — identified as model failure, not security breach.",
+        steps: [
+          "✅ SBFM incident: disabled, sites restored (12:00-12:56 PM)",
+          "✅ Brute force attack: origin locked down, rate limits applied (12:00-14:20 PM)",
+          "✅ Model hallucination: identified as qwen3.5:35b context overload (12:10-12:37 PM)",
+          "✅ All incidents documented in memory/2026-03-23.md",
+          "Lesson: NEVER enable SBFM without testing",
+          "Lesson: Complex tasks should go to stronger models or be chunked",
+          "Lesson: Local models can degenerate under heavy context"
+        ],
+        expected: "All incidents resolved. Lessons documented for future reference.",
+        risk: "None. Retrospective only."
+      },
+      {
+        id: "sys-ollama-down",
+        title: "⚠️ Ollama Local Model Server — Unreachable",
+        priority: "critical",
+        category: "reliability",
+        status: "in-progress",
+        impact: "All dept heads (Vanessa, Tanya, Jessica, Amanda, Sandra) are offline",
+        description: "Ollama server returning 'fetch failed' on all connection attempts as of 2:27 PM ET 3/23. All local model dept heads (qwen3.5:35b) are unreachable. This blocks all delegation to department heads. Likely crashed or was stopped during today's heavy usage.",
+        steps: [
+          "Check if Ollama process is running: ps aux | grep ollama",
+          "If not running: ollama serve",
+          "If running but unresponsive: restart with ollama serve",
+          "Verify: ollama list (should show qwen3.5:35b loaded)",
+          "Test: curl http://localhost:11434/api/tags"
+        ],
+        expected: "Ollama server running and all dept heads operational.",
+        risk: "High impact while down — no delegation possible."
       }
     ]
   }
