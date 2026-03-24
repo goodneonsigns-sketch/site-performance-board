@@ -240,19 +240,17 @@ const projects = {
         priority: "critical",
         category: "speed",
         status: "done",
-        impact: "Edge-cached pages load in ~50ms globally",
-        description: "Cloudflare is in front of Crown but cf-cache-status shows DYNAMIC — it's not caching HTML pages. Visitors hit the origin server every time, defeating the purpose of having a CDN.",
+        completedDate: "2026-03-24",
+        impact: "Edge-cached pages load in ~130ms globally, user pages protected",
+        description: "COMPLETED 3/24: Smart Cache Rule via rulesets API (PUT). Caches public pages (edge TTL 2h, browser TTL 5min) while excluding: /wp-admin, /wp-login, /cart, /checkout, /my-account, /client-dashboard, /account, /login, lost-password, register. Also checks wordpress_logged_in and wp-woocommerce_session cookies. ⚠️ Initial attempt with Page Rules 'Cache Everything' caused critical bug — cached user account pages served to other users. Fixed same day by switching to Cache Rules with proper exclusions. Ruleset: 2e76a25efc224be08c9e8f7c1f072258.",
         steps: [
-          "Log into Cloudflare dashboard → select crownofficesupplies.com",
-          "Go to Rules → Page Rules (or Cache Rules if on new UI)",
-          "Add rule: URL pattern crownofficesupplies.com/* → Cache Level: Cache Everything, Edge TTL: 2 hours",
-          "Add exception rule for /wp-admin/* and /cart/* and /checkout/* → Cache Level: Bypass",
-          "Go to Speed → Optimization → enable Auto Minify (JS, CSS, HTML)",
-          "Enable Brotli compression if not already on",
-          "Purge cache after setting up: Caching → Purge Everything"
+          "✅ Cache Rule created via API (rulesets PUT endpoint)",
+          "✅ Excludes all user-specific paths + logged-in cookies",
+          "✅ Homepage: HIT, /my-account/: DYNAMIC, /client-dashboard/: DYNAMIC",
+          "⚠️ LESSON: Never use Page Rules 'Cache Everything' on WooCommerce — always use Cache Rules with exclusions"
         ],
-        expected: "Static pages served from Cloudflare edge (~50ms). Dynamic pages (cart, checkout, admin) still hit origin.",
-        risk: "Medium risk. Must exclude logged-in pages, cart, and checkout from caching or customers will see stale/other users' data. Test checkout flow after enabling."
+        expected: "Static pages served from Cloudflare edge (~130ms). Dynamic pages (cart, checkout, admin, my-account) always hit origin.",
+        risk: "RESOLVED. Cache Rules with cookie-aware exclusions prevent user data leaks."
       },
       {
         id: "crown-3",
@@ -536,7 +534,7 @@ const projects = {
         category: "speed",
         status: "done",
         impact: "Edge caching with override_origin — TTFB 85ms → HIT",
-        description: "Cache Rule (ID b07d12de) with override_origin bypasses WooCommerce no-store headers. Excludes wp-admin, wp-login, cart, checkout, my-account, logged-in users, and woo sessions. Old Page Rules deleted (they overrode Cache Rule exclusions). TTFB dropped from 1.5s to 0.08s — 19x improvement.",
+        description: "Cache Rule (Ruleset e3b87920, Rule 034326df) with override_origin bypasses WooCommerce no-store headers. Excludes wp-admin, wp-login, cart, checkout, my-account, client-dashboard, logged-in users, and woo sessions. Updated 3/24: added /client-dashboard/ exclusion (was being cached, serving user data to others). TTFB dropped from 1.5s to 0.08s — 19x improvement.",
         steps: [
           "✅ Cache Rule created with override_origin",
           "✅ Page Rules deleted (conflicted with Cache Rule)",
@@ -665,18 +663,15 @@ const projects = {
         status: "done",
         completedDate: "2026-03-24",
         impact: "Pages currently expire every 3 SECONDS — fixing this is the #1 priority",
-        description: "GoodNeon has the worst cache configuration of all four sites. The Cache-Control header is set to max-age=3, must-revalidate — meaning every page expires after just 3 seconds. This makes caching completely useless. Every visitor effectively hits the origin server on every request.",
+        description: "COMPLETED 3/24: W3 Total Cache installed (fixes cache-control headers) + Smart Cache Rule created via rulesets API. Caches public pages (edge TTL 2h, browser TTL 5min) while excluding all user-specific paths and cookies. Ruleset: 882173b8ed1b4ccfa5d082870113d532. TTFB dropped from 2.7s peak → 140ms.",
         steps: [
-          "Log into WordPress admin for goodneon.com",
-          "Check which plugin or theme is setting Cache-Control: max-age=3",
-          "Common culprits: WooCommerce, caching plugins in 'development mode', or custom code in functions.php",
-          "Search wp-content/themes/*/functions.php and wp-content/plugins/*/includes/ for 'max-age=3' or 'must-revalidate'",
-          "Change to Cache-Control: public, max-age=3600, s-maxage=7200 (1hr browser, 2hr CDN)",
-          "Or install a proper caching plugin (WP Rocket, LiteSpeed Cache) which will set correct headers automatically",
-          "Verify: curl -sI https://goodneon.com | grep cache-control → should show max-age=3600 or higher"
+          "✅ W3 Total Cache installed by Lex",
+          "✅ Cache Rule created via API with exclusions for wp-admin, wp-login, cart, checkout, my-account, client-dashboard, account, login, lost-password, register, wordpress_logged_in cookie, wp-woocommerce_session cookie",
+          "✅ Homepage: HIT, /my-account/: DYNAMIC, /cart/: DYNAMIC",
+          "✅ TTFB: 2.7s → 140ms"
         ],
-        expected: "Pages cached for 1+ hours instead of 3 seconds. Massive reduction in origin server load. Consistent fast response times.",
-        risk: "Low risk. The current value is broken — almost any change is an improvement. Test product pages and cart/checkout after changing."
+        expected: "Pages cached for 2 hours at edge. User-specific pages always bypass cache.",
+        risk: "RESOLVED. Cache Rules with cookie-aware exclusions prevent user data leaks."
       },
       {
         id: "goodneon-2",
@@ -707,18 +702,14 @@ const projects = {
         status: "done",
         completedDate: "2026-03-24",
         impact: "Global edge-cached pages in ~50ms",
-        description: "Cloudflare is in front of GoodNeon but cf-cache-status shows DYNAMIC — it's passing everything through to the origin. Combined with the 3-second cache-control, Cloudflare has nothing to work with.",
+        description: "COMPLETED 3/24: Included in Cache Rule (goodneon-1). Smart Cache Rule handles both cache-control override and edge caching in one rule. See goodneon-1 for details.",
         steps: [
-          "Log into Cloudflare dashboard → select goodneon.com",
-          "Go to Rules → Page Rules (or Cache Rules)",
-          "Add bypass rules first: goodneon.com/wp-admin/* → Bypass, goodneon.com/cart/* → Bypass, goodneon.com/checkout/* → Bypass, goodneon.com/my-account/* → Bypass",
-          "Add catch-all: goodneon.com/* → Cache Level: Cache Everything, Edge TTL: 2 hours",
-          "Enable Auto Minify (JS, CSS, HTML) in Speed settings",
-          "Enable Brotli compression",
-          "Purge cache: Caching → Purge Everything"
+          "✅ Handled by Cache Rule in goodneon-1",
+          "✅ Edge TTL: 2h, Browser TTL: 5min",
+          "✅ All user-specific paths excluded"
         ],
-        expected: "Static pages served from Cloudflare edge globally (~50ms). Only dynamic pages hit origin.",
-        risk: "Medium risk. Must exclude cart, checkout, and logged-in pages. Test the full purchase flow after enabling."
+        expected: "Static pages served from Cloudflare edge (~140ms). Only dynamic pages hit origin.",
+        risk: "RESOLVED."
       },
       {
         id: "goodneon-4",
