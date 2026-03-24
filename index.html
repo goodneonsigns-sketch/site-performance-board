@@ -406,14 +406,17 @@ const projects = {
         status: "done",
         completedDate: "2026-03-24",
         impact: "Prevent direct-IP attacks like the Shirtsy brute force incident",
-        description: "COMPLETED 3/24: Origin locked down via UFW. HTTP/HTTPS (80/443) only from Cloudflare IPs (15 IPv4 + 7 IPv6 ranges). SSH on ports 22/22000 open. Home IP 96.71.53.106 whitelisted. Monitoring ports (9100/9104/9113/9253/9256) restricted to 167.71.178.8. Old rules backed up to /etc/ufw/*.20260324_134255. Verified: site loads through Cloudflare ✅, home IP passes ✅, external non-CF IPs blocked ✅.",
+        description: "COMPLETED 3/24: Full server hardening. (1) UFW lockdown: HTTP/HTTPS only from Cloudflare IPs (15 IPv4 + 7 IPv6), SSH 22/22000 open, home IP 96.71.53.106 whitelisted, monitoring ports to 167.71.178.8 only. (2) fail2ban installed: sshd jail (5 fails/10min → 1hr ban on ports 22+22000), recidive jail (3 bans/day → 1 week ban), uses UFW ban action. Already caught 2 brute-force IPs on first run.",
         steps: [
           "✅ Verified: direct-IP access was NOT blocked before lockdown",
           "✅ Jackie prepared lockdown script with current CF IP ranges",
           "✅ Lex applied UFW rules via Claude on server (9:47 AM ET)",
           "✅ Verified: crownofficesupplies.com returns 200 through Cloudflare",
           "✅ Verified: home IP (96.71.53.106) whitelisted and passes through",
-          "✅ External non-Cloudflare IPs blocked on ports 80/443"
+          "✅ External non-Cloudflare IPs blocked on ports 80/443",
+          "✅ fail2ban installed: sshd jail (5 fails/10min → 1hr ban, ports 22+22000)",
+          "✅ fail2ban recidive jail: 3 bans/day → 1 week ban",
+          "✅ Already caught 2 active brute-force IPs on first run"
         ],
         expected: "Crown origin protected from direct-IP attacks, matching Shirtsy's security posture.",
         risk: "Low. Same procedure as Shirtsy. Test before and after."
@@ -572,15 +575,18 @@ const projects = {
         category: "speed",
         status: "done",
         impact: "Brute force attack mitigated — origin now only accepts Cloudflare traffic",
-        description: "Shirtsy origin (159.65.217.183) was under brute force attack on wp-login.php, exhausting PHP-FPM workers (max_children reached). Attackers were hitting the origin IP directly, bypassing Cloudflare. Fixed with: (1) UFW/iptables locked to Cloudflare IPs only, (2) Nginx rate limiting on wp-login.php, (3) PHP-FPM max_children increased, (4) Cloudflare security level raised to HIGH, (5) WAF rate limit on wp-login.php: 5 req/min per IP, block 2min.",
+        description: "Shirtsy origin (159.65.217.183) was under brute force attack on wp-login.php, exhausting PHP-FPM workers (max_children reached). Attackers were hitting the origin IP directly, bypassing Cloudflare. Fixed 3/23 with: (1) UFW/iptables locked to Cloudflare IPs only, (2) Nginx rate limiting on wp-login.php, (3) PHP-FPM max_children increased, (4) Cloudflare security level raised to HIGH, (5) WAF rate limit on wp-login.php: 5 req/min per IP, block 2min. Updated 3/24: (6) UFW fully re-hardened matching Crown config (SSH 22/22000, CF IPs only on 80/443, home IP whitelisted, monitoring ports to 167.71.178.8), (7) fail2ban installed with sshd + recidive jails.",
         steps: [
-          "✅ PHP-FPM restarted (immediate fix)",
-          "✅ UFW/iptables: origin locked to Cloudflare IPs only",
-          "✅ Nginx rate limiting added on wp-login.php",
-          "✅ PHP-FPM max_children increased",
-          "✅ Cloudflare security level raised to HIGH",
-          "✅ WAF rate limit: wp-login.php 5 req/min per IP, 2min block (cf.colo.id characteristic)",
-          "✅ Home IP 96.71.53.106 whitelisted on Cloudflare"
+          "✅ PHP-FPM restarted (immediate fix — 3/23)",
+          "✅ UFW/iptables: origin locked to Cloudflare IPs only (3/23, re-hardened 3/24)",
+          "✅ Nginx rate limiting added on wp-login.php (3/23)",
+          "✅ PHP-FPM max_children increased (3/23)",
+          "✅ Cloudflare security level raised to HIGH (3/23)",
+          "✅ WAF rate limit: wp-login.php 5 req/min per IP, 2min block (3/23)",
+          "✅ Home IP 96.71.53.106 whitelisted on Cloudflare (3/23)",
+          "✅ fail2ban installed: sshd jail (5 fails/10min → 1hr ban, ports 22+22000) (3/24)",
+          "✅ fail2ban recidive jail: 3 bans/day → 1 week ban (3/24)",
+          "✅ Monitoring ports restricted to Prometheus 167.71.178.8 only (3/24)"
         ],
         expected: "Origin protected from direct-IP attacks. wp-login.php rate limited at both Cloudflare and Nginx layers.",
         risk: "Low. All changes defensive. Whitelisted our own IP."
