@@ -403,15 +403,17 @@ const projects = {
         title: "Origin Lockdown: Cloudflare IPs Only",
         priority: "high",
         category: "seo",
-        status: "blocked",
+        status: "done",
+        completedDate: "2026-03-24",
         impact: "Prevent direct-IP attacks like the Shirtsy brute force incident",
-        description: "VERIFIED 3/24: Origin NOT locked down — direct IP access (161.35.187.88) returns HTTP 200. Lockdown script prepared (crown-origin-lockdown.sh) with all 15 Cloudflare IPv4 + 7 IPv6 ranges + home IP whitelist. BLOCKED: Requires Lex to SSH into server and run the script. Same procedure as Shirtsy (done 3/23).",
+        description: "COMPLETED 3/24: Origin locked down via UFW. HTTP/HTTPS (80/443) only from Cloudflare IPs (15 IPv4 + 7 IPv6 ranges). SSH on ports 22/22000 open. Home IP 96.71.53.106 whitelisted. Monitoring ports (9100/9104/9113/9253/9256) restricted to 167.71.178.8. Old rules backed up to /etc/ufw/*.20260324_134255. Verified: site loads through Cloudflare ✅, home IP passes ✅, external non-CF IPs blocked ✅.",
         steps: [
-          "✅ Verified: direct-IP access NOT blocked (HTTP 301/200 on port 80/443)",
-          "✅ Lockdown script prepared: crown-origin-lockdown.sh (UFW reset + CF IPs + SSH + home IP)",
-          "⏳ BLOCKED: Lex must SSH into 161.35.187.88 and run the script",
-          "Test: verify site still loads through Cloudflare",
-          "Test: verify direct-IP access is blocked"
+          "✅ Verified: direct-IP access was NOT blocked before lockdown",
+          "✅ Jackie prepared lockdown script with current CF IP ranges",
+          "✅ Lex applied UFW rules via Claude on server (9:47 AM ET)",
+          "✅ Verified: crownofficesupplies.com returns 200 through Cloudflare",
+          "✅ Verified: home IP (96.71.53.106) whitelisted and passes through",
+          "✅ External non-Cloudflare IPs blocked on ports 80/443"
         ],
         expected: "Crown origin protected from direct-IP attacks, matching Shirtsy's security posture.",
         risk: "Low. Same procedure as Shirtsy. Test before and after."
