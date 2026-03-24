@@ -179,6 +179,7 @@
     <button class="tab" onclick="switchBoard('reclaimed')">♻️ Reclaimed Closet</button>
     <button class="tab" onclick="switchBoard('virtus')" style="border-color:#d4a017;color:#d4a017">🏠 Virtus Realty</button>
     <button class="tab" onclick="switchBoard('system')" style="border-color:#ff6b6b;color:#ff6b6b">⚙️ System Config</button>
+    <button class="tab" onclick="switchBoard('memory')" style="border-color:#b8956a;color:#b8956a">🧠 Memory</button>
   </div>
 </header>
 
@@ -191,6 +192,7 @@
 <div id="board-reclaimed" class="board"></div>
 <div id="board-virtus" class="board"></div>
 <div id="board-system" class="board"></div>
+<div id="board-memory" class="board"></div>
 
 <div class="toast" id="toast"></div>
 <div class="modal-overlay" id="modal" onclick="if(event.target===this)closeModal()">
@@ -2327,6 +2329,162 @@ function moveTask(id, status) {
 function closeModal() {
   document.getElementById('modal').classList.remove('open');
 }
+
+// ===== MEMORY BOARD =====
+let memoryData = null;
+async function loadMemoryIndex() {
+  try {
+    const resp = await fetch('memory-index.json?t=' + Date.now());
+    memoryData = await resp.json();
+    renderMemoryBoard();
+  } catch(e) { console.error('Memory index load failed:', e); }
+}
+
+function renderMemoryBoard() {
+  if (!memoryData) { document.getElementById('board-memory').innerHTML = '<p style="padding:40px;text-align:center;color:#999">Loading memory index...</p>'; return; }
+  const stats = memoryData.stats;
+  const days = memoryData.days;
+  
+  let html = `
+  <div style="padding:24px">
+    <div style="display:flex;gap:24px;flex-wrap:wrap">
+      <!-- Stats sidebar -->
+      <div style="min-width:220px;flex:0 0 220px">
+        <div style="background:#111820;border:1px solid #1e2830;border-radius:12px;padding:20px;margin-bottom:16px">
+          <h3 style="color:#b8956a;font-size:14px;text-transform:uppercase;margin-bottom:12px">📊 Stats</h3>
+          <div style="display:grid;gap:12px">
+            <div><div style="color:#b8956a;font-size:1.8rem;font-weight:700">${stats.total_days_logged}</div><div style="color:#666;font-size:12px">Days Logged</div></div>
+            <div><div style="color:#2ecc71;font-size:1.8rem;font-weight:700">${stats.total_entries}</div><div style="color:#666;font-size:12px">Total Entries</div></div>
+            <div><div style="color:#3498db;font-size:1.8rem;font-weight:700">${stats.recent_activity_streak}</div><div style="color:#666;font-size:12px">Day Streak</div></div>
+          </div>
+        </div>
+        <div style="background:#111820;border:1px solid #1e2830;border-radius:12px;padding:20px;margin-bottom:16px">
+          <h3 style="color:#b8956a;font-size:14px;text-transform:uppercase;margin-bottom:12px">🏢 Top Projects</h3>
+          ${stats.most_active_projects.map(p => `<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #1a1a1a"><span style="color:#ccc;font-size:13px">${p.project}</span><span style="color:#b8956a;font-weight:600">${p.days}d</span></div>`).join('')}
+        </div>
+        <!-- Search -->
+        <div style="background:#111820;border:1px solid #1e2830;border-radius:12px;padding:20px">
+          <h3 style="color:#b8956a;font-size:14px;text-transform:uppercase;margin-bottom:12px">🔍 Search</h3>
+          <input type="text" id="memory-search" placeholder="Search memories..." 
+            style="width:100%;background:#0a0f14;border:1px solid #1e2830;border-radius:8px;padding:8px 12px;color:#fff;font-size:13px"
+            oninput="searchMemory(this.value)">
+          <div id="memory-search-results" style="margin-top:8px;max-height:300px;overflow-y:auto"></div>
+        </div>
+      </div>
+      <!-- Main content -->
+      <div style="flex:1;min-width:0">
+        <!-- Project filter -->
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">
+          <button class="mem-filter active" onclick="filterMemory('all',this)" style="background:#b8956a;color:#000;border:none;padding:4px 12px;border-radius:16px;font-size:12px;cursor:pointer">All</button>
+          ${[...new Set(days.flatMap(d => d.projects))].sort().map(p => 
+            `<button class="mem-filter" onclick="filterMemory('${p}',this)" style="background:transparent;color:#888;border:1px solid #333;padding:4px 12px;border-radius:16px;font-size:12px;cursor:pointer">${p}</button>`
+          ).join('')}
+        </div>
+        <!-- Day cards -->
+        <div id="memory-days" style="display:grid;gap:12px">
+          ${days.map(d => memoryDayCard(d)).join('')}
+        </div>
+      </div>
+    </div>
+  </div>`;
+  
+  document.getElementById('board-memory').innerHTML = html;
+}
+
+function memoryDayCard(d) {
+  const levelColors = {'very-active':'#2ecc71','active':'#b8956a','moderate':'#3498db','light':'#666','empty':'#333'};
+  const color = levelColors[d.activity_level] || '#666';
+  const dateObj = new Date(d.date + 'T12:00:00');
+  const dayName = dateObj.toLocaleDateString('en-US',{weekday:'short'});
+  const monthDay = dateObj.toLocaleDateString('en-US',{month:'short',day:'numeric'});
+  
+  return `<div class="memory-day-card" data-date="${d.date}" data-projects="${d.projects.join(',').toLowerCase()}" 
+    onclick="openMemoryDay('${d.date}')"
+    style="background:#111820;border:1px solid #1e2830;border-left:3px solid ${color};border-radius:10px;padding:16px;cursor:pointer;transition:.2s"
+    onmouseover="this.style.borderColor='#b8956a'" onmouseout="this.style.borderColor='#1e2830';this.style.borderLeftColor='${color}'">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+      <div>
+        <span style="color:#b8956a;font-weight:700;font-size:15px">${dayName} ${monthDay}</span>
+        <span style="color:#444;font-size:12px;margin-left:8px">${d.date}</span>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <span style="color:${color};font-size:12px;font-weight:600">${d.activity_level}</span>
+        <span style="color:#666;font-size:11px">${d.word_count} words</span>
+      </div>
+    </div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">
+      ${d.projects.map(p => `<span style="background:rgba(184,149,106,.15);color:#b8956a;padding:2px 8px;border-radius:10px;font-size:11px">${p}</span>`).join('')}
+    </div>
+    <div style="color:#888;font-size:12px">
+      ${d.sections.slice(0,4).map(s => `<div style="padding:2px 0;border-bottom:1px solid #0a0f14">📌 ${s.title}</div>`).join('')}
+      ${d.sections.length > 4 ? `<div style="color:#555;padding-top:4px">+ ${d.sections.length - 4} more sections</div>` : ''}
+    </div>
+  </div>`;
+}
+
+function openMemoryDay(date) {
+  const day = memoryData.days.find(d => d.date === date);
+  if (!day) return;
+  const dateObj = new Date(date + 'T12:00:00');
+  const fullDate = dateObj.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
+  
+  document.getElementById('modal-title').textContent = `🧠 ${fullDate}`;
+  document.getElementById('modal-body').innerHTML = `
+    <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap">
+      ${day.projects.map(p => `<span style="background:rgba(184,149,106,.15);color:#b8956a;padding:3px 10px;border-radius:12px;font-size:12px">${p}</span>`).join('')}
+      <span style="color:#666;font-size:12px;padding:3px 0">${day.word_count} words · ${day.section_count} sections · ${day.activity_level}</span>
+    </div>
+    ${day.sections.map(s => `
+      <div style="margin-bottom:20px">
+        <h4 style="color:#b8956a;font-size:14px;margin-bottom:8px;padding-bottom:4px;border-bottom:1px solid #1e2830">${s.title}</h4>
+        <div style="color:#ccc;font-size:13px;line-height:1.7;white-space:pre-wrap">${s.content.filter(c=>c).map(c => {
+          if(c.startsWith('- ')) return '<div style="padding:2px 0 2px 12px;border-left:2px solid #1e2830;margin:2px 0">'+c.substring(2)+'</div>';
+          if(c.startsWith('### ')) return '<div style="color:#b8956a;font-weight:600;margin-top:8px">'+c.substring(4)+'</div>';
+          return '<div>'+c+'</div>';
+        }).join('')}</div>
+      </div>
+    `).join('')}
+  `;
+  document.getElementById('modal-footer').innerHTML = '<button class="btn btn-outline" onclick="closeModal()">Close</button>';
+  document.getElementById('modal').classList.add('active');
+}
+
+function searchMemory(query) {
+  const results = document.getElementById('memory-search-results');
+  if (!query || query.length < 2) { results.innerHTML = ''; return; }
+  query = query.toLowerCase();
+  let matches = [];
+  for (const day of memoryData.days) {
+    for (const s of day.sections) {
+      const fullText = s.title + ' ' + s.content.join(' ');
+      if (fullText.toLowerCase().includes(query)) {
+        const snippet = s.content.find(c => c.toLowerCase().includes(query)) || s.title;
+        matches.push({date: day.date, title: s.title, snippet: snippet.substring(0,120)});
+      }
+    }
+  }
+  if (matches.length === 0) { results.innerHTML = '<div style="color:#666;font-size:12px;padding:8px">No results</div>'; return; }
+  results.innerHTML = matches.slice(0,15).map(m => `
+    <div onclick="openMemoryDay('${m.date}')" style="padding:8px;border-bottom:1px solid #1a1a1a;cursor:pointer;font-size:12px" 
+      onmouseover="this.style.background='#1e2830'" onmouseout="this.style.background='transparent'">
+      <div style="color:#b8956a;font-weight:600">${m.date} — ${m.title}</div>
+      <div style="color:#888">${m.snippet}...</div>
+    </div>
+  `).join('');
+}
+
+function filterMemory(project, btn) {
+  document.querySelectorAll('.mem-filter').forEach(b => {b.style.background='transparent';b.style.color='#888';b.style.border='1px solid #333';});
+  btn.style.background='#b8956a';btn.style.color='#000';btn.style.border='none';
+  document.querySelectorAll('.memory-day-card').forEach(card => {
+    if (project === 'all') { card.style.display = ''; return; }
+    const projects = card.dataset.projects;
+    card.style.display = projects.includes(project.toLowerCase()) ? '' : 'none';
+  });
+}
+
+// Load memory on first tab click
+loadMemoryIndex();
 
 function switchBoard(key) {
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
