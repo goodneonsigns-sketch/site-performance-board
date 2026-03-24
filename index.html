@@ -682,7 +682,8 @@ const projects = {
         title: "Install WP Caching Plugin",
         priority: "critical",
         category: "speed",
-        status: "todo",
+        status: "done",
+        completedDate: "2026-03-24",
         impact: "Origin TTFB from variable ~2.7s → consistent ~0.2s",
         description: "GoodNeon's response time swings wildly from 0.3s to 2.7s, which means the WordPress origin has no page caching. When the server is under any load, it tanks. A caching plugin stores pre-built HTML pages.",
         steps: [
@@ -778,12 +779,58 @@ const projects = {
         title: "Audit Cloudflare SSL/TLS & Security Settings",
         priority: "high",
         category: "speed",
-        status: "todo",
+        status: "done",
+        completedDate: "2026-03-24",
         impact: "SSL strict mode, TLS 1.2 minimum — same fixes as Crown and Shirtsy",
-        description: "GoodNeon's Cloudflare zone hasn't been audited yet. Crown and Shirtsy both needed SSL upgraded to strict and TLS minimum raised to 1.2.",
-        steps: ["Check current SSL mode (likely flexible)", "Install origin SSL cert if needed", "Upgrade to Full (Strict)", "Set minimum TLS to 1.2", "Enable Always Use HTTPS", "Review firewall rules"],
+        description: "COMPLETED 3/24: Full audit and hardening. SSL already strict ✅. Min TLS raised 1.0→1.2. Security level raised medium→HIGH. 5/5 firewall rules configured: Block XML-RPC, WP Login challenge (home IP exempt), SG/CN JS challenge, WP Lost Password spam challenge, WooCommerce Lost Password POST challenge. Home IP 96.71.53.106 exempted in WP Login rule.",
+        steps: [
+          "✅ SSL: already strict",
+          "✅ Min TLS: raised from 1.0 to 1.2",
+          "✅ Security level: raised from medium to HIGH",
+          "✅ Always HTTPS: already on",
+          "✅ Firewall: 5/5 rules (Free plan max) — XML-RPC block, WP Login challenge, SG/CN JS challenge, 2 existing lost password rules",
+          "✅ Home IP 96.71.53.106 exempt from WP Login challenge"
+        ],
         expected: "Secure end-to-end encryption. Better security posture.",
         risk: "Medium. SSL mode change requires origin cert. Test after changing."
+      },
+      {
+        id: "goodneon-10",
+        title: "Origin Lockdown: Cloudflare IPs Only",
+        priority: "high",
+        category: "speed",
+        status: "done",
+        completedDate: "2026-03-24",
+        impact: "Prevent direct-IP attacks — origin only accepts Cloudflare traffic",
+        description: "COMPLETED 3/24: UFW firewall locked down on GoodNeon origin (159.223.190.137). HTTP/HTTPS only from Cloudflare IPs (15 IPv4 + 7 IPv6). SSH 22/22000 open. Home IP 96.71.53.106 whitelisted. Prometheus monitoring ports preserved for 167.71.178.8. Nginx rate limiting on wp-login.php (1 req/s, burst=3, 429 on excess).",
+        steps: [
+          "✅ UFW: default deny, CF IPs only on 80/443",
+          "✅ SSH ports 22 + 22000 open",
+          "✅ Home IP 96.71.53.106 full access",
+          "✅ Prometheus monitoring ports preserved (167.71.178.8)",
+          "✅ Nginx rate limit on wp-login.php: 1 req/s, burst=3, returns 429"
+        ],
+        expected: "Origin protected from direct-IP attacks, matching Crown/Shirtsy posture.",
+        risk: "Low. Same procedure as Crown/Shirtsy."
+      },
+      {
+        id: "goodneon-11",
+        title: "fail2ban: SSH Brute-Force Auto-Ban",
+        priority: "high",
+        category: "speed",
+        status: "done",
+        completedDate: "2026-03-24",
+        impact: "Automatic SSH brute-force protection — caught 7 IPs on first run",
+        description: "COMPLETED 3/24: fail2ban installed on GoodNeon origin (159.223.190.137). sshd jail: 5 attempts/10min → 1hr ban (ports 22+22000). Recidive jail: 3 bans/day → 1 week ban. Uses UFW ban action. Already banned 7 IPs from existing auth.log entries on first run.",
+        steps: [
+          "✅ fail2ban installed and configured",
+          "✅ sshd jail: 5 fails/10min → 1hr ban (ports 22+22000)",
+          "✅ recidive jail: 3 bans/day → 1 week ban",
+          "✅ UFW ban action",
+          "✅ Caught 7 existing brute-force IPs on first run"
+        ],
+        expected: "Automated SSH brute-force protection.",
+        risk: "Low. Standard fail2ban config."
       },
       {
         id: "goodneon-8",
