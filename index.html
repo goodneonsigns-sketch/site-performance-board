@@ -403,13 +403,13 @@ const projects = {
         title: "Origin Lockdown: Cloudflare IPs Only",
         priority: "high",
         category: "seo",
-        status: "todo",
+        status: "blocked",
         impact: "Prevent direct-IP attacks like the Shirtsy brute force incident",
-        description: "After the Shirtsy brute force attack (3/23), Crown's origin (161.35.187.88) should also be locked down to accept traffic from Cloudflare IPs only. This prevents attackers from bypassing Cloudflare by hitting the origin directly.",
+        description: "VERIFIED 3/24: Origin NOT locked down — direct IP access (161.35.187.88) returns HTTP 200. Lockdown script prepared (crown-origin-lockdown.sh) with all 15 Cloudflare IPv4 + 7 IPv6 ranges + home IP whitelist. BLOCKED: Requires Lex to SSH into server and run the script. Same procedure as Shirtsy (done 3/23).",
         steps: [
-          "SSH into Crown origin server (161.35.187.88)",
-          "Configure UFW/iptables to allow HTTP/HTTPS only from Cloudflare IP ranges",
-          "Whitelist home IP 96.71.53.106 for direct access",
+          "✅ Verified: direct-IP access NOT blocked (HTTP 301/200 on port 80/443)",
+          "✅ Lockdown script prepared: crown-origin-lockdown.sh (UFW reset + CF IPs + SSH + home IP)",
+          "⏳ BLOCKED: Lex must SSH into 161.35.187.88 and run the script",
           "Test: verify site still loads through Cloudflare",
           "Test: verify direct-IP access is blocked"
         ],
