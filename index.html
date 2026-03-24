@@ -420,6 +420,25 @@ const projects = {
         ],
         expected: "Crown origin protected from direct-IP attacks, matching Shirtsy's security posture.",
         risk: "Low. Same procedure as Shirtsy. Test before and after."
+      },
+      {
+        id: "crown-14",
+        title: "fail2ban: SSH Brute-Force Auto-Ban",
+        priority: "high",
+        category: "seo",
+        status: "done",
+        completedDate: "2026-03-24",
+        impact: "Automatic ban of SSH brute-force attackers — caught 2 IPs on first run",
+        description: "Installed fail2ban on Crown origin (161.35.187.88) to automatically ban IPs that fail SSH authentication. Works alongside UFW origin lockdown (crown-13) for defense in depth.",
+        steps: [
+          "✅ fail2ban installed and configured",
+          "✅ sshd jail: 5 failed attempts in 10 min → 1 hour ban (ports 22 + 22000)",
+          "✅ recidive jail: 3 bans in 1 day → 1 week ban",
+          "✅ Ban action uses UFW (integrates with existing firewall)",
+          "✅ Already caught and banned 2 active brute-force IPs on first run"
+        ],
+        expected: "Automated protection against SSH brute-force attacks.",
+        risk: "Low. Standard fail2ban config. Does not affect web traffic."
       }
     ]
   },
@@ -590,6 +609,25 @@ const projects = {
         ],
         expected: "Origin protected from direct-IP attacks. wp-login.php rate limited at both Cloudflare and Nginx layers.",
         risk: "Low. All changes defensive. Whitelisted our own IP."
+      },
+      {
+        id: "shirtsy-11",
+        title: "fail2ban: SSH Brute-Force Auto-Ban",
+        priority: "high",
+        category: "speed",
+        status: "done",
+        completedDate: "2026-03-24",
+        impact: "Automatic ban of SSH brute-force attackers on Shirtsy origin",
+        description: "Installed fail2ban on Shirtsy origin (159.65.217.183) to automatically ban IPs that fail SSH authentication. Works alongside UFW origin lockdown (shirtsy-9) for defense in depth. Matches Crown's fail2ban config.",
+        steps: [
+          "✅ fail2ban installed and configured",
+          "✅ sshd jail: 5 failed attempts in 10 min → 1 hour ban (ports 22 + 22000)",
+          "✅ recidive jail: 3 bans in 1 day → 1 week ban",
+          "✅ Ban action uses UFW (integrates with existing firewall)",
+          "✅ Monitoring ports restricted to Prometheus 167.71.178.8 only"
+        ],
+        expected: "Automated protection against SSH brute-force attacks.",
+        risk: "Low. Standard fail2ban config. Does not affect web traffic."
       },
       {
         id: "shirtsy-10",
