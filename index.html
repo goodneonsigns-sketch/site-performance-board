@@ -2428,25 +2428,47 @@ function openMemoryDay(date) {
   const dateObj = new Date(date + 'T12:00:00');
   const fullDate = dateObj.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
   
+  // Identify code/technical sections
+  const hasCodeSections = day.sections.some(s => s.content.some(c => c.match(/^`(?:\`\`\`[a-z]*)?|\s*[/\$].*|\s*function\s|\s*\$\{/) || c.length > 800));
+  
   document.getElementById('modal-title').textContent = `🧠 ${fullDate}`;
   document.getElementById('modal-body').innerHTML = `
-    <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap">
-      ${day.projects.map(p => `<span style="background:rgba(184,149,106,.15);color:#b8956a;padding:3px 10px;border-radius:12px;font-size:12px">${p}</span>`).join('')}
-      <span style="color:#666;font-size:12px;padding:3px 0">${day.word_count} words · ${day.section_count} sections · ${day.activity_level}</span>
+    <div style="margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid var(--border);">
+      <h3 style="color:var(--text);font-size:18px;margin:0 0 8px 0;">${fullDate}</h3>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;font-size:12px;color:var(--muted)">
+        <span style="background:var(--bg);padding:4px 10px;border-radius:6px;border:1px solid var(--border)">
+          <strong style="color:var(--accent)">${day.word_count}</strong> words
+        </span>
+        <span style="background:var(--bg);padding:4px 10px;border-radius:6px;border:1px solid var(--border)">
+          <strong style="color:var(--accent)">${day.section_count}</strong> sections
+        </span>
+        <span style="background:${day.activity_level === 'very-active' ? 'rgba(62,185,80,0.15)' : day.activity_level === 'active' ? 'rgba(184,149,106,0.15)' : 'rgba(88,166,255,0.15)'};padding:4px 10px;border-radius:6px;border:1px solid ${day.activity_level === 'very-active' ? 'rgba(62,185,80,0.3)' : day.activity_level === 'active' ? 'rgba(184,149,106,0.3)' : 'rgba(88,166,255,0.3)'};color:${day.activity_level === 'very-active' ? 'var(--green)' : day.activity_level === 'active' ? '#b8956a' : 'var(--accent)'};font-weight:600;text-transform:capitalize">
+          ${day.activity_level}
+        </span>
+      </div>
     </div>
-    ${day.sections.map(s => `
-      <div style="margin-bottom:20px">
-        <h4 style="color:#b8956a;font-size:14px;margin-bottom:8px;padding-bottom:4px;border-bottom:1px solid #1e2830">${s.title}</h4>
-        <div style="color:#ccc;font-size:13px;line-height:1.7;white-space:pre-wrap">${s.content.filter(c=>c).map(c => {
-          if(c.startsWith('- ')) return '<div style="padding:2px 0 2px 12px;border-left:2px solid #1e2830;margin:2px 0">'+c.substring(2)+'</div>';
-          if(c.startsWith('### ')) return '<div style="color:#b8956a;font-weight:600;margin-top:8px">'+c.substring(4)+'</div>';
+    
+    ${day.projects.length > 0 ? `
+      <div style="margin-bottom:20px;padding:12px;background:rgba(184,149,106,0.05);border:1px solid rgba(184,149,106,0.2);border-radius:8px">
+        <div style="color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">🏢 Projects Discussed</div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">${day.projects.map(p => `<span style="background:rgba(184,149,106,.15);color:#b8956a;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:500">${p}</span>`).join('')}</div>
+      </div>
+    ` : ''}
+    
+    <div style="display:grid;gap:24px">${day.sections.map(s => `
+      <div style="${hasCodeSections && s.content.some(c => c.match(/^(?:```[a-z]*)?|\s*[/\$].*|\s*function\s|\s*\$\{/) || s.content.join('').length > 800) ? 'background:#0d1117;padding:16px;border-radius:8px;border:1px solid var(--border);' : ''}">
+        <h4 style="color:#b8956a;font-size:15px;font-weight:600;margin:0 0 12px 0;padding-bottom:8px;border-bottom:1px solid rgba(184,149,106,0.2);display:flex;align-items:center;gap:8px">${s.title}</h4>
+        <div style="color:#e6edf3;font-size:14px;line-height:1.8">${s.content.filter(c=>c).map(c => {
+          if(c.startsWith('- ')) return '<div style="padding:6px 0;border-left:2px solid #b8956a;margin:4px 0;padding-left:8px">'+c.substring(2)+'</div>';
+          if(c.startsWith('### ')) return '<div style="color:#b8956a;font-weight:600;margin-top:12px;margin-bottom:4px">'+c.substring(4)+'</div>';
+          if(c.match(/^`(?:```[a-z]*)?|^\s*[/\$].*|^\s*function\s|^\s*\$\{/) || c.length > 800) return '<div style="background:#0a0f14;padding:12px;border-radius:6px;border:1px solid #30363d;font-family:monospace;font-size:13px;color:#7ee787;overflow-x:auto;white-space:pre-wrap;margin:6px 0">'+c+'</div>';
           return '<div>'+c+'</div>';
         }).join('')}</div>
       </div>
-    `).join('')}
+    `).join('')}</div>
   `;
   document.getElementById('modal-footer').innerHTML = '<button class="btn btn-outline" onclick="closeModal()">Close</button>';
-  document.getElementById('modal').classList.add('active');
+  document.getElementById('modal').classList.add('open');
 }
 
 function searchMemory(query) {
