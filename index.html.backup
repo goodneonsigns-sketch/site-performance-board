@@ -174,9 +174,12 @@
     <button class="tab" onclick="switchBoard('shirtsy')">👕 Shirtsy</button>
     <button class="tab" onclick="switchBoard('goodneon')">💡 GoodNeon</button>
     <button class="tab" onclick="switchBoard('lux')">✨ Lux Neon</button>
+    <button class="tab" onclick="switchBoard('luxdo')" style="border-color:#3b82f6;color:#3b82f6">🇩🇴 Lux Neon DR</button>
     <button class="tab" onclick="switchBoard('coconut')">🥥 Coconut Bikini</button>
     <button class="tab" onclick="switchBoard('reclaimed')">♻️ Reclaimed Closet</button>
     <button class="tab" onclick="switchBoard('virtus')" style="border-color:#d4a017;color:#d4a017">🏠 Virtus Realty</button>
+    <button class="tab" onclick="switchBoard('system')" style="border-color:#ff6b6b;color:#ff6b6b">⚙️ System Config</button>
+    <button class="tab" onclick="switchBoard('memory')" style="border-color:#b8956a;color:#b8956a">🧠 Memory</button>
   </div>
 </header>
 
@@ -184,9 +187,12 @@
 <div id="board-shirtsy" class="board"></div>
 <div id="board-goodneon" class="board"></div>
 <div id="board-lux" class="board"></div>
+<div id="board-luxdo" class="board"></div>
 <div id="board-coconut" class="board"></div>
 <div id="board-reclaimed" class="board"></div>
 <div id="board-virtus" class="board"></div>
+<div id="board-system" class="board"></div>
+<div id="board-memory" class="board"></div>
 
 <div class="toast" id="toast"></div>
 <div class="modal-overlay" id="modal" onclick="if(event.target===this)closeModal()">
@@ -206,7 +212,7 @@ const projects = {
     name: "Crown Office Supplies",
     icon: "👑",
     url: "crownofficesupplies.com",
-    baseline: { ttfb: "190ms", total: "250ms", size: "353 KB", platform: "WordPress + WooCommerce" },
+    baseline: { ttfb: "130ms", total: "240ms", size: "347 KB", platform: "WordPress + WooCommerce" },
     tasks: [
       {
         id: "crown-1",
@@ -234,19 +240,17 @@ const projects = {
         priority: "critical",
         category: "speed",
         status: "done",
-        impact: "Edge-cached pages load in ~50ms globally",
-        description: "Cloudflare is in front of Crown but cf-cache-status shows DYNAMIC — it's not caching HTML pages. Visitors hit the origin server every time, defeating the purpose of having a CDN.",
+        completedDate: "2026-03-24",
+        impact: "Edge-cached pages load in ~130ms globally, user pages protected",
+        description: "COMPLETED 3/24: Smart Cache Rule via rulesets API (PUT). Caches public pages (edge TTL 2h, browser TTL 5min) while excluding: /wp-admin, /wp-login, /cart, /checkout, /my-account, /client-dashboard, /account, /login, lost-password, register. Also checks wordpress_logged_in and wp-woocommerce_session cookies. ⚠️ Initial attempt with Page Rules 'Cache Everything' caused critical bug — cached user account pages served to other users. Fixed same day by switching to Cache Rules with proper exclusions. Ruleset: 2e76a25efc224be08c9e8f7c1f072258.",
         steps: [
-          "Log into Cloudflare dashboard → select crownofficesupplies.com",
-          "Go to Rules → Page Rules (or Cache Rules if on new UI)",
-          "Add rule: URL pattern crownofficesupplies.com/* → Cache Level: Cache Everything, Edge TTL: 2 hours",
-          "Add exception rule for /wp-admin/* and /cart/* and /checkout/* → Cache Level: Bypass",
-          "Go to Speed → Optimization → enable Auto Minify (JS, CSS, HTML)",
-          "Enable Brotli compression if not already on",
-          "Purge cache after setting up: Caching → Purge Everything"
+          "✅ Cache Rule created via API (rulesets PUT endpoint)",
+          "✅ Excludes all user-specific paths + logged-in cookies",
+          "✅ Homepage: HIT, /my-account/: DYNAMIC, /client-dashboard/: DYNAMIC",
+          "⚠️ LESSON: Never use Page Rules 'Cache Everything' on WooCommerce — always use Cache Rules with exclusions"
         ],
-        expected: "Static pages served from Cloudflare edge (~50ms). Dynamic pages (cart, checkout, admin) still hit origin.",
-        risk: "Medium risk. Must exclude logged-in pages, cart, and checkout from caching or customers will see stale/other users' data. Test checkout flow after enabling."
+        expected: "Static pages served from Cloudflare edge (~130ms). Dynamic pages (cart, checkout, admin, my-account) always hit origin.",
+        risk: "RESOLVED. Cache Rules with cookie-aware exclusions prevent user data leaks."
       },
       {
         id: "crown-3",
@@ -310,7 +314,7 @@ const projects = {
         title: "Enable GZIP/Brotli Compression",
         priority: "medium",
         category: "speed",
-        status: "todo",
+        status: "done",
         impact: "30-40% smaller transfer size",
         description: "Verify that Brotli or GZIP compression is active. Cloudflare should handle this but it's worth confirming the origin also compresses responses.",
         steps: [
@@ -321,6 +325,120 @@ const projects = {
         ],
         expected: "HTML, CSS, JS transferred at 30-40% smaller size. Faster page loads especially on slower connections.",
         risk: "Very low risk. Standard web optimization."
+      },
+      {
+        id: "crown-7",
+        title: "Enable Cloudflare Minification (CSS/HTML/JS)",
+        priority: "medium",
+        category: "speed",
+        status: "done",
+        impact: "5-15% smaller page transfers",
+        description: "Minification removes whitespace and comments from HTML, CSS, and JS. Free on Cloudflare but currently disabled on Crown.",
+        steps: ["Cloudflare → Speed → Optimization → Enable Auto Minify for HTML, CSS, JS", "Purge cache after enabling", "Verify minified output in browser DevTools"],
+        expected: "Smaller transfer sizes, slightly faster parsing.",
+        risk: "Low risk. Rare edge cases with poorly written JS. Easy to revert."
+      },
+      {
+        id: "crown-8",
+        title: "Investigate Desktop Bot Traffic (86% Bounce Rate)",
+        priority: "high",
+        category: "seo",
+        status: "done",
+        impact: "Clean analytics data, better ad targeting, reduced server load",
+        description: "Investigation complete: 82%+ desktop traffic was bots from Singapore (55.8%) and China (13.8%). JS Challenge rule added for SG/CN. ⚠️ Super Bot Fight Mode was tried on 3/23 but blocked ALL traffic — disabled immediately. Use targeted WAF rules instead. Full report: projects/crown/bot-traffic-investigation.md",
+        steps: ["Pull GA4 desktop traffic by source/medium", "Check for suspicious referral domains", "Review Cloudflare Bot Analytics (if available on Free plan)", "Add rate limiting rules for suspicious patterns", "Consider enabling Bot Fight Mode in Cloudflare"],
+        expected: "Cleaner analytics data. May significantly reduce reported desktop traffic if bots are filtered.",
+        risk: "Medium. Must not block legitimate crawlers (Googlebot, etc.)."
+      },
+      {
+        id: "crown-9",
+        title: "Add Rate Limiting on Cloudflare",
+        priority: "medium",
+        category: "seo",
+        status: "done",
+        impact: "Protection against abuse, reduced bot traffic",
+        description: "Rate limiting live: site-wide 100 req/10s per IP, NET30 page 5 req/min per IP. Using new WAF ratelimit API. Blocks abusive IPs for 60-120 seconds.",
+        steps: ["Cloudflare → Security → Rate Limiting", "Create rule: >100 requests/min from single IP → Challenge", "Exclude known good bots (Googlebot IPs)", "Monitor for false positives"],
+        expected: "Reduced bot traffic, cleaner metrics, better server performance.",
+        risk: "Low-medium. Monitor after enabling to ensure legitimate users aren't blocked."
+      },
+      {
+        id: "crown-10",
+        title: "Protect /net30-application/ Page",
+        priority: "high",
+        category: "seo",
+        status: "done",
+        impact: "Protect highest-value page (#1 by views, 3,598/week)",
+        description: "Managed challenge on /net30-application/ — bots can't access form. Plus dedicated rate limit (5 req/min). Crown's highest-value page now fully protected.",
+        steps: ["Add Cloudflare rule to challenge suspicious traffic on /net30-application/", "Consider Turnstile CAPTCHA on the application form", "Monitor form submissions for spam patterns"],
+        expected: "Reduced spam applications, protected conversion funnel.",
+        risk: "Low. Turnstile is invisible to most real users."
+      },
+      {
+        id: "crown-11",
+        title: "Build Customer Dept: Onboarding Emails (Phase 1)",
+        priority: "high",
+        category: "seo",
+        status: "todo",
+        impact: "Automated customer lifecycle — convert NET30 approvals to first orders",
+        description: "Part of Jessica's Customer Department build. Write and deploy the welcome email sequence for new NET30 account approvals: welcome email (Hour 0), catalog orientation (Hour 2), Days 1/3/5/7 nudge sequence.",
+        steps: ["Write Crown-specific email copy for all 7 touchpoints", "Build Klaviyo flows with proper triggers and timing", "Set stop conditions (stop all emails when first order placed)", "Include Trifecta cross-sell (introduce Shirtsy + GoodNeon)"],
+        expected: "Higher first-order conversion rate from approved NET30 accounts.",
+        risk: "Low. Emails are drafts until Lex approves."
+      },
+      {
+        id: "crown-12",
+        title: "Redesign NET30 Application Landing Page",
+        priority: "high",
+        category: "seo",
+        status: "todo",
+        impact: "Higher conversion rate on #1 traffic page",
+        description: "Part of Sandra's Design Department build. CRO audit and redesign of the NET30 application page — compelling hero, benefit bullets, trust badges, simplified form, social proof.",
+        steps: ["Run CRO audit on current page", "Design new wireframe with conversion optimizations", "Build in WooCommerce/WordPress", "A/B test if possible"],
+        expected: "Increased NET30 application completion rate.",
+        risk: "Medium. Requires Lex approval before publishing."
+      },
+      {
+        id: "crown-13",
+        title: "Origin Lockdown: Cloudflare IPs Only",
+        priority: "high",
+        category: "seo",
+        status: "done",
+        completedDate: "2026-03-24",
+        impact: "Prevent direct-IP attacks like the Shirtsy brute force incident",
+        description: "COMPLETED 3/24: Full server hardening. (1) UFW lockdown: HTTP/HTTPS only from Cloudflare IPs (15 IPv4 + 7 IPv6), SSH 22/22000 open, home IP 96.71.53.106 whitelisted, monitoring ports to 167.71.178.8 only. (2) fail2ban installed: sshd jail (5 fails/10min → 1hr ban on ports 22+22000), recidive jail (3 bans/day → 1 week ban), uses UFW ban action. Already caught 2 brute-force IPs on first run.",
+        steps: [
+          "✅ Verified: direct-IP access was NOT blocked before lockdown",
+          "✅ Jackie prepared lockdown script with current CF IP ranges",
+          "✅ Lex applied UFW rules via Claude on server (9:47 AM ET)",
+          "✅ Verified: crownofficesupplies.com returns 200 through Cloudflare",
+          "✅ Verified: home IP (96.71.53.106) whitelisted and passes through",
+          "✅ External non-Cloudflare IPs blocked on ports 80/443",
+          "✅ fail2ban installed: sshd jail (5 fails/10min → 1hr ban, ports 22+22000)",
+          "✅ fail2ban recidive jail: 3 bans/day → 1 week ban",
+          "✅ Already caught 2 active brute-force IPs on first run"
+        ],
+        expected: "Crown origin protected from direct-IP attacks, matching Shirtsy's security posture.",
+        risk: "Low. Same procedure as Shirtsy. Test before and after."
+      },
+      {
+        id: "crown-14",
+        title: "fail2ban: SSH Brute-Force Auto-Ban",
+        priority: "high",
+        category: "seo",
+        status: "done",
+        completedDate: "2026-03-24",
+        impact: "Automatic ban of SSH brute-force attackers — caught 2 IPs on first run",
+        description: "Installed fail2ban on Crown origin (161.35.187.88) to automatically ban IPs that fail SSH authentication. Works alongside UFW origin lockdown (crown-13) for defense in depth.",
+        steps: [
+          "✅ fail2ban installed and configured",
+          "✅ sshd jail: 5 failed attempts in 10 min → 1 hour ban (ports 22 + 22000)",
+          "✅ recidive jail: 3 bans in 1 day → 1 week ban",
+          "✅ Ban action uses UFW (integrates with existing firewall)",
+          "✅ Already caught and banned 2 active brute-force IPs on first run"
+        ],
+        expected: "Automated protection against SSH brute-force attacks.",
+        risk: "Low. Standard fail2ban config. Does not affect web traffic."
       }
     ]
   },
@@ -328,7 +446,7 @@ const projects = {
     name: "Shirtsy",
     icon: "👕",
     url: "shirtsy.com",
-    baseline: { ttfb: "80ms", total: "120ms", size: "N/A", platform: "WordPress + WooCommerce" },
+    baseline: { ttfb: "120ms", total: "250ms", size: "475 KB", platform: "WordPress + WooCommerce" },
     tasks: [
       {
         id: "shirtsy-1",
@@ -411,23 +529,21 @@ const projects = {
       },
       {
         id: "shirtsy-5",
-        title: "Set Up Cloudflare Page Rules",
+        title: "Set Up Cloudflare Cache Rules",
         priority: "medium",
         category: "speed",
-        status: "todo",
-        impact: "Global edge caching for static pages",
-        description: "After fixing the BYPASS issue, set up proper page rules to cache static content at the edge while keeping dynamic pages (cart, checkout, account) fresh.",
+        status: "done",
+        impact: "Edge caching with override_origin — TTFB 85ms → HIT",
+        description: "Cache Rule (Ruleset e3b87920, Rule 034326df) with override_origin bypasses WooCommerce no-store headers. Excludes wp-admin, wp-login, cart, checkout, my-account, client-dashboard, logged-in users, and woo sessions. Updated 3/24: added /client-dashboard/ exclusion (was being cached, serving user data to others). TTFB dropped from 1.5s to 0.08s — 19x improvement.",
         steps: [
-          "Cloudflare → Rules → Page Rules",
-          "Rule 1: shirtsy.com/wp-admin/* → Cache Level: Bypass",
-          "Rule 2: shirtsy.com/cart/* → Cache Level: Bypass",
-          "Rule 3: shirtsy.com/checkout/* → Cache Level: Bypass",
-          "Rule 4: shirtsy.com/my-account/* → Cache Level: Bypass",
-          "Rule 5: shirtsy.com/* → Cache Level: Cache Everything, Edge TTL: 2 hours",
-          "Enable Auto Minify (JS, CSS, HTML) in Speed settings",
-          "Purge full cache after setup"
+          "✅ Cache Rule created with override_origin",
+          "✅ Page Rules deleted (conflicted with Cache Rule)",
+          "✅ Edge TTL: 2h, Browser TTL: 5m",
+          "✅ WP login firewall rule paused (caused lockout)",
+          "✅ Turnstile plugin deactivated",
+          "✅ Verified HIT on product and category pages"
         ],
-        expected: "Product pages, homepage, category pages all served from Cloudflare edge globally. Cache misses still hit the (now-cached) origin.",
+        expected: "Product pages served from Cloudflare edge. 19x faster than origin.",
         risk: "Medium risk. Order of page rules matters (most specific first). Test checkout flow thoroughly."
       },
       {
@@ -446,6 +562,90 @@ const projects = {
         ],
         expected: "Improved security score. Standard best practice.",
         risk: "Low risk."
+      },
+      {
+        id: "shirtsy-7",
+        title: "Build Customer Dept: Onboarding + Proof Loop Emails",
+        priority: "high",
+        category: "seo",
+        status: "todo",
+        impact: "Automated lifecycle — convert NET30 approvals, manage proof process",
+        description: "Jessica's Customer Department. Write Shirtsy-specific email sequences including the NB Designer proof loop (order → proof → approve → production → ship). Two tracks: catalog orders and custom print orders.",
+        steps: ["Write welcome + catalog orientation emails (Shirtsy-specific)", "Write Days 1/3/5/7 nudge sequence", "Write proof loop emails (proof ready, reminder, approved, shipped)", "Build Klaviyo flows with branching for catalog vs custom", "Include Trifecta cross-sell (Crown + GoodNeon)", "NEVER mention NB Designer — always say 'our production team'"],
+        expected: "Faster proof approvals, higher first-order conversion, cross-sell revenue.",
+        risk: "Low. Emails are drafts until Lex approves."
+      },
+      {
+        id: "shirtsy-8",
+        title: "Enable WAF (Pro Plan Available)",
+        priority: "medium",
+        category: "seo",
+        status: "todo",
+        impact: "Enhanced security against attacks",
+        description: "Shirtsy is on Cloudflare Pro plan which includes WAF (Web Application Firewall). Currently disabled.",
+        steps: ["Cloudflare → Security → WAF → Enable managed rules", "Start with Cloudflare Managed Ruleset", "Monitor for false positives for 1 week", "Fine-tune as needed"],
+        expected: "Protection against common web attacks (SQL injection, XSS, etc.).",
+        risk: "Medium. WAF rules can occasionally block legitimate requests. Monitor closely after enabling."
+      },
+      {
+        id: "shirtsy-9",
+        title: "Origin Lockdown: Cloudflare IPs Only + Rate Limit wp-login.php",
+        priority: "critical",
+        category: "speed",
+        status: "done",
+        impact: "Brute force attack mitigated — origin now only accepts Cloudflare traffic",
+        description: "Shirtsy origin (159.65.217.183) was under brute force attack on wp-login.php, exhausting PHP-FPM workers (max_children reached). Attackers were hitting the origin IP directly, bypassing Cloudflare. Fixed 3/23 with: (1) UFW/iptables locked to Cloudflare IPs only, (2) Nginx rate limiting on wp-login.php, (3) PHP-FPM max_children increased, (4) Cloudflare security level raised to HIGH, (5) WAF rate limit on wp-login.php: 5 req/min per IP, block 2min. Updated 3/24: (6) UFW fully re-hardened matching Crown config (SSH 22/22000, CF IPs only on 80/443, home IP whitelisted, monitoring ports to 167.71.178.8), (7) fail2ban installed with sshd + recidive jails.",
+        steps: [
+          "✅ PHP-FPM restarted (immediate fix — 3/23)",
+          "✅ UFW/iptables: origin locked to Cloudflare IPs only (3/23, re-hardened 3/24)",
+          "✅ Nginx rate limiting added on wp-login.php (3/23)",
+          "✅ PHP-FPM max_children increased (3/23)",
+          "✅ Cloudflare security level raised to HIGH (3/23)",
+          "✅ WAF rate limit: wp-login.php 5 req/min per IP, 2min block (3/23)",
+          "✅ Home IP 96.71.53.106 whitelisted on Cloudflare (3/23)",
+          "✅ fail2ban installed: sshd jail (5 fails/10min → 1hr ban, ports 22+22000) (3/24)",
+          "✅ fail2ban recidive jail: 3 bans/day → 1 week ban (3/24)",
+          "✅ Monitoring ports restricted to Prometheus 167.71.178.8 only (3/24)"
+        ],
+        expected: "Origin protected from direct-IP attacks. wp-login.php rate limited at both Cloudflare and Nginx layers.",
+        risk: "Low. All changes defensive. Whitelisted our own IP."
+      },
+      {
+        id: "shirtsy-11",
+        title: "fail2ban: SSH Brute-Force Auto-Ban",
+        priority: "high",
+        category: "speed",
+        status: "done",
+        completedDate: "2026-03-24",
+        impact: "Automatic ban of SSH brute-force attackers on Shirtsy origin",
+        description: "Installed fail2ban on Shirtsy origin (159.65.217.183) to automatically ban IPs that fail SSH authentication. Works alongside UFW origin lockdown (shirtsy-9) for defense in depth. Matches Crown's fail2ban config.",
+        steps: [
+          "✅ fail2ban installed and configured",
+          "✅ sshd jail: 5 failed attempts in 10 min → 1 hour ban (ports 22 + 22000)",
+          "✅ recidive jail: 3 bans in 1 day → 1 week ban",
+          "✅ Ban action uses UFW (integrates with existing firewall)",
+          "✅ Monitoring ports restricted to Prometheus 167.71.178.8 only"
+        ],
+        expected: "Automated protection against SSH brute-force attacks.",
+        risk: "Low. Standard fail2ban config. Does not affect web traffic."
+      },
+      {
+        id: "shirtsy-10",
+        title: "⚠️ Super Bot Fight Mode Incident — DO NOT RE-ENABLE",
+        priority: "critical",
+        category: "speed",
+        status: "done",
+        impact: "SBFM blocked ALL traffic to both Crown and Shirtsy — resolved by disabling",
+        description: "Super Bot Fight Mode was enabled during bot mitigation work on 3/23. It blocked ALL visitors (not just bots) with 403 'Sorry, you have been blocked'. Both Crown and Shirtsy went down for ~56 minutes. Resolved by Lex setting 'Definitely Automated' to 'Allow' in Cloudflare dashboard. Our API token lacks bot_management permission — cannot fix via API. LESSON: NEVER enable SBFM without testing. It is extremely aggressive.",
+        steps: [
+          "✅ SBFM disabled on both Crown and Shirtsy",
+          "✅ Both sites restored immediately",
+          "✅ Home IP whitelisted as additional safety",
+          "⚠️ DO NOT re-enable Super Bot Fight Mode",
+          "⚠️ API token needs bot_management permission if we ever want API control"
+        ],
+        expected: "Sites accessible to all visitors. Bot mitigation handled via WAF rules instead of SBFM.",
+        risk: "RESOLVED. Do not touch SBFM again."
       }
     ]
   },
@@ -453,34 +653,33 @@ const projects = {
     name: "GoodNeon",
     icon: "💡",
     url: "goodneon.com",
-    baseline: { ttfb: "~2.7s (peak)", total: "0.3s–2.7s", size: "150 KB", platform: "WordPress" },
+    baseline: { ttfb: "140ms", total: "190ms", size: "149 KB", platform: "WordPress + WooCommerce" },
     tasks: [
       {
         id: "goodneon-1",
         title: "Fix Cache-Control Header (max-age=3)",
         priority: "critical",
         category: "speed",
-        status: "todo",
+        status: "done",
+        completedDate: "2026-03-24",
         impact: "Pages currently expire every 3 SECONDS — fixing this is the #1 priority",
-        description: "GoodNeon has the worst cache configuration of all four sites. The Cache-Control header is set to max-age=3, must-revalidate — meaning every page expires after just 3 seconds. This makes caching completely useless. Every visitor effectively hits the origin server on every request.",
+        description: "COMPLETED 3/24: W3 Total Cache installed (fixes cache-control headers) + Smart Cache Rule created via rulesets API. Caches public pages (edge TTL 2h, browser TTL 5min) while excluding all user-specific paths and cookies. Ruleset: 882173b8ed1b4ccfa5d082870113d532. TTFB dropped from 2.7s peak → 140ms.",
         steps: [
-          "Log into WordPress admin for goodneon.com",
-          "Check which plugin or theme is setting Cache-Control: max-age=3",
-          "Common culprits: WooCommerce, caching plugins in 'development mode', or custom code in functions.php",
-          "Search wp-content/themes/*/functions.php and wp-content/plugins/*/includes/ for 'max-age=3' or 'must-revalidate'",
-          "Change to Cache-Control: public, max-age=3600, s-maxage=7200 (1hr browser, 2hr CDN)",
-          "Or install a proper caching plugin (WP Rocket, LiteSpeed Cache) which will set correct headers automatically",
-          "Verify: curl -sI https://goodneon.com | grep cache-control → should show max-age=3600 or higher"
+          "✅ W3 Total Cache installed by Lex",
+          "✅ Cache Rule created via API with exclusions for wp-admin, wp-login, cart, checkout, my-account, client-dashboard, account, login, lost-password, register, wordpress_logged_in cookie, wp-woocommerce_session cookie",
+          "✅ Homepage: HIT, /my-account/: DYNAMIC, /cart/: DYNAMIC",
+          "✅ TTFB: 2.7s → 140ms"
         ],
-        expected: "Pages cached for 1+ hours instead of 3 seconds. Massive reduction in origin server load. Consistent fast response times.",
-        risk: "Low risk. The current value is broken — almost any change is an improvement. Test product pages and cart/checkout after changing."
+        expected: "Pages cached for 2 hours at edge. User-specific pages always bypass cache.",
+        risk: "RESOLVED. Cache Rules with cookie-aware exclusions prevent user data leaks."
       },
       {
         id: "goodneon-2",
         title: "Install WP Caching Plugin",
         priority: "critical",
         category: "speed",
-        status: "todo",
+        status: "done",
+        completedDate: "2026-03-24",
         impact: "Origin TTFB from variable ~2.7s → consistent ~0.2s",
         description: "GoodNeon's response time swings wildly from 0.3s to 2.7s, which means the WordPress origin has no page caching. When the server is under any load, it tanks. A caching plugin stores pre-built HTML pages.",
         steps: [
@@ -500,20 +699,17 @@ const projects = {
         title: "Enable Cloudflare Edge Caching",
         priority: "high",
         category: "speed",
-        status: "todo",
+        status: "done",
+        completedDate: "2026-03-24",
         impact: "Global edge-cached pages in ~50ms",
-        description: "Cloudflare is in front of GoodNeon but cf-cache-status shows DYNAMIC — it's passing everything through to the origin. Combined with the 3-second cache-control, Cloudflare has nothing to work with.",
+        description: "COMPLETED 3/24: Included in Cache Rule (goodneon-1). Smart Cache Rule handles both cache-control override and edge caching in one rule. See goodneon-1 for details.",
         steps: [
-          "Log into Cloudflare dashboard → select goodneon.com",
-          "Go to Rules → Page Rules (or Cache Rules)",
-          "Add bypass rules first: goodneon.com/wp-admin/* → Bypass, goodneon.com/cart/* → Bypass, goodneon.com/checkout/* → Bypass, goodneon.com/my-account/* → Bypass",
-          "Add catch-all: goodneon.com/* → Cache Level: Cache Everything, Edge TTL: 2 hours",
-          "Enable Auto Minify (JS, CSS, HTML) in Speed settings",
-          "Enable Brotli compression",
-          "Purge cache: Caching → Purge Everything"
+          "✅ Handled by Cache Rule in goodneon-1",
+          "✅ Edge TTL: 2h, Browser TTL: 5min",
+          "✅ All user-specific paths excluded"
         ],
-        expected: "Static pages served from Cloudflare edge globally (~50ms). Only dynamic pages hit origin.",
-        risk: "Medium risk. Must exclude cart, checkout, and logged-in pages. Test the full purchase flow after enabling."
+        expected: "Static pages served from Cloudflare edge (~140ms). Only dynamic pages hit origin.",
+        risk: "RESOLVED."
       },
       {
         id: "goodneon-4",
@@ -557,20 +753,101 @@ const projects = {
         title: "SEO: Target Long-Tail Neon Keywords",
         priority: "medium",
         category: "seo",
-        status: "todo",
-        impact: "Better organic traffic — 'neon signs' (KD 71) is too competitive, long-tail is the play",
-        description: "Semrush data shows 'neon signs' has a keyword difficulty of 71/100 — very hard to rank for. GoodNeon needs to target specific long-tail terms where competition is lower and buyer intent is higher.",
+        status: "done",
+        impact: "89 products + 89 SEO blog posts targeting long-tail neon keywords — LIVE",
+        description: "89 neon sign products created with keyword-optimized titles and descriptions. 89 SEO blog posts published targeting '[quote] neon sign' long-tail keywords. Google Shopping connected via Google for WooCommerce plugin. 95 products syncing to Merchant Center.",
         steps: [
-          "Pull keyword ideas from Semrush for goodneon.com (use Keyword Magic Tool or API)",
-          "Identify long-tail opportunities: 'custom neon signs for business', 'LED wall art custom', 'neon sign for wedding', 'custom 3D printed sign', 'net 60 neon signs wholesale'",
-          "Create dedicated landing pages for top 5-10 long-tail keywords",
-          "Optimize existing product pages with target keywords in titles, meta descriptions, H1s",
-          "Add schema markup (Product, LocalBusiness) to key pages",
-          "Submit updated sitemap to Google Search Console",
-          "Monitor rankings weekly via Semrush Projects"
+          "✅ 89 neon sign products created (Wave 1 + Wave 2)",
+          "✅ 89 SEO blog posts published on GoodNeon",
+          "✅ Google for WooCommerce plugin activated and connected",
+          "✅ Google Merchant Center syncing 95 products",
+          "✅ Free Google Shopping listings enabled",
+          "Monitor organic traffic growth via GA4"
         ],
-        expected: "Rank on page 1 for 5-10 long-tail keywords within 2-3 months. Higher-intent traffic = better conversion rates.",
-        risk: "Low risk. SEO improvements don't break anything. Results take 4-12 weeks to materialize."
+        expected: "Ranking for 89+ long-tail '[quote] neon sign' keywords. Free Google Shopping listings driving product visibility.",
+        risk: "Low. All live and automated."
+      },
+      {
+        id: "goodneon-7",
+        title: "Audit Cloudflare SSL/TLS & Security Settings",
+        priority: "high",
+        category: "speed",
+        status: "done",
+        completedDate: "2026-03-24",
+        impact: "SSL strict mode, TLS 1.2 minimum — same fixes as Crown and Shirtsy",
+        description: "COMPLETED 3/24: Full audit and hardening. SSL already strict ✅. Min TLS raised 1.0→1.2. Security level raised medium→HIGH. 5/5 firewall rules configured: Block XML-RPC, WP Login challenge (home IP exempt), SG/CN JS challenge, WP Lost Password spam challenge, WooCommerce Lost Password POST challenge. Home IP 96.71.53.106 exempted in WP Login rule.",
+        steps: [
+          "✅ SSL: already strict",
+          "✅ Min TLS: raised from 1.0 to 1.2",
+          "✅ Security level: raised from medium to HIGH",
+          "✅ Always HTTPS: already on",
+          "✅ Firewall: 5/5 rules (Free plan max) — XML-RPC block, WP Login challenge, SG/CN JS challenge, 2 existing lost password rules",
+          "✅ Home IP 96.71.53.106 exempt from WP Login challenge"
+        ],
+        expected: "Secure end-to-end encryption. Better security posture.",
+        risk: "Medium. SSL mode change requires origin cert. Test after changing."
+      },
+      {
+        id: "goodneon-10",
+        title: "Origin Lockdown: Cloudflare IPs Only",
+        priority: "high",
+        category: "speed",
+        status: "done",
+        completedDate: "2026-03-24",
+        impact: "Prevent direct-IP attacks — origin only accepts Cloudflare traffic",
+        description: "COMPLETED 3/24: UFW firewall locked down on GoodNeon origin (159.223.190.137). HTTP/HTTPS only from Cloudflare IPs (15 IPv4 + 7 IPv6). SSH 22/22000 open. Home IP 96.71.53.106 whitelisted. Prometheus monitoring ports preserved for 167.71.178.8. Nginx rate limiting on wp-login.php (1 req/s, burst=3, 429 on excess).",
+        steps: [
+          "✅ UFW: default deny, CF IPs only on 80/443",
+          "✅ SSH ports 22 + 22000 open",
+          "✅ Home IP 96.71.53.106 full access",
+          "✅ Prometheus monitoring ports preserved (167.71.178.8)",
+          "✅ Nginx rate limit on wp-login.php: 1 req/s, burst=3, returns 429"
+        ],
+        expected: "Origin protected from direct-IP attacks, matching Crown/Shirtsy posture.",
+        risk: "Low. Same procedure as Crown/Shirtsy."
+      },
+      {
+        id: "goodneon-11",
+        title: "fail2ban: SSH Brute-Force Auto-Ban",
+        priority: "high",
+        category: "speed",
+        status: "done",
+        completedDate: "2026-03-24",
+        impact: "Automatic SSH brute-force protection — caught 7 IPs on first run",
+        description: "COMPLETED 3/24: fail2ban installed on GoodNeon origin (159.223.190.137). sshd jail: 5 attempts/10min → 1hr ban (ports 22+22000). Recidive jail: 3 bans/day → 1 week ban. Uses UFW ban action. Already banned 7 IPs from existing auth.log entries on first run.",
+        steps: [
+          "✅ fail2ban installed and configured",
+          "✅ sshd jail: 5 fails/10min → 1hr ban (ports 22+22000)",
+          "✅ recidive jail: 3 bans/day → 1 week ban",
+          "✅ UFW ban action",
+          "✅ Caught 7 existing brute-force IPs on first run"
+        ],
+        expected: "Automated SSH brute-force protection.",
+        risk: "Low. Standard fail2ban config."
+      },
+      {
+        id: "goodneon-8",
+        title: "Build Customer Dept: Onboarding + Proof Loop (NET60)",
+        priority: "high",
+        category: "seo",
+        status: "todo",
+        impact: "Automated NET60 customer lifecycle with wider timing windows",
+        description: "Jessica's Customer Department. GoodNeon uses NET60 (not NET30) so all timing thresholds are wider. Two tracks: store inventory (ship direct) and custom signs (proof loop). In-house proof creation.",
+        steps: ["Write GoodNeon-specific welcome + orientation emails", "Write Days 1/3/5/7 nudge (wider spacing than Crown/Shirtsy)", "Write proof loop emails (proof ready, 24h/48h reminders, approved, Day 7 update, shipped, installed)", "Build Klaviyo flows with NET60 timing", "Include Trifecta cross-sell (Crown + Shirtsy)"],
+        expected: "Higher first-order conversion, proactive proof management, cross-sell revenue.",
+        risk: "Low. Emails are drafts until Lex approves."
+      },
+      {
+        id: "goodneon-9",
+        title: "Build NET60 Application Landing Page",
+        priority: "high",
+        category: "seo",
+        status: "todo",
+        impact: "Higher conversion on NET60 applications",
+        description: "Sandra's Design Department. CRO-optimized landing page for NET60 credit applications — neon/LED business-focused benefits, sign imagery, social proof from installed businesses.",
+        steps: ["CRO audit current application page", "Design conversion-optimized wireframe", "Build in WooCommerce", "Lex approval required before publish"],
+        expected: "Increased NET60 application completion rate.",
+        risk: "Medium. Requires Lex approval."
       }
     ]
   },
@@ -677,6 +954,204 @@ const projects = {
         ],
         expected: "Recapture 5-15% of bounced visitors. Art buyers often need multiple touchpoints before purchasing.",
         risk: "Low financial risk at $15-20/day test budget. Monitor ROI after 2 weeks."
+      },
+      {
+        id: "lux-6",
+        title: "Connect Google Ads API",
+        priority: "high",
+        category: "seo",
+        status: "in-progress",
+        impact: "Direct access to Google Ads performance data and campaign management",
+        description: "OAuth working, API enabled on GCP. Standard Access application submitted 3/20. Waiting 1-3 business days for approval. Once approved, API will work immediately.",
+        steps: ["✅ OAuth tokens with adwords scope obtained", "✅ Google Ads API enabled on GCP project", "✅ Standard Access application submitted 3/20", "⏳ Wait for Google approval", "Test API connection", "Pull Lux campaign data", "Set up automated reporting"],
+        expected: "Full API access to Google Ads — pull metrics, manage campaigns, automate reporting.",
+        risk: "No risk. Read-only access initially."
+      },
+      {
+        id: "lux-7",
+        title: "Build Customer Dept: Venue/Event + VIP Workflows",
+        priority: "high",
+        category: "seo",
+        status: "todo",
+        impact: "Automated event lead qualification, VIP patron retention, post-event CSAT",
+        description: "Jessica's Customer Department. Lux has unique customer types: venue/event leads, gallery buyers, wine club members, VIP patrons. Each needs a specific workflow.",
+        steps: ["Write event lead qualification sequence (inquiry → proposal → follow-up → booking)", "Write gallery buyer post-purchase flow (thank you → next exhibition invite)", "Write wine club member flow (event confirmation → membership offer)", "Write VIP quarterly outreach", "Write post-event CSAT survey with escalation on low scores", "Build all in Klaviyo"],
+        expected: "Higher event conversion rate, repeat gallery visits, wine club growth.",
+        risk: "Low. Emails are drafts until Lex approves."
+      },
+      {
+        id: "lux-8",
+        title: "Daily SEO Pages: Local Business Neon Signs",
+        priority: "medium",
+        category: "seo",
+        status: "done",
+        impact: "2 new SEO-rich pages per day — RUNNING",
+        description: "Cron jobs live. First page published 3/19 (Custom Neon Signs for Restaurants in Fort Lauderdale). 89 neon sign SEO blog posts also published on Lux.",
+        steps: ["✅ 2 daily SEO page crons running (3:00 PM + 3:30 PM ET)", "✅ First page published as Shopify page", "✅ 89 neon SEO blog posts published", "Monitor organic traffic growth via GA4"],
+        expected: "60 new SEO pages per month. Long-tail keyword dominance for local neon sign searches.",
+        risk: "Low. Fully automated."
+      }
+    ]
+  },
+  luxdo: {
+    name: "Lux Neon DR 🇩🇴",
+    icon: "🇩🇴",
+    url: "luxneon.do",
+    baseline: { ttfb: "—", total: "—", size: "—", platform: "Shopify (planned)" },
+    tasks: [
+      {
+        id: "luxdo-1",
+        title: "Acquire Hosting & Set Up Shopify Store",
+        priority: "high",
+        category: "infrastructure",
+        status: "done",
+        impact: "Foundation for the entire Dominican Republic operation",
+        description: "Shopify store live at ydciat-m8.myshopify.com, Paristheme published, luxneon.do domain connected via Cloudflare, SSL working. Store configured for Spanish language and DOP/USD pricing.",
+        steps: [
+          "✅ Shopify store opened at ydciat-m8.myshopify.com",
+          "✅ Paristheme installed and published",
+          "✅ luxneon.do domain connected via Cloudflare",
+          "✅ SSL certificate active and working",
+          "✅ Store language set to Spanish",
+          "✅ Currency configured (DOP/USD)"
+        ],
+        notes: "Lex is setting up banking — payments in sandbox mode for now."
+      },
+      {
+        id: "luxdo-2",
+        title: "Brand Identity & Content Translation",
+        priority: "high",
+        category: "content",
+        status: "done",
+        impact: "Professional Spanish-language brand presence matching US quality",
+        description: "7 content pages written in Dominican Spanish, company profile created. 4 Shopify pages published (Inicio, Galería, Contacto, Sobre Nosotros). 6 product collections created and organized.",
+        steps: [
+          "✅ 7 content pages written in Dominican Spanish",
+          "✅ Company profile created for DR market",
+          "✅ 4 Shopify pages created and published",
+          "✅ 6 collections created and organized",
+          "✅ Location-specific SEO content (Santo Domingo, Gazcue)",
+          "✅ Brand adapted for Dominican market"
+        ],
+        notes: "Gallery + Neon only for now. Events expansion later."
+      },
+      {
+        id: "luxdo-3",
+        title: "Social Media Setup",
+        priority: "medium",
+        category: "marketing",
+        status: "in-progress",
+        impact: "Instagram and Facebook are primary discovery channels in DR",
+        description: "Set up Facebook and Instagram profiles for Lux Neon DR. Brand consistency with US Lux but localized for Dominican audience.",
+        steps: [
+          "Create Instagram business profile (@luxneon.do or similar)",
+          "Create Facebook business page",
+          "Set up brand assets (logo, cover photos, highlights)",
+          "Plan initial content calendar (Spanish)",
+          "Connect to Meta Business Suite for management"
+        ],
+        notes: "Lex is setting up FB and IG now."
+      },
+      {
+        id: "luxdo-4",
+        title: "Product Catalog — Neon Signs",
+        priority: "medium",
+        category: "products",
+        status: "in-progress",
+        impact: "Revenue-ready product listings for custom and pre-designed signs",
+        description: "6 collections created and organized. Need to add actual products with images, Spanish descriptions, and pricing. Collections ready: signs by style, custom signs, indoor, outdoor, seasonal, gallery.",
+        steps: [
+          "✅ 6 collections created in Shopify",
+          "Add neon sign products to each collection",
+          "Write Spanish product descriptions",
+          "Set DR-appropriate pricing",
+          "Generate product mockup images",
+          "Set up custom neon sign request form (Spanish)"
+        ],
+        notes: "Can clone many products from US store and translate."
+      },
+      {
+        id: "luxdo-5",
+        title: "Payment Processing & Banking",
+        priority: "high",
+        category: "infrastructure",
+        status: "blocked",
+        impact: "Cannot take orders without payment processing",
+        description: "Set up payment processing for Dominican Republic. Evaluate Shopify Payments fees and USD/DOP conversion impact. Consider local alternatives.",
+        steps: [
+          "Open local bank account (in progress)",
+          "Evaluate Shopify Payments DR fees and FX conversion",
+          "Consider Cardnet/VisaNet as local alternatives",
+          "Set up PayPal as backup payment option",
+          "Enable bank transfer / SINPE as local option",
+          "Test checkout flow end-to-end"
+        ],
+        notes: "Lex is working on banking. Shopify Payments sandbox for now."
+      },
+      {
+        id: "luxdo-6",
+        title: "Local SEO — Santo Domingo",
+        priority: "medium",
+        category: "seo",
+        status: "todo",
+        impact: "Organic discovery for 'letreros de neón Santo Domingo' and related searches",
+        description: "Local SEO strategy for Dominican market. Target: Gazcue, Zona Colonial, Piantini, Naco, Santo Domingo searches.",
+        steps: [
+          "Claim Google Business Profile for Gazcue location",
+          "Create local landing pages (Santo Domingo, Gazcue, Piantini)",
+          "Set up Spanish SEO keywords research",
+          "Submit to local DR business directories",
+          "Set up Google Analytics (GA4)"
+        ],
+        notes: "Key terms: letreros de neón, letreros LED, letreros personalizados, galería de arte Santo Domingo"
+      },
+      {
+        id: "luxdr-nav",
+        title: "Update Navigation Menu",
+        priority: "high",
+        category: "content",
+        status: "todo",
+        impact: "Customers can navigate the store properly",
+        description: "Main navigation menu needs to be updated in Shopify admin. API token doesn't have navigation scope — must be done manually or get scope added.",
+        steps: ["Log into Shopify admin", "Go to Online Store → Navigation", "Add menu items for collections, pages, and contact"],
+        expected: "Full navigation menu with links to all collections and pages",
+        risk: "Low"
+      },
+      {
+        id: "luxdr-images",
+        title: "Generate Hero Images & Product Photos",
+        priority: "critical",
+        category: "content",
+        status: "todo",
+        impact: "Store looks professional and ready for customers",
+        description: "Need hero banners, gallery photos, and product mockups for neon signs. Dominican context — Santo Domingo locations, tropical settings.",
+        steps: ["Generate hero banner images", "Create product mockup photos for neon signs", "Upload to Shopify CDN", "Assign to products and theme sections"],
+        expected: "Professional-looking store with on-brand imagery",
+        risk: "Low"
+      },
+      {
+        id: "luxdr-products",
+        title: "Add Products with Descriptions & Pricing",
+        priority: "critical",
+        category: "content",
+        status: "todo",
+        impact: "Customers can actually browse and order neon signs",
+        description: "Add neon sign products to the 6 collections with Spanish descriptions, pricing, and product images.",
+        steps: ["Create products in each collection", "Write descriptions in Dominican Spanish", "Set pricing", "Add product images"],
+        expected: "Full product catalog ready for orders",
+        risk: "Low"
+      },
+      {
+        id: "luxdr-whatsapp",
+        title: "Set Up WhatsApp Business",
+        priority: "high",
+        category: "marketing",
+        status: "todo",
+        impact: "Primary customer contact channel for DR market",
+        description: "Get a local Dominican Republic phone number and configure WhatsApp Business profile for Lux Neon DR. WhatsApp is the primary communication channel in DR.",
+        steps: ["Get local DR phone number", "Set up WhatsApp Business profile", "Add to website contact page", "Configure auto-responses"],
+        expected: "Working WhatsApp Business for customer inquiries",
+        risk: "Low"
       }
     ]
   },
@@ -802,6 +1277,30 @@ const projects = {
         ],
         expected: "Maintain sub-300ms load times. Catch any degradation early.",
         risk: "No risk. Monitoring only."
+      },
+      {
+        id: "coconut-7",
+        title: "Build Customer Dept: Ambassador Program Automation",
+        priority: "high",
+        category: "seo",
+        status: "todo",
+        impact: "Automated ambassador onboarding, monthly check-ins, collection launch coordination",
+        description: "Jessica's Customer Department. Coconut's ambassador program is a key sales engine. Automate: application review, welcome kits, monthly check-ins, inactive re-engagement, collection launch coordination.",
+        steps: ["Write ambassador application review criteria (Micro/Mid/Macro tiers)", "Write welcome email with ambassador kit, codes, guidelines", "Write monthly check-in flow", "Write 30-day inactive re-engagement", "Write collection launch ambassador coordination emails", "Build all in Klaviyo"],
+        expected: "Higher ambassador retention, coordinated launches, more UGC.",
+        risk: "Low. Emails are drafts until Lex approves."
+      },
+      {
+        id: "coconut-8",
+        title: "Build Ambassador Program Page (Shopify)",
+        priority: "high",
+        category: "seo",
+        status: "todo",
+        impact: "Higher-converting ambassador application page",
+        description: "Sandra's Design Department. Build a dedicated ambassador program page showing tiers, benefits, requirements, and application form. Mobile-first (most visitors on phone).",
+        steps: ["CRO audit current ambassador page", "Design new page with lifestyle imagery, tier breakdown, application CTA", "Build in Shopify", "Lex approval required before publish"],
+        expected: "More quality ambassador applications.",
+        risk: "Medium. Requires Lex approval."
       }
     ]
   },
@@ -949,6 +1448,18 @@ const projects = {
         ],
         expected: "Cut page weight by 40%. Faster mobile loads. Better Core Web Vitals.",
         risk: "Low risk on Shopify. Removing unused apps is safe. Test after each change."
+      },
+      {
+        id: "reclaimed-8",
+        title: "Build Customer Dept: Seasonal Reactivation + International Shipping",
+        priority: "medium",
+        category: "seo",
+        status: "todo",
+        impact: "Seasonal campaigns timed to sports calendar, international shipping service rules",
+        description: "Jessica's Customer Department. Track customers by sport season (NFL, NBA, MLB, NCAA). Send 'new season, new look' campaigns 3 weeks before each season. International shipping service rules for 27+ countries.",
+        steps: ["Map sports calendar to email triggers", "Write seasonal reactivation emails per sport", "Write international shipping service templates (customs holds, lost packages)", "Write group order discount trigger (5+ pieces)", "Build Klaviyo flows with seasonal timing"],
+        expected: "Seasonal reactivation drives repeat purchases. Better international customer experience.",
+        risk: "Low. Emails are drafts until Lex approves."
       }
     ]
   },
@@ -1235,6 +1746,256 @@ const projects = {
         ],
         expected: "Automated social presence across all platforms. Zero manual posting required.",
         risk: "Low risk. Buffer handles scheduling. Start with Instagram + GBP, expand to others."
+      }
+    ]
+  },
+  system: {
+    name: "System Configuration",
+    icon: "⚙️",
+    url: "jackiespanties.com",
+    baseline: { ttfb: "—", total: "—", size: "—", platform: "OpenClaw Agent Infrastructure" },
+    tasks: [
+      {
+        id: "sys-1",
+        title: "Build Jessica's Customer Dept AGENTS.md",
+        priority: "critical",
+        category: "seo",
+        status: "done",
+        impact: "Enables 20 new customer lifecycle agents across all 7 businesses",
+        description: "Create Jessica's expanded AGENTS.md with full Customer Department structure: Sales, Retention, Reputation, Service, Complaint Resolution. 20 sub-agents with model assignments, delegation patterns, and QC checklists.",
+        steps: ["Define all 20 agent IDs and configs in openclaw.json", "Create AGENTS.md with delegation instructions", "Create skills directory for customer ops", "Set up Klaviyo/Brevo skill symlinks for relevant agents", "Test Jessica spawn + delegation chain"],
+        expected: "Jessica can receive customer lifecycle tasks and delegate to her 20-agent team.",
+        risk: "Low. Config only — no external actions."
+      },
+      {
+        id: "sys-2",
+        title: "Write System Prompts: Customer Dept B2B Agents",
+        priority: "critical",
+        category: "seo",
+        status: "in-progress",
+        impact: "Each sub-agent knows its role, triggers, workflow, stop conditions, and escalation rules",
+        description: "21 agents registered in openclaw.json with models assigned. Skills wired (Aircall, Freshdesk, Intercom). Writing full system prompts for all sub-agents — role, trigger, workflow, decision logic, stop conditions, escalation rules.",
+        steps: ["✅ 21 agents registered in openclaw.json", "✅ Models assigned per agent", "✅ Skills wired (Aircall, Freshdesk, Intercom)", "Write prompts for Sales team (4 agents)", "Write prompts for Retention team (4 agents)", "Write prompts for Reputation team (4 agents)", "Write prompts for Service team (4 agents)", "Write prompts for Complaint Resolution team (4 agents)", "Review all for brand consistency"],
+        expected: "All 21 agents have clear, actionable system prompts. No ambiguity in behavior.",
+        risk: "None. Documentation only."
+      },
+      {
+        id: "sys-3",
+        title: "Write Email Sequences: B2B (Crown, Shirtsy, GoodNeon)",
+        priority: "critical",
+        category: "seo",
+        status: "todo",
+        impact: "Full email copy for the customer lifecycle — 3 business variants",
+        description: "Write all email copy for Phase 1 B2B businesses. Per business: approval welcome, catalog orientation, Days 1/3/5/7 nudge, Days 8/12/17 conversion push, first order thank-you, reorder reminder, milestone emails, at-risk warning, win-back (3 touches), Trifecta cross-sell.",
+        steps: ["Write Crown email sequence (all touchpoints)", "Write Shirtsy sequence (include proof loop branch)", "Write GoodNeon sequence (NET60 wider timing)", "Write Trifecta cross-sell emails (3 variants)", "Review for brand voice consistency per Brand Vault"],
+        expected: "~30+ email templates ready for Klaviyo deployment.",
+        risk: "None. All drafts for Lex review before deployment."
+      },
+      {
+        id: "sys-4",
+        title: "Build Klaviyo Flows: B2B Businesses",
+        priority: "high",
+        category: "seo",
+        status: "todo",
+        impact: "Automated email sequences with triggers, timing, and exit conditions",
+        description: "Build the actual Klaviyo flow structure for Crown, Shirtsy, GoodNeon. Define: flow names, triggers, exit conditions, email sequence with timing, segments, dynamic fields, personalization tokens.",
+        steps: ["Design flow architecture for each business", "Map triggers (account approved, order placed, proof ready, etc.)", "Set exit conditions (stop on order, stop on reorder)", "Define segments: Approved-No Order, Active, At-Risk, Dormant, Key Account, VIP", "Build flows in Klaviyo (or provide specs for manual build)"],
+        expected: "Fully automated customer lifecycle running in Klaviyo.",
+        risk: "Low. Flows can be paused/edited anytime."
+      },
+      {
+        id: "sys-5",
+        title: "Build CRM Field Setup",
+        priority: "high",
+        category: "seo",
+        status: "todo",
+        impact: "Account lifecycle tracking across all businesses",
+        description: "Define and implement CRM fields for customer lifecycle tracking. Fields: account status, business type, credit limit, credit terms, order count, lifetime spend, last order date, predicted reorder date, open proof status, invoice status.",
+        steps: ["Map fields to existing tools (WooCommerce custom fields, Klaviyo properties, Shopify metafields)", "Create custom properties in Klaviyo for each business", "Define status lifecycle transitions", "Decide on HubSpot (or confirm existing tools are sufficient)"],
+        expected: "Complete customer data model across all 7 businesses.",
+        risk: "Low. Adding fields doesn't break anything."
+      },
+      {
+        id: "sys-6",
+        title: "Build Trifecta Cross-Sell Integration",
+        priority: "high",
+        category: "seo",
+        status: "todo",
+        impact: "Every B2B customer sees all 3 businesses — Crown ↔ Shirtsy ↔ GoodNeon",
+        description: "Design and build the Trifecta cross-sell system. When a customer is acquired on any B2B business, introduce the other two. Integrated into post-first-order and account growth phases.",
+        steps: ["Design cross-sell trigger points in customer journey", "Write cross-sell email templates (Crown→Shirtsy/GoodNeon, etc.)", "Build Klaviyo segments for cross-business targeting", "Define attribution tracking (which business referred which)", "Test flow end-to-end"],
+        expected: "Higher average customer value across the B2B portfolio.",
+        risk: "Low. Cross-sell emails are value-add, not spam."
+      },
+      {
+        id: "sys-7",
+        title: "Build Sandra's Design Dept AGENTS.md",
+        priority: "high",
+        category: "seo",
+        status: "done",
+        impact: "Enables 12 creative agents with Brand Vault enforcement",
+        description: "Create Sandra's AGENTS.md with full Design Department structure: Image Generation, Document Design, UI/UX, Website Design. 12 sub-agents with model assignments. Include the complete Brand Vault as reference.",
+        steps: ["Define all 12 agent IDs and configs in openclaw.json", "Create AGENTS.md with Brand Vault + delegation instructions", "Create skills directory", "Set up skill symlinks (Shopify, WordPress, Cloudflare for page builders)", "Test Sandra spawn + delegation chain"],
+        expected: "Sandra can receive creative requests and delegate to her 12-agent team.",
+        risk: "Low. Config only."
+      },
+      {
+        id: "sys-8",
+        title: "Write System Prompts: Design Dept Agents",
+        priority: "high",
+        category: "seo",
+        status: "todo",
+        impact: "Each design agent knows its role, brand constraints, and output format",
+        description: "Write system prompts for all 12 Design Dept sub-agents. Each prompt includes: role, required inputs, step-by-step process, output format, brand compliance check, human approval gates.",
+        steps: ["Write prompts for Image Generation team (4 agents)", "Write prompts for Document Design team (3 agents)", "Write prompts for UI/UX team (3 agents)", "Write prompts for Website Design team (3 agents — includes SEO)"],
+        expected: "All 12 agents produce brand-compliant, ready-to-use outputs.",
+        risk: "None. Documentation only."
+      },
+      {
+        id: "sys-9",
+        title: "Build 7 Brand Style Guides",
+        priority: "high",
+        category: "seo",
+        status: "todo",
+        impact: "Source of truth for all creative output across 7 businesses",
+        description: "Create complete brand style guides for each business using the Brand Vault as foundation. Each guide: brand overview, color palette (hex/RGB/CMYK), typography, logo usage, voice & tone, photography style, design do's and don'ts.",
+        steps: ["Build Crown style guide", "Build Shirtsy style guide", "Build GoodNeon style guide", "Build Lux Neon style guide", "Build Reclaimed Closet style guide", "Build Coconut Bikini style guide", "Build Virtus Realty style guide", "Lex approval on all 7"],
+        expected: "Any agent or designer can pick up any brand and stay on-identity.",
+        risk: "None. Reference docs. Require Lex approval."
+      },
+      {
+        id: "sys-10",
+        title: "Connect Google Ads API",
+        priority: "high",
+        category: "speed",
+        status: "in-progress",
+        impact: "Direct access to Google Ads data for Lux and all accounts",
+        description: "OAuth tokens working (adwords scope). Google Ads API enabled on GCP. Developer token in Basic Access — Standard Access application submitted 3/20. Waiting 1-3 business days for Google approval.",
+        steps: ["✅ OAuth tokens with adwords scope obtained", "✅ Google Ads API enabled on GCP project 743931807036", "✅ Standard Access application submitted", "⏳ Wait for Google approval (1-3 business days)", "Jackie: Test API connection after approval", "Pull Lux campaign data", "Set up automated reporting cron job"],
+        expected: "Full API access to all Google Ads accounts under the manager.",
+        risk: "None. Read access first."
+      },
+      {
+        id: "sys-11",
+        title: "Connect Gmail Integration",
+        priority: "medium",
+        category: "seo",
+        status: "todo",
+        impact: "Agents can draft and send emails directly",
+        description: "Needed for Customer Department email sending. Currently agents can write emails but can't send them. Gmail API or SMTP integration required.",
+        steps: ["Enable Gmail API in Google Cloud Console", "Create OAuth credentials for Gmail scope", "Build email sending skill", "Test with draft-only mode first"],
+        expected: "Agents can draft emails for review, and send approved emails.",
+        risk: "Medium. Email sending requires careful controls — human approval gates."
+      },
+      {
+        id: "sys-12",
+        title: "Connect Google Calendar Integration",
+        priority: "medium",
+        category: "seo",
+        status: "todo",
+        impact: "Lux event scheduling, Virtus showing coordination",
+        description: "Needed for Lux venue/event management and Virtus showing scheduling. Google Calendar API for availability checks and event creation.",
+        steps: ["Enable Google Calendar API in Cloud Console", "Create OAuth credentials for Calendar scope", "Build calendar skill", "Test with read-only first"],
+        expected: "Agents can check availability and create events.",
+        risk: "Low with read-only. Medium with write access."
+      },
+      {
+        id: "sys-13",
+        title: "Connect Image Generation Tool",
+        priority: "medium",
+        category: "seo",
+        status: "done",
+        impact: "Design Dept can generate images, not just write prompts",
+        description: "Connected Gemini/Imagen API (Paid Tier 1). Also connected Figma and Canva. Neon sign pipeline generating 65 images/day on cron. 118/267 images completed.",
+        steps: ["✅ Gemini/Imagen API connected (API key + skill built)", "✅ Figma PAT connected (skill built)", "✅ Canva OAuth connected (skill built, integration submitted for review)", "✅ Neon pipeline running on daily cron (3:05 AM ET)", "✅ 118 images generated, 89 products created on both stores"],
+        expected: "On-demand image generation following Brand Vault constraints.",
+        risk: "Low. Cost varies by platform."
+      },
+      {
+        id: "sys-14",
+        title: "Daily Content Engine: Review & Approve First Batch",
+        priority: "high",
+        category: "seo",
+        status: "done",
+        impact: "9 pieces of content per day — LIVE",
+        description: "First batch published 3/19. Lex approved auto-publish. 7 blog cron jobs + 2 SEO page crons running daily. 178 neon SEO blog posts also published across GoodNeon + Lux.",
+        steps: ["✅ 7 blog cron jobs running (1 PM-2:30 PM ET)", "✅ 2 Lux SEO page crons running (3 PM-3:30 PM ET)", "✅ First batch reviewed and published 3/19", "✅ Lex approved full auto-publish", "✅ 178 neon SEO blog posts published (89 GoodNeon + 89 Lux)"],
+        expected: "270+ pieces of content per month across all businesses.",
+        risk: "Low. All content reviewed before first autonomous publish."
+      },
+      {
+        id: "sys-model-opt",
+        title: "Model Optimization — Coder & SEO",
+        priority: "high",
+        category: "performance",
+        status: "done",
+        impact: "Better code quality, fewer truncation errors, improved SEO analysis",
+        description: "Upgraded Coder from DeepSeek V3.2 to Sonnet 4.6 (fixes truncation on large files). Upgraded SEO Agent from qwen3:8b to qwen3.5:35b (better reasoning for keyword strategy).",
+        steps: ["✅ Updated openclaw.json", "✅ Restarted gateway"],
+        expected: "Higher quality code output, no more truncated files, better SEO content",
+        risk: "Low — can revert if needed"
+      },
+      {
+        id: "sys-cron-prompts",
+        title: "Improve Blog/SEO Cron Prompts",
+        priority: "high",
+        category: "content",
+        status: "todo",
+        impact: "Higher quality daily content with distinct brand voices",
+        description: "Current blog cron prompts produce decent but generic content. Need brand voice guidelines, consistent word counts, and image generation integrated into blog posts.",
+        steps: ["Audit current prompts", "Add brand voice guidelines per store", "Set word count targets", "Fix metadata stripping for Lux SEO pages", "Fix Shirtsy and Lux blog cron errors"],
+        expected: "Distinctive, high-quality content per brand",
+        risk: "Low"
+      },
+      {
+        id: "sys-fix-cron-errors",
+        title: "Fix Shirtsy & Lux Blog Cron Errors",
+        priority: "critical",
+        category: "reliability",
+        status: "todo",
+        impact: "Daily content generation running reliably for all 7 stores",
+        description: "Shirtsy blog and Lux blog crons are in error state (timeout). Need to investigate and fix.",
+        steps: ["Check cron run logs", "Identify timeout cause", "Adjust timeout or simplify prompts", "Test with manual run"],
+        expected: "All 7 blog crons running without errors",
+        risk: "Low"
+      },
+      {
+        id: "sys-incident-log",
+        title: "Incident Log — 2026-03-23",
+        priority: "medium",
+        category: "reliability",
+        status: "done",
+        impact: "3 incidents resolved in one day — all documented",
+        description: "March 23 incident summary: (1) Super Bot Fight Mode blocked ALL traffic to Crown + Shirtsy for ~56 min — resolved by disabling SBFM. (2) Shirtsy brute force attack on wp-login.php exhausted PHP-FPM workers — resolved with origin lockdown + rate limiting. (3) Local model (qwen3.5:35b) had catastrophic hallucination generating 3000+ lines of gibberish during Shirtsy investigation — identified as model failure, not security breach.",
+        steps: [
+          "✅ SBFM incident: disabled, sites restored (12:00-12:56 PM)",
+          "✅ Brute force attack: origin locked down, rate limits applied (12:00-14:20 PM)",
+          "✅ Model hallucination: identified as qwen3.5:35b context overload (12:10-12:37 PM)",
+          "✅ All incidents documented in memory/2026-03-23.md",
+          "Lesson: NEVER enable SBFM without testing",
+          "Lesson: Complex tasks should go to stronger models or be chunked",
+          "Lesson: Local models can degenerate under heavy context"
+        ],
+        expected: "All incidents resolved. Lessons documented for future reference.",
+        risk: "None. Retrospective only."
+      },
+      {
+        id: "sys-ollama-down",
+        title: "Ollama Local Model Server — Restored",
+        priority: "medium",
+        category: "reliability",
+        status: "done",
+        impact: "All dept heads (Vanessa, Tanya, Jessica, Amanda, Sandra) are offline",
+        description: "Ollama server returning 'fetch failed' on all connection attempts as of 2:27 PM ET 3/23. All local model dept heads (qwen3.5:35b) are unreachable. This blocks all delegation to department heads. Likely crashed or was stopped during today's heavy usage.",
+        steps: [
+          "Check if Ollama process is running: ps aux | grep ollama",
+          "If not running: ollama serve",
+          "If running but unresponsive: restart with ollama serve",
+          "Verify: ollama list (should show qwen3.5:35b loaded)",
+          "Test: curl http://localhost:11434/api/tags"
+        ],
+        expected: "Ollama server running and all dept heads operational.",
+        risk: "High impact while down — no delegation possible."
       }
     ]
   }
@@ -1528,7 +2289,8 @@ async function syncQueueToGist() {
 
 function renderAllBoards() {
   renderBoard('crown'); renderBoard('shirtsy'); renderBoard('goodneon');
-  renderBoard('lux'); renderBoard('coconut'); renderBoard('reclaimed'); renderBoard('virtus');
+  renderBoard('lux'); renderBoard('luxdo'); renderBoard('coconut'); renderBoard('reclaimed'); renderBoard('virtus');
+  renderBoard('system');
 }
 
 // On load, check gist for Lex tasks Jackie may have added
@@ -1607,6 +2369,184 @@ function moveTask(id, status) {
 function closeModal() {
   document.getElementById('modal').classList.remove('open');
 }
+
+// ===== MEMORY BOARD =====
+let memoryData = null;
+async function loadMemoryIndex() {
+  try {
+    const resp = await fetch('memory-index.json?t=' + Date.now());
+    memoryData = await resp.json();
+    renderMemoryBoard();
+  } catch(e) { console.error('Memory index load failed:', e); }
+}
+
+function renderMemoryBoard() {
+  if (!memoryData) { document.getElementById('board-memory').innerHTML = '<p style="padding:40px;text-align:center;color:#999">Loading memory index...</p>'; return; }
+  const stats = memoryData.stats;
+  const days = memoryData.days;
+  
+  let html = `
+  <div style="padding:24px">
+    <div style="display:flex;gap:24px;flex-wrap:wrap">
+      <!-- Stats sidebar -->
+      <div style="min-width:220px;flex:0 0 220px">
+        <div style="background:#111820;border:1px solid #1e2830;border-radius:12px;padding:20px;margin-bottom:16px">
+          <h3 style="color:#b8956a;font-size:14px;text-transform:uppercase;margin-bottom:12px">📊 Stats</h3>
+          <div style="display:grid;gap:12px">
+            <div><div style="color:#b8956a;font-size:1.8rem;font-weight:700">${stats.total_days_logged}</div><div style="color:#666;font-size:12px">Days Logged</div></div>
+            <div><div style="color:#2ecc71;font-size:1.8rem;font-weight:700">${stats.total_entries}</div><div style="color:#666;font-size:12px">Total Entries</div></div>
+            <div><div style="color:#3498db;font-size:1.8rem;font-weight:700">${stats.recent_activity_streak}</div><div style="color:#666;font-size:12px">Day Streak</div></div>
+          </div>
+        </div>
+        <div style="background:#111820;border:1px solid #1e2830;border-radius:12px;padding:20px;margin-bottom:16px">
+          <h3 style="color:#b8956a;font-size:14px;text-transform:uppercase;margin-bottom:12px">🏢 Top Projects</h3>
+          ${stats.most_active_projects.map(p => `<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #1a1a1a"><span style="color:#ccc;font-size:13px">${p.project}</span><span style="color:#b8956a;font-weight:600">${p.days}d</span></div>`).join('')}
+        </div>
+        <!-- Search -->
+        <div style="background:#111820;border:1px solid #1e2830;border-radius:12px;padding:20px">
+          <h3 style="color:#b8956a;font-size:14px;text-transform:uppercase;margin-bottom:12px">🔍 Search</h3>
+          <input type="text" id="memory-search" placeholder="Search memories..." 
+            style="width:100%;background:#0a0f14;border:1px solid #1e2830;border-radius:8px;padding:8px 12px;color:#fff;font-size:13px"
+            oninput="searchMemory(this.value)">
+          <div id="memory-search-results" style="margin-top:8px;max-height:300px;overflow-y:auto"></div>
+        </div>
+      </div>
+      <!-- Main content -->
+      <div style="flex:1;min-width:0">
+        <!-- Project filter -->
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">
+          <button class="mem-filter active" onclick="filterMemory('all',this)" style="background:#b8956a;color:#000;border:none;padding:4px 12px;border-radius:16px;font-size:12px;cursor:pointer">All</button>
+          ${[...new Set(days.flatMap(d => d.projects))].sort().map(p => 
+            `<button class="mem-filter" onclick="filterMemory('${p}',this)" style="background:transparent;color:#888;border:1px solid #333;padding:4px 12px;border-radius:16px;font-size:12px;cursor:pointer">${p}</button>`
+          ).join('')}
+        </div>
+        <!-- Day cards -->
+        <div id="memory-days" style="display:grid;gap:12px">
+          ${days.map(d => memoryDayCard(d)).join('')}
+        </div>
+      </div>
+    </div>
+  </div>`;
+  
+  document.getElementById('board-memory').innerHTML = html;
+}
+
+function memoryDayCard(d) {
+  const levelColors = {'very-active':'#2ecc71','active':'#b8956a','moderate':'#3498db','light':'#666','empty':'#333'};
+  const color = levelColors[d.activity_level] || '#666';
+  const dateObj = new Date(d.date + 'T12:00:00');
+  const dayName = dateObj.toLocaleDateString('en-US',{weekday:'short'});
+  const monthDay = dateObj.toLocaleDateString('en-US',{month:'short',day:'numeric'});
+  
+  return `<div class="memory-day-card" data-date="${d.date}" data-projects="${d.projects.join(',').toLowerCase()}" 
+    onclick="openMemoryDay('${d.date}')"
+    style="background:#111820;border:1px solid #1e2830;border-left:3px solid ${color};border-radius:10px;padding:16px;cursor:pointer;transition:.2s"
+    onmouseover="this.style.borderColor='#b8956a'" onmouseout="this.style.borderColor='#1e2830';this.style.borderLeftColor='${color}'">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+      <div>
+        <span style="color:#b8956a;font-weight:700;font-size:15px">${dayName} ${monthDay}</span>
+        <span style="color:#444;font-size:12px;margin-left:8px">${d.date}</span>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <span style="color:${color};font-size:12px;font-weight:600">${d.activity_level}</span>
+        <span style="color:#666;font-size:11px">${d.word_count} words</span>
+      </div>
+    </div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px">
+      ${d.projects.map(p => `<span style="background:rgba(184,149,106,.15);color:#b8956a;padding:2px 8px;border-radius:10px;font-size:11px">${p}</span>`).join('')}
+    </div>
+    <div style="color:#888;font-size:12px">
+      ${d.sections.slice(0,4).map(s => `<div style="padding:2px 0;border-bottom:1px solid #0a0f14">📌 ${s.title}</div>`).join('')}
+      ${d.sections.length > 4 ? `<div style="color:#555;padding-top:4px">+ ${d.sections.length - 4} more sections</div>` : ''}
+    </div>
+  </div>`;
+}
+
+function openMemoryDay(date) {
+  const day = memoryData.days.find(d => d.date === date);
+  if (!day) return;
+  const dateObj = new Date(date + 'T12:00:00');
+  const fullDate = dateObj.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
+  
+  // Identify code/technical sections
+  const hasCodeSections = day.sections.some(s => s.content.some(c => c.match(/^`(?:\`\`\`[a-z]*)?|\s*[/\$].*|\s*function\s|\s*\$\{/) || c.length > 800));
+  
+  document.getElementById('modal-title').textContent = `🧠 ${fullDate}`;
+  document.getElementById('modal-body').innerHTML = `
+    <div style="margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid var(--border);">
+      <h3 style="color:var(--text);font-size:18px;margin:0 0 8px 0;">${fullDate}</h3>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;font-size:12px;color:var(--muted)">
+        <span style="background:var(--bg);padding:4px 10px;border-radius:6px;border:1px solid var(--border)">
+          <strong style="color:var(--accent)">${day.word_count}</strong> words
+        </span>
+        <span style="background:var(--bg);padding:4px 10px;border-radius:6px;border:1px solid var(--border)">
+          <strong style="color:var(--accent)">${day.section_count}</strong> sections
+        </span>
+        <span style="background:${day.activity_level === 'very-active' ? 'rgba(62,185,80,0.15)' : day.activity_level === 'active' ? 'rgba(184,149,106,0.15)' : 'rgba(88,166,255,0.15)'};padding:4px 10px;border-radius:6px;border:1px solid ${day.activity_level === 'very-active' ? 'rgba(62,185,80,0.3)' : day.activity_level === 'active' ? 'rgba(184,149,106,0.3)' : 'rgba(88,166,255,0.3)'};color:${day.activity_level === 'very-active' ? 'var(--green)' : day.activity_level === 'active' ? '#b8956a' : 'var(--accent)'};font-weight:600;text-transform:capitalize">
+          ${day.activity_level}
+        </span>
+      </div>
+    </div>
+    
+    ${day.projects.length > 0 ? `
+      <div style="margin-bottom:20px;padding:12px;background:rgba(184,149,106,0.05);border:1px solid rgba(184,149,106,0.2);border-radius:8px">
+        <div style="color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">🏢 Projects Discussed</div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">${day.projects.map(p => `<span style="background:rgba(184,149,106,.15);color:#b8956a;padding:3px 10px;border-radius:12px;font-size:11px;font-weight:500">${p}</span>`).join('')}</div>
+      </div>
+    ` : ''}
+    
+    <div style="display:grid;gap:24px">${day.sections.map(s => `
+      <div style="${hasCodeSections && s.content.some(c => c.match(/^(?:```[a-z]*)?|\s*[/\$].*|\s*function\s|\s*\$\{/) || s.content.join('').length > 800) ? 'background:#0d1117;padding:16px;border-radius:8px;border:1px solid var(--border);' : ''}">
+        <h4 style="color:#b8956a;font-size:15px;font-weight:600;margin:0 0 12px 0;padding-bottom:8px;border-bottom:1px solid rgba(184,149,106,0.2);display:flex;align-items:center;gap:8px">${s.title}</h4>
+        <div style="color:#e6edf3;font-size:14px;line-height:1.8">${s.content.filter(c=>c).map(c => {
+          if(c.startsWith('- ')) return '<div style="padding:6px 0;border-left:2px solid #b8956a;margin:4px 0;padding-left:8px">'+c.substring(2)+'</div>';
+          if(c.startsWith('### ')) return '<div style="color:#b8956a;font-weight:600;margin-top:12px;margin-bottom:4px">'+c.substring(4)+'</div>';
+          if(c.match(/^`(?:```[a-z]*)?|^\s*[/\$].*|^\s*function\s|^\s*\$\{/) || c.length > 800) return '<div style="background:#0a0f14;padding:12px;border-radius:6px;border:1px solid #30363d;font-family:monospace;font-size:13px;color:#7ee787;overflow-x:auto;white-space:pre-wrap;margin:6px 0">'+c+'</div>';
+          return '<div>'+c+'</div>';
+        }).join('')}</div>
+      </div>
+    `).join('')}</div>
+  `;
+  document.getElementById('modal-footer').innerHTML = '<button class="btn btn-outline" onclick="closeModal()">Close</button>';
+  document.getElementById('modal').classList.add('open');
+}
+
+function searchMemory(query) {
+  const results = document.getElementById('memory-search-results');
+  if (!query || query.length < 2) { results.innerHTML = ''; return; }
+  query = query.toLowerCase();
+  let matches = [];
+  for (const day of memoryData.days) {
+    for (const s of day.sections) {
+      const fullText = s.title + ' ' + s.content.join(' ');
+      if (fullText.toLowerCase().includes(query)) {
+        const snippet = s.content.find(c => c.toLowerCase().includes(query)) || s.title;
+        matches.push({date: day.date, title: s.title, snippet: snippet.substring(0,120)});
+      }
+    }
+  }
+  if (matches.length === 0) { results.innerHTML = '<div style="color:#666;font-size:12px;padding:8px">No results</div>'; return; }
+  results.innerHTML = matches.slice(0,15).map(m => `
+    <div onclick="openMemoryDay('${m.date}')" style="padding:8px;border-bottom:1px solid #1a1a1a;cursor:pointer;font-size:12px" 
+      onmouseover="this.style.background='#1e2830'" onmouseout="this.style.background='transparent'">
+      <div style="color:#b8956a;font-weight:600">${m.date} — ${m.title}</div>
+      <div style="color:#888">${m.snippet}...</div>
+    </div>
+  `).join('');
+}
+
+function filterMemory(project, btn) {
+  document.querySelectorAll('.mem-filter').forEach(b => {b.style.background='transparent';b.style.color='#888';b.style.border='1px solid #333';});
+  btn.style.background='#b8956a';btn.style.color='#000';btn.style.border='none';
+  document.querySelectorAll('.memory-day-card').forEach(card => {
+    if (project === 'all') { card.style.display = ''; return; }
+    const projects = card.dataset.projects;
+    card.style.display = projects.includes(project.toLowerCase()) ? '' : 'none';
+  });
+}
+
+// Load memory on first tab click
+loadMemoryIndex();
 
 function switchBoard(key) {
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
