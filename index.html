@@ -2293,6 +2293,30 @@ const projects = {
         ],
         expected: "Ollama server running and all dept heads operational.",
         risk: "High impact while down — no delegation possible."
+      },
+      {
+        id: "sys-dept-head-upgrade",
+        title: "Dept Head Infrastructure Upgrade — March 26",
+        priority: "critical",
+        category: "performance",
+        status: "done",
+        completedDate: "2026-03-26",
+        impact: "9x intelligence upgrade (3B → 27B active params), 6GB RAM savings, all 5 dept heads now operational with persistent threads",
+        description: "COMPLETED 3/26: Major infrastructure upgrade across all 5 department heads (Vanessa, Tanya, Jessica, Amanda, Sandra). Diagnosed root causes of failures: empty MEMORY.md files, wrong model references in AGENTS.md, and MoE model (qwen3.5:35b) using only 3B active params. Upgraded to qwen3.5:27b (dense architecture, 27B active params) — 9x brain upgrade with 6GB less RAM usage. Populated all MEMORY.md files with operational context. Fixed model references (Vanessa's agent-coding was listed as deepseek, actually Sonnet; Tanya's agent-seo was listed as qwen3-coder, actually qwen3.5). Deleted stale BOOTSTRAP.md files. Cleaned junk files. Registered missing skills in openclaw.json. Removed obsolete Mac Mini references. Set up persistent Discord threads for all 5 dept heads. Fixed sub-agents missing AGENTS.md (agent-email-assembler, agent-api-caller).",
+        steps: [
+          "✅ Diagnosed dept head failures — root cause: empty MEMORY.md files + wrong model references + MoE model with only 3B active params",
+          "✅ Populated all 5 dept head MEMORY.md files with operational context",
+          "✅ Fixed model references in AGENTS.md (Vanessa: agent-coding was deepseek→Sonnet; Tanya: agent-seo was qwen3-coder→qwen3.5)",
+          "✅ Upgraded dept head model from qwen3.5:35b (MoE, 3B active) → qwen3.5:27b (dense, 27B active) — 9x brain upgrade, 6GB less RAM",
+          "✅ Deleted stale BOOTSTRAP.md from all 5 dept heads (never completed first boot)",
+          "✅ Cleaned junk files from workspaces",
+          "✅ Registered skills in openclaw.json for all dept heads (were missing)",
+          "✅ Removed Mac Mini references (migrated to Mac Studio)",
+          "✅ Set up persistent Discord threads for all 5 dept heads",
+          "✅ Fixed sub-agents missing AGENTS.md (agent-email-assembler, agent-api-caller)"
+        ],
+        expected: "All 5 department heads fully operational with proper memory, correct model assignments, and persistent Discord threads for thread-bound collaboration.",
+        risk: "None. All changes tested and verified operational."
       }
     ]
   }
