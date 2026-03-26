@@ -576,7 +576,7 @@ const projects = {
         category: "speed",
         status: "todo",
         impact: "Reduce server processing time and JS/CSS bloat",
-        description: "WooCommerce sites often accumulate 20-40+ plugins. Each plugin adds PHP execution time on the server and potentially JS/CSS on the frontend. This is likely a contributing factor to the slow TTFB.",
+        description: "WooCommerce sites often accumulate 20-40+ plugins. Each plugin adds PHP execution time on the server and potentially JS/CSS on the frontend. This is likely a contributing factor to the slow TTFB. Note: WordPress API authentication issues prevented automated plugin audit on March 26, 2026.",
         steps: [
           "Log into WordPress admin → Plugins → Installed Plugins",
           "List all active plugins and their purpose",
@@ -584,7 +584,8 @@ const projects = {
           "Deactivate plugins one at a time and test TTFB after each",
           "Remove any plugin that doesn't serve a clear purpose",
           "Consider replacing heavy plugins with lightweight alternatives",
-          "Use Query Monitor plugin to identify slow database queries from plugins"
+          "Use Query Monitor plugin to identify slow database queries from plugins",
+          "Fix WordPress API authentication if needed for future automated audits"
         ],
         expected: "Reduced server processing time. Fewer HTTP requests. Lighter page weight.",
         risk: "Medium risk. Deactivate one at a time and test. Some plugins may have dependencies."
@@ -634,11 +635,11 @@ const projects = {
         category: "seo",
         status: "todo",
         impact: "Better security posture, trust signals",
-        description: "Like Crown, Shirtsy is missing standard security headers. Not urgent but good practice.",
+        description: "Like Crown, Shirtsy is missing standard security headers. Not urgent but good practice. Audit on March 26, 2026 found only referrer-policy: no-referrer-when-downgrade present. Missing: Strict-Transport-Security, X-Frame-Options, X-Content-Type-Options, Content-Security-Policy, Permissions-Policy.",
         steps: [
           "Enable HSTS in Cloudflare SSL/TLS settings",
           "Add security headers via Cloudflare Transform Rules or .htaccess",
-          "Headers to add: X-Content-Type-Options, X-Frame-Options, Referrer-Policy, Permissions-Policy",
+          "Headers to add: X-Content-Type-Options, X-Frame-Options, Referrer-Policy, Permissions-Policy, Strict-Transport-Security, Content-Security-Policy",
           "Verify at securityheaders.com"
         ],
         expected: "Improved security score. Standard best practice.",
@@ -663,7 +664,7 @@ const projects = {
         category: "seo",
         status: "todo",
         impact: "Enhanced security against attacks",
-        description: "Shirtsy is on Cloudflare Pro plan which includes WAF (Web Application Firewall). Currently disabled.",
+        description: "Shirtsy is on Cloudflare Pro plan which includes WAF (Web Application Firewall). Currently disabled. Audit on March 26, 2026 confirmed WAF is off (value: \"off\").",
         steps: ["Cloudflare → Security → WAF → Enable managed rules", "Start with Cloudflare Managed Ruleset", "Monitor for false positives for 1 week", "Fine-tune as needed"],
         expected: "Protection against common web attacks (SQL injection, XSS, etc.).",
         risk: "Medium. WAF rules can occasionally block legitimate requests. Monitor closely after enabling."
@@ -2093,8 +2094,8 @@ const projects = {
         category: "seo",
         status: "in-progress",
         impact: "Each sub-agent knows its role, triggers, workflow, stop conditions, and escalation rules",
-        description: "21 agents registered in openclaw.json with models assigned. Skills wired (Aircall, Freshdesk, Intercom). Writing full system prompts for all sub-agents — role, trigger, workflow, decision logic, stop conditions, escalation rules.",
-        steps: ["✅ 21 agents registered in openclaw.json", "✅ Models assigned per agent", "✅ Skills wired (Aircall, Freshdesk, Intercom)", "Write prompts for Sales team (4 agents)", "Write prompts for Retention team (4 agents)", "Write prompts for Reputation team (4 agents)", "Write prompts for Service team (4 agents)", "Write prompts for Complaint Resolution team (4 agents)", "Review all for brand consistency"],
+        description: "21 agents registered in openclaw.json with models assigned. Skills wired (Aircall, Freshdesk, Intercom). Writing full system prompts for all sub-agents — role, trigger, workflow, decision logic, stop conditions, escalation rules. Audit on March 26, 2026: AGENTS.md exists for jessica-sales-experience (118 lines), but missing for agent-customer-responder and agent-review-drafter.",
+        steps: ["✅ 21 agents registered in openclaw.json", "✅ Models assigned per agent", "✅ Skills wired (Aircall, Freshdesk, Intercom)", "✅ AGENTS.md created for jessica-sales-experience", "Create AGENTS.md for agent-customer-responder", "Create AGENTS.md for agent-review-drafter", "Write prompts for Sales team (4 agents)", "Write prompts for Retention team (4 agents)", "Write prompts for Reputation team (4 agents)", "Write prompts for Service team (4 agents)", "Write prompts for Complaint Resolution team (4 agents)", "Review all for brand consistency"],
         expected: "All 21 agents have clear, actionable system prompts. No ambiguity in behavior.",
         risk: "None. Documentation only."
       },
@@ -2187,11 +2188,12 @@ const projects = {
         title: "Connect Google Ads API",
         priority: "high",
         category: "speed",
-        status: "in-progress",
+        status: "done",
+        completedDate: "2026-03-25",
         impact: "Direct access to Google Ads data for Lux and all accounts",
-        description: "OAuth tokens working (adwords scope). Google Ads API enabled on GCP. Developer token in Basic Access — Standard Access application submitted 3/20. Waiting 1-3 business days for Google approval.",
-        steps: ["✅ OAuth tokens with adwords scope obtained", "✅ Google Ads API enabled on GCP project 743931807036", "✅ Standard Access application submitted", "⏳ Wait for Google approval (1-3 business days)", "Jackie: Test API connection after approval", "Pull Lux campaign data", "Set up automated reporting cron job"],
-        expected: "Full API access to all Google Ads accounts under the manager.",
+        description: "Google Ads API v23 fully operational. OAuth tokens with adwords scope working. Developer token approved for Standard Access. Two campaigns running with conversion tracking set up on March 25, 2026.",
+        steps: ["✅ OAuth tokens with adwords scope obtained", "✅ Google Ads API enabled on GCP project 743931807036", "✅ Standard Access application approved", "✅ API connection tested and working", "✅ Two campaigns running with conversion tracking", "✅ Automated reporting cron job set up"],
+        expected: "Full API access to all Google Ads accounts under the manager. Campaign data flowing with conversion tracking.",
         risk: "None. Read access first."
       },
       {
@@ -2259,11 +2261,12 @@ const projects = {
         title: "Improve Blog/SEO Cron Prompts",
         priority: "high",
         category: "content",
-        status: "todo",
+        status: "done",
+        completedDate: "2026-03-25",
         impact: "Higher quality daily content with distinct brand voices",
-        description: "Current blog cron prompts produce decent but generic content. Need brand voice guidelines, consistent word counts, and image generation integrated into blog posts.",
-        steps: ["Audit current prompts", "Add brand voice guidelines per store", "Set word count targets", "Fix metadata stripping for Lux SEO pages", "Fix Shirtsy and Lux blog cron errors"],
-        expected: "Distinctive, high-quality content per brand",
+        description: "All 7 blog crons updated March 25 with: h1/h2 headers, clean HTML, no markdown, no artist features, proper author attribution, no metadata in body. Brand voice guidelines integrated per store.",
+        steps: ["✅ Audit current prompts completed", "✅ Brand voice guidelines added per store", "✅ Word count targets set", "✅ Metadata stripping fixed for Lux SEO pages", "✅ Shirtsy and Lux blog cron errors fixed"],
+        expected: "Distinctive, high-quality content per brand with consistent formatting",
         risk: "Low"
       },
       {
@@ -2271,10 +2274,11 @@ const projects = {
         title: "Fix Shirtsy & Lux Blog Cron Errors",
         priority: "critical",
         category: "reliability",
-        status: "todo",
+        status: "done",
+        completedDate: "2026-03-26",
         impact: "Daily content generation running reliably for all 7 stores",
-        description: "Shirtsy blog and Lux blog crons are in error state (timeout). Need to investigate and fix.",
-        steps: ["Check cron run logs", "Identify timeout cause", "Adjust timeout or simplify prompts", "Test with manual run"],
+        description: "Shirtsy and Lux blog crons now running successfully. Both generated blog posts for March 26, 2026. Cron errors resolved with prompt optimization and timeout adjustments.",
+        steps: ["✅ Cron run logs checked", "✅ Timeout cause identified and fixed", "✅ Prompts simplified and optimized", "✅ Tested with manual runs", "✅ Both crons generated March 26 content successfully"],
         expected: "All 7 blog crons running without errors",
         risk: "Low"
       },
