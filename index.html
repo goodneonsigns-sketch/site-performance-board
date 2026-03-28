@@ -520,6 +520,42 @@ const projects = {
         ],
         expected: "Automated protection against SSH brute-force attacks.",
         risk: "Low. Standard fail2ban config. Does not affect web traffic."
+      },
+      {
+        id: "crown-15",
+        title: "🟡 14 Blog Posts Missing Featured Images",
+        priority: "high",
+        category: "seo",
+        status: "todo",
+        impact: "Featured images improve CTR in search results and social sharing",
+        description: "PENDING: 14 Crown blog posts (10 published, 4 drafts) are missing featured images. Most are Net 30/business credit posts — critical SEO content with no visual appeal.",
+        steps: ["Generate business-themed featured images for all 14 posts", "Upload via WordPress API", "Verify all published posts have featured images"],
+        expected: "All Crown blog posts have featured images.",
+        risk: "Low."
+      },
+      {
+        id: "crown-16",
+        title: "🟡 20+ Blog Posts Missing Tags",
+        priority: "medium",
+        category: "seo",
+        status: "todo",
+        impact: "Better blog organization and internal linking",
+        description: "PENDING: 20+ Crown blog posts have no tags. Need taxonomy: business credit, net 30, office supplies, guides, etc.",
+        steps: ["Define tag taxonomy for Crown blog", "Assign tags to all untagged posts via WP API"],
+        expected: "All Crown blog posts tagged.",
+        risk: "Low."
+      },
+      {
+        id: "crown-17",
+        title: "🟡 Cleanup: Outdated/Off-Brand Blog Posts",
+        priority: "low",
+        category: "seo",
+        status: "todo",
+        impact: "Remove content that hurts brand consistency",
+        description: "PENDING: Several Crown blog posts need review — 'Google to Begin Offering Checking Accounts in 2020' (6 years outdated), 'The CEO Creative' (external brand), 'Avoid scam calls' (off-brand), 4 empty placeholder drafts.",
+        steps: ["Delete or update outdated posts", "Review off-brand content with Lex", "Remove empty placeholders"],
+        expected: "Clean, on-brand Crown blog.",
+        risk: "Low."
       }
     ]
   },
@@ -728,6 +764,30 @@ const projects = {
         ],
         expected: "Sites accessible to all visitors. Bot mitigation handled via WAF rules instead of SBFM.",
         risk: "RESOLVED. Do not touch SBFM again."
+      },
+      {
+        id: "shirtsy-12",
+        title: "🟡 1 Blog Post Missing Featured Image",
+        priority: "medium",
+        category: "seo",
+        status: "todo",
+        impact: "Featured images improve CTR",
+        description: "PENDING: 1 published Shirtsy post ('Spring 2026 T-Shirt Trends') is missing a featured image. Also had markdown metadata cleaned during audit.",
+        steps: ["Generate custom apparel themed featured image", "Upload via WP API", "Verify"],
+        expected: "All Shirtsy blog posts have featured images.",
+        risk: "Low."
+      },
+      {
+        id: "shirtsy-13",
+        title: "🟡 Blog Cleanup: Off-Brand & Junk Posts",
+        priority: "low",
+        category: "seo",
+        status: "todo",
+        impact: "Clean blog improves brand consistency",
+        description: "PENDING: Several Shirtsy posts need review — 'Best Advice when opening an llc' (off-brand, bad formatting), 'Why Good Neon is a great option' (cross-brand reference), Elementor placeholder 'new menu' post, draft test posts.",
+        steps: ["Delete or update off-brand posts", "Remove Elementor placeholder posts", "Review cross-brand content with Lex"],
+        expected: "Clean, on-brand Shirtsy blog.",
+        risk: "Low."
       }
     ]
   },
@@ -948,6 +1008,42 @@ const projects = {
         steps: ["CRO audit current application page", "Design conversion-optimized wireframe", "Build in WooCommerce", "Lex approval required before publish"],
         expected: "Increased NET60 application completion rate.",
         risk: "Medium. Requires Lex approval."
+      },
+      {
+        id: "goodneon-13",
+        title: "🟡 89 Blog Posts Missing Featured Images",
+        priority: "high",
+        category: "seo",
+        status: "todo",
+        impact: "Featured images improve CTR in search results and social sharing",
+        description: "PENDING: ALL 89 published neon sign product-style posts on GoodNeon are missing featured images. Zero out of 89 have featured media. Major gap for SEO and social previews.",
+        steps: ["Generate neon/tech-themed featured images for all 89 posts", "Upload via WordPress API", "Verify all posts have featured images"],
+        expected: "All 89 GoodNeon blog posts have featured images.",
+        risk: "Low."
+      },
+      {
+        id: "goodneon-14",
+        title: "🟡 89 Blog Posts Missing Tags",
+        priority: "medium",
+        category: "seo",
+        status: "todo",
+        impact: "Better blog organization and internal linking",
+        description: "PENDING: All 89 GoodNeon product-style posts have zero tags. Need taxonomy: neon signs, LED signs, business signs, tech gadgets, etc.",
+        steps: ["Define tag taxonomy for GoodNeon blog", "Assign tags to all 89 posts via WP API"],
+        expected: "All GoodNeon blog posts tagged.",
+        risk: "Low."
+      },
+      {
+        id: "goodneon-15",
+        title: "🟡 Cleanup: Off-Brand Blog Posts",
+        priority: "low",
+        category: "seo",
+        status: "todo",
+        impact: "Remove content that hurts brand consistency",
+        description: "PENDING: 2 off-brand posts on GoodNeon — 'Reef Restoration Design Study Using PHA Biopolymer' (biopolymer research??) and '3D Printing Showcase'. Neither relates to neon signs or tech gadgets.",
+        steps: ["Delete or unpublish off-brand posts", "Verify no broken links"],
+        expected: "Clean, on-brand GoodNeon blog.",
+        risk: "Low."
       }
     ]
   },
@@ -1174,26 +1270,26 @@ const projects = {
       },
       {
         id: "lux-blog-missing",
-        title: "🟡 224 Blog Posts Missing Featured Images",
+        title: "🟡 90 Blog Posts Missing Featured Images",
         priority: "high",
         category: "seo",
         status: "todo",
         impact: "Featured images improve CTR in search results and social sharing",
-        description: "PENDING: 224 blog posts are missing featured images. Posts without featured images have lower click-through rates from Google Search and social media previews. Need to generate and assign images for all 224 posts.",
-        steps: ["Identify all 224 posts missing featured images", "Generate appropriate featured images using Imagen pipeline", "Upload and assign to each post", "Verify all posts have featured images in Shopify"],
-        expected: "All blog posts have featured images — better CTR, better social previews.",
+        description: "PENDING: 90 neon sign product-style blog posts on Lux are missing featured images. These are keyword-targeted posts that look thin without images. Lower CTR from Google Search and social media previews.",
+        steps: ["Generate neon-themed featured images for all 90 posts", "Upload and assign to each post via Shopify API", "Verify all posts have featured images"],
+        expected: "All 90 Lux blog posts have featured images — better CTR, better social previews.",
         risk: "Low."
       },
       {
         id: "lux-blog-tags",
-        title: "🟡 333+ Blog Posts Missing Tags",
+        title: "🟡 92 Blog Posts Missing Tags",
         priority: "medium",
         category: "seo",
         status: "todo",
-        impact: "Better blog organization, improved internal navigation, SEO taxonomy",
-        description: "PENDING: 333+ blog posts are missing tags. Tags improve blog organization, help readers find related content, and contribute to internal linking structure. Need to audit and assign relevant tags to all untagged posts.",
-        steps: ["Export blog post list and identify untagged posts", "Define tag taxonomy for gallery (e.g., neon art, events, artists, sculptures)", "Assign appropriate tags to all 333+ posts", "Verify tag pages are working properly in Shopify"],
-        expected: "All blog posts tagged and organized. Better internal navigation.",
+        impact: "Better blog organization, improved internal navigation",
+        description: "PENDING: 92 Lux blog posts are missing tags. Need to define tag taxonomy (neon art, weddings, events, business signs, etc.) and assign relevant tags.",
+        steps: ["Define tag taxonomy for Lux blog", "Assign appropriate tags to all 92 untagged posts", "Verify tag pages work in Shopify"],
+        expected: "All Lux blog posts tagged and organized.",
         risk: "Low."
       },
       {
@@ -1621,6 +1717,30 @@ const projects = {
         steps: ["CRO audit current ambassador page", "Design new page with lifestyle imagery, tier breakdown, application CTA", "Build in Shopify", "Lex approval required before publish"],
         expected: "More quality ambassador applications.",
         risk: "Medium. Requires Lex approval."
+      },
+      {
+        id: "coconut-9",
+        title: "🟡 9 Blog Posts Missing Featured Images",
+        priority: "high",
+        category: "seo",
+        status: "todo",
+        impact: "Featured images improve CTR in search results and social sharing",
+        description: "PENDING: 9 published Coconut Bikini blog posts are missing featured images — swimwear trend posts, festival bikini guides, etc. Need vibrant beach/swimwear imagery.",
+        steps: ["Generate swimwear-themed featured images for all 9 posts", "Upload via Shopify API", "Verify all posts have featured images"],
+        expected: "All Coconut Bikini blog posts have featured images.",
+        risk: "Low."
+      },
+      {
+        id: "coconut-10",
+        title: "🟡 Blog Cleanup: Duplicates & Placeholders",
+        priority: "medium",
+        category: "seo",
+        status: "todo",
+        impact: "Duplicate content hurts SEO, placeholders waste crawl budget",
+        description: "PENDING: Coconut has duplicate topic posts (Miami Dolphins Bikini x2, Royal Blue Bikini x2, BOGO deals x2) and 4 'Blog Post' placeholder titles in drafts. Need to merge/delete duplicates and clean up placeholders.",
+        steps: ["Identify and merge duplicate posts (keep best version)", "Delete 4 empty placeholder drafts", "Add tags to untagged posts"],
+        expected: "Clean blog with no duplicate content.",
+        risk: "Low."
       }
     ]
   },
@@ -1780,6 +1900,30 @@ const projects = {
         steps: ["Map sports calendar to email triggers", "Write seasonal reactivation emails per sport", "Write international shipping service templates (customs holds, lost packages)", "Write group order discount trigger (5+ pieces)", "Build Klaviyo flows with seasonal timing"],
         expected: "Seasonal reactivation drives repeat purchases. Better international customer experience.",
         risk: "Low. Emails are drafts until Lex approves."
+      },
+      {
+        id: "reclaimed-9",
+        title: "🟡 22 Blog Posts Missing Featured Images",
+        priority: "high",
+        category: "seo",
+        status: "todo",
+        impact: "Featured images improve CTR in search results and social sharing",
+        description: "PENDING: 22 published Reclaimed Closet blog posts are missing featured images. Thrift/vintage fashion posts need lifestyle imagery to drive clicks.",
+        steps: ["Generate vintage fashion themed featured images for all 22 posts", "Upload via Shopify API", "Verify all posts have featured images"],
+        expected: "All Reclaimed Closet blog posts have featured images.",
+        risk: "Low."
+      },
+      {
+        id: "reclaimed-10",
+        title: "🟡 Blog Posts Missing Tags",
+        priority: "medium",
+        category: "seo",
+        status: "todo",
+        impact: "Better blog organization and internal linking",
+        description: "PENDING: Most Reclaimed Closet blog posts have no tags. Need taxonomy: thrift fashion, sustainable style, vintage finds, sports jerseys, etc.",
+        steps: ["Define tag taxonomy for Reclaimed blog", "Assign tags to all untagged posts via Shopify API"],
+        expected: "All Reclaimed blog posts tagged.",
+        risk: "Low."
       }
     ]
   },
