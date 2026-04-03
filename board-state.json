@@ -1,9 +1,15 @@
 {
-  "taskStates": {},
+  "taskStates": {
+    "virtus-1": "done",
+    "virtus-2": "done",
+    "virtus-5": "in-progress",
+    "crown-3": "in-progress",
+    "crown-4": "in-progress"
+  },
   "lexTasks": {},
   "taskPrompts": {},
   "jackie_responses": {},
-  "lastUpdated": "2026-04-03T21:41:00Z",
-  "source": "ops-dashboard",
+  "lastUpdated": "2026-04-03T22:01:00Z",
+  "source": "jackie-cron-hourly",
   "_readme": "Single source of truth for ops dashboard. Dana commits on every state change. Jackie's cron reads this, executes tasks, writes responses back, then git push. Dana clicks Sync to pull latest."
 }
