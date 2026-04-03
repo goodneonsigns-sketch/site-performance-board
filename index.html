@@ -241,6 +241,180 @@
     .insights-grid { grid-template-columns:1fr 1fr; }
     .search-terms-grid { grid-template-columns:1fr; }
   }
+
+  /* ── Jackie Execute Column ────────────────────────────── */
+  .col-execute {
+    border: 2px solid #ff7b00 !important;
+    background: rgba(255, 123, 0, 0.05);
+  }
+  .col-execute .col-header {
+    background: linear-gradient(135deg, #ff7b00, #ff9a40);
+    color: white;
+    border-bottom: none;
+  }
+  .col-execute .col-header h3, .col-execute .col-header .badge { color: #fff !important; }
+  @keyframes execute-pulse {
+    0%,100% { box-shadow: 0 0 6px rgba(255,123,0,.3), 0 0 12px rgba(255,123,0,.1); }
+    50% { box-shadow: 0 0 18px rgba(255,123,0,.6), 0 0 30px rgba(255,123,0,.25); }
+  }
+  .col-execute { animation: execute-pulse 2.5s ease-in-out infinite; }
+  .execute-pulse-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: #fff; display: inline-block; margin-left: 4px;
+    animation: dot-blink 1.2s ease-in-out infinite;
+  }
+  @keyframes dot-blink { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.7)} }
+
+  /* ── Task Card Extras ────────────────────────────────── */
+  .task-card { position: relative; }
+  .task-card.dragging { opacity: .35; transform: rotate(1.5deg) scale(.97); }
+  .task-card.drag-over { border-color: #ff7b00; background: rgba(255,123,0,.06); }
+  .task-status-badge {
+    display: inline-block; font-size: 10px; padding: 1px 7px;
+    border-radius: 10px; font-weight: 600; margin-bottom: 5px;
+  }
+  .badge-todo { background: rgba(139,148,158,.15); color: #8b949e; }
+  .badge-execute { background: rgba(255,123,0,.2); color: #ff7b00; }
+  .badge-in-progress { background: rgba(88,166,255,.15); color: #58a6ff; }
+  .badge-done { background: rgba(63,185,80,.15); color: #3fb950; }
+  .task-prompt-preview {
+    font-size: 11px; color: #b8956a; margin-top: 6px;
+    font-style: italic; white-space: nowrap; overflow: hidden;
+    text-overflow: ellipsis; max-width: 100%;
+  }
+  .task-sent-badge {
+    display: inline-flex; align-items: center; gap: 3px;
+    font-size: 10px; background: rgba(63,185,80,.15); color: #3fb950;
+    padding: 2px 7px; border-radius: 10px; font-weight: 600; margin-top: 4px;
+  }
+  .task-card-actions {
+    display: flex; gap: 4px; flex-wrap: wrap; margin-top: 8px;
+  }
+  .btn-card-sm {
+    font-size: 11px; padding: 3px 9px; border-radius: 6px;
+    border: 1px solid var(--border); background: transparent;
+    color: var(--muted); cursor: pointer; transition: all .15s;
+  }
+  .btn-card-sm:hover { color: var(--text); border-color: var(--accent); }
+  .btn-card-sm.orange { color: #ff7b00; border-color: #ff7b00; }
+  .btn-card-sm.orange:hover { background: rgba(255,123,0,.15); }
+  .btn-card-sm.green { color: #3fb950; border-color: #3fb950; }
+
+  /* ── Column drop-over highlight ─────────────────────── */
+  .col-body.drag-active { background: rgba(88,166,255,.04); border-radius: 8px; }
+  .col-body.drag-active-execute { background: rgba(255,123,0,.08); border-radius: 8px; }
+
+  /* ── Jackie Assign Modal ─────────────────────────────── */
+  #assign-modal-overlay {
+    display: none; position: fixed; top:0; left:0; right:0; bottom:0;
+    background: rgba(0,0,0,.7); z-index: 150;
+    align-items: center; justify-content: center;
+  }
+  #assign-modal-overlay.open { display: flex; }
+  #assign-modal {
+    background: #1a1d28; border: 1px solid #ff7b00;
+    border-radius: 16px; width: 520px; max-width: 95vw;
+    max-height: 85vh; overflow-y: auto;
+    box-shadow: 0 0 40px rgba(255,123,0,.25);
+  }
+  #assign-modal .am-header {
+    padding: 20px 24px; border-bottom: 1px solid rgba(255,123,0,.3);
+    display: flex; align-items: center; justify-content: space-between;
+    background: linear-gradient(135deg,rgba(255,123,0,.12),rgba(255,154,64,.06));
+  }
+  #assign-modal .am-header h2 { font-size: 17px; color: #ff9a40; }
+  #assign-modal .am-header button { background:none;border:none;color:#888;font-size:22px;cursor:pointer; }
+  #assign-modal .am-header button:hover { color: #fff; }
+  #assign-modal .am-body { padding: 20px 24px; }
+  #assign-modal .am-task-name {
+    font-size: 14px; font-weight: 600; color: #e6edf3;
+    background: rgba(255,255,255,.04); padding: 10px 14px;
+    border-radius: 8px; margin-bottom: 16px; border-left: 3px solid #ff7b00;
+  }
+  #assign-modal .am-label {
+    font-size: 11px; color: #8b949e; text-transform: uppercase;
+    letter-spacing: .5px; margin-bottom: 8px; margin-top: 14px;
+  }
+  .priority-btns { display: flex; gap: 8px; }
+  .priority-btn {
+    padding: 6px 14px; border-radius: 8px; border: 1px solid var(--border);
+    background: transparent; color: var(--muted); cursor: pointer;
+    font-size: 13px; transition: all .15s;
+  }
+  .priority-btn.active-urgent { background:rgba(248,81,73,.2);color:#f85149;border-color:#f85149; }
+  .priority-btn.active-normal { background:rgba(210,153,34,.2);color:#d29922;border-color:#d29922; }
+  .priority-btn.active-low { background:rgba(63,185,80,.2);color:#3fb950;border-color:#3fb950; }
+  #assign-prompt-text {
+    width: 100%; min-height: 110px; background: #0d1117;
+    border: 1px solid var(--border); border-radius: 8px;
+    color: #e6edf3; font-size: 13px; padding: 10px 12px;
+    resize: vertical; font-family: inherit; line-height: 1.5;
+  }
+  #assign-prompt-text:focus { outline: none; border-color: #ff7b00; }
+  #assign-modal .am-footer {
+    padding: 16px 24px; border-top: 1px solid rgba(255,123,0,.2);
+    display: flex; gap: 10px; justify-content: flex-end;
+  }
+
+  /* ── Export/Import panel ─────────────────────────────── */
+  #export-panel {
+    display: none; position: fixed; top:0;left:0;right:0;bottom:0;
+    background: rgba(0,0,0,.75); z-index:160;
+    align-items:center;justify-content:center;
+  }
+  #export-panel.open { display: flex; }
+  .ep-box {
+    background:#1a1d28;border:1px solid #30363d;border-radius:16px;
+    width:600px;max-width:95vw;max-height:80vh;overflow-y:auto;
+  }
+  .ep-header {
+    padding:18px 24px;border-bottom:1px solid #30363d;
+    display:flex;align-items:center;justify-content:space-between;
+  }
+  .ep-header h2 { font-size:16px;color:#b8956a; }
+  .ep-header button { background:none;border:none;color:#888;font-size:22px;cursor:pointer; }
+  .ep-body { padding:20px 24px; }
+  .ep-tabs { display:flex;gap:8px;margin-bottom:16px; }
+  .ep-tab { padding:6px 16px;border-radius:8px;border:1px solid #30363d;background:transparent;color:#8b949e;cursor:pointer;font-size:13px; }
+  .ep-tab.active { background:#b8956a;color:#000;border-color:#b8956a; }
+  .ep-textarea {
+    width:100%;height:240px;background:#0d1117;border:1px solid #30363d;
+    border-radius:8px;color:#e6edf3;font-size:12px;padding:12px;
+    font-family:monospace;resize:vertical;
+  }
+  .ep-textarea:focus { outline:none;border-color:#b8956a; }
+
+  /* ── Saved indicator ─────────────────────────────────── */
+  #saved-indicator {
+    position:fixed;bottom:72px;right:24px;background:#3fb950;color:#fff;
+    padding:8px 16px;border-radius:8px;font-size:13px;font-weight:500;
+    z-index:200;opacity:0;transform:translateY(10px);transition:all .3s;
+    pointer-events:none;
+  }
+  #saved-indicator.show { opacity:1;transform:translateY(0); }
+
+  /* ── Toolbar for export/import ───────────────────────── */
+  .board-toolbar {
+    display:flex;gap:8px;align-items:center;flex-wrap:wrap;
+    padding:10px 0 14px;
+  }
+  .btn-toolbar {
+    padding:6px 14px;border-radius:8px;border:1px solid #30363d;
+    background:transparent;color:#8b949e;cursor:pointer;font-size:12px;
+    transition:all .15s;display:flex;align-items:center;gap:5px;
+  }
+  .btn-toolbar:hover { color:#e6edf3;border-color:#b8956a; }
+  .btn-toolbar.orange { color:#ff7b00;border-color:rgba(255,123,0,.4); }
+  .btn-toolbar.orange:hover { background:rgba(255,123,0,.1); }
+
+  /* ── Notes history ───────────────────────────────────── */
+  .notes-history { margin-top:12px; }
+  .note-entry {
+    background:#0d1117;border:1px solid #30363d;border-radius:8px;
+    padding:10px 12px;margin-bottom:6px;font-size:12px;
+  }
+  .note-entry .note-meta { color:#8b949e;font-size:11px;margin-bottom:4px; }
+  .note-entry .note-text { color:#e6edf3;line-height:1.5; }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
@@ -276,6 +450,9 @@
 <div id="board-googleads" class="board"></div>
 
 <div class="toast" id="toast"></div>
+<div id="saved-indicator">💾 Saved</div>
+
+<!-- Original task detail modal -->
 <div class="modal-overlay" id="modal" onclick="if(event.target===this)closeModal()">
   <div class="modal">
     <div class="modal-header">
@@ -284,6 +461,64 @@
     </div>
     <div class="modal-body" id="modal-body"></div>
     <div class="modal-footer" id="modal-footer"></div>
+  </div>
+</div>
+
+<!-- Jackie Assign Modal -->
+<div id="assign-modal-overlay" onclick="if(event.target===this)closeAssignModal()">
+  <div id="assign-modal">
+    <div class="am-header">
+      <h2>📋 Assign to Jackie</h2>
+      <button onclick="closeAssignModal()">×</button>
+    </div>
+    <div class="am-body">
+      <div class="am-task-name" id="am-task-name">Task name</div>
+      <div class="am-label">Priority</div>
+      <div class="priority-btns" id="am-priority-btns">
+        <button class="priority-btn" onclick="setAssignPriority('urgent',this)">🔴 Urgent</button>
+        <button class="priority-btn active-normal" onclick="setAssignPriority('normal',this)">🟡 Normal</button>
+        <button class="priority-btn" onclick="setAssignPriority('low',this)">🟢 Low</button>
+      </div>
+      <div class="am-label" style="margin-top:14px">Instructions for Jackie</div>
+      <textarea id="assign-prompt-text" placeholder="What should Jackie do with this task? Add any context, specific details, or special instructions..."></textarea>
+      <div class="notes-history" id="am-notes-history"></div>
+    </div>
+    <div class="am-footer">
+      <button class="btn btn-outline" onclick="closeAssignModal()">Cancel</button>
+      <button class="btn btn-execute" onclick="submitAssignModal()">⚡ Assign to Jackie</button>
+    </div>
+  </div>
+</div>
+
+<!-- Export/Import Panel -->
+<div id="export-panel" onclick="if(event.target===this)closeExportPanel()">
+  <div class="ep-box">
+    <div class="ep-header">
+      <h2 id="ep-title">📤 Jackie Queue</h2>
+      <button onclick="closeExportPanel()">×</button>
+    </div>
+    <div class="ep-body">
+      <div class="ep-tabs">
+        <button class="ep-tab active" id="ep-tab-export" onclick="switchEpTab('export')">📤 Export Queue</button>
+        <button class="ep-tab" id="ep-tab-import" onclick="switchEpTab('import')">📥 Import Results</button>
+      </div>
+      <div id="ep-export-pane">
+        <p style="font-size:13px;color:#8b949e;margin-bottom:10px">JSON snapshot of all tasks queued for Jackie. Copy and send to Jackie.</p>
+        <textarea class="ep-textarea" id="ep-export-text" readonly></textarea>
+        <div style="display:flex;gap:8px;margin-top:12px">
+          <button class="btn btn-primary" onclick="copyExportJson()">📋 Copy to Clipboard</button>
+          <button class="btn btn-outline" onclick="refreshExportJson()">🔄 Refresh</button>
+        </div>
+      </div>
+      <div id="ep-import-pane" style="display:none">
+        <p style="font-size:13px;color:#8b949e;margin-bottom:10px">Paste Jackie's completion results JSON here to update task statuses.</p>
+        <textarea class="ep-textarea" id="ep-import-text" placeholder='{"results":[{"id":"task-id","status":"done","response":"Jackie completed this by..."}]}'></textarea>
+        <div style="display:flex;gap:8px;margin-top:12px">
+          <button class="btn btn-success" onclick="importResults()">✅ Apply Results</button>
+          <button class="btn btn-outline" onclick="document.getElementById('ep-import-text').value=''">Clear</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -2602,6 +2837,12 @@ function renderBoard(key) {
         <h2>${proj.name}</h2>
         <p>${proj.url} · ${proj.baseline.platform}</p>
       </div>
+      <div style="margin-left:auto">
+        <div class="board-toolbar">
+          <button class="btn-toolbar orange" onclick="openExportPanel()">📤 Export Queue</button>
+          <button class="btn-toolbar" onclick="openImportPanel()">📥 Import Results</button>
+        </div>
+      </div>
     </div>
     <div class="site-baseline">
       <div class="baseline-card">
@@ -2629,51 +2870,81 @@ function renderBoard(key) {
       <div class="col-body">${lexPending.map(t => lexTaskCard(t, key, false)).join('')}${lexPending.length === 0 ? '<p class="empty-msg">No tasks from Jackie right now — you\'re all clear! ✨</p>' : ''}</div>
     </div>
     <div class="columns">
-      <div class="column">
+      <div class="column" ondragover="colDragOver(event,'todo')" ondrop="colDrop(event,'todo')" ondragleave="colDragLeave(event)">
         <div class="col-header">
           <h3>📋 To Do</h3>
           <span class="badge">${todo.length}</span>
         </div>
-        <div class="col-body">${todo.map(t => taskCard(t)).join('')}</div>
+        <div class="col-body" id="col-${key}-todo">${todo.map(t => taskCard(t, key)).join('')}</div>
       </div>
-      <div class="column ${execute.length ? 'execute-glow' : ''}" style="border-color:${execute.length ? '#ff7b00' : 'var(--border)'}">
+      <div class="column col-execute" ondragover="colDragOver(event,'execute')" ondrop="colDrop(event,'execute')" ondragleave="colDragLeave(event)">
         <div class="col-header">
-          <h3>⚡ Jackie Execute</h3>
-          <span class="badge" style="${execute.length ? 'background:#ff7b00;color:#fff' : ''}">${execute.length}</span>
+          <h3>⚡ Jackie Execute <span class="execute-pulse-dot"></span></h3>
+          <span class="badge">${execute.length}</span>
         </div>
-        <div class="col-body">${execute.map(t => taskCard(t)).join('')}${execute.length === 0 ? '<p style="color:var(--muted);font-size:12px;padding:12px;text-align:center;">Drag tasks here or click "Send to Jackie" to queue for execution</p>' : ''}</div>
+        <div class="col-body" id="col-${key}-execute">${execute.map(t => taskCard(t, key)).join('')}${execute.length === 0 ? '<p style="color:rgba(255,123,0,.5);font-size:12px;padding:12px;text-align:center;">Drag tasks here or click "Send to Jackie"</p>' : ''}</div>
       </div>
-      <div class="column">
+      <div class="column" ondragover="colDragOver(event,'in-progress')" ondrop="colDrop(event,'in-progress')" ondragleave="colDragLeave(event)">
         <div class="col-header">
           <h3>🔧 In Progress</h3>
           <span class="badge">${inProgress.length}</span>
         </div>
-        <div class="col-body">${inProgress.map(t => taskCard(t)).join('')}</div>
+        <div class="col-body" id="col-${key}-in-progress">${inProgress.map(t => taskCard(t, key)).join('')}</div>
       </div>
-      <div class="column">
+      <div class="column" ondragover="colDragOver(event,'done')" ondrop="colDrop(event,'done')" ondragleave="colDragLeave(event)">
         <div class="col-header">
           <h3>✅ Done</h3>
           <span class="badge">${done.length + lexDone.length}</span>
         </div>
-        <div class="col-body">${done.map(t => taskCard(t)).join('')}${lexDone.map(t => lexTaskCard(t, key, true)).join('')}</div>
+        <div class="col-body" id="col-${key}-done">${done.map(t => taskCard(t, key)).join('')}${lexDone.map(t => lexTaskCard(t, key, true)).join('')}</div>
       </div>
     </div>
   `;
   board.innerHTML = html;
 }
 
-function taskCard(t) {
+function taskCard(t, boardKey) {
   const status = getStatus(t.id);
-  return `
-    <div class="task-card" onclick="openTask('${t.id}')">
-      <div class="task-title">${t.title}</div>
-      <div class="task-meta">
-        <span class="tag ${t.priority}">${t.priority}</span>
-        <span class="tag ${t.category}">${t.category}</span>
-      </div>
-      <div class="task-impact">⚡ ${t.impact}</div>
+  const prompt = getTaskPrompt(t.id);
+  const isSent = isTaskSent(t.id);
+  
+  const statusLabels = { todo:'To Do', execute:'Jackie Queue', 'in-progress':'In Progress', done:'Done' };
+  const statusClasses = { todo:'badge-todo', execute:'badge-execute', 'in-progress':'badge-in-progress', done:'badge-done' };
+  
+  let extraContent = '';
+  if (status === 'execute') {
+    extraContent += `<div style="margin-top:6px;display:flex;flex-wrap:wrap;gap:4px;align-items:center">`;
+    if (isSent) {
+      extraContent += `<span class="task-sent-badge">✅ Sent to Jackie</span>`;
+    }
+    if (prompt && prompt.prompt) {
+      extraContent += `<div class="task-prompt-preview">💬 ${prompt.prompt.slice(0,50)}${prompt.prompt.length > 50 ? '…' : ''}</div>`;
+    }
+    extraContent += `</div>`;
+  }
+  
+  let actions = '';
+  if (status === 'execute') {
+    actions = `<div class="task-card-actions" onclick="event.stopPropagation()">
+      <button class="btn-card-sm orange" onclick="openAssignModal('${t.id}')">✏️ ${isSent ? 'Edit Prompt' : 'Write Prompt'}</button>
+      ${isSent ? `<button class="btn-card-sm" onclick="openViewPrompt('${t.id}')">👁 View</button>` : ''}
+    </div>`;
+  }
+
+  return `<div class="task-card" draggable="true"
+      ondragstart="dragStart(event,'${t.id}','${boardKey||''}')"
+      ondragend="dragEnd(event)"
+      onclick="openTask('${t.id}')">
+    <div style="margin-bottom:4px"><span class="task-status-badge ${statusClasses[status]||'badge-todo'}">${statusLabels[status]||status}</span></div>
+    <div class="task-title">${t.title}</div>
+    <div class="task-meta">
+      <span class="tag ${t.priority}">${t.priority}</span>
+      <span class="tag ${t.category}">${t.category}</span>
     </div>
-  `;
+    <div class="task-impact">⚡ ${t.impact}</div>
+    ${extraContent}
+    ${actions}
+  </div>`;
 }
 
 function lexTaskCard(t, projectKey, isDone) {
@@ -2757,8 +3028,10 @@ function openTask(id) {
       <button class="btn btn-primary" onclick="moveTask('${id}','in-progress')">▶ Start Manually</button>
     `;
   } else if (status === 'execute') {
+    const isSent = isTaskSent(id);
     footerHtml = `
       <button class="btn btn-outline" onclick="moveTask('${id}','todo')">↩ Back to To Do</button>
+      <button class="btn btn-execute" onclick="closeModal();openAssignModal('${id}')">✏️ ${isSent ? 'Edit Prompt' : 'Write Prompt'}</button>
       <button class="btn btn-primary" onclick="moveTask('${id}','in-progress')">▶ In Progress</button>
       <button class="btn btn-success" onclick="moveTask('${id}','done')">✅ Mark Done</button>
     `;
@@ -2881,10 +3154,13 @@ function moveTask(id, status) {
   setStatus(id, status);
   closeModal();
   renderAllBoards();
+  flashSaved();
   
   if (status === 'execute') {
     const task = findTask(id);
-    showToast(`⚡ "${task.title}" sent to Jackie!`);
+    showToast(`⚡ "${task.title}" queued for Jackie!`);
+    // Auto-open assign modal after a brief delay so board re-renders first
+    setTimeout(() => openAssignModal(id), 200);
     syncQueueToGist();
   } else if (status === 'done') {
     const task = findTask(id);
@@ -2893,6 +3169,298 @@ function moveTask(id, status) {
   } else {
     syncQueueToGist();
   }
+}
+
+// ── Saved indicator ────────────────────────────────────────
+function flashSaved() {
+  const el = document.getElementById('saved-indicator');
+  el.classList.add('show');
+  clearTimeout(flashSaved._t);
+  flashSaved._t = setTimeout(() => el.classList.remove('show'), 1800);
+}
+
+// ── Task Prompt Storage ────────────────────────────────────
+let taskPrompts = {};
+try { taskPrompts = JSON.parse(localStorage.getItem('task-prompts') || '{}'); } catch(e) {}
+function saveTaskPrompts() { localStorage.setItem('task-prompts', JSON.stringify(taskPrompts)); }
+function getTaskPrompt(id) { return taskPrompts[id] || null; }
+function isTaskSent(id) { return !!(taskPrompts[id] && taskPrompts[id].sent); }
+
+// ── Drag and Drop ──────────────────────────────────────────
+let dragId = null;
+let dragBoardKey = null;
+
+function dragStart(event, id, boardKey) {
+  dragId = id;
+  dragBoardKey = boardKey;
+  event.dataTransfer.effectAllowed = 'move';
+  event.dataTransfer.setData('text/plain', id);
+  setTimeout(() => { if (event.target) event.target.classList.add('dragging'); }, 0);
+}
+
+function dragEnd(event) {
+  event.target.classList.remove('dragging');
+  document.querySelectorAll('.col-body').forEach(c => {
+    c.classList.remove('drag-active','drag-active-execute');
+  });
+}
+
+function colDragOver(event, colStatus) {
+  event.preventDefault();
+  event.dataTransfer.dropEffect = 'move';
+  const col = event.currentTarget.querySelector('.col-body');
+  if (col) {
+    col.classList.remove('drag-active','drag-active-execute');
+    col.classList.add(colStatus === 'execute' ? 'drag-active-execute' : 'drag-active');
+  }
+}
+
+function colDragLeave(event) {
+  const col = event.currentTarget.querySelector('.col-body');
+  if (col) col.classList.remove('drag-active','drag-active-execute');
+}
+
+function colDrop(event, newStatus) {
+  event.preventDefault();
+  const col = event.currentTarget.querySelector('.col-body');
+  if (col) col.classList.remove('drag-active','drag-active-execute');
+  
+  const id = dragId || event.dataTransfer.getData('text/plain');
+  if (!id) return;
+  
+  const oldStatus = getStatus(id);
+  if (oldStatus === newStatus) return;
+  
+  setStatus(id, newStatus);
+  renderAllBoards();
+  flashSaved();
+  
+  const task = findTask(id);
+  if (!task) return;
+  
+  if (newStatus === 'execute') {
+    showToast(`⚡ "${task.title}" queued for Jackie!`);
+    syncQueueToGist();
+    setTimeout(() => openAssignModal(id), 200);
+  } else if (newStatus === 'done') {
+    showToast(`✅ "${task.title}" marked done!`);
+    syncQueueToGist();
+  } else {
+    showToast(`📋 "${task.title}" moved to ${newStatus}`);
+  }
+  
+  dragId = null;
+  dragBoardKey = null;
+}
+
+// ── Assign Modal ───────────────────────────────────────────
+let assignModalTaskId = null;
+let assignPriority = 'normal';
+
+function openAssignModal(taskId) {
+  const task = findTask(taskId);
+  if (!task) return;
+  assignModalTaskId = taskId;
+  
+  const existing = getTaskPrompt(taskId);
+  assignPriority = (existing && existing.priority) || 'normal';
+  
+  document.getElementById('am-task-name').textContent = task.title;
+  document.getElementById('assign-prompt-text').value = (existing && existing.prompt) || '';
+  
+  // Set priority buttons
+  document.querySelectorAll('.priority-btn').forEach(b => {
+    b.className = 'priority-btn';
+    const p = b.textContent.includes('Urgent') ? 'urgent' : b.textContent.includes('Normal') ? 'normal' : 'low';
+    if (p === assignPriority) b.classList.add(`active-${p}`);
+  });
+  
+  // Show notes history
+  renderNotesHistory(taskId);
+  
+  document.getElementById('assign-modal-overlay').classList.add('open');
+  setTimeout(() => document.getElementById('assign-prompt-text').focus(), 100);
+}
+
+function closeAssignModal() {
+  document.getElementById('assign-modal-overlay').classList.remove('open');
+  assignModalTaskId = null;
+}
+
+function setAssignPriority(p, btn) {
+  assignPriority = p;
+  document.querySelectorAll('.priority-btn').forEach(b => {
+    b.className = 'priority-btn';
+  });
+  btn.classList.add(`active-${p}`);
+}
+
+function submitAssignModal() {
+  if (!assignModalTaskId) return;
+  const prompt = document.getElementById('assign-prompt-text').value.trim();
+  if (!prompt) { showToast('⚠️ Please write instructions for Jackie'); return; }
+  
+  const now = new Date().toISOString();
+  const existing = taskPrompts[assignModalTaskId] || {};
+  const history = existing.history || [];
+  
+  if (existing.prompt) {
+    history.push({ prompt: existing.prompt, priority: existing.priority, at: existing.assigned_at, sent: existing.sent });
+  }
+  
+  taskPrompts[assignModalTaskId] = {
+    prompt,
+    priority: assignPriority,
+    assigned_at: now,
+    sent: true,
+    history
+  };
+  saveTaskPrompts();
+  flashSaved();
+  closeAssignModal();
+  renderAllBoards();
+  syncQueueToGist();
+  
+  const task = findTask(assignModalTaskId);
+  showToast(`✅ "${task ? task.title : 'Task'}" assigned to Jackie!`);
+}
+
+function renderNotesHistory(taskId) {
+  const container = document.getElementById('am-notes-history');
+  if (!container) return;
+  const existing = taskPrompts[taskId];
+  const history = (existing && existing.history) || [];
+  if (history.length === 0) { container.innerHTML = ''; return; }
+  container.innerHTML = `
+    <div class="am-label" style="margin-top:16px">Previous Prompts</div>
+    ${history.slice().reverse().map(h => `
+      <div class="note-entry">
+        <div class="note-meta">${new Date(h.at || 0).toLocaleString()} · Priority: ${h.priority || '—'} ${h.sent ? '· ✅ Sent' : ''}</div>
+        <div class="note-text">${h.prompt}</div>
+      </div>
+    `).join('')}
+  `;
+}
+
+// ── View Prompt modal ──────────────────────────────────────
+function openViewPrompt(taskId) {
+  const task = findTask(taskId);
+  const p = getTaskPrompt(taskId);
+  if (!task || !p) return;
+  
+  const priorityColors = { urgent:'#f85149', normal:'#d29922', low:'#3fb950' };
+  const color = priorityColors[p.priority] || '#8b949e';
+  
+  document.getElementById('modal-title').textContent = '📋 Task Prompt — ' + task.title;
+  document.getElementById('modal-body').innerHTML = `
+    <div style="margin-bottom:12px">
+      <span style="background:rgba(${p.priority==='urgent'?'248,81,73':p.priority==='low'?'63,185,80':'210,153,34'},.15);color:${color};padding:3px 10px;border-radius:8px;font-size:12px;font-weight:600">
+        ${p.priority==='urgent'?'🔴 Urgent':p.priority==='low'?'🟢 Low':'🟡 Normal'}
+      </span>
+      <span style="color:#8b949e;font-size:12px;margin-left:10px">Assigned ${new Date(p.assigned_at||0).toLocaleString()}</span>
+    </div>
+    <h4>Instructions for Jackie</h4>
+    <div style="background:#0d1117;padding:14px;border-radius:8px;border:1px solid #30363d;color:#e6edf3;font-size:14px;line-height:1.7;white-space:pre-wrap">${p.prompt}</div>
+    ${(p.history||[]).length > 0 ? `
+      <h4 style="margin-top:18px">History (${p.history.length} previous)</h4>
+      ${p.history.slice().reverse().map(h => `
+        <div class="note-entry"><div class="note-meta">${new Date(h.at||0).toLocaleString()} · ${h.priority||'—'}</div>
+        <div class="note-text">${h.prompt}</div></div>
+      `).join('')}
+    ` : ''}
+  `;
+  document.getElementById('modal-footer').innerHTML = `
+    <button class="btn btn-outline" onclick="closeModal()">Close</button>
+    <button class="btn btn-execute" onclick="closeModal();openAssignModal('${taskId}')">✏️ Edit Prompt</button>
+  `;
+  document.getElementById('modal').classList.add('open');
+}
+
+// ── Export / Import Panel ──────────────────────────────────
+function openExportPanel() {
+  refreshExportJson();
+  document.getElementById('ep-title').textContent = '📤 Jackie Queue Export';
+  switchEpTab('export');
+  document.getElementById('export-panel').classList.add('open');
+}
+
+function openImportPanel() {
+  switchEpTab('import');
+  document.getElementById('ep-title').textContent = '📥 Import Jackie Results';
+  document.getElementById('export-panel').classList.add('open');
+}
+
+function closeExportPanel() {
+  document.getElementById('export-panel').classList.remove('open');
+}
+
+function switchEpTab(tab) {
+  document.getElementById('ep-export-pane').style.display = tab === 'export' ? '' : 'none';
+  document.getElementById('ep-import-pane').style.display = tab === 'import' ? '' : 'none';
+  document.getElementById('ep-tab-export').className = 'ep-tab' + (tab === 'export' ? ' active' : '');
+  document.getElementById('ep-tab-import').className = 'ep-tab' + (tab === 'import' ? ' active' : '');
+}
+
+function refreshExportJson() {
+  const tasks = [];
+  for (const key of Object.keys(projects)) {
+    for (const t of projects[key].tasks) {
+      if (getStatus(t.id) === 'execute') {
+        const p = getTaskPrompt(t.id);
+        tasks.push({
+          id: t.id,
+          title: t.title,
+          project: key,
+          status: 'jackie-execute',
+          priority: (p && p.priority) || t.priority || 'normal',
+          prompt: (p && p.prompt) || '',
+          sent: !!(p && p.sent),
+          assigned_at: (p && p.assigned_at) || new Date().toISOString()
+        });
+      }
+    }
+  }
+  const json = JSON.stringify({ exported_at: new Date().toISOString(), tasks }, null, 2);
+  const el = document.getElementById('ep-export-text');
+  if (el) el.value = json;
+}
+
+function copyExportJson() {
+  const el = document.getElementById('ep-export-text');
+  if (!el) return;
+  navigator.clipboard.writeText(el.value).then(() => showToast('📋 Copied to clipboard!')).catch(() => {
+    el.select();
+    document.execCommand('copy');
+    showToast('📋 Copied!');
+  });
+}
+
+function importResults() {
+  const raw = document.getElementById('ep-import-text').value.trim();
+  if (!raw) { showToast('⚠️ Nothing to import'); return; }
+  let data;
+  try { data = JSON.parse(raw); } catch(e) { showToast('❌ Invalid JSON — check format'); return; }
+  
+  const results = data.results || data.tasks || [];
+  let updated = 0;
+  for (const r of results) {
+    if (!r.id) continue;
+    if (r.status === 'done') { setStatus(r.id, 'done'); updated++; }
+    if (r.response || r.notes) {
+      const existing = taskPrompts[r.id] || {};
+      const history = existing.history || [];
+      if (existing.prompt) history.push({ prompt: existing.prompt, priority: existing.priority, at: existing.assigned_at, sent: existing.sent });
+      taskPrompts[r.id] = { ...existing, jackie_response: r.response || r.notes, completed_at: new Date().toISOString(), history };
+      saveTaskPrompts();
+    }
+  }
+  
+  if (updated > 0) {
+    renderAllBoards();
+    flashSaved();
+  }
+  closeExportPanel();
+  showToast(`✅ Imported ${results.length} result${results.length !== 1 ? 's' : ''} — ${updated} task${updated !== 1 ? 's' : ''} marked done`);
 }
 
 function closeModal() {
@@ -3085,7 +3653,13 @@ function switchBoard(key) {
 }
 
 // Keyboard
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    closeModal();
+    closeAssignModal();
+    closeExportPanel();
+  }
+});
 
 // Google Ads Data
 const googleAdsData = {
