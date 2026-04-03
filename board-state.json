@@ -1,0 +1,9 @@
+{
+  "taskStates": {},
+  "lexTasks": {},
+  "taskPrompts": {},
+  "jackie_responses": {},
+  "lastUpdated": "2026-04-03T21:41:00Z",
+  "source": "ops-dashboard",
+  "_readme": "Single source of truth for ops dashboard. Dana commits on every state change. Jackie's cron reads this, executes tasks, writes responses back, then git push. Dana clicks Sync to pull latest."
+}

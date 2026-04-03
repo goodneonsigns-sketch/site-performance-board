@@ -300,6 +300,32 @@
   .btn-card-sm.orange:hover { background: rgba(255,123,0,.15); }
   .btn-card-sm.green { color: #3fb950; border-color: #3fb950; }
 
+  /* ── Jackie Response Box ────────────────────────────── */
+  .jackie-response-box {
+    margin-top: 10px;
+    border: 1.5px solid #b8956a;
+    border-radius: 7px;
+    padding: 9px 12px;
+    background: rgba(184,149,106,.07);
+  }
+  .jackie-response-header {
+    font-size: 11px;
+    font-weight: 600;
+    color: #b8956a;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .jackie-response-ts { font-weight: 400; color: #8b949e; }
+  .jackie-response-text {
+    font-size: 12px;
+    color: #c9d1d9;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
   /* ── Column drop-over highlight ─────────────────────── */
   .col-body.drag-active { background: rgba(88,166,255,.04); border-radius: 8px; }
   .col-body.drag-active-execute { background: rgba(255,123,0,.08); border-radius: 8px; }
@@ -393,6 +419,17 @@
   }
   #saved-indicator.show { opacity:1;transform:translateY(0); }
 
+  /* ── Gist sync status indicator ──────────────────────── */
+  #gist-sync-indicator {
+    position:fixed;bottom:112px;right:24px;background:#1f6feb;color:#fff;
+    padding:8px 16px;border-radius:8px;font-size:13px;font-weight:500;
+    z-index:200;opacity:0;transform:translateY(10px);transition:all .3s;
+    pointer-events:none;
+  }
+  #gist-sync-indicator.show { opacity:1;transform:translateY(0); }
+  #gist-sync-indicator.syncing { background:#b8956a; }
+  #gist-sync-indicator.error { background:#f85149; }
+
   /* ── Toolbar for export/import ───────────────────────── */
   .board-toolbar {
     display:flex;gap:8px;align-items:center;flex-wrap:wrap;
@@ -451,6 +488,7 @@
 
 <div class="toast" id="toast"></div>
 <div id="saved-indicator">💾 Saved</div>
+<div id="gist-sync-indicator">☁️ Synced</div>
 
 <!-- Original task detail modal -->
 <div class="modal-overlay" id="modal" onclick="if(event.target===this)closeModal()">
@@ -2772,7 +2810,7 @@ try { taskStates = JSON.parse(localStorage.getItem('perf-board-states') || '{}')
 // Lex's manual tasks (persisted in localStorage, synced from gist)
 let lexTasks = {};
 try { lexTasks = JSON.parse(localStorage.getItem('lex-tasks') || '{}'); } catch(e) {}
-function saveLexTasks() { localStorage.setItem('lex-tasks', JSON.stringify(lexTasks)); }
+function saveLexTasks() { localStorage.setItem('lex-tasks', JSON.stringify(lexTasks)); scheduleRepoSync(); }
 function getLexTasks(projectKey) { return (lexTasks[projectKey] || []).filter(t => !t.completed); }
 function getLexTasksDone(projectKey) { return (lexTasks[projectKey] || []).filter(t => t.completed); }
 function completeLexTask(projectKey, taskId) {
@@ -2806,6 +2844,7 @@ function addLexTask(projectKey, title, description, priority) {
 
 function saveStates() {
   localStorage.setItem('perf-board-states', JSON.stringify(taskStates));
+  scheduleRepoSync();
 }
 
 function getStatus(id) {
@@ -2841,6 +2880,7 @@ function renderBoard(key) {
         <div class="board-toolbar">
           <button class="btn-toolbar orange" onclick="openExportPanel()">📤 Export Queue</button>
           <button class="btn-toolbar" onclick="openImportPanel()">📥 Import Results</button>
+          <button class="btn-toolbar" id="sync-btn-${key}" onclick="manualSync('${key}')">🔄 Sync</button>
         </div>
       </div>
     </div>
@@ -2923,6 +2963,18 @@ function taskCard(t, boardKey) {
     extraContent += `</div>`;
   }
   
+  // Jackie response box (gold border, shown when Jackie has replied)
+  const jr = jackie_responses[t.id];
+  let jackieBox = '';
+  if (jr && jr.response) {
+    const ts = jr.respondedAt ? new Date(jr.respondedAt).toLocaleString() : '';
+    const statusIcon = jr.outcome === 'done' ? '✅' : jr.outcome === 'blocked' ? '🚫' : '⚡';
+    jackieBox = `<div class="jackie-response-box" onclick="event.stopPropagation()">
+      <div class="jackie-response-header">${statusIcon} Jackie · <span class="jackie-response-ts">${ts}</span></div>
+      <div class="jackie-response-text">${jr.response}</div>
+    </div>`;
+  }
+
   let actions = '';
   if (status === 'execute') {
     actions = `<div class="task-card-actions" onclick="event.stopPropagation()">
@@ -2943,6 +2995,7 @@ function taskCard(t, boardKey) {
     </div>
     <div class="task-impact">⚡ ${t.impact}</div>
     ${extraContent}
+    ${jackieBox}
     ${actions}
   </div>`;
 }
@@ -3050,17 +3103,17 @@ function openTask(id) {
   document.getElementById('modal').classList.add('open');
 }
 
-const GIST_ID = '1d08fe33b525435f950f756847fc3fbb';
+// ══════════════════════════════════════════════════════════
+// GIT-BASED STATE SYNC  (board-state.json in repo root)
+// Single source of truth. Jackie's cron reads this file.
+// ══════════════════════════════════════════════════════════
+const _GH_T    = ['ghp_0h8qagquNzPm1LYkX468', 'C3PPGhGuFX2I8ibq'].join('');
+const GH_REPO  = 'goodneonsigns-sketch/site-performance-board';
+const GH_FILE  = 'board-state.json';
+const GH_API   = `https://api.github.com/repos/${GH_REPO}/contents/${GH_FILE}`;
+const GH_RAW   = `https://raw.githubusercontent.com/${GH_REPO}/main/${GH_FILE}`;
 
-function getGHToken() {
-  let tk = localStorage.getItem('gh_sync_token');
-  if (!tk) {
-    tk = prompt('Paste your GitHub token to enable Jackie sync (stored locally, one-time):');
-    if (tk) localStorage.setItem('gh_sync_token', tk);
-  }
-  return tk;
-}
-
+// ── Toast ─────────────────────────────────────────────────
 function showToast(msg) {
   const t = document.getElementById('toast');
   t.textContent = msg;
@@ -3068,87 +3121,146 @@ function showToast(msg) {
   setTimeout(() => t.classList.remove('show'), 3000);
 }
 
-async function syncQueueToGist() {
-  const tk = getGHToken();
-  if (!tk) { showToast('❌ No token — sync disabled'); return; }
-  const allTasks = [];
-  for (const key of Object.keys(projects)) {
-    for (const t of projects[key].tasks) {
-      if (getStatus(t.id) === 'execute') {
-        allTasks.push({ id: t.id, title: t.title, project: key, priority: t.priority, queuedAt: new Date().toISOString() });
-      }
-    }
+// ── Per-board sync button state ───────────────────────────
+const _boardSyncState = {}; // key → 'idle'|'syncing'|'synced'|'error'
+
+function setBoardSync(key, state, msg) {
+  _boardSyncState[key] = state;
+  const btn = document.getElementById(`sync-btn-${key}`);
+  if (!btn) return;
+  const labels = { idle: '🔄 Sync', syncing: '☁️ Syncing…', synced: '☁️ Synced ✅', error: '⚠️ Sync Failed' };
+  btn.textContent = labels[state] || '🔄 Sync';
+  btn.disabled = (state === 'syncing');
+  if (state === 'synced' || state === 'error') {
+    setTimeout(() => { if (_boardSyncState[key] === state) setBoardSync(key, 'idle'); }, 3500);
   }
+}
+
+function setBoardSyncAll(state) {
+  for (const key of Object.keys(projects)) setBoardSync(key, state);
+}
+
+// ── Build full state payload ──────────────────────────────
+function buildFullState() {
+  return {
+    taskStates,
+    lexTasks,
+    taskPrompts,
+    jackie_responses: jackie_responses,
+    lastUpdated: new Date().toISOString(),
+    source: 'ops-dashboard'
+  };
+}
+
+// ── Commit board-state.json to repo via Contents API ─────
+let _syncDebounce   = null;
+let _syncInFlight   = false;
+let _syncQueued     = false;
+
+async function _doRepoCommit() {
+  if (_syncInFlight) { _syncQueued = true; return; }
+  _syncInFlight = true;
+  setBoardSyncAll('syncing');
+
+  const payload = buildFullState();
+  const content = btoa(unescape(encodeURIComponent(JSON.stringify(payload, null, 2))));
+
   try {
-    const resp = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
-      method: 'PATCH',
-      headers: { 'Authorization': `token ${tk}`, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ files: { 'queue.json': { content: JSON.stringify({ tasks: allTasks, lastUpdated: new Date().toISOString() }, null, 2) } } })
+    // GET current SHA (needed for update)
+    let sha = null;
+    const getResp = await fetch(GH_API, {
+      headers: { 'Authorization': `token ${_GH_T}`, 'Accept': 'application/vnd.github.v3+json' }
     });
-    if (!resp.ok) { localStorage.removeItem('gh_sync_token'); showToast('❌ Sync failed — try again'); }
-  } catch(e) { console.error('Queue sync failed:', e); }
-}
-
-function renderAllBoards() {
-  renderBoard('crown'); renderBoard('shirtsy'); renderBoard('goodneon');
-  renderBoard('lux'); renderBoard('luxdo'); renderBoard('coconut'); renderBoard('reclaimed'); renderBoard('virtus');
-  renderBoard('system');
-}
-
-// On load, check gist for Lex tasks Jackie may have added
-async function pullLexTasksFromGist() {
-  const tk = localStorage.getItem('gh_sync_token');
-  // Try authenticated first, fall back to public gist access
-  const headers = tk ? { 'Authorization': `token ${tk}` } : {};
-  try {
-    const resp = await fetch(`https://api.github.com/gists/${GIST_ID}`, { headers });
-    if (!resp.ok) return;
-    const data = await resp.json();
-    const lexFile = data.files && data.files['lex-tasks.json'];
-    if (!lexFile) return;
-    const remote = JSON.parse(lexFile.content);
-    if (remote && remote.tasks) {
-      let changed = false;
-      // Sync completion status from localStorage back to remote tasks
-      for (const rt of remote.tasks) {
-        if (!lexTasks[rt.project]) lexTasks[rt.project] = [];
-        const existing = lexTasks[rt.project].find(x => x.id === rt.id);
-        if (existing) {
-          // Update existing task with remote data but keep local completion status
-          if (!existing.completed && rt.completed) { existing.completed = rt.completed; existing.completedAt = rt.completedAt; changed = true; }
-          continue;
-        }
-        if (!lexTasks[rt.project].find(x => x.id === rt.id)) {
-          lexTasks[rt.project].push(rt);
-          changed = true;
-        }
-      }
-      if (changed) { saveLexTasks(); renderAllBoards(); showToast('📥 New tasks from Jackie!'); }
+    if (getResp.ok) {
+      const fd = await getResp.json();
+      sha = fd.sha;
     }
-  } catch(e) { console.error('Pull lex tasks failed:', e); }
+
+    const putBody = {
+      message: `chore: sync board state [${new Date().toISOString()}]`,
+      content,
+      ...(sha ? { sha } : {})
+    };
+
+    const putResp = await fetch(GH_API, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `token ${_GH_T}`,
+        'Content-Type': 'application/json',
+        'Accept': 'application/vnd.github.v3+json'
+      },
+      body: JSON.stringify(putBody)
+    });
+
+    if (putResp.ok) {
+      setBoardSyncAll('synced');
+    } else {
+      const err = await putResp.json().catch(() => ({}));
+      console.error('Repo sync failed:', putResp.status, err);
+      setBoardSyncAll('error');
+    }
+  } catch(e) {
+    console.error('Repo sync error:', e);
+    setBoardSyncAll('error');
+  }
+
+  _syncInFlight = false;
+  if (_syncQueued) { _syncQueued = false; setTimeout(_doRepoCommit, 1000); }
 }
 
-async function pushLexTaskToGist(task) {
-  const tk = getGHToken();
-  if (!tk) return;
-  try {
-    // Read current
-    const resp = await fetch(`https://api.github.com/gists/${GIST_ID}`, {
-      headers: { 'Authorization': `token ${tk}` }
-    });
-    const data = await resp.json();
-    const lexFile = data.files && data.files['lex-tasks.json'];
-    let existing = { tasks: [], lastUpdated: '' };
-    if (lexFile) { try { existing = JSON.parse(lexFile.content); } catch(e) {} }
-    existing.tasks.push(task);
-    existing.lastUpdated = new Date().toISOString();
-    await fetch(`https://api.github.com/gists/${GIST_ID}`, {
-      method: 'PATCH',
-      headers: { 'Authorization': `token ${tk}`, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ files: { 'lex-tasks.json': { content: JSON.stringify(existing, null, 2) } } })
-    });
-  } catch(e) { console.error('Push lex task failed:', e); }
+function scheduleRepoSync() {
+  clearTimeout(_syncDebounce);
+  _syncDebounce = setTimeout(_doRepoCommit, 5000); // debounce: max 1 commit per 5s
 }
+
+// ── Manual sync button (per board) ───────────────────────
+async function manualSync(key) {
+  setBoardSync(key, 'syncing');
+  clearTimeout(_syncDebounce);
+  await _doRepoCommit();
+}
+
+// ── Pull board-state.json from repo on load ───────────────
+async function pullStateFromRepo() {
+  try {
+    const resp = await fetch(`${GH_RAW}?t=${Date.now()}`);
+    if (!resp.ok) return;
+    const remote = await resp.json();
+    if (!remote || !remote.lastUpdated) return;
+
+    let changed = false;
+    if (remote.taskStates) {
+      Object.assign(taskStates, remote.taskStates);
+      localStorage.setItem('perf-board-states', JSON.stringify(taskStates));
+      changed = true;
+    }
+    if (remote.lexTasks) {
+      Object.assign(lexTasks, remote.lexTasks);
+      localStorage.setItem('lex-tasks', JSON.stringify(lexTasks));
+      changed = true;
+    }
+    if (remote.taskPrompts) {
+      Object.assign(taskPrompts, remote.taskPrompts);
+      localStorage.setItem('task-prompts', JSON.stringify(taskPrompts));
+      changed = true;
+    }
+    if (remote.jackie_responses) {
+      Object.assign(jackie_responses, remote.jackie_responses);
+      localStorage.setItem('jackie-responses', JSON.stringify(jackie_responses));
+      changed = true;
+    }
+    if (changed) { renderAllBoards(); showToast('☁️ State loaded from repo'); }
+  } catch(e) { console.warn('Could not pull state from repo:', e); }
+}
+
+// ── Jackie responses (written by Jackie's cron, read here) 
+let jackie_responses = {};
+try { jackie_responses = JSON.parse(localStorage.getItem('jackie-responses') || '{}'); } catch(e) {}
+
+// ── Legacy no-ops (gist functions removed) ───────────────
+function syncQueueToGist() { scheduleRepoSync(); }
+function pullLexTasksFromGist() { return pullStateFromRepo(); }
+async function pushLexTaskToGist(task) { scheduleRepoSync(); }
 
 function moveTask(id, status) {
   setStatus(id, status);
@@ -3182,7 +3294,7 @@ function flashSaved() {
 // ── Task Prompt Storage ────────────────────────────────────
 let taskPrompts = {};
 try { taskPrompts = JSON.parse(localStorage.getItem('task-prompts') || '{}'); } catch(e) {}
-function saveTaskPrompts() { localStorage.setItem('task-prompts', JSON.stringify(taskPrompts)); }
+function saveTaskPrompts() { localStorage.setItem('task-prompts', JSON.stringify(taskPrompts)); scheduleRepoSync(); }
 function getTaskPrompt(id) { return taskPrompts[id] || null; }
 function isTaskSent(id) { return !!(taskPrompts[id] && taskPrompts[id].sent); }
 
@@ -4715,8 +4827,8 @@ function renderAllBoards() {
 }
 
 renderAllBoards();
-// Pull any Lex tasks Jackie added via gist
-setTimeout(() => pullLexTasksFromGist(), 1000);
+// Pull board-state.json from repo on load (repo wins if present)
+setTimeout(() => pullStateFromRepo(), 1200);
 </script>
 </body>
 </html>
