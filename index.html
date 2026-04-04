@@ -452,6 +452,92 @@
   }
   .note-entry .note-meta { color:#8b949e;font-size:11px;margin-bottom:4px; }
   .note-entry .note-text { color:#e6edf3;line-height:1.5; }
+
+  /* ── Activity Log Tab ────────────────────────────────── */
+  .actlog-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:24px; flex-wrap:wrap; gap:12px; }
+  .actlog-header h2 { font-size:22px; font-weight:700; color:#e6edf3; }
+  .actlog-filters { display:flex; gap:8px; flex-wrap:wrap; }
+  .actlog-filter {
+    padding:5px 14px; border-radius:20px; border:1px solid #30363d;
+    background:transparent; color:#8b949e; cursor:pointer; font-size:12px;
+    font-weight:500; transition:all .15s;
+  }
+  .actlog-filter:hover { color:#e6edf3; border-color:#8b949e; }
+  .actlog-filter.active { background:#334155; color:#93c5fd; border-color:#3b82f6; }
+  .actlog-refresh {
+    padding:6px 16px; border-radius:8px; border:1px solid #3b82f6;
+    background:rgba(59,130,246,.12); color:#93c5fd; cursor:pointer;
+    font-size:13px; font-weight:500; transition:all .15s;
+  }
+  .actlog-refresh:hover { background:rgba(59,130,246,.25); }
+  .actlog-refresh.spinning { opacity:.6; pointer-events:none; }
+
+  .actlog-date-group { margin-bottom:28px; }
+  .actlog-date-header {
+    font-size:13px; font-weight:600; color:#8b949e;
+    text-transform:uppercase; letter-spacing:.6px;
+    padding-bottom:8px; border-bottom:1px solid #30363d;
+    margin-bottom:14px;
+  }
+
+  .actlog-entry {
+    display:flex; gap:0; margin-bottom:10px;
+    border:1px solid #30363d; border-radius:10px;
+    background:#161b22; overflow:hidden; transition:border-color .2s;
+    cursor:pointer;
+  }
+  .actlog-entry:hover { border-color:#3b82f6; }
+  .actlog-entry.expanded { border-color:#3b82f6; }
+
+  .actlog-time-col {
+    flex-shrink:0; width:88px; padding:12px 10px;
+    display:flex; flex-direction:column; align-items:center; justify-content:flex-start;
+    gap:4px; border-right:1px solid #30363d; background:#0d1117;
+  }
+  .actlog-time { font-size:12px; color:#8b949e; font-weight:500; white-space:nowrap; }
+  .actlog-icon { font-size:18px; line-height:1; }
+
+  .actlog-content { flex:1; padding:12px 16px; min-width:0; }
+  .actlog-source { font-size:12px; color:#93c5fd; font-weight:600; margin-bottom:4px; }
+  .actlog-summary { font-size:14px; color:#e6edf3; line-height:1.5; margin-bottom:6px; }
+  .actlog-status-row { display:flex; align-items:center; gap:8px; }
+  .actlog-status {
+    display:inline-block; font-size:11px; padding:2px 9px;
+    border-radius:10px; font-weight:600;
+  }
+  .actlog-status.ok, .actlog-status.complete { background:rgba(63,185,80,.15); color:#3fb950; }
+  .actlog-status.in-progress { background:rgba(210,153,34,.15); color:#d29922; }
+  .actlog-status.error { background:rgba(248,81,73,.15); color:#f85149; }
+  .actlog-status.skipped { background:rgba(139,148,158,.15); color:#8b949e; }
+
+  .actlog-details {
+    display:none; margin-top:10px; padding:10px 12px;
+    background:#0d1117; border-radius:7px;
+    font-size:13px; color:#8b949e; line-height:1.6;
+    white-space:pre-wrap; word-break:break-word;
+    border-left:3px solid #3b82f6;
+  }
+  .actlog-entry.expanded .actlog-details { display:block; }
+  .actlog-expand-hint { font-size:11px; color:#8b949e; }
+
+  .actlog-loadmore {
+    display:block; width:100%; padding:12px;
+    background:transparent; border:1px dashed #30363d;
+    border-radius:8px; color:#8b949e; cursor:pointer; font-size:13px;
+    text-align:center; transition:all .15s; margin-top:8px;
+  }
+  .actlog-loadmore:hover { border-color:#3b82f6; color:#93c5fd; }
+  .actlog-empty {
+    text-align:center; padding:60px 20px;
+    color:#8b949e; font-size:14px;
+  }
+  @media(max-width:768px) {
+    .actlog-time-col { width:68px; padding:10px 6px; }
+    .actlog-time { font-size:11px; }
+    .actlog-content { padding:10px 12px; }
+    .actlog-summary { font-size:13px; }
+    .actlog-header { flex-direction:column; align-items:flex-start; }
+  }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
@@ -471,6 +557,7 @@
     <button class="tab" onclick="switchBoard('system')" style="border-color:#ff6b6b;color:#ff6b6b">⚙️ System Config</button>
     <button class="tab" onclick="switchBoard('memory')" style="border-color:#b8956a;color:#b8956a">🧠 Memory</button>
     <button class="tab" onclick="switchBoard('googleads')" style="border-color:#4285f4;color:#4285f4">📊 Google Ads</button>
+    <button class="tab" onclick="switchBoard('activitylog')" style="border-color:#3b82f6;color:#3b82f6">📜 Activity Log</button>
   </div>
 </header>
 
@@ -485,6 +572,7 @@
 <div id="board-system" class="board"></div>
 <div id="board-memory" class="board"></div>
 <div id="board-googleads" class="board"></div>
+<div id="board-activitylog" class="board"></div>
 
 <div class="toast" id="toast"></div>
 <div id="saved-indicator">💾 Saved</div>
@@ -3147,6 +3235,7 @@ function buildFullState() {
     lexTasks,
     taskPrompts,
     jackie_responses: jackie_responses,
+    activityLog: activityLog,
     lastUpdated: new Date().toISOString(),
     source: 'ops-dashboard'
   };
@@ -3247,6 +3336,11 @@ async function pullStateFromRepo() {
     if (remote.jackie_responses) {
       Object.assign(jackie_responses, remote.jackie_responses);
       localStorage.setItem('jackie-responses', JSON.stringify(jackie_responses));
+      changed = true;
+    }
+    if (remote.activityLog && Array.isArray(remote.activityLog)) {
+      activityLog = remote.activityLog;
+      localStorage.setItem('activity-log', JSON.stringify(activityLog));
       changed = true;
     }
     if (changed) { renderAllBoards(); showToast('☁️ State loaded from repo'); }
@@ -4818,12 +4912,309 @@ function renderGoogleAdsBoard() {
   }
 }
 
+// ── Activity Log ──────────────────────────────────────────
+// Seed data for April 3-4 2026 work history
+const _activityLogSeed = [
+  {
+    id: "log-seed-001",
+    timestamp: "2026-04-04T12:52:00Z",
+    type: "task",
+    source: "ops-dashboard",
+    summary: "Activity Log tab added to Ops Dashboard",
+    details: "New 📜 Activity Log tab deployed. Shows Jackie's status reports, cron run results, and task execution history. Reads from board-state.json activityLog array. Jackie's cron appends new entries on each run.",
+    status: "complete"
+  },
+  {
+    id: "log-seed-002",
+    timestamp: "2026-04-04T09:00:00Z",
+    type: "cron",
+    source: "Hourly Ops Check",
+    summary: "Cron run complete. Board state synced.",
+    details: "Pulled board-state.json from repo. Checked all boards. No new Jackie Execute tasks queued. Board state up to date.",
+    status: "ok"
+  },
+  {
+    id: "log-seed-003",
+    timestamp: "2026-04-04T08:00:00Z",
+    type: "cron",
+    source: "Hourly Ops Check",
+    summary: "Cron run complete. Board state synced.",
+    details: "Pulled board-state.json from repo. Checked all boards. Reclaimed: 10 todo tasks, 0 execute tasks. All other boards unchanged.",
+    status: "ok"
+  },
+  {
+    id: "log-seed-004",
+    timestamp: "2026-04-03T22:01:00Z",
+    type: "deploy",
+    source: "ops-dashboard",
+    summary: "Hourly cron created for Jackie Ops Check",
+    details: "Cron job created on Mac Studio: runs every hour, pulls board-state.json from GitHub repo, checks for Jackie Execute tasks, syncs state. First successful run confirmed.",
+    status: "complete"
+  },
+  {
+    id: "log-seed-005",
+    timestamp: "2026-04-03T21:45:00Z",
+    type: "deploy",
+    source: "ops-dashboard",
+    summary: "Git-based sync deployed — board-state.json is now source of truth",
+    details: "Migrated from GitHub Gist to full git repo (goodneonsigns-sketch/site-performance-board). board-state.json committed to main branch. Dashboard reads/writes via GitHub Contents API. Dana clicks Sync to pull latest. Jackie's cron pushes state on every run.",
+    status: "complete"
+  },
+  {
+    id: "log-seed-006",
+    timestamp: "2026-04-03T21:30:00Z",
+    type: "deploy",
+    source: "ops-dashboard",
+    summary: "Ops board persistence upgraded — memory index + per-board sync",
+    details: "Added memory index builder (build-memory-index.py). Per-board Sync buttons replace single global sync. Jackie responses now persisted in board-state.json. Cron job reads and writes to same file. Dashboard auto-pulls on load.",
+    status: "complete"
+  },
+  {
+    id: "log-seed-007",
+    timestamp: "2026-04-03T20:15:00Z",
+    type: "deploy",
+    source: "virtus-realty",
+    summary: "Virtus Realty: Compare + Showing Request system deployed",
+    details: "Added property compare mode (up to 3 properties side-by-side), Showing Request form with calendar picker, confirmation modal, and toast notifications. All wired into existing property detail modal flow.",
+    status: "complete"
+  },
+  {
+    id: "log-seed-008",
+    timestamp: "2026-04-03T19:00:00Z",
+    type: "deploy",
+    source: "virtus-realty",
+    summary: "Virtus Realty: Property detail page + phone number update",
+    details: "Full property detail page deployed with high-res photo gallery, amenities grid, neighborhood info, mortgage calculator, and agent contact card. Phone number updated to (305) 555-0192. Agent card links to Showing Request modal.",
+    status: "complete"
+  },
+  {
+    id: "log-seed-009",
+    timestamp: "2026-04-03T17:30:00Z",
+    type: "deploy",
+    source: "virtus-realty",
+    summary: "Virtus Realty: Team page + OG image deployed",
+    details: "Added /team page with agent profiles, headshots, bios, and contact cards. OG image created (1200×630, Navy+Gold branding) for social sharing. Meta tags updated across all pages.",
+    status: "complete"
+  },
+  {
+    id: "log-seed-010",
+    timestamp: "2026-04-03T16:45:00Z",
+    type: "deploy",
+    source: "virtus-realty",
+    summary: "Virtus Realty: Logo added across all pages",
+    details: "Virtus Realty SVG logo created and added to header, footer, and OG image. Navy blue (#1B2A4A) and gold (#C9A84C) brand colors applied site-wide. Logo responsive on mobile.",
+    status: "complete"
+  },
+  {
+    id: "log-seed-011",
+    timestamp: "2026-04-03T15:30:00Z",
+    type: "deploy",
+    source: "virtus-realty",
+    summary: "Virtus Realty: Navy + Gold rebrand deployed",
+    details: "Complete visual rebrand from default theme to Navy (#1B2A4A) + Gold (#C9A84C) luxury palette. Updated: hero section, navigation, property cards, footer, CTA buttons, and filter panel. Dark luxury feel matching brand identity.",
+    status: "complete"
+  },
+  {
+    id: "log-seed-012",
+    timestamp: "2026-04-03T14:00:00Z",
+    type: "deploy",
+    source: "virtus-realty",
+    summary: "Virtus Realty: Rich filter UI deployed (1233 lines)",
+    details: "Full property search filter system deployed: price range slider, beds/baths selectors, property type checkboxes (Single Family, Condo, Townhouse, Villa, Waterfront), amenities filter (Pool, Gym, Ocean View, etc.), sort options, active filter chips, and reset button. 1233-line filter UI, fully responsive.",
+    status: "complete"
+  }
+];
+
+// ── Activity Log State ────────────────────────────────────
+let activityLog = [];
+try { activityLog = JSON.parse(localStorage.getItem('activity-log') || '[]'); } catch(e) {}
+// Merge seed data (don't duplicate, seed fills gaps if empty)
+if (activityLog.length === 0) {
+  activityLog = [..._activityLogSeed];
+  localStorage.setItem('activity-log', JSON.stringify(activityLog));
+}
+
+let _actlogFilter  = 'all';   // all | task | cron | deploy | error | alert | info
+let _actlogVisible = 50;      // how many entries shown
+
+const _actlogTypeIcon = { cron:'🔄', task:'📋', deploy:'🚀', error:'❌', alert:'⚠️', info:'ℹ️' };
+const _actlogTypeLabel = { cron:'Cron', task:'Task', deploy:'Deploy', error:'Error', alert:'Alert', info:'Info' };
+
+function _actlogStatusLabel(s) {
+  const map = { ok:'✅ OK', complete:'✅ Complete', 'in-progress':'🔄 In Progress', error:'❌ Error', skipped:'⏭ Skipped' };
+  return map[s] || s;
+}
+
+function _toEastern(isoStr) {
+  try {
+    const d = new Date(isoStr);
+    return d.toLocaleString('en-US', { timeZone:'America/New_York', hour:'numeric', minute:'2-digit', hour12:true });
+  } catch(e) { return isoStr; }
+}
+
+function _toEasternDate(isoStr) {
+  try {
+    const d = new Date(isoStr);
+    return d.toLocaleDateString('en-US', { timeZone:'America/New_York', weekday:'long', year:'numeric', month:'long', day:'numeric' });
+  } catch(e) { return isoStr; }
+}
+
+function _dateKey(isoStr) {
+  try {
+    const d = new Date(isoStr);
+    return d.toLocaleDateString('en-US', { timeZone:'America/New_York', year:'numeric', month:'2-digit', day:'2-digit' });
+  } catch(e) { return isoStr.slice(0,10); }
+}
+
+function _isToday(isoStr) {
+  const now = new Date();
+  const todayKey = now.toLocaleDateString('en-US', { timeZone:'America/New_York', year:'numeric', month:'2-digit', day:'2-digit' });
+  return _dateKey(isoStr) === todayKey;
+}
+
+function _isYesterday(isoStr) {
+  const d = new Date();
+  d.setDate(d.getDate() - 1);
+  const yKey = d.toLocaleDateString('en-US', { timeZone:'America/New_York', year:'numeric', month:'2-digit', day:'2-digit' });
+  return _dateKey(isoStr) === yKey;
+}
+
+function _friendlyDateHeader(isoStr) {
+  if (_isToday(isoStr)) return 'Today — ' + _toEasternDate(isoStr);
+  if (_isYesterday(isoStr)) return 'Yesterday — ' + _toEasternDate(isoStr);
+  return _toEasternDate(isoStr);
+}
+
+function toggleActlogEntry(id) {
+  const el = document.getElementById(`actlog-entry-${id}`);
+  if (el) el.classList.toggle('expanded');
+}
+
+function setActlogFilter(f) {
+  _actlogFilter = f;
+  _actlogVisible = 50;
+  renderActivityLog();
+  // Update filter button active state
+  document.querySelectorAll('.actlog-filter').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.filter === f);
+  });
+}
+
+async function refreshActivityLog() {
+  const btn = document.getElementById('actlog-refresh-btn');
+  if (btn) { btn.classList.add('spinning'); btn.textContent = '⏳ Fetching…'; }
+  try {
+    const resp = await fetch(`${GH_RAW}?t=${Date.now()}`);
+    if (resp.ok) {
+      const remote = await resp.json();
+      if (remote.activityLog && Array.isArray(remote.activityLog)) {
+        activityLog = remote.activityLog;
+        localStorage.setItem('activity-log', JSON.stringify(activityLog));
+        renderActivityLog();
+        showToast('📜 Activity log refreshed');
+      } else {
+        showToast('ℹ️ No activity log in remote state');
+      }
+    } else {
+      showToast('⚠️ Could not fetch latest state');
+    }
+  } catch(e) {
+    showToast('⚠️ Refresh failed: ' + e.message);
+  }
+  if (btn) { btn.classList.remove('spinning'); btn.textContent = '🔄 Refresh'; }
+}
+
+function loadMoreActlog() {
+  _actlogVisible += 50;
+  renderActivityLog();
+}
+
+function renderActivityLog() {
+  const board = document.getElementById('board-activitylog');
+  if (!board) return;
+
+  // Filter
+  const filtered = _actlogFilter === 'all'
+    ? [...activityLog]
+    : activityLog.filter(e => e.type === _actlogFilter);
+
+  // Sort newest first
+  filtered.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+  const visible = filtered.slice(0, _actlogVisible);
+  const hasMore = filtered.length > _actlogVisible;
+
+  // Group by date
+  const groups = [];
+  const groupMap = {};
+  for (const entry of visible) {
+    const dk = _dateKey(entry.timestamp);
+    if (!groupMap[dk]) {
+      groupMap[dk] = { key: dk, label: _friendlyDateHeader(entry.timestamp), entries: [] };
+      groups.push(groupMap[dk]);
+    }
+    groupMap[dk].entries.push(entry);
+  }
+
+  let html = `
+    <div class="actlog-header">
+      <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+        <h2>📜 Activity Log</h2>
+        <div class="actlog-filters">
+          <button class="actlog-filter ${_actlogFilter==='all'?'active':''}" data-filter="all" onclick="setActlogFilter('all')">All</button>
+          <button class="actlog-filter ${_actlogFilter==='task'?'active':''}" data-filter="task" onclick="setActlogFilter('task')">📋 Tasks</button>
+          <button class="actlog-filter ${_actlogFilter==='cron'?'active':''}" data-filter="cron" onclick="setActlogFilter('cron')">🔄 Crons</button>
+          <button class="actlog-filter ${_actlogFilter==='deploy'?'active':''}" data-filter="deploy" onclick="setActlogFilter('deploy')">🚀 Deploys</button>
+          <button class="actlog-filter ${_actlogFilter==='error'?'active':''}" data-filter="error" onclick="setActlogFilter('error')">❌ Errors</button>
+        </div>
+      </div>
+      <button class="actlog-refresh" id="actlog-refresh-btn" onclick="refreshActivityLog()">🔄 Refresh</button>
+    </div>
+  `;
+
+  if (visible.length === 0) {
+    html += `<div class="actlog-empty">No ${_actlogFilter === 'all' ? '' : _actlogFilter + ' '}entries yet.</div>`;
+  } else {
+    for (const group of groups) {
+      html += `<div class="actlog-date-group">
+        <div class="actlog-date-header">${group.label}</div>`;
+      for (const entry of group.entries) {
+        const icon = _actlogTypeIcon[entry.type] || 'ℹ️';
+        const statusCls = (entry.status || 'ok').replace('-','');
+        html += `
+          <div class="actlog-entry" id="actlog-entry-${entry.id}" onclick="toggleActlogEntry('${entry.id}')">
+            <div class="actlog-time-col">
+              <div class="actlog-icon">${icon}</div>
+              <div class="actlog-time">${_toEastern(entry.timestamp)}</div>
+            </div>
+            <div class="actlog-content">
+              <div class="actlog-source">${entry.source || (_actlogTypeLabel[entry.type] || entry.type)}</div>
+              <div class="actlog-summary">${entry.summary}</div>
+              <div class="actlog-status-row">
+                <span class="actlog-status ${entry.status}">${_actlogStatusLabel(entry.status)}</span>
+                <span class="actlog-expand-hint" style="font-size:11px;color:#8b949e">${entry.details ? '▸ Click for details' : ''}</span>
+              </div>
+              ${entry.details ? `<div class="actlog-details">${entry.details}</div>` : ''}
+            </div>
+          </div>`;
+      }
+      html += `</div>`;
+    }
+    if (hasMore) {
+      html += `<button class="actlog-loadmore" onclick="loadMoreActlog()">⬇ Load ${Math.min(50, filtered.length - _actlogVisible)} more entries…</button>`;
+    }
+  }
+
+  board.innerHTML = html;
+}
+
 // Add renderGoogleAdsBoard to renderAllBoards
 function renderAllBoards() {
   renderBoard('crown'); renderBoard('shirtsy'); renderBoard('goodneon');
   renderBoard('lux'); renderBoard('luxdo'); renderBoard('coconut'); renderBoard('reclaimed'); renderBoard('virtus');
   renderBoard('system');
   renderGoogleAdsBoard();
+  renderActivityLog();
 }
 
 renderAllBoards();
