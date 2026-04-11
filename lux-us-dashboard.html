@@ -17,6 +17,11 @@
             --shadow: 0 1px 3px rgba(0,0,0,0.1);
             --radius: 12px;
             --brand-color: #b8956a;
+            --brand-light: #f5f0e9;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --info: #3b82f6;
+            --danger: #ef4444;
         }
 
         * {
@@ -31,12 +36,526 @@
             color: var(--text-primary);
             line-height: 1.5;
             min-height: 100vh;
+            display: flex;
         }
 
+        /* Sidebar Styles */
+        .sidebar {
+            width: 240px;
+            background: var(--bg-card);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            z-index: 100;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar-header {
+            padding: 32px 24px 24px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .company-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-dot {
+            width: 12px;
+            height: 12px;
+            background-color: var(--brand-color);
+            border-radius: 50%;
+        }
+
+        .company-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .nav-tabs {
+            padding: 24px 0;
+            flex: 1;
+        }
+
+        .nav-tab {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 24px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .nav-tab:hover {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+        }
+
+        .nav-tab.active {
+            background-color: var(--brand-color);
+            color: white;
+            border-left-color: white;
+        }
+
+        .nav-tab.active:hover {
+            background-color: var(--brand-color);
+            color: white;
+        }
+
+        .nav-icon {
+            font-size: 18px;
+        }
+
+        .sidebar-footer {
+            padding: 24px;
+            border-top: 1px solid var(--border);
+        }
+
+        .back-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.2s ease;
+        }
+
+        .back-link:hover {
+            color: var(--brand-color);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 240px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .content-wrapper {
+            flex: 1;
+            padding: 32px;
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Posts Tab Styles */
+        .posts-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .posts-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .posts-title h2 {
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .count-badge {
+            background: var(--brand-color);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .posts-controls {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .filter-btn {
+            padding: 8px 16px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            color: var(--text-secondary);
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .filter-btn:hover {
+            border-color: var(--brand-color);
+            color: var(--brand-color);
+        }
+
+        .filter-btn.active {
+            background: var(--brand-color);
+            border-color: var(--brand-color);
+            color: white;
+        }
+
+        .sort-dropdown {
+            padding: 8px 16px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            color: var(--text-primary);
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        /* Draft Cards Grid */
+        .drafts-grid {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        @media (min-width: 768px) {
+            .drafts-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .draft-card {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            overflow: hidden;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .draft-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .draft-image {
+            height: 200px;
+            width: 100%;
+            background: #f1f5f9;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .draft-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .image-placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: var(--text-secondary);
+            font-size: 48px;
+        }
+
+        .draft-content {
+            padding: 20px;
+        }
+
+        .draft-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .draft-meta {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+
+        .draft-date {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+
+        .badge-platform {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .badge-platform.wordpress {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .badge-company {
+            background: var(--brand-light);
+            color: var(--brand-color);
+        }
+
+        .badge-status {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .draft-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 16px;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--bg-primary);
+            color: var(--text-secondary);
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .action-btn:hover {
+            border-color: var(--brand-color);
+            color: var(--brand-color);
+        }
+
+        .action-btn.publish {
+            background: var(--brand-color);
+            border-color: var(--brand-color);
+            color: white;
+        }
+
+        .action-btn.publish:hover {
+            background: #a07d4f;
+            border-color: #a07d4f;
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 500px;
+            overflow: hidden;
+        }
+
+        .modal-header {
+            padding: 24px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .modal-header h3 {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .modal-body {
+            padding: 24px;
+        }
+
+        .modal-footer {
+            padding: 24px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+
+        .modal-btn {
+            padding: 10px 20px;
+            border-radius: var(--radius);
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            border: 1px solid var(--border);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            transition: all 0.2s ease;
+        }
+
+        .modal-btn.primary {
+            background: var(--brand-color);
+            border-color: var(--brand-color);
+            color: white;
+        }
+
+        .modal-btn.primary:hover {
+            background: #a07d4f;
+            border-color: #a07d4f;
+        }
+
+        .modal-btn:hover {
+            border-color: var(--brand-color);
+            color: var(--brand-color);
+        }
+
+        /* Toast Styles */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 16px 20px;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            z-index: 1001;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .toast-icon {
+            font-size: 20px;
+        }
+
+        .toast-message {
+            font-size: 14px;
+            color: var(--text-primary);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: static;
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+            }
+
+            .sidebar-header {
+                padding: 20px;
+            }
+
+            .nav-tabs {
+                display: flex;
+                padding: 0;
+                border-top: 1px solid var(--border);
+            }
+
+            .nav-tab {
+                flex: 1;
+                justify-content: center;
+                padding: 16px;
+                border-left: none;
+                border-bottom: 3px solid transparent;
+            }
+
+            .nav-tab.active {
+                border-left: none;
+                border-bottom-color: var(--brand-color);
+            }
+
+            .sidebar-footer {
+                display: none;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .content-wrapper {
+                padding: 20px;
+            }
+
+            .posts-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .posts-controls {
+                width: 100%;
+            }
+
+            .filter-buttons {
+                flex-wrap: wrap;
+            }
+        }
+
+        /* Existing Dashboard Styles (for Overview tab) */
         .container {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 0 24px;
         }
 
         header {
@@ -148,7 +667,6 @@
             display: grid;
             grid-template-columns: repeat(1, 1fr);
             gap: 24px;
-            margin-bottom: 60px;
         }
 
         @media (min-width: 768px) {
@@ -157,26 +675,30 @@
             }
         }
 
+        @media (min-width: 1200px) {
+            .sections-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
         .section-card {
             background: var(--bg-card);
             border-radius: var(--radius);
             box-shadow: var(--shadow);
             border: 1px solid var(--border);
-            overflow: hidden;
+            padding: 24px;
         }
 
         .section-header {
-            padding: 20px;
-            border-bottom: 1px solid var(--border);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-bottom: 20px;
         }
 
         .section-header h3 {
-            font-size: 16px;
+            font-size: 18px;
             font-weight: 600;
-            color: var(--text-primary);
         }
 
         .section-icon {
@@ -184,19 +706,22 @@
         }
 
         .section-content {
-            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
         }
 
         .data-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 0;
+            padding-bottom: 12px;
             border-bottom: 1px solid var(--border);
         }
 
         .data-item:last-child {
             border-bottom: none;
+            padding-bottom: 0;
         }
 
         .data-label {
@@ -205,7 +730,7 @@
         }
 
         .data-value {
-            font-size: 16px;
+            font-size: 18px;
             font-weight: 600;
             color: var(--text-primary);
         }
@@ -215,9 +740,9 @@
         }
 
         footer {
-            padding: 32px 0;
+            margin-top: 40px;
+            padding: 24px 0;
             border-top: 1px solid var(--border);
-            text-align: center;
         }
 
         .footer-content {
@@ -229,297 +754,225 @@
         }
 
         .back-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 16px;
-            background: var(--brand-color);
-            color: white;
+            color: var(--text-secondary);
             text-decoration: none;
-            border-radius: 8px;
             font-size: 14px;
-            font-weight: 500;
-            transition: opacity 0.2s ease;
+            transition: color 0.2s ease;
         }
 
         .back-link:hover {
-            opacity: 0.9;
+            color: var(--brand-color);
         }
 
         .last-refreshed {
-            color: var(--text-secondary);
             font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        /* Edit Title Input */
+        .title-edit {
+            display: none;
+            width: 100%;
+            padding: 8px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-size: 16px;
+            font-family: inherit;
+            margin-bottom: 8px;
+        }
+
+        .title-edit:focus {
+            outline: none;
+            border-color: var(--brand-color);
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <div class="header-content">
-                <div class="company-header">
-                    <div class="brand-bar"></div>
-                    <div class="logo-placeholder">L</div>
-                    <h1>Lux Neon Art Gallery Dashboard</h1>
-                </div>
-                <div class="timestamp" id="currentDateTime">Loading...</div>
+    <!-- Sidebar -->
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <div class="company-brand">
+                <div class="brand-dot"></div>
+                <div class="company-name">Lux Neon Art</div>
             </div>
-        </header>
+        </div>
+        
+        <div class="nav-tabs">
+            <a href="#overview" class="nav-tab active" data-tab="overview">
+                <span class="nav-icon">📊</span>
+                <span>Overview</span>
+            </a>
+            <a href="#posts" class="nav-tab" data-tab="posts">
+                <span class="nav-icon">📝</span>
+                <span>Posts</span>
+            </a>
+            <a href="#settings" class="nav-tab" data-tab="settings">
+                <span class="nav-icon">⚙️</span>
+                <span>Settings</span>
+            </a>
+        </div>
+        
+        <div class="sidebar-footer">
+            <a href="index.html" class="back-link">
+                ← Back to Hub
+            </a>
+        </div>
+    </nav>
 
-        <main>
-            <div class="metrics-row">
-                <div class="metric-card">
-                    <div class="metric-value" data-live="true">34</div>
-                    <div class="metric-label">Shopify Orders</div>
-                    <div class="metric-trend">📊</div>
-                </div>
-                <div class="metric-card">
-                    <div class="metric-value" data-live="true">$18,200</div>
-                    <div class="metric-label">Revenue</div>
-                    <div class="metric-trend">💰</div>
-                </div>
-                <div class="metric-card">
-                    <div class="metric-value" data-live="true">$535</div>
-                    <div class="metric-label">AOV</div>
-                    <div class="metric-trend">📈</div>
-                </div>
-                <div class="metric-card">
-                    <div class="metric-value" data-live="true">1.8%</div>
-                    <div class="metric-label">Conversion Rate</div>
-                    <div class="metric-trend">📉</div>
-                </div>
-            </div>
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="content-wrapper">
+            <!-- Overview Tab -->
+            <div id="overview" class="tab-content active">
+                <header>
+                    <div class="header-content">
+                        <div class="company-header">
+                            <div class="brand-bar"></div>
+                            <h1>Lux Neon Art Gallery Dashboard</h1>
+                        </div>
+                        <div class="timestamp" id="currentDateTime">Loading...</div>
+                    </div>
+                </header>
 
-            <div class="sections-grid">
-                <div class="section-card">
-                    <div class="section-header">
-                        <h3>Sales Overview</h3>
-                        <span class="section-icon">📊</span>
+                <div class="metrics-row">
+                    <div class="metric-card">
+                        <div class="metric-value">$12,450</div>
+                        <div class="metric-label">Revenue (30 days)</div>
+                        <div class="metric-trend">↗️</div>
                     </div>
-                    <div class="section-content">
-                        <div class="data-item">
-                            <div class="data-label">Shopify Orders</div>
-                            <div class="data-value" data-live="true">34</div>
-                        </div>
-                        <div class="data-item">
-                            <div class="data-label">Revenue</div>
-                            <div class="data-value" data-live="true">$18,200</div>
-                        </div>
-                        <div class="data-item">
-                            <div class="data-label">AOV</div>
-                            <div class="data-value" data-live="true">$535</div>
-                        </div>
-                        <div class="data-item">
-                            <div class="data-label">Conversion Rate</div>
-                            <div class="data-value" data-live="true">1.8%</div>
-                        </div>
+                    <div class="metric-card">
+                        <div class="metric-value">1,248</div>
+                        <div class="metric-label">Visitors (7 days)</div>
+                        <div class="metric-trend">↗️</div>
                     </div>
-                </div>
-
-                <div class="section-card">
-                    <div class="section-header">
-                        <h3>Google Ads</h3>
-                        <span class="section-icon">🔍</span>
+                    <div class="metric-card">
+                        <div class="metric-value">42</div>
+                        <div class="metric-label">New leads</div>
+                        <div class="metric-trend">↘️</div>
                     </div>
-                    <div class="section-content">
-                        <div class="data-item">
-                            <div class="data-label">Active Campaigns</div>
-                            <div class="data-value" data-live="true">2</div>
-                        </div>
-                        <div class="data-item">
-                            <div class="data-label">Daily Spend</div>
-                            <div class="data-value" data-live="true">$50</div>
-                        </div>
-                        <div class="data-item">
-                            <div class="data-label">Clicks Today</div>
-                            <div class="data-value" data-live="true">28</div>
-                        </div>
-                        <div class="data-item">
-                            <div class="data-label">CPC</div>
-                            <div class="data-value" data-live="true">$1.79</div>
-                        </div>
-                        <div class="data-item">
-                            <div class="data-label">Conversions</div>
-                            <div class="data-value" data-live="true">3</div>
-                        </div>
-                        <div class="data-item">
-                            <div class="data-label">ROAS</div>
-                            <div class="data-value" data-live="true">2.4x</div>
-                        </div>
+                    <div class="metric-card">
+                        <div class="metric-value">87%</div>
+                        <div class="metric-label">Satisfaction</div>
+                        <div class="metric-trend">→</div>
                     </div>
                 </div>
 
-                <div class="section-card">
-                    <div class="section-header">
-                        <h3>CRM Pipeline</h3>
-                        <span class="section-icon">📋</span>
-                    </div>
-                    <div class="section-content">
-                        <div class="data-item">
-                            <div class="data-label">HubSpot Total Contacts</div>
-                            <div class="data-value" data-live="true">556</div>
+                <div class="sections-grid">
+                    <div class="section-card">
+                        <div class="section-header">
+                            <h3>Site Performance</h3>
+                            <span class="section-icon">🚀</span>
                         </div>
-                        <div class="data-item">
-                            <div class="data-label">New This Week</div>
-                            <div class="data-value" data-live="true">8</div>
-                        </div>
-                        <div class="data-item">
-                            <div class="data-label">Deals in Pipeline</div>
-                            <div class="data-value" data-live="true">5</div>
-                        </div>
-                        <div class="data-item">
-                            <div class="data-label">Appointment Scheduled</div>
-                            <div class="data-value" data-live="true">2</div>
-                        </div>
-                        <div class="data-item">
-                            <div class="data-label">Qualified</div>
-                            <div class="data-value" data-live="true">1</div>
-                        </div>
-                        <div class="data-item">
-                            <div class="data-label">Presentation</div>
-                            <div class="data-value" data-live="true">1</div>
-                        </div>
-                        <div class="data-item">
-                            <div class="data-label">Contract Sent</div>
-                            <div class="data-value" data-live="true">1</div>
+                        <div class="section-content">
+                            <div class="data-item">
+                                <div class="data-label">Shopify Speed Score</div>
+                                <div class="data-value" data-live="true">62</div>
+                            </div>
+                            <div class="data-item">
+                                <div class="data-label">Conversion Rate</div>
+                                <div class="data-value" data-live="true">1.8%</div>
+                            </div>
+                            <div class="data-item">
+                                <div class="data-label">Cart Abandonment</div>
+                                <div class="data-value" data-live="true">68%</div>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="section-card">
-                    <div class="section-header">
-                        <h3>Email Marketing</h3>
-                        <span class="section-icon">✉️</span>
-                    </div>
-                    <div class="section-content">
-                        <div class="data-item">
-                            <div class="data-label">Klaviyo Flows Active</div>
-                            <div class="data-value" data-live="true">11</div>
+                    <div class="section-card">
+                        <div class="section-header">
+                            <h3>Quote Requests</h3>
+                            <span class="section-icon">💬</span>
                         </div>
-                        <div class="data-item">
-                            <div class="data-label">Newsletter Subscribers</div>
-                            <div class="data-value" data-live="true">890</div>
-                        </div>
-                        <div class="data-item">
-                            <div class="data-label">Open Rate</div>
-                            <div class="data-value" data-live="true">28%</div>
-                        </div>
-                        <div class="data-item">
-                            <div class="data-label">Click Rate</div>
-                            <div class="data-value" data-live="true">4.2%</div>
+                        <div class="section-content">
+                            <div class="data-item">
+                                <div class="data-label">This Week</div>
+                                <div class="data-value" data-live="true">6</div>
+                            </div>
+                            <div class="data-item">
+                                <div class="data-label">Pending Response</div>
+                                <div class="data-value" data-live="true">2</div>
+                            </div>
+                            <div class="data-item">
+                                <div class="data-label">Converted</div>
+                                <div class="data-value" data-live="true">1</div>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="section-card">
-                    <div class="section-header">
-                        <h3>Blog & Content</h3>
-                        <span class="section-icon">📝</span>
-                    </div>
-                    <div class="section-content">
-                        <div class="data-item">
-                            <div class="data-label">Published</div>
-                            <div class="data-value" data-live="true">15</div>
+                    <div class="section-card">
+                        <div class="section-header">
+                            <h3>Content Pipeline</h3>
+                            <span class="section-icon">🎨</span>
                         </div>
-                        <div class="data-item">
-                            <div class="data-label">Drafts</div>
-                            <div class="data-value" data-live="true">14</div>
-                        </div>
-                        <div class="data-item">
-                            <div class="data-label">SEO Pages</div>
-                            <div class="data-value" data-live="true">18</div>
-                        </div>
-                        <div class="data-item">
-                            <div class="data-label">Last Post</div>
-                            <div class="data-value" data-live="true">placeholder</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="section-card">
-                    <div class="section-header">
-                        <h3>Google Business Profile</h3>
-                        <span class="section-icon">🏢</span>
-                    </div>
-                    <div class="section-content">
-                        <div class="data-item">
-                            <div class="data-label">Rating</div>
-                            <div class="data-value" data-live="true">4.8 ⭐</div>
-                        </div>
-                        <div class="data-item">
-                            <div class="data-label">Reviews</div>
-                            <div class="data-value" data-live="true">24</div>
-                        </div>
-                        <div class="data-item">
-                            <div class="data-label">Last Post</div>
-                            <div class="data-value" data-live="true">placeholder</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="section-card">
-                    <div class="section-header">
-                        <h3>Site Performance</h3>
-                        <span class="section-icon">🚀</span>
-                    </div>
-                    <div class="section-content">
-                        <div class="data-item">
-                            <div class="data-label">Shopify Speed Score</div>
-                            <div class="data-value" data-live="true">62</div>
-                        </div>
-                        <div class="data-item">
-                            <div class="data-label">Conversion Rate</div>
-                            <div class="data-value" data-live="true">1.8%</div>
-                        </div>
-                        <div class="data-item">
-                            <div class="data-label">Cart Abandonment</div>
-                            <div class="data-value" data-live="true">68%</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="section-card">
-                    <div class="section-header">
-                        <h3>Quote Requests</h3>
-                        <span class="section-icon">💬</span>
-                    </div>
-                    <div class="section-content">
-                        <div class="data-item">
-                            <div class="data-label">This Week</div>
-                            <div class="data-value" data-live="true">6</div>
-                        </div>
-                        <div class="data-item">
-                            <div class="data-label">Pending Response</div>
-                            <div class="data-value" data-live="true">2</div>
-                        </div>
-                        <div class="data-item">
-                            <div class="data-label">Converted</div>
-                            <div class="data-value" data-live="true">1</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="section-card">
-                    <div class="section-header">
-                        <h3>Content Pipeline</h3>
-                        <span class="section-icon">🎨</span>
-                    </div>
-                    <div class="section-content">
-                        <div class="data-item">
-                            <div class="data-label">Neon images generated</div>
-                            <div class="data-value" data-live="true">43</div>
-                        </div>
-                        <div class="data-item">
-                            <div class="data-label">Blog compositions</div>
-                            <div class="data-value" data-live="true">13</div>
-                        </div>
-                        <div class="data-item">
-                            <div class="data-label">Mockups pending review</div>
-                            <div class="data-value" data-live="true">8</div>
+                        <div class="section-content">
+                            <div class="data-item">
+                                <div class="data-label">Neon images generated</div>
+                                <div class="data-value" data-live="true">43</div>
+                            </div>
+                            <div class="data-item">
+                                <div class="data-label">Blog compositions</div>
+                                <div class="data-value" data-live="true">13</div>
+                            </div>
+                            <div class="data-item">
+                                <div class="data-label">Mockups pending review</div>
+                                <div class="data-value" data-live="true">8</div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </main>
+
+            <!-- Posts Tab -->
+            <div id="posts" class="tab-content">
+                <div class="posts-header">
+                    <div class="posts-title">
+                        <h2>Blog Drafts</h2>
+                        <span class="count-badge" id="draftCount">0 drafts</span>
+                    </div>
+                    <div class="posts-controls">
+                        <div class="filter-buttons">
+                            <button class="filter-btn active" data-filter="all">All</button>
+                            <button class="filter-btn" data-filter="with-image">With Image</button>
+                            <button class="filter-btn" data-filter="no-image">No Image</button>
+                        </div>
+                        <select class="sort-dropdown" id="sortSelect">
+                            <option value="newest">Newest</option>
+                            <option value="oldest">Oldest</option>
+                            <option value="title">Title A-Z</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="drafts-grid" id="draftsContainer">
+                    <!-- Draft cards will be generated by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Settings Tab -->
+            <div id="settings" class="tab-content">
+                <div class="section-card">
+                    <div class="section-header">
+                        <h3>Settings</h3>
+                        <span class="section-icon">⚙️</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="data-item">
+                            <div class="data-label">Dashboard Settings</div>
+                            <div class="data-value">Coming Soon</div>
+                        </div>
+                        <div class="data-item">
+                            <div class="data-label">API Connections</div>
+                            <div class="data-value">Configure Later</div>
+                        </div>
+                        <div class="data-item">
+                            <div class="data-label">Notifications</div>
+                            <div class="data-value">Not Set Up</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <footer>
             <div class="footer-content">
@@ -531,29 +984,558 @@
                 </div>
             </div>
         </footer>
+    </main>
+
+    <!-- Preview Modal -->
+    <div class="modal-overlay" id="previewModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 id="previewTitle">Post Preview</h3>
+            </div>
+            <div class="modal-body">
+                <div id="previewImage" style="height: 200px; background: #f1f5f9; border-radius: 8px; margin-bottom: 16px; display: flex; align-items: center; justify-content: center; color: #64748b;">
+                    📷 Image Preview
+                </div>
+                <div id="previewContent" style="color: #64748b;">
+                    Loading preview content...
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn" onclick="closeModal('previewModal')">Close</button>
+            </div>
+        </div>
     </div>
 
+    <!-- Publish Confirmation Modal -->
+    <div class="modal-overlay" id="publishModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Publish this post?</h3>
+            </div>
+            <div class="modal-body">
+                <p id="publishPostTitle" style="margin-bottom: 12px; font-weight: 500;"></p>
+                <p style="color: #64748b; font-size: 14px;">This will make the post live on luxneonartgallery.com</p>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn" onclick="closeModal('publishModal')">Cancel</button>
+                <button class="modal-btn primary" onclick="confirmPublish()">Publish Now</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <span class="toast-icon">⚠️</span>
+        <span class="toast-message" id="toastMessage">Publishing requires API connection — coming soon</span>
+    </div>
+
+    <!-- Preview Modal -->
+    <div id="preview-modal" class="modal-overlay" onclick="if(event.target===this)closeModal('preview-modal')">
+        <div class="modal-card" style="max-width:700px;max-height:85vh;overflow-y:auto">
+            <h3 id="preview-title" style="margin-bottom:12px"></h3>
+            <img id="preview-image" style="width:100%;border-radius:8px;margin-bottom:12px" />
+            <p id="preview-date" style="color:#94a3b8;font-size:13px;margin-bottom:12px"></p>
+            <button onclick="closeModal('preview-modal')" style="padding:8px 20px;border:none;border-radius:6px;background:#e2e8f0;cursor:pointer;font-size:14px">Close</button>
+        </div>
+    </div>
+
+    <!-- Publish Modal -->
+    <div id="publish-modal" class="modal-overlay" onclick="if(event.target===this)closeModal('publish-modal')">
+        <div class="modal-card" style="max-width:450px;text-align:center">
+            <h3 style="margin-bottom:8px">Publish this post?</h3>
+            <p id="publish-post-title" style="color:#64748b;margin-bottom:8px;font-style:italic"></p>
+            <p style="color:#94a3b8;font-size:13px;margin-bottom:20px">This will make the post live on luxneonartgallery.com</p>
+            <div style="display:flex;gap:12px;justify-content:center">
+                <button onclick="closeModal('publish-modal')" style="padding:10px 24px;border:1px solid #e2e8f0;border-radius:8px;background:white;cursor:pointer;font-size:14px">Cancel</button>
+                <button id="confirm-publish-btn" style="padding:10px 24px;border:none;border-radius:8px;background:#b8956a;color:white;cursor:pointer;font-size:14px;font-weight:600">🚀 Publish Now</button>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .modal-overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:9999; align-items:center; justify-content:center; }
+        .modal-overlay.active { display:flex; }
+        .modal-card { background:white; border-radius:16px; padding:32px; box-shadow:0 20px 60px rgba(0,0,0,0.3); }
+    </style>
+
     <script>
-        function updateDateTime() {
-            const now = new Date();
-            const options = { 
-                weekday: 'long', 
-                year: 'numeric', 
-                month: 'long', 
-                day: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit',
-                timeZoneName: 'short'
+        // Embed the drafts data
+        const DRAFTS_DATA = [
+  {
+    "id": 752881762583,
+    "title": "Art and Wine Evenings: Why Gallery Events Are the Most Exciting Night Out in South Florida",
+    "status": "draft",
+    "created_at": "2026-04-11T02:48:16-04:00",
+    "image": "https://cdn.shopify.com/s/files/1/0802/0013/9031/articles/comp-marilyn-camelsofa.jpg?v=1775915007",
+    "handle": "art-and-wine-evenings-why-gallery-events-are-the-most-exciting-night-out-in-south-florida",
+    "platform": "shopify",
+    "company": "Lux Neon Art Gallery",
+    "blog_id": "121760022807",
+    "store": "bc414e-2.myshopify.com"
+  },
+  {
+    "id": 752873701655,
+    "title": "Neon Art for Restaurants, Bars, and Hotels: How South Florida's Hospitality Industry Is Embracing Luminous Design",
+    "status": "draft",
+    "created_at": "2026-04-10T02:47:08-04:00",
+    "image": "https://cdn.shopify.com/s/files/1/0802/0013/9031/articles/comp-rollsroyce-camelsofa.jpg?v=1775915010",
+    "handle": "neon-art-for-restaurants-bars-and-hotels-how-south-florida-s-hospitality-industry-is-embracing-lumin",
+    "platform": "shopify",
+    "company": "Lux Neon Art Gallery",
+    "blog_id": "121760022807",
+    "store": "bc414e-2.myshopify.com"
+  },
+  {
+    "id": 752863281431,
+    "title": "Why Neon Art Must Be Experienced in Person: The Case for Gallery Visits in Dania Beach",
+    "status": "draft",
+    "created_at": "2026-04-09T02:47:02-04:00",
+    "image": "https://cdn.shopify.com/s/files/1/0802/0013/9031/articles/comp-basquiat-leather-v3.jpg?v=1775915280",
+    "handle": "why-neon-art-must-be-experienced-in-person-the-case-for-gallery-visits-in-dania-beach",
+    "platform": "shopify",
+    "company": "Lux Neon Art Gallery",
+    "blog_id": "121760022807",
+    "store": "bc414e-2.myshopify.com"
+  },
+  {
+    "id": 752836608279,
+    "title": "The Interior Designer's Guide to Neon Art: Elevating Luxury Homes Across South Florida",
+    "status": "draft",
+    "created_at": "2026-04-08T02:47:00-04:00",
+    "image": "https://cdn.shopify.com/s/files/1/0802/0013/9031/articles/comp-royalty-leather.jpg?v=1775915016",
+    "handle": "the-interior-designer-s-guide-to-neon-art-elevating-luxury-homes-across-south-florida",
+    "platform": "shopify",
+    "company": "Lux Neon Art Gallery",
+    "blog_id": "121760022807",
+    "store": "bc414e-2.myshopify.com"
+  },
+  {
+    "id": 752815243543,
+    "title": "From Concept to Glow: Inside the Custom Neon Commission Process at Lux Neon Art Gallery",
+    "status": "draft",
+    "created_at": "2026-04-07T02:46:49-04:00",
+    "image": "https://cdn.shopify.com/s/files/1/0802/0013/9031/articles/comp-orca-brick.jpg?v=1775915019",
+    "handle": "from-concept-to-glow-inside-the-custom-neon-commission-process-at-lux-neon-art-gallery",
+    "platform": "shopify",
+    "company": "Lux Neon Art Gallery",
+    "blog_id": "121760022807",
+    "store": "bc414e-2.myshopify.com"
+  },
+  {
+    "id": 752794992919,
+    "title": "The Art of Collecting Neon: A Beginner's Guide to Building a Luminous Art Collection in South Florida",
+    "status": "draft",
+    "created_at": "2026-04-06T02:46:58-04:00",
+    "image": "https://cdn.shopify.com/s/files/1/0802/0013/9031/articles/comp-queen-leather-v2.jpg?v=1775915283",
+    "handle": "the-art-of-collecting-neon-a-beginner-s-guide-to-building-a-luminous-art-collection-in-south-florida",
+    "platform": "shopify",
+    "company": "Lux Neon Art Gallery",
+    "blog_id": "121760022807",
+    "store": "bc414e-2.myshopify.com"
+  },
+  {
+    "id": 752790405399,
+    "title": "Creating Your Personal Sanctuary: How Neon Art Elevates Home Offices, Libraries, and Private Spaces in South Florida",
+    "status": "draft",
+    "created_at": "2026-04-05T02:46:50-04:00",
+    "image": "https://cdn.shopify.com/s/files/1/0802/0013/9031/articles/comp-blonde-water-pinkchair.jpg?v=1775915025",
+    "handle": "creating-your-personal-sanctuary-how-neon-art-elevates-home-offices-libraries-and-private-spaces-in",
+    "platform": "shopify",
+    "company": "Lux Neon Art Gallery",
+    "blog_id": "121760022807",
+    "store": "bc414e-2.myshopify.com"
+  },
+  {
+    "id": 752784376087,
+    "title": "How Neon Art Transforms Event Venues: A Guide to Unforgettable South Florida Spaces",
+    "status": "draft",
+    "created_at": "2026-04-04T02:46:41-04:00",
+    "image": "https://cdn.shopify.com/s/files/1/0802/0013/9031/articles/comp-lookskill-pinkchair.jpg?v=1775915028",
+    "handle": "how-neon-art-transforms-event-venues-a-guide-to-unforgettable-south-florida-spaces",
+    "platform": "shopify",
+    "company": "Lux Neon Art Gallery",
+    "blog_id": "121760022807",
+    "store": "bc414e-2.myshopify.com"
+  },
+  {
+    "id": 752775758103,
+    "title": "Why South Florida's Top Restaurants, Hotels, and Boutiques Are Investing in Neon Art",
+    "status": "draft",
+    "created_at": "2026-04-03T02:47:00-04:00",
+    "image": "https://cdn.shopify.com/s/files/1/0802/0013/9031/articles/comp-dali-chalkboard.jpg?v=1775915030",
+    "handle": "why-south-florida-s-top-restaurants-hotels-and-boutiques-are-investing-in-neon-art",
+    "platform": "shopify",
+    "company": "Lux Neon Art Gallery",
+    "blog_id": "121760022807",
+    "store": "bc414e-2.myshopify.com"
+  },
+  {
+    "id": 752766091543,
+    "title": "From Concept to Glow: The Complete Guide to Commissioning Custom Neon Art in South Florida",
+    "status": "draft",
+    "created_at": "2026-04-02T02:46:52-04:00",
+    "image": "https://cdn.shopify.com/s/files/1/0802/0013/9031/articles/comp-sailfish-gallery.jpg?v=1775915034",
+    "handle": "from-concept-to-glow-the-complete-guide-to-commissioning-custom-neon-art-in-south-florida",
+    "platform": "shopify",
+    "company": "Lux Neon Art Gallery",
+    "blog_id": "121760022807",
+    "store": "bc414e-2.myshopify.com"
+  },
+  {
+    "id": 752757866775,
+    "title": "How Neon Art Transforms Event Venues: A Guide for South Florida Hosts and Hospitality Professionals",
+    "status": "draft",
+    "created_at": "2026-04-01T02:46:45-04:00",
+    "image": "https://cdn.shopify.com/s/files/1/0802/0013/9031/articles/comp-magiccity-camelsofa.jpg?v=1775915037",
+    "handle": "how-neon-art-transforms-event-venues-a-guide-for-south-florida-hosts-and-hospitality-professionals",
+    "platform": "shopify",
+    "company": "Lux Neon Art Gallery",
+    "blog_id": "121760022807",
+    "store": "bc414e-2.myshopify.com"
+  },
+  {
+    "id": 752748658967,
+    "title": "Neon as Architecture: How Interior Designers in South Florida Are Using Light as a Design Element",
+    "status": "draft",
+    "created_at": "2026-03-31T02:46:51-04:00",
+    "image": "https://cdn.shopify.com/s/files/1/0802/0013/9031/articles/comp-hunt-darkframe.jpg?v=1775915040",
+    "handle": "neon-as-architecture-how-interior-designers-in-south-florida-are-using-light-as-a-design-element",
+    "platform": "shopify",
+    "company": "Lux Neon Art Gallery",
+    "blog_id": "121760022807",
+    "store": "bc414e-2.myshopify.com"
+  },
+  {
+    "id": 752738238743,
+    "title": "The Art of Neon Collecting: A Beginner's Guide for South Florida Enthusiasts",
+    "status": "draft",
+    "created_at": "2026-03-30T02:46:54-04:00",
+    "image": "https://cdn.shopify.com/s/files/1/0802/0013/9031/articles/comp-beatles-camelsofa.jpg?v=1775915042",
+    "handle": "the-art-of-neon-collecting-a-beginner-s-guide-for-south-florida-enthusiasts",
+    "platform": "shopify",
+    "company": "Lux Neon Art Gallery",
+    "blog_id": "121760022807",
+    "store": "bc414e-2.myshopify.com"
+  },
+  {
+    "id": 752732471575,
+    "title": "How Neon Art Transforms Event Venues: Elevate Your Next South Florida Gathering",
+    "status": "draft",
+    "created_at": "2026-03-29T02:46:36-04:00",
+    "image": "https://cdn.shopify.com/s/files/1/0802/0013/9031/articles/neon-glowing-cat-futuristic-light-art_Large_5bf9eeae-9b74-40e1-98bc-e78f34c7ed99.jpg?v=1775912321",
+    "handle": "how-neon-art-transforms-event-venues-elevate-your-next-south-florida-gathering",
+    "platform": "shopify",
+    "company": "Lux Neon Art Gallery",
+    "blog_id": "121760022807",
+    "store": "bc414e-2.myshopify.com"
+  },
+  {
+    "id": 752727949591,
+    "title": "The Art of Collecting Neon: A Connoisseur's Guide to Building a Luminous Art Collection in South Florida",
+    "status": "draft",
+    "created_at": "2026-03-28T02:47:03-04:00",
+    "image": "https://cdn.shopify.com/s/files/1/0802/0013/9031/articles/2026-03-28-blog-image.png?v=1774700487",
+    "handle": "the-art-of-collecting-neon-a-connoisseurs-guide-to-building-a-luminous-art-collection-in-south-florida",
+    "platform": "shopify",
+    "company": "Lux Neon Art Gallery",
+    "blog_id": "121760022807",
+    "store": "bc414e-2.myshopify.com"
+  },
+  {
+    "id": 752721395991,
+    "title": "How Neon Art Transforms Event Venues",
+    "status": "draft",
+    "created_at": "2026-03-26T13:46:41-04:00",
+    "image": "https://cdn.shopify.com/s/files/1/0802/0013/9031/articles/2026-03-26-blog-image.png?v=1774700512",
+    "handle": "blog-post",
+    "platform": "shopify",
+    "company": "Lux Neon Art Gallery",
+    "blog_id": "121760022807",
+    "store": "bc414e-2.myshopify.com"
+  },
+  {
+    "id": 752641474839,
+    "title": "The Intersection of Neon Art and Contemporary Design",
+    "status": "draft",
+    "created_at": "2026-03-23T16:57:35-04:00",
+    "image": "https://cdn.shopify.com/s/files/1/0802/0013/9031/articles/comp-abstractface-greywall.jpg?v=1775915045",
+    "handle": "the-intersection-of-neon-art-and-contemporary-design-2",
+    "platform": "shopify",
+    "company": "Lux Neon Art Gallery",
+    "blog_id": "121760022807",
+    "store": "bc414e-2.myshopify.com"
+  },
+  {
+    "id": 752640688407,
+    "title": "The Intersection of Neon Art and Contemporary Design",
+    "status": "draft",
+    "created_at": "2026-03-23T16:11:45-04:00",
+    "image": "https://cdn.shopify.com/s/files/1/0802/0013/9031/articles/2026-03-23-collecting-neon-art-blog-image_4008b685-065d-4012-b429-1b7173774fba.png?v=1774491516",
+    "handle": "the-intersection-of-neon-art-and-contemporary-design-1",
+    "platform": "shopify",
+    "company": "Lux Neon Art Gallery",
+    "blog_id": "121760022807",
+    "store": "bc414e-2.myshopify.com"
+  },
+  {
+    "id": 752640164119,
+    "title": "Collecting Neon Art: A Serious Collector's Guide to Building a Light-Based Art Portfolio in South Florida",
+    "status": "draft",
+    "created_at": "2026-03-23T15:44:33-04:00",
+    "image": "https://cdn.shopify.com/s/files/1/0802/0013/9031/articles/2026-03-23-collecting-neon-art-blog-image.png?v=1774491656",
+    "handle": "collecting-neon-art-a-serious-collectors-guide-to-building-a-light-based-art-portfolio-in-south-florida",
+    "platform": "shopify",
+    "company": "Lux Neon Art Gallery",
+    "blog_id": "121760022807",
+    "store": "bc414e-2.myshopify.com"
+  },
+  {
+    "id": 752639770903,
+    "title": "The Intersection of Neon Art and Contemporary Design",
+    "status": "draft",
+    "created_at": "2026-03-23T15:19:00-04:00",
+    "image": "https://cdn.shopify.com/s/files/1/0802/0013/9031/articles/comp-muse-frida-greywall.jpg?v=1775915048",
+    "handle": "the-intersection-of-neon-art-and-contemporary-design",
+    "platform": "shopify",
+    "company": "Lux Neon Art Gallery",
+    "blog_id": "121760022807",
+    "store": "bc414e-2.myshopify.com"
+  },
+  {
+    "id": 752615424279,
+    "title": "\"Drunk In Love\" Neon Sign — Custom LED Wedding Sign",
+    "status": "draft",
+    "created_at": "2026-03-19T22:23:54-04:00",
+    "image": "",
+    "handle": "drunk-in-love-neon-sign-custom-led-wedding-sign",
+    "platform": "shopify",
+    "company": "Lux Neon Art Gallery",
+    "blog_id": "121760022807",
+    "store": "bc414e-2.myshopify.com"
+  },
+  {
+    "id": 752615391511,
+    "title": "\"Til Death Do Us Party\" Neon Sign — Custom LED Wedding Sign",
+    "status": "draft",
+    "created_at": "2026-03-19T22:23:49-04:00",
+    "image": "",
+    "handle": "til-death-do-us-party-neon-sign-custom-led-wedding-sign",
+    "platform": "shopify",
+    "company": "Lux Neon Art Gallery",
+    "blog_id": "121760022807",
+    "store": "bc414e-2.myshopify.com"
+  },
+  {
+    "id": 752615358743,
+    "title": "\"Let Love Grow\" Neon Sign — Custom LED Wedding Sign",
+    "status": "draft",
+    "created_at": "2026-03-19T22:23:44-04:00",
+    "image": "",
+    "handle": "let-love-grow-neon-sign-custom-led-wedding-sign",
+    "platform": "shopify",
+    "company": "Lux Neon Art Gallery",
+    "blog_id": "121760022807",
+    "store": "bc414e-2.myshopify.com"
+  },
+  {
+    "id": 752615325975,
+    "title": "\"Be Kind\" Neon Sign — Custom LED Lifestyle Sign",
+    "status": "draft",
+    "created_at": "2026-03-19T22:23:38-04:00",
+    "image": "",
+    "handle": "be-kind-neon-sign-custom-led-lifestyle-sign",
+    "platform": "shopify",
+    "company": "Lux Neon Art Gallery",
+    "blog_id": "121760022807",
+    "store": "bc414e-2.myshopify.com"
+  },
+  {
+    "id": 752615293207,
+    "title": "\"Hello Beautiful\" Neon Sign — Custom LED Lifestyle Sign",
+    "status": "draft",
+    "created_at": "2026-03-19T22:23:33-04:00",
+    "image": "",
+    "handle": "hello-beautiful-neon-sign-custom-led-lifestyle-sign",
+    "platform": "shopify",
+    "company": "Lux Neon Art Gallery",
+    "blog_id": "121760022807",
+    "store": "bc414e-2.myshopify.com"
+  },
+  {
+    "id": 752615260439,
+    "title": "\"Open\" Neon Sign — Custom LED Lifestyle Sign",
+    "status": "draft",
+    "created_at": "2026-03-19T22:23:28-04:00",
+    "image": "",
+    "handle": "open-neon-sign-custom-led-lifestyle-sign",
+    "platform": "shopify",
+    "company": "Lux Neon Art Gallery",
+    "blog_id": "121760022807",
+    "store": "bc414e-2.myshopify.com"
+  },
+  {
+    "id": 752615227671,
+    "title": "\"Welcome\" Neon Sign — Custom LED Lifestyle Sign",
+    "status": "draft",
+    "created_at": "2026-03-19T22:23:23-04:00",
+    "image": "",
+    "handle": "welcome-neon-sign-custom-led-lifestyle-sign",
+    "platform": "shopify",
+    "company": "Lux Neon Art Gallery",
+    "blog_id": "121760022807",
+    "store": "bc414e-2.myshopify.com"
+  },
+  {
+    "id": 752615194903,
+    "title": "\"Home Sweet Home\" Neon Sign — Custom LED Lifestyle Sign",
+    "status": "draft",
+    "created_at": "2026-03-19T22:23:18-04:00",
+    "image": "",
+    "handle": "home-sweet-home-neon-sign-custom-led-lifestyle-sign",
+    "platform": "shopify",
+    "company": "Lux Neon Art Gallery",
+    "blog_id": "121760022807",
+    "store": "bc414e-2.myshopify.com"
+  },
+  {
+    "id": 752615162135,
+    "title": "\"Oh Hey There\" Neon Sign — Custom LED Lifestyle Sign",
+    "status": "draft",
+    "created_at": "2026-03-19T22:23:13-04:00",
+    "image": "",
+    "handle": "oh-hey-there-neon-sign-custom-led-lifestyle-sign",
+    "platform": "shopify",
+    "company": "Lux Neon Art Gallery",
+    "blog_id": "121760022807",
+    "store": "bc414e-2.myshopify.com"
+  }
+];
+
+        // Tab switching
+        const tabs = document.querySelectorAll('.nav-tab');
+        const contents = document.querySelectorAll('.tab-content');
+        
+        function switchTab(tabName) {
+            tabs.forEach(t => t.classList.toggle('active', t.dataset.tab === tabName));
+            contents.forEach(c => {
+                c.classList.toggle('active', c.id === tabName);
+            });
+            sessionStorage.setItem('activeTab', tabName);
+            if (tabName === 'posts') renderPosts();
+        }
+        
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => switchTab(tab.dataset.tab));
+        });
+        
+        // Restore last tab
+        const savedTab = window.location.hash.slice(1) || sessionStorage.getItem('activeTab') || 'overview';
+        if (savedTab !== 'overview') switchTab(savedTab);
+
+        // Posts rendering
+        let currentFilter = 'all';
+        let currentSort = 'newest';
+        
+        function renderPosts() {
+            const grid = document.getElementById('draftsContainer');
+            if (!grid) return;
+            
+            let filtered = [...DRAFTS_DATA];
+            if (currentFilter === 'with-image') filtered = filtered.filter(d => d.image);
+            if (currentFilter === 'no-image') filtered = filtered.filter(d => !d.image);
+            
+            if (currentSort === 'newest') filtered.sort((a,b) => new Date(b.created_at) - new Date(a.created_at));
+            if (currentSort === 'oldest') filtered.sort((a,b) => new Date(a.created_at) - new Date(b.created_at));
+            if (currentSort === 'title') filtered.sort((a,b) => a.title.localeCompare(b.title));
+            
+            document.getElementById('draftCount').textContent = filtered.length + ' drafts';
+            
+            grid.innerHTML = filtered.map(d => `
+                <div class="draft-card">
+                    <div class="draft-image" style="${d.image ? `background-image:url(${d.image})` : ''}">
+                        ${!d.image ? '<span style="font-size:48px;opacity:0.3">📷</span>' : ''}
+                    </div>
+                    <div class="draft-body">
+                        <div class="draft-title">${d.title}</div>
+                        <div class="draft-meta">
+                            <span class="badge badge-draft">Draft</span>
+                            <span class="badge badge-platform">${d.platform === 'shopify' ? '🟢 Shopify' : '🔵 WordPress'}</span>
+                            <span style="color:#94a3b8;font-size:12px">${new Date(d.created_at).toLocaleDateString()}</span>
+                        </div>
+                        <div class="draft-actions">
+                            <button class="btn-action btn-preview" onclick="previewPost(${d.id})">👁️ Preview</button>
+                            <button class="btn-action btn-publish" onclick="publishPost(${d.id})">🚀 Publish</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function setFilter(f) {
+            currentFilter = f;
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.toggle('active', b.dataset.filter === f));
+            renderPosts();
+        }
+        
+        function setSort(s) {
+            currentSort = s;
+            renderPosts();
+        }
+        
+        function previewPost(id) {
+            const post = DRAFTS_DATA.find(d => d.id === id);
+            if (!post) return;
+            const modal = document.getElementById('preview-modal');
+            document.getElementById('preview-title').textContent = post.title;
+            document.getElementById('preview-image').style.display = post.image ? 'block' : 'none';
+            if (post.image) document.getElementById('preview-image').src = post.image;
+            document.getElementById('preview-date').textContent = 'Created: ' + new Date(post.created_at).toLocaleString();
+            modal.classList.add('active');
+        }
+        
+        function publishPost(id) {
+            const post = DRAFTS_DATA.find(d => d.id === id);
+            if (!post) return;
+            const modal = document.getElementById('publish-modal');
+            document.getElementById('publish-post-title').textContent = post.title;
+            modal.classList.add('active');
+            document.getElementById('confirm-publish-btn').onclick = () => {
+                modal.classList.remove('active');
+                showToast('⚠️ Publishing requires API connection — coming soon');
             };
-            const dateTimeStr = now.toLocaleDateString('en-US', options);
-            document.getElementById('currentDateTime').textContent = dateTimeStr;
-            document.getElementById('refreshTimestamp').textContent = dateTimeStr;
+        }
+        
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('active');
+        }
+        
+        function showToast(msg) {
+            const toast = document.createElement('div');
+            toast.style.cssText = 'position:fixed;bottom:24px;right:24px;background:#1e293b;color:white;padding:12px 24px;border-radius:8px;font-size:14px;z-index:10000;animation:fadeIn 0.3s';
+            toast.textContent = msg;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
         }
 
-        // Update immediately and then every 30 seconds
-        updateDateTime();
-        setInterval(updateDateTime, 30000);
+        // Filter buttons
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => setFilter(btn.dataset.filter));
+        });
+        
+        // Sort dropdown
+        const sortSel = document.getElementById('sortSelect');
+        if (sortSel) sortSel.addEventListener('change', () => setSort(sortSel.value));
+
+        // Clock
+        function updateTime() {
+            const now = new Date();
+            const el = document.getElementById('current-time');
+            if (el) el.textContent = now.toLocaleString('en-US', {weekday:'long',year:'numeric',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit',second:'2-digit',timeZone:'America/New_York'});
+            const ft = document.getElementById('footer-time');
+            if (ft) ft.textContent = now.toLocaleString('en-US', {hour:'2-digit',minute:'2-digit',timeZone:'America/New_York'});
+        }
+        updateTime();
+        setInterval(updateTime, 30000);
     </script>
 </body>
 </html>
