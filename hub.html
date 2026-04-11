@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Operations Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #334155;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header {
+            background-color: #ffffff;
+            border-radius: 16px;
+            padding: 32px 40px;
+            margin-bottom: 32px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .header-left h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 8px;
+        }
+
+        .header-left p {
+            font-size: 1.1rem;
+            color: #64748b;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .jackie-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background-color: #f1f5f9;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: 500;
+            color: #475569;
+        }
+
+        .jackie-badge::before {
+            content: "⚡";
+            font-size: 1.2rem;
+        }
+
+        .live-clock {
+            background-color: #f1f5f9;
+            padding: 16px 24px;
+            border-radius: 12px;
+            text-align: center;
+            min-width: 220px;
+        }
+
+        .live-clock .label {
+            font-size: 0.875rem;
+            color: #64748b;
+            margin-bottom: 4px;
+        }
+
+        .live-clock .time {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #0f172a;
+        }
+
+        .live-clock .date {
+            font-size: 0.875rem;
+            color: #64748b;
+            margin-top: 4px;
+        }
+
+        /* Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        @media (min-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .dashboard-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        /* Cards */
+        .company-card {
+            background-color: #ffffff;
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border-left: 4px solid;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .company-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .company-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #0f172a;
+            margin-bottom: 8px;
+        }
+
+        .status {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.875rem;
+            color: #059669;
+            font-weight: 500;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #10b981;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .sections {
+            flex-grow: 1;
+            margin-bottom: 20px;
+        }
+
+        .sections h3 {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #64748b;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .section-list {
+            list-style: none;
+        }
+
+        .section-list li {
+            font-size: 0.875rem;
+            color: #64748b;
+            padding: 4px 0;
+            padding-left: 16px;
+            position: relative;
+        }
+
+        .section-list li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #cbd5e1;
+        }
+
+        .card-footer {
+            margin-top: auto;
+        }
+
+        .dashboard-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #3b82f6;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.875rem;
+            padding: 8px 16px;
+            background-color: #eff6ff;
+            border-radius: 8px;
+            transition: background-color 0.2s ease;
+        }
+
+        .dashboard-link:hover {
+            background-color: #dbeafe;
+        }
+
+        .dashboard-link::after {
+            content: "→";
+            font-size: 1.1rem;
+            transition: transform 0.2s ease;
+        }
+
+        .dashboard-link:hover::after {
+            transform: translateX(4px);
+        }
+
+        /* Quick Links */
+        .quick-links {
+            background-color: #ffffff;
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        }
+
+        .quick-links h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #0f172a;
+            margin-bottom: 24px;
+        }
+
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 16px;
+        }
+
+        @media (min-width: 768px) {
+            .links-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .links-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .quick-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px;
+            background-color: #f8fafc;
+            border-radius: 12px;
+            text-decoration: none;
+            color: #334155;
+            transition: background-color 0.2s ease, transform 0.2s ease;
+        }
+
+        .quick-link:hover {
+            background-color: #f1f5f9;
+            transform: translateY(-2px);
+        }
+
+        .quick-link-icon {
+            width: 40px;
+            height: 40px;
+            background-color: #e2e8f0;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: #475569;
+        }
+
+        .quick-link-text {
+            flex-grow: 1;
+        }
+
+        .quick-link-text h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #0f172a;
+            margin-bottom: 4px;
+        }
+
+        .quick-link-text p {
+            font-size: 0.875rem;
+            color: #64748b;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 24px;
+            color: #64748b;
+            font-size: 0.875rem;
+            background-color: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        }
+
+        .footer .timestamp {
+            font-weight: 500;
+            color: #475569;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <h1>Operations Dashboard</h1>
+                <p>
+                    <span class="jackie-badge">Powered by Jackie</span>
+                </p>
+            </div>
+            <div class="live-clock">
+                <div class="label">Live Clock</div>
+                <div class="time" id="currentTime">Loading...</div>
+                <div class="date" id="currentDate">Loading...</div>
+            </div>
+        </header>
+
+        <!-- Dashboard Grid -->
+        <main class="dashboard-grid">
+            <!-- Crown Office Supplies -->
+            <div class="company-card" style="border-left-color: #1a365d;">
+                <div class="card-header">
+                    <div>
+                        <div class="company-name">Crown Office Supplies</div>
+                        <div class="status">
+                            <span class="status-dot"></span>
+                            Online
+                        </div>
+                    </div>
+                </div>
+                <div class="sections">
+                    <h3>Key Sections</h3>
+                    <ul class="section-list">
+                        <li>Sales</li>
+                        <li>Blog</li>
+                        <li>Email Marketing</li>
+                        <li>Support</li>
+                        <li>Analytics</li>
+                        <li>Advertising</li>
+                    </ul>
+                </div>
+                <div class="card-footer">
+                    <a href="crown-dashboard.html" class="dashboard-link">Open Dashboard</a>
+                </div>
+            </div>
+
+            <!-- Shirtsy -->
+            <div class="company-card" style="border-left-color: #00AEEF;">
+                <div class="card-header">
+                    <div>
+                        <div class="company-name">Shirtsy</div>
+                        <div class="status">
+                            <span class="status-dot"></span>
+                            Online
+                        </div>
+                    </div>
+                </div>
+                <div class="sections">
+                    <h3>Key Sections</h3>
+                    <ul class="section-list">
+                        <li>Sales</li>
+                        <li>NET30 Pipeline</li>
+                        <li>Production</li>
+                        <li>Retention</li>
+                        <li>Email</li>
+                        <li>Support</li>
+                    </ul>
+                </div>
+                <div class="card-footer">
+                    <a href="shirtsy-dashboard.html" class="dashboard-link">Open Dashboard</a>
+                </div>
+            </div>
+
+            <!-- GoodNeon -->
+            <div class="company-card" style="border-left-color: #22c55e;">
+                <div class="card-header">
+                    <div>
+                        <div class="company-name">GoodNeon</div>
+                        <div class="status">
+                            <span class="status-dot"></span>
+                            Online
+                        </div>
+                    </div>
+                </div>
+                <div class="sections">
+                    <h3>Key Sections</h3>
+                    <ul class="section-list">
+                        <li>Sales</li>
+                        <li>Neon Pipeline</li>
+                        <li>Blog</li>
+                        <li>Email</li>
+                        <li>Infrastructure</li>
+                    </ul>
+                </div>
+                <div class="card-footer">
+                    <a href="goodneon-dashboard.html" class="dashboard-link">Open Dashboard</a>
+                </div>
+            </div>
+
+            <!-- Lux Neon Art Gallery -->
+            <div class="company-card" style="border-left-color: #b8956a;">
+                <div class="card-header">
+                    <div>
+                        <div class="company-name">Lux Neon Art Gallery</div>
+                        <div class="status">
+                            <span class="status-dot"></span>
+                            Online
+                        </div>
+                    </div>
+                </div>
+                <div class="sections">
+                    <h3>Key Sections</h3>
+                    <ul class="section-list">
+                        <li>Sales</li>
+                        <li>Google Ads</li>
+                        <li>CRM</li>
+                        <li>Email</li>
+                        <li>Blog & SEO</li>
+                        <li>GBP</li>
+                    </ul>
+                </div>
+                <div class="card-footer">
+                    <a href="lux-us-dashboard.html" class="dashboard-link">Open Dashboard</a>
+                </div>
+            </div>
+
+            <!-- Lux Neon DR 🇩🇴 -->
+            <div class="company-card" style="border-left-color: #c4956a;">
+                <div class="card-header">
+                    <div>
+                        <div class="company-name">Lux Neon DR 🇩🇴</div>
+                        <div class="status">
+                            <span class="status-dot"></span>
+                            Online
+                        </div>
+                    </div>
+                </div>
+                <div class="sections">
+                    <h3>Key Sections</h3>
+                    <ul class="section-list">
+                        <li>Sales</li>
+                        <li>Products</li>
+                        <li>Migration Tracker</li>
+                        <li>Local SEO</li>
+                        <li>WhatsApp</li>
+                    </ul>
+                </div>
+                <div class="card-footer">
+                    <a href="lux-dr-dashboard.html" class="dashboard-link">Open Dashboard</a>
+                </div>
+            </div>
+
+            <!-- Coconut Bikini -->
+            <div class="company-card" style="border-left-color: #f472b6;">
+                <div class="card-header">
+                    <div>
+                        <div class="company-name">Coconut Bikini</div>
+                        <div class="status">
+                            <span class="status-dot"></span>
+                            Online
+                        </div>
+                    </div>
+                </div>
+                <div class="sections">
+                    <h3>Key Sections</h3>
+                    <ul class="section-list">
+                        <li>Sales</li>
+                        <li>Products</li>
+                        <li>Blog & SEO</li>
+                        <li>Email</li>
+                        <li>Social</li>
+                    </ul>
+                </div>
+                <div class="card-footer">
+                    <a href="coconut-dashboard.html" class="dashboard-link">Open Dashboard</a>
+                </div>
+            </div>
+
+            <!-- Reclaimed Closet -->
+            <div class="company-card" style="border-left-color: #a7997d;">
+                <div class="card-header">
+                    <div>
+                        <div class="company-name">Reclaimed Closet</div>
+                        <div class="status">
+                            <span class="status-dot"></span>
+                            Online
+                        </div>
+                    </div>
+                </div>
+                <div class="sections">
+                    <h3>Key Sections</h3>
+                    <ul class="section-list">
+                        <li>Sales</li>
+                        <li>Products (143)</li>
+                        <li>Blog & SEO</li>
+                        <li>Email</li>
+                        <li>Team Pages</li>
+                    </ul>
+                </div>
+                <div class="card-footer">
+                    <a href="reclaimed-dashboard.html" class="dashboard-link">Open Dashboard</a>
+                </div>
+            </div>
+
+            <!-- Virtus Realty Group -->
+            <div class="company-card" style="border-left-color: #141e31;">
+                <div class="card-header">
+                    <div>
+                        <div class="company-name">Virtus Realty Group</div>
+                        <div class="status">
+                            <span class="status-dot"></span>
+                            Online
+                        </div>
+                    </div>
+                </div>
+                <div class="sections">
+                    <h3>Key Sections</h3>
+                    <ul class="section-list">
+                        <li>Website</li>
+                        <li>Listings</li>
+                        <li>Lead Gen</li>
+                        <li>Blog & SEO</li>
+                        <li>DR Properties</li>
+                    </ul>
+                </div>
+                <div class="card-footer">
+                    <a href="virtus-dashboard.html" class="dashboard-link">Open Dashboard →</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div style="margin-top: 48px; padding: 32px; background: #ffffff; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+            <h2 style="font-size: 18px; font-weight: 600; margin-bottom: 16px; color: #1e293b;">🔗 Quick Links</h2>
+            <div style="display: flex; flex-wrap: wrap; gap: 12px;">
+                <a href="shirtsy-orders.html" style="padding: 8px 16px; background: #f1f5f9; border-radius: 8px; color: #334155; text-decoration: none; font-size: 14px;">📋 Shirtsy Production Board</a>
+                <a href="shirtsy-conversion-plan.html" style="padding: 8px 16px; background: #f1f5f9; border-radius: 8px; color: #334155; text-decoration: none; font-size: 14px;">📊 Shirtsy Conversion Plan</a>
+                <a href="shirtsy-net30-application.html" style="padding: 8px 16px; background: #f1f5f9; border-radius: 8px; color: #334155; text-decoration: none; font-size: 14px;">📝 Shirtsy NET30 Application</a>
+                <a href="index.html" style="padding: 8px 16px; background: #f1f5f9; border-radius: 8px; color: #334155; text-decoration: none; font-size: 14px;">📌 Task Kanban</a>
+            </div>
+        </div>
+    </div>
+
+    <footer style="text-align: center; padding: 32px 0; color: #94a3b8; font-size: 13px; margin-top: 48px; border-top: 1px solid #e2e8f0;">
+        Powered by Jackie ⚡ • Last updated <span id="footer-time"></span>
+    </footer>
+
+    <script>
+        function updateTime() {
+            const now = new Date();
+            const opts = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', timeZone: 'America/New_York' };
+            const formatted = now.toLocaleString('en-US', opts);
+            const el = document.getElementById('current-time');
+            if (el) el.textContent = formatted;
+            const ft = document.getElementById('footer-time');
+            if (ft) ft.textContent = formatted;
+        }
+        updateTime();
+        setInterval(updateTime, 30000);
+    </script>
+</body>
+</html>
