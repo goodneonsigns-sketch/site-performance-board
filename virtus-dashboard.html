@@ -18,6 +18,12 @@
             --radius: 12px;
             --brand-color-primary: #141e31;
             --brand-color-secondary: #b49750;
+            --brand-color: #b49750; /* Main accent color */
+            --brand-light: #f5f0e9;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --info: #3b82f6;
+            --danger: #ef4444;
         }
 
         * {
@@ -32,12 +38,551 @@
             color: var(--text-primary);
             line-height: 1.5;
             min-height: 100vh;
+            display: flex;
         }
 
+        /* Sidebar Styles */
+        .sidebar {
+            width: 240px;
+            background: var(--bg-card);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            z-index: 100;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar-header {
+            padding: 32px 24px 24px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .company-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-dot {
+            width: 12px;
+            height: 12px;
+            background-color: var(--brand-color);
+            border-radius: 50%;
+        }
+
+        .company-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .nav-tabs {
+            padding: 24px 0;
+            flex: 1;
+        }
+
+        .nav-tab {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 24px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border-left: 3px solid transparent;
+        }
+
+        .nav-tab:hover {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+        }
+
+        .nav-tab.active {
+            background-color: var(--brand-color);
+            color: white;
+            border-left-color: white;
+        }
+
+        .nav-tab.active:hover {
+            background-color: var(--brand-color);
+            color: white;
+        }
+
+        .nav-icon {
+            font-size: 18px;
+        }
+
+        .sidebar-footer {
+            padding: 24px;
+            border-top: 1px solid var(--border);
+        }
+
+        .back-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.2s ease;
+        }
+
+        .back-link:hover {
+            color: var(--brand-color);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 240px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .content-wrapper {
+            flex: 1;
+            padding: 32px;
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Posts Tab Styles */
+        .posts-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .posts-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .posts-title h2 {
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .count-badge {
+            background: var(--brand-color);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .posts-controls {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .filter-btn {
+            padding: 8px 16px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            color: var(--text-secondary);
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .filter-btn:hover {
+            border-color: var(--brand-color);
+            color: var(--brand-color);
+        }
+
+        .filter-btn.active {
+            background: var(--brand-color);
+            border-color: var(--brand-color);
+            color: white;
+        }
+
+        .sort-dropdown {
+            padding: 8px 16px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            color: var(--text-primary);
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        /* Draft Cards Grid */
+        .drafts-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        @media (min-width: 640px) {
+            .drafts-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .drafts-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 24px;
+            }
+        }
+
+        .draft-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            border: 1px solid var(--border);
+            overflow: hidden;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .draft-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        }
+
+        .draft-image {
+            height: 180px;
+            width: 100%;
+            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+            position: relative;
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .draft-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .draft-card:hover .draft-image img,
+        .draft-card:hover .draft-image {
+            transform: scale(1.03);
+        }
+
+        .image-placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: var(--text-secondary);
+            font-size: 48px;
+        }
+
+        .draft-content {
+            padding: 16px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .draft-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+            line-height: 1.45;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .draft-meta {
+            display: flex;
+            gap: 6px;
+            margin-bottom: auto;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .draft-date {
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+
+        .badge {
+            padding: 3px 8px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-platform {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .badge-platform.wordpress {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .badge-company {
+            background: var(--brand-light);
+            color: var(--brand-color);
+        }
+
+        .badge-status {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .draft-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 14px;
+            padding-top: 14px;
+            border-top: 1px solid #f1f5f9;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 7px 10px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--bg-primary);
+            color: var(--text-secondary);
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+        }
+
+        .action-btn:hover {
+            border-color: var(--brand-color);
+            color: var(--brand-color);
+        }
+
+        .action-btn.publish {
+            background: var(--brand-color);
+            border-color: var(--brand-color);
+            color: white;
+        }
+
+        .action-btn.publish:hover {
+            background: #a07d4f;
+            border-color: #a07d4f;
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 500px;
+            overflow: hidden;
+        }
+
+        .modal-header {
+            padding: 24px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .modal-header h3 {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .modal-body {
+            padding: 24px;
+        }
+
+        .modal-footer {
+            padding: 24px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+        }
+
+        .modal-btn {
+            padding: 10px 20px;
+            border-radius: var(--radius);
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            border: 1px solid var(--border);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            transition: all 0.2s ease;
+        }
+
+        .modal-btn.primary {
+            background: var(--brand-color);
+            border-color: var(--brand-color);
+            color: white;
+        }
+
+        .modal-btn.primary:hover {
+            background: #a07d4f;
+            border-color: #a07d4f;
+        }
+
+        .modal-btn:hover {
+            border-color: var(--brand-color);
+            color: var(--brand-color);
+        }
+
+        /* Toast Styles */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 16px 20px;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            z-index: 1001;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .toast-icon {
+            font-size: 20px;
+        }
+
+        .toast-message {
+            font-size: 14px;
+            color: var(--text-primary);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: static;
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+            }
+
+            .sidebar-header {
+                padding: 20px;
+            }
+
+            .nav-tabs {
+                display: flex;
+                padding: 0;
+                border-top: 1px solid var(--border);
+            }
+
+            .nav-tab {
+                flex: 1;
+                justify-content: center;
+                padding: 16px;
+                border-left: none;
+                border-bottom: 3px solid transparent;
+            }
+
+            .nav-tab.active {
+                border-left: none;
+                border-bottom-color: var(--brand-color);
+            }
+
+            .sidebar-footer {
+                display: none;
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .content-wrapper {
+                padding: 20px;
+            }
+
+            .posts-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .posts-controls {
+                width: 100%;
+            }
+
+            .filter-buttons {
+                flex-wrap: wrap;
+            }
+        }
+
+        /* Existing Dashboard Styles (for Overview tab) */
         .container {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 0 24px;
         }
 
         header {
@@ -260,211 +805,301 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <div class="header-content">
-                <div class="company-header">
-                    <div class="brand-bar"></div>
-                    <div class="logo-placeholder">V</div>
-                    <h1>Virtus Realty Group Dashboard</h1>
-                </div>
-                <div class="timestamp" id="currentDateTime">Loading...</div>
+    <!-- Sidebar -->
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <div class="company-brand">
+                <div class="brand-dot"></div>
+                <div class="company-name">Virtus Realty Group</div>
             </div>
-        </header>
+        </div>
+        
+        <div class="nav-tabs">
+            <a href="#overview" class="nav-tab active" data-tab="overview">
+                <span class="nav-icon">📊</span>
+                <span>Overview</span>
+            </a>
+            <a href="#posts" class="nav-tab" data-tab="posts">
+                <span class="nav-icon">📝</span>
+                <span>Posts</span>
+            </a>
+            <a href="#settings" class="nav-tab" data-tab="settings">
+                <span class="nav-icon">⚙️</span>
+                <span>Settings</span>
+            </a>
+        </div>
+        
+        <div class="sidebar-footer">
+            <a href="index.html" class="back-link">
+                ← Back to Hub
+            </a>
+        </div>
+    </nav>
 
-        <main>
-            <div class="metrics-row">
-                <div class="metric-card">
-                    <div class="metric-value" data-live="true">33</div>
-                    <div class="metric-label">Pages</div>
-                    <div class="metric-trend">📄</div>
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="content-wrapper">
+            <!-- Overview Tab -->
+            <div id="overview" class="tab-content active">
+                <header>
+                    <div class="header-content">
+                        <div class="company-header">
+                            <div class="brand-bar"></div>
+                            <div class="logo-placeholder">V</div>
+                            <h1>Virtus Realty Group Dashboard</h1>
+                        </div>
+                        <div class="timestamp" id="currentDateTime">Loading...</div>
+                    </div>
+                </header>
+
+                <div class="metrics-row">
+                    <div class="metric-card">
+                        <div class="metric-value" data-live="true">33</div>
+                        <div class="metric-label">Pages</div>
+                        <div class="metric-trend">📄</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value" data-live="true">41,419</div>
+                        <div class="metric-label">BeachesMLS Active</div>
+                        <div class="metric-trend">🏠</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value" data-live="true">3,350</div>
+                        <div class="metric-label">Keywords Tracked</div>
+                        <div class="metric-trend">🔍</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-value" data-live="true">🟢</div>
+                        <div class="metric-label">Build Status</div>
+                        <div class="metric-trend">✅</div>
+                    </div>
                 </div>
-                <div class="metric-card">
-                    <div class="metric-value" data-live="true">41,419</div>
-                    <div class="metric-label">BeachesMLS Active</div>
-                    <div class="metric-trend">🏠</div>
-                </div>
-                <div class="metric-card">
-                    <div class="metric-value" data-live="true">3,350</div>
-                    <div class="metric-label">Keywords Tracked</div>
-                    <div class="metric-trend">🔍</div>
-                </div>
-                <div class="metric-card">
-                    <div class="metric-value" data-live="true">🟢</div>
-                    <div class="metric-label">Build Status</div>
-                    <div class="metric-trend">✅</div>
+
+                <div class="sections-grid">
+                    <div class="section-card">
+                        <div class="section-header">
+                            <h3>Website Performance</h3>
+                            <span class="section-icon">🚀</span>
+                        </div>
+                        <div class="section-content">
+                            <div class="data-item">
+                                <div class="data-label">Last Deploy</div>
+                                <div class="data-value" data-live="true">placeholder</div>
+                            </div>
+                            <div class="data-item">
+                                <div class="data-label">Build Status</div>
+                                <div class="data-value" data-live="true">🟢</div>
+                            </div>
+                            <div class="data-item">
+                                <div class="data-label">Pages</div>
+                                <div class="data-value" data-live="true">33</div>
+                            </div>
+                            <div class="data-item">
+                                <div class="data-label">Total Size</div>
+                                <div class="data-value" data-live="true">2.4MB</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section-card">
+                        <div class="section-header">
+                            <h3>Property Listings</h3>
+                            <span class="section-icon">🏠</span>
+                        </div>
+                        <div class="section-content">
+                            <div class="data-item">
+                                <div class="data-label">BeachesMLS Active</div>
+                                <div class="data-value" data-live="true">41,419</div>
+                            </div>
+                            <div class="data-item">
+                                <div class="data-label">Agent Listings — Nicolas</div>
+                                <div class="data-value" data-live="true">19</div>
+                            </div>
+                            <div class="data-item">
+                                <div class="data-label">Data Freshness</div>
+                                <div class="data-value" data-live="true">Demo Token ⚠️</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section-card">
+                        <div class="section-header">
+                            <h3>Lead Generation</h3>
+                            <span class="section-icon">📞</span>
+                        </div>
+                        <div class="section-content">
+                            <div class="data-item">
+                                <div class="data-label">Contact Forms</div>
+                                <div class="data-value" data-live="true">placeholder</div>
+                            </div>
+                            <div class="data-item">
+                                <div class="data-label">Showing Requests</div>
+                                <div class="data-value" data-live="true">placeholder</div>
+                            </div>
+                            <div class="data-item">
+                                <div class="data-label">Research Signups</div>
+                                <div class="data-value" data-live="true">placeholder</div>
+                            </div>
+                            <div class="data-item">
+                                <div class="data-label">Financing Inquiries</div>
+                                <div class="data-value" data-live="true">placeholder</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section-card">
+                        <div class="section-header">
+                            <h3>Blog & Content</h3>
+                            <span class="section-icon">📝</span>
+                        </div>
+                        <div class="section-content">
+                            <div class="data-item">
+                                <div class="data-label">Blog Posts</div>
+                                <div class="data-value" data-live="true">10</div>
+                            </div>
+                            <div class="data-item">
+                                <div class="data-label">SEO Pages</div>
+                                <div class="data-value" data-live="true">5</div>
+                            </div>
+                            <div class="data-item">
+                                <div class="data-label">Neighborhood Pages</div>
+                                <div class="data-value" data-live="true">12</div>
+                            </div>
+                            <div class="data-item">
+                                <div class="data-label">Total Content</div>
+                                <div class="data-value" data-live="true">33 pages</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section-card">
+                        <div class="section-header">
+                            <h3>Dominican Republic</h3>
+                            <span class="section-icon">🇩🇴</span>
+                        </div>
+                        <div class="section-content">
+                            <div class="data-item">
+                                <div class="data-label">DR Listings</div>
+                                <div class="data-value" data-live="true">6 Zona Colonial + 27 APAP</div>
+                            </div>
+                            <div class="data-item">
+                                <div class="data-label">Investor Packages</div>
+                                <div class="data-value" data-live="true">2</div>
+                            </div>
+                            <div class="data-item">
+                                <div class="data-label">DR Landing Page</div>
+                                <div class="data-value" data-live="true">✅ Live</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section-card">
+                        <div class="section-header">
+                            <h3>SEO</h3>
+                            <span class="section-icon">🔍</span>
+                        </div>
+                        <div class="section-content">
+                            <div class="data-item">
+                                <div class="data-label">Meta Tags Coverage</div>
+                                <div class="data-value" data-live="true">33/33 ✅</div>
+                            </div>
+                            <div class="data-item">
+                                <div class="data-label">Sitemap</div>
+                                <div class="data-value" data-live="true">✅</div>
+                            </div>
+                            <div class="data-item">
+                                <div class="data-label">robots.txt</div>
+                                <div class="data-value" data-live="true">✅</div>
+                            </div>
+                            <div class="data-item">
+                                <div class="data-label">Keywords Tracked</div>
+                                <div class="data-value" data-live="true">3,350</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section-card">
+                        <div class="section-header">
+                            <h3>Team</h3>
+                            <span class="section-icon">👥</span>
+                        </div>
+                        <div class="section-content">
+                            <div class="data-item">
+                                <div class="data-label">Alexis Hernandez</div>
+                                <div class="data-value" data-live="true">Broker</div>
+                            </div>
+                            <div class="data-item">
+                                <div class="data-label">Nicolas Gonzalez</div>
+                                <div class="data-value" data-live="true">Agent</div>
+                            </div>
+                            <div class="data-item">
+                                <div class="data-label">Christopher Petrillo</div>
+                                <div class="data-value" data-live="true"></div>
+                            </div>
+                            <div class="data-item">
+                                <div class="data-label">Eva Kuusmann</div>
+                                <div class="data-value" data-live="true"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="sections-grid">
-                <div class="section-card">
-                    <div class="section-header">
-                        <h3>Website Performance</h3>
-                        <span class="section-icon">🚀</span>
+            <!-- Posts Tab -->
+            <div id="posts" class="tab-content">
+                <div class="posts-header">
+                    <div class="posts-title">
+                        <h2>Blog Drafts</h2>
+                        <span class="count-badge" id="draftCount">0 drafts</span>
                     </div>
-                    <div class="section-content">
-                        <div class="data-item">
-                            <div class="data-label">Last Deploy</div>
-                            <div class="data-value" data-live="true">placeholder</div>
+                    <div class="posts-controls">
+                        <div class="filter-buttons">
+                            <button class="filter-btn active" data-filter="all">All</button>
+                            <button class="filter-btn" data-filter="with-image">With Image</button>
+                            <button class="filter-btn" data-filter="no-image">No Image</button>
                         </div>
-                        <div class="data-item">
-                            <div class="data-label">Build Status</div>
-                            <div class="data-value" data-live="true">🟢</div>
-                        </div>
-                        <div class="data-item">
-                            <div class="data-label">Pages</div>
-                            <div class="data-value" data-live="true">33</div>
-                        </div>
-                        <div class="data-item">
-                            <div class="data-label">Total Size</div>
-                            <div class="data-value" data-live="true">2.4MB</div>
-                        </div>
+                        <select class="sort-dropdown" id="sortSelect">
+                            <option value="newest">Newest</option>
+                            <option value="oldest">Oldest</option>
+                            <option value="title">Title A-Z</option>
+                        </select>
                     </div>
                 </div>
 
-                <div class="section-card">
-                    <div class="section-header">
-                        <h3>Property Listings</h3>
-                        <span class="section-icon">🏠</span>
-                    </div>
-                    <div class="section-content">
-                        <div class="data-item">
-                            <div class="data-label">BeachesMLS Active</div>
-                            <div class="data-value" data-live="true">41,419</div>
-                        </div>
-                        <div class="data-item">
-                            <div class="data-label">Agent Listings — Nicolas</div>
-                            <div class="data-value" data-live="true">19</div>
-                        </div>
-                        <div class="data-item">
-                            <div class="data-label">Data Freshness</div>
-                            <div class="data-value" data-live="true">Demo Token ⚠️</div>
-                        </div>
+                <div class="drafts-grid" id="draftsContainer">
+                    <!-- Draft cards will be generated by JavaScript -->
+                    <div class="empty-state" style="grid-column: 1 / -1; text-align: center; padding: 60px 20px; color: var(--text-secondary);">
+                        <div style="font-size: 48px; margin-bottom: 16px;">📝</div>
+                        <h3 style="font-size: 20px; margin-bottom: 12px; color: var(--text-primary);">Virtus blog is built in React — content managed via code</h3>
+                        <p style="max-width: 500px; margin: 0 auto; line-height: 1.6;">CMS integration coming soon. Blog posts are currently managed directly in the React codebase.</p>
                     </div>
                 </div>
+            </div>
 
+            <!-- Settings Tab -->
+            <div id="settings" class="tab-content">
                 <div class="section-card">
                     <div class="section-header">
-                        <h3>Lead Generation</h3>
-                        <span class="section-icon">📞</span>
+                        <h3>Settings</h3>
+                        <span class="section-icon">⚙️</span>
                     </div>
                     <div class="section-content">
                         <div class="data-item">
-                            <div class="data-label">Contact Forms</div>
-                            <div class="data-value" data-live="true">placeholder</div>
+                            <div class="data-label">Dashboard Settings</div>
+                            <div class="data-value">Coming Soon</div>
                         </div>
                         <div class="data-item">
-                            <div class="data-label">Showing Requests</div>
-                            <div class="data-value" data-live="true">placeholder</div>
+                            <div class="data-label">API Connections</div>
+                            <div class="data-value">Configure Later</div>
                         </div>
                         <div class="data-item">
-                            <div class="data-label">Research Signups</div>
-                            <div class="data-value" data-live="true">placeholder</div>
-                        </div>
-                        <div class="data-item">
-                            <div class="data-label">Financing Inquiries</div>
-                            <div class="data-value" data-live="true">placeholder</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="section-card">
-                    <div class="section-header">
-                        <h3>Blog & Content</h3>
-                        <span class="section-icon">📝</span>
-                    </div>
-                    <div class="section-content">
-                        <div class="data-item">
-                            <div class="data-label">Blog Posts</div>
-                            <div class="data-value" data-live="true">10</div>
-                        </div>
-                        <div class="data-item">
-                            <div class="data-label">SEO Pages</div>
-                            <div class="data-value" data-live="true">5</div>
-                        </div>
-                        <div class="data-item">
-                            <div class="data-label">Neighborhood Pages</div>
-                            <div class="data-value" data-live="true">12</div>
-                        </div>
-                        <div class="data-item">
-                            <div class="data-label">Total Content</div>
-                            <div class="data-value" data-live="true">33 pages</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="section-card">
-                    <div class="section-header">
-                        <h3>Dominican Republic</h3>
-                        <span class="section-icon">🇩🇴</span>
-                    </div>
-                    <div class="section-content">
-                        <div class="data-item">
-                            <div class="data-label">DR Listings</div>
-                            <div class="data-value" data-live="true">6 Zona Colonial + 27 APAP</div>
-                        </div>
-                        <div class="data-item">
-                            <div class="data-label">Investor Packages</div>
-                            <div class="data-value" data-live="true">2</div>
-                        </div>
-                        <div class="data-item">
-                            <div class="data-label">DR Landing Page</div>
-                            <div class="data-value" data-live="true">✅ Live</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="section-card">
-                    <div class="section-header">
-                        <h3>SEO</h3>
-                        <span class="section-icon">🔍</span>
-                    </div>
-                    <div class="section-content">
-                        <div class="data-item">
-                            <div class="data-label">Meta Tags Coverage</div>
-                            <div class="data-value" data-live="true">33/33 ✅</div>
-                        </div>
-                        <div class="data-item">
-                            <div class="data-label">Sitemap</div>
-                            <div class="data-value" data-live="true">✅</div>
-                        </div>
-                        <div class="data-item">
-                            <div class="data-label">robots.txt</div>
-                            <div class="data-value" data-live="true">✅</div>
-                        </div>
-                        <div class="data-item">
-                            <div class="data-label">Keywords Tracked</div>
-                            <div class="data-value" data-live="true">3,350</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="section-card">
-                    <div class="section-header">
-                        <h3>Team</h3>
-                        <span class="section-icon">👥</span>
-                    </div>
-                    <div class="section-content">
-                        <div class="data-item">
-                            <div class="data-label">Alexis Hernandez</div>
-                            <div class="data-value" data-live="true">Broker</div>
-                        </div>
-                        <div class="data-item">
-                            <div class="data-label">Nicolas Gonzalez</div>
-                            <div class="data-value" data-live="true">Agent</div>
-                        </div>
-                        <div class="data-item">
-                            <div class="data-label">Christopher Petrillo</div>
-                            <div class="data-value" data-live="true"></div>
-                        </div>
-                        <div class="data-item">
-                            <div class="data-label">Eva Kuusmann</div>
-                            <div class="data-value" data-live="true"></div>
+                            <div class="data-label">Notifications</div>
+                            <div class="data-value">Not Set Up</div>
                         </div>
                     </div>
                 </div>
             </div>
-        </main>
+        </div>
 
         <footer>
             <div class="footer-content">
@@ -476,9 +1111,244 @@
                 </div>
             </div>
         </footer>
+    </main>
+
+    <!-- Preview Modal -->
+    <div class="modal-overlay" id="previewModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 id="previewTitle">Post Preview</h3>
+            </div>
+            <div class="modal-body">
+                <div id="previewImage" style="height: 200px; background: #f1f5f9; border-radius: 8px; margin-bottom: 16px; display: flex; align-items: center; justify-content: center; color: #64748b;">
+                    📷 Image Preview
+                </div>
+                <div id="previewContent" style="color: #64748b;">
+                    Loading preview content...
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn" onclick="closeModal('previewModal')">Close</button>
+            </div>
+        </div>
     </div>
 
+    <!-- Publish Confirmation Modal -->
+    <div class="modal-overlay" id="publishModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Publish this post?</h3>
+            </div>
+            <div class="modal-body">
+                <p id="publishPostTitle" style="margin-bottom: 12px; font-weight: 500;"></p>
+                <p style="color: #64748b; font-size: 14px;">This will make the post live on virtusrealtygroup.com</p>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn" onclick="closeModal('publishModal')">Cancel</button>
+                <button class="modal-btn primary" onclick="confirmPublish()">Publish Now</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <span class="toast-icon">⚠️</span>
+        <span class="toast-message" id="toastMessage">Publishing requires API connection — coming soon</span>
+    </div>
+
+    <!-- Preview Modal -->
+    <div id="preview-modal" class="modal-overlay" onclick="if(event.target===this)closeModal('preview-modal')">
+        <div class="modal-card" style="max-width:700px;max-height:85vh;overflow-y:auto">
+            <h3 id="preview-title" style="margin-bottom:12px"></h3>
+            <img id="preview-image" style="width:100%;border-radius:8px;margin-bottom:12px" />
+            <p id="preview-date" style="color:#94a3b8;font-size:13px;margin-bottom:12px"></p>
+            <button onclick="closeModal('preview-modal')" style="padding:8px 20px;border:none;border-radius:6px;background:#e2e8f0;cursor:pointer;font-size:14px">Close</button>
+        </div>
+    </div>
+
+    <!-- Publish Modal -->
+    <div id="publish-modal" class="modal-overlay" onclick="if(event.target===this)closeModal('publish-modal')">
+        <div class="modal-card" style="max-width:450px;text-align:center">
+            <h3 style="margin-bottom:8px">Publish this post?</h3>
+            <p id="publish-post-title" style="color:#64748b;margin-bottom:8px;font-style:italic"></p>
+            <p style="color:#94a3b8;font-size:13px;margin-bottom:20px">This will make the post live on virtusrealtygroup.com</p>
+            <div style="display:flex;gap:12px;justify-content:center">
+                <button onclick="closeModal('publish-modal')" style="padding:10px 24px;border:1px solid #e2e8f0;border-radius:8px;background:white;cursor:pointer;font-size:14px">Cancel</button>
+                <button id="confirm-publish-btn" style="padding:10px 24px;border:none;border-radius:8px;background:#b49750;color:white;cursor:pointer;font-size:14px;font-weight:600">🚀 Publish Now</button>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .modal-overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000; align-items:center; justify-content:center; padding:20px }
+        .modal-overlay.active { display:flex }
+        .modal-card { background:white; border-radius:12px; padding:24px; max-width:90%; box-shadow:0 20px 25px -5px rgba(0,0,0,0.1) }
+        @keyframes fadeIn { from { opacity:0 } to { opacity:1 } }
+    </style>
+
     <script>
+        // Data
+        const DRAFTS_DATA = []; // Empty array - React site, no CMS blog yet
+
+        // Tab switching
+        document.querySelectorAll('.nav-tab').forEach(tab => {
+            tab.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetTab = tab.dataset.tab;
+                
+                // Update active tab
+                document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                
+                // Show target tab content
+                document.querySelectorAll('.tab-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                document.getElementById(targetTab).classList.add('active');
+                
+                // If posts tab, render posts
+                if (targetTab === 'posts') {
+                    renderPosts();
+                }
+            });
+        });
+
+        // Initialize posts tab
+        function renderPosts() {
+            const container = document.getElementById('draftsContainer');
+            const countBadge = document.getElementById('draftCount');
+            
+            // Update count badge
+            countBadge.textContent = `${DRAFTS_DATA.length} ${DRAFTS_DATA.length === 1 ? 'draft' : 'drafts'}`;
+            
+            // Show empty state if no drafts
+            if (DRAFTS_DATA.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state" style="grid-column: 1 / -1; text-align: center; padding: 60px 20px; color: var(--text-secondary);">
+                        <div style="font-size: 48px; margin-bottom: 16px;">📝</div>
+                        <h3 style="font-size: 20px; margin-bottom: 12px; color: var(--text-primary);">Virtus blog is built in React — content managed via code</h3>
+                        <p style="max-width: 500px; margin: 0 auto; line-height: 1.6;">CMS integration coming soon. Blog posts are currently managed directly in the React codebase.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Filter and sort logic (from lux-us pattern)
+            let filtered = [...DRAFTS_DATA];
+            const currentFilter = 'all'; // Default filter
+            const currentSort = 'newest'; // Default sort
+            
+            // Apply filter
+            if (currentFilter === 'with-image') {
+                filtered = filtered.filter(d => d.image);
+            } else if (currentFilter === 'no-image') {
+                filtered = filtered.filter(d => !d.image);
+            }
+            
+            // Apply sort
+            if (currentSort === 'newest') {
+                filtered.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+            } else if (currentSort === 'oldest') {
+                filtered.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+            } else if (currentSort === 'title') {
+                filtered.sort((a, b) => a.title.localeCompare(b.title));
+            }
+            
+            // Generate draft cards
+            container.innerHTML = filtered.map(d => `
+                <div class="draft-card">
+                    <div class="draft-image">
+                        ${d.image ? `<img src="${d.image}" alt="${d.title}">` : '<div class="image-placeholder">📝</div>'}
+                    </div>
+                    <div class="draft-content">
+                        <div class="draft-title">${d.title}</div>
+                        <div class="draft-meta">
+                            <span class="draft-date">${new Date(d.created_at).toLocaleDateString()}</span>
+                            <span class="badge badge-platform">React</span>
+                            <span class="badge badge-company">Virtus</span>
+                            <span class="badge badge-status">Draft</span>
+                        </div>
+                        <div class="draft-actions">
+                            <a class="action-btn" href="#" target="_blank">📖 Read</a>
+                            <button class="action-btn" onclick="changeImage('${d.id}')">🖼️ Image</button>
+                            <button class="action-btn publish" onclick="publishPost('${d.id}')">🚀 Publish</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function setFilter(f) {
+            // Update filter buttons
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.toggle('active', b.dataset.filter === f));
+            // Re-render posts with new filter
+            renderPosts();
+        }
+        
+        function setSort(s) {
+            // Update sort dropdown
+            document.getElementById('sortSelect').value = s;
+            // Re-render posts with new sort
+            renderPosts();
+        }
+        
+        function previewPost(id) {
+            const post = DRAFTS_DATA.find(d => d.id === id);
+            if (!post) return;
+            
+            const modal = document.getElementById('preview-modal');
+            document.getElementById('preview-title').textContent = post.title;
+            document.getElementById('preview-image').style.display = post.image ? 'block' : 'none';
+            if (post.image) document.getElementById('preview-image').src = post.image;
+            document.getElementById('preview-date').textContent = 'Created: ' + new Date(post.created_at).toLocaleString();
+            modal.classList.add('active');
+        }
+        
+        function publishPost(id) {
+            const post = DRAFTS_DATA.find(d => d.id === id);
+            if (!post) return;
+            
+            const modal = document.getElementById('publish-modal');
+            document.getElementById('publish-post-title').textContent = post.title;
+            modal.classList.add('active');
+            
+            document.getElementById('confirm-publish-btn').onclick = () => {
+                modal.classList.remove('active');
+                showToast('⚠️ Publishing requires API connection — coming soon');
+            };
+        }
+        
+        let changeImagePostId = null;
+        function changeImage(id) {
+            showToast('🖼️ Image change coming soon — API connection needed');
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('active');
+        }
+        
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            
+            toastMessage.textContent = msg;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Filter buttons event listeners
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => setFilter(btn.dataset.filter));
+        });
+        
+        // Sort dropdown event listener
+        const sortSel = document.getElementById('sortSelect');
+        if (sortSel) sortSel.addEventListener('change', () => setSort(sortSel.value));
+
+        // Clock and date functions
         function updateDateTime() {
             const now = new Date();
             const options = { 
@@ -496,9 +1366,25 @@
             document.getElementById('refreshTimestamp').textContent = dateTimeStr;
         }
 
-        // Update immediately and then every 30 seconds
+        function updateTime() {
+            const now = new Date();
+            const el = document.getElementById('current-time');
+            if (el) el.textContent = now.toLocaleString('en-US', {weekday:'long',year:'numeric',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit',second:'2-digit',timeZone:'America/New_York'});
+            const ft = document.getElementById('footer-time');
+            if (ft) ft.textContent = now.toLocaleString('en-US', {hour:'2-digit',minute:'2-digit',timeZone:'America/New_York'});
+        }
+
+        // Initialize
         updateDateTime();
+        updateTime();
         setInterval(updateDateTime, 30000);
+        setInterval(updateTime, 30000);
+
+        // Publish confirmation function
+        function confirmPublish() {
+            closeModal('publishModal');
+            showToast('⚠️ Publishing requires API connection — coming soon');
+        }
     </script>
 </body>
 </html>
