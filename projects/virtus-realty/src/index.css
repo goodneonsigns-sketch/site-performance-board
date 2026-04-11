@@ -1,0 +1,264 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    @apply font-sans text-gray-800 antialiased;
+  }
+
+  h1, h2, h3, h4 {
+    @apply font-display;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center px-6 py-3 bg-navy-800 text-white font-semibold rounded-lg hover:bg-navy-900 transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5;
+  }
+  
+  .btn-secondary {
+    @apply inline-flex items-center justify-center px-6 py-3 bg-gold-500 text-navy-900 font-semibold rounded-lg hover:bg-gold-600 transition-all duration-200 shadow-md hover:shadow-lg transform hover:-translate-y-0.5;
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center justify-center px-6 py-3 border-2 border-white text-white font-semibold rounded-lg hover:bg-white hover:text-navy-800 transition-all duration-200;
+  }
+
+  .section-title {
+    @apply font-display text-3xl md:text-4xl font-bold text-gray-900;
+  }
+
+  .section-subtitle {
+    @apply text-lg text-gray-600 mt-3 max-w-2xl;
+  }
+
+  .card {
+    @apply bg-white rounded-2xl shadow-md hover:shadow-xl transition-all duration-300;
+  }
+
+  .gradient-ocean {
+    @apply bg-gradient-to-br from-navy-800 to-navy-600;
+  }
+
+  .gradient-sunset {
+    @apply bg-gradient-to-br from-gold-500 to-gold-700;
+  }
+
+  .gradient-hero {
+    background: linear-gradient(135deg, #141e31 0%, #1a253f 50%, #0e1524 100%);
+  }
+
+  /* Glass morphism filter bar */
+  .glass-bar {
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow: 0 4px 24px rgba(20, 30, 49, 0.08);
+  }
+
+  /* Filter pill active state */
+  .filter-pill {
+    @apply inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium border transition-all duration-150 cursor-pointer select-none;
+  }
+  .filter-pill-inactive {
+    @apply filter-pill bg-white border-gray-200 text-gray-600 hover:border-navy-400 hover:text-navy-700;
+  }
+  .filter-pill-active {
+    @apply filter-pill bg-navy-800 border-navy-800 text-white shadow-sm;
+  }
+
+  /* Property type color dots */
+  .type-dot-residential { @apply bg-navy-500; }
+  .type-dot-commercial  { @apply bg-teal-500; }
+  .type-dot-land        { @apply bg-gold-500; }
+  .type-dot-lease       { @apply bg-gold-400; }
+  .type-dot-income      { @apply bg-gold-300; }
+  .type-dot-default     { @apply bg-gray-400; }
+
+  /* Custom range slider track */
+  .price-track {
+    position: relative;
+    height: 4px;
+    border-radius: 9999px;
+    background: #e2e8f0;
+  }
+  .price-track-fill {
+    position: absolute;
+    height: 100%;
+    border-radius: 9999px;
+    background: linear-gradient(90deg, #141e31, #b49750);
+    pointer-events: none;
+  }
+  .price-handle {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: white;
+    border: 3px solid #141e31;
+    box-shadow: 0 2px 8px rgba(20, 30, 49, 0.4);
+    cursor: grab;
+    transition: box-shadow 0.15s, transform 0.15s;
+    z-index: 2;
+  }
+  .price-handle:hover,
+  .price-handle.dragging {
+    box-shadow: 0 0 0 6px rgba(20, 30, 49, 0.18), 0 2px 8px rgba(20, 30, 49, 0.4);
+    transform: translate(-50%, -50%) scale(1.15);
+    cursor: grabbing;
+  }
+  .price-label {
+    position: absolute;
+    bottom: calc(100% + 12px);
+    transform: translateX(-50%);
+    background: #141e31;
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 7px;
+    border-radius: 6px;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+  .price-label::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 4px solid transparent;
+    border-top-color: #141e31;
+  }
+  .price-handle:hover .price-label,
+  .price-handle.dragging .price-label {
+    opacity: 1;
+  }
+
+  /* Active filter tag */
+  .active-tag {
+    animation: tagIn 0.2s ease-out forwards;
+  }
+  .active-tag-exit {
+    animation: tagOut 0.18s ease-in forwards;
+  }
+
+  /* Skeleton shimmer */
+  .skeleton {
+    background: linear-gradient(90deg, #f0f4f8 25%, #e8edf2 50%, #f0f4f8 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.4s infinite;
+  }
+
+  /* Card carousel dots */
+  .carousel-dot {
+    @apply w-1.5 h-1.5 rounded-full bg-white/50 transition-all duration-200;
+  }
+  .carousel-dot-active {
+    @apply w-3 bg-white;
+  }
+}
+
+@layer utilities {
+  .text-gradient-navy {
+    @apply bg-gradient-to-r from-navy-800 to-gold-500 bg-clip-text text-transparent;
+  }
+
+  .animate-delay-100 { animation-delay: 100ms; }
+  .animate-delay-200 { animation-delay: 200ms; }
+  .animate-delay-300 { animation-delay: 300ms; }
+  .animate-delay-400 { animation-delay: 400ms; }
+
+  /* Search bar glow on focus */
+  .search-glow:focus-within {
+    box-shadow: 0 0 0 3px rgba(180, 151, 80, 0.22), 0 4px 20px rgba(20, 30, 49, 0.14);
+  }
+}
+
+/* ─────────── Keyframes ─────────── */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(30px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+@keyframes tagIn {
+  from { opacity: 0; transform: scale(0.82); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes tagOut {
+  from { opacity: 1; transform: scale(1); }
+  to   { opacity: 0; transform: scale(0.82); }
+}
+@keyframes countUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes pricePulse {
+  0%   { opacity: 0; transform: scale(0.96); }
+  60%  { opacity: 1; transform: scale(1.02); }
+  100% { opacity: 1; transform: scale(1); }
+}
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Animation classes */
+.animate-fade-in   { animation: fadeIn 0.5s ease-out forwards; }
+.animate-slide-up  { animation: slideUp 0.55s ease-out forwards; }
+.animate-count-up  { animation: countUp 0.5s ease-out forwards; }
+.animate-price-pulse { animation: pricePulse 0.4s ease-out forwards; }
+.animate-card-in   { animation: cardIn 0.4s ease-out both; }
+
+/* Mobile filter drawer */
+.drawer-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 60;
+  animation: fadeIn 0.2s ease-out forwards;
+}
+.drawer-panel {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  max-height: 90vh;
+  background: white;
+  border-radius: 20px 20px 0 0;
+  z-index: 61;
+  overflow-y: auto;
+  animation: drawerUp 0.3s cubic-bezier(0.32, 0.72, 0, 1) forwards;
+  padding-bottom: env(safe-area-inset-bottom, 16px);
+}
+@keyframes drawerUp {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
+}
+.drawer-panel-close {
+  animation: drawerDown 0.25s ease-in forwards;
+}
+@keyframes drawerDown {
+  from { transform: translateY(0); }
+  to   { transform: translateY(100%); }
+}
