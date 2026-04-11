@@ -406,6 +406,20 @@ function ListingModal({ listing, isOpen, onClose }) {
 
 /* ─── Main Page Component ───────────────────────────────────────────────── */
 export default function ZonaColonial() {
+  // SEO Meta Tags
+  useEffect(() => {
+    document.title = 'Zona Colonial Real Estate | Santo Domingo Investment Properties | Virtus Realty'
+    const meta = document.querySelector('meta[name="description"]')
+    if (meta) meta.setAttribute('content', 'Premium real estate listings in Zona Colonial, Santo Domingo — UNESCO World Heritage district. Apart-hotels, income buildings, apartments, and commercial spaces from $80K-$500K. 7.6% rental yields.')
+    // OG tags
+    const ogTitle = document.querySelector('meta[property="og:title"]')
+    if (ogTitle) ogTitle.setAttribute('content', 'Zona Colonial Real Estate | Santo Domingo Investment Properties | Virtus Realty')
+    const ogDesc = document.querySelector('meta[property="og:description"]')
+    if (ogDesc) ogDesc.setAttribute('content', 'Premium real estate listings in Zona Colonial, Santo Domingo — UNESCO World Heritage district. Apart-hotels, income buildings, apartments, and commercial spaces from $80K-$500K. 7.6% rental yields.')
+    const ogUrl = document.querySelector('meta[property="og:url"]')
+    if (ogUrl) ogUrl.setAttribute('content', 'https://virtusrealtygroup.com/zona-colonial')
+  }, [])
+
   const [selectedListing, setSelectedListing] = useState(null)
   const [modalOpen, setModalOpen] = useState(false)
 
