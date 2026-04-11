@@ -1398,6 +1398,19 @@
         }
       });
     });
+
+    // Cross-origin iframe resize
+    function notifyHeight() {
+      if (window.parent !== window) {
+        window.parent.postMessage({type:'hiwResize', height: document.body.scrollHeight}, '*');
+      }
+    }
+    window.addEventListener('load', notifyHeight);
+    window.addEventListener('resize', notifyHeight);
+    document.querySelectorAll('.faq-item').forEach(function(item) {
+      item.querySelector('.faq-question').addEventListener('click', function() { setTimeout(notifyHeight, 400); });
+    });
+    var p=0, pi=setInterval(function(){notifyHeight();if(++p>=5)clearInterval(pi);},2000);
   </script>
 
 </body>
