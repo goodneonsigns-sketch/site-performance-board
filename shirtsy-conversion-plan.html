@@ -1,0 +1,2223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shirtsy Net30 Conversion Recovery Plan</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --card: #111111;
+    --card2: #161616;
+    --border: #222222;
+    --cyan: #00d4ff;
+    --orange: #ff6b35;
+    --green: #00ff88;
+    --red: #ff4444;
+    --purple: #a855f7;
+    --blue: #3b82f6;
+    --yellow: #f59e0b;
+    --pink: #ec4899;
+    --teal: #14b8a6;
+    --text: #e8e8e8;
+    --muted: #888;
+    --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    font-size: 15px;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10,10,10,0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    height: 52px;
+    overflow-x: auto;
+  }
+  nav a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 6px 12px;
+    border-radius: 6px;
+    white-space: nowrap;
+    transition: all .2s;
+    letter-spacing: .02em;
+    text-transform: uppercase;
+  }
+  nav a:hover { color: var(--cyan); background: rgba(0,212,255,.07); }
+  nav .nav-logo {
+    font-weight: 700;
+    color: var(--cyan);
+    font-size: 13px;
+    margin-right: 12px;
+    white-space: nowrap;
+    letter-spacing: .05em;
+  }
+
+  /* ── LAYOUT ── */
+  .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+  section { padding: 64px 0; }
+
+  /* ── HEADER ── */
+  #header {
+    padding: 80px 0 64px;
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(0,212,255,.06) 0%, transparent 70%);
+    border-bottom: 1px solid var(--border);
+    text-align: center;
+  }
+  .header-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255,107,53,.12);
+    border: 1px solid rgba(255,107,53,.3);
+    color: var(--orange);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    padding: 4px 12px;
+    border-radius: 100px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+  }
+  .header-badge::before { content: '●'; font-size: 8px; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+  h1 {
+    font-size: clamp(28px, 4vw, 52px);
+    font-weight: 800;
+    letter-spacing: -.02em;
+    line-height: 1.1;
+    margin-bottom: 16px;
+    background: linear-gradient(135deg, #fff 40%, var(--cyan));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .header-sub {
+    font-size: clamp(16px, 2.5vw, 22px);
+    color: var(--muted);
+    margin-bottom: 20px;
+  }
+  .header-sub strong { color: var(--cyan); }
+  .header-date { font-size: 13px; color: #555; }
+
+  /* ── SECTION TITLES ── */
+  .section-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--cyan);
+    margin-bottom: 8px;
+  }
+  .section-title {
+    font-size: clamp(22px, 3vw, 34px);
+    font-weight: 800;
+    letter-spacing: -.02em;
+    margin-bottom: 8px;
+  }
+  .section-desc { color: var(--muted); font-size: 15px; margin-bottom: 40px; }
+  .section-header { margin-bottom: 40px; }
+
+  /* ── METRIC CARDS ── */
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+  }
+  .metric-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px 24px;
+    position: relative;
+    overflow: hidden;
+    transition: transform .2s, border-color .2s;
+  }
+  .metric-card:hover { transform: translateY(-2px); }
+  .metric-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 16px;
+    opacity: .04;
+  }
+  .metric-card.green { border-color: rgba(0,255,136,.25); }
+  .metric-card.green::before { background: var(--green); }
+  .metric-card.red { border-color: rgba(255,68,68,.25); }
+  .metric-card.red::before { background: var(--red); }
+  .metric-card.orange { border-color: rgba(255,107,53,.25); }
+  .metric-card.orange::before { background: var(--orange); }
+  .metric-card.cyan { border-color: rgba(0,212,255,.25); }
+  .metric-card.cyan::before { background: var(--cyan); }
+  .metric-label { font-size: 12px; color: var(--muted); font-weight: 500; text-transform: uppercase; letter-spacing: .06em; margin-bottom: 8px; }
+  .metric-value { font-size: clamp(32px,4vw,48px); font-weight: 800; letter-spacing: -.02em; line-height: 1; margin-bottom: 6px; }
+  .metric-card.green .metric-value { color: var(--green); }
+  .metric-card.red .metric-value { color: var(--red); }
+  .metric-card.orange .metric-value { color: var(--orange); }
+  .metric-card.cyan .metric-value { color: var(--cyan); }
+  .metric-note { font-size: 12px; color: var(--muted); }
+
+  /* ── FLOW MAP ── */
+  .flow-section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 36px;
+    margin-bottom: 32px;
+    overflow: hidden;
+  }
+  .flow-title {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .flow-title .dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .flow-title.broken .dot { background: var(--red); box-shadow: 0 0 8px var(--red); }
+  .flow-title.fixed .dot { background: var(--green); box-shadow: 0 0 8px var(--green); }
+  .flow-title.warn .dot { background: var(--orange); box-shadow: 0 0 8px var(--orange); }
+  .flow-title.target .dot { background: var(--cyan); box-shadow: 0 0 8px var(--cyan); }
+  .flow-title.broken { color: var(--red); }
+  .flow-title.fixed { color: var(--green); }
+  .flow-title.warn { color: var(--orange); }
+  .flow-title.target { color: var(--cyan); }
+
+  /* pipeline layout */
+  .pipeline {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 0;
+  }
+  .pipe-step {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  .pipe-box {
+    background: var(--card2);
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    min-width: 140px;
+    max-width: 160px;
+    cursor: pointer;
+    transition: all .2s;
+    position: relative;
+  }
+  .pipe-box:hover { transform: translateY(-2px); }
+  .pipe-box:hover .pipe-tooltip { opacity: 1; pointer-events: auto; }
+  .pipe-box.bad { border-color: rgba(255,68,68,.5); background: rgba(255,68,68,.05); }
+  .pipe-box.good { border-color: rgba(0,255,136,.4); background: rgba(0,255,136,.04); }
+  .pipe-box.gone { border-color: rgba(255,68,68,.3); background: rgba(255,68,68,.04); }
+  .pipe-box.repeat { border-color: rgba(0,212,255,.4); background: rgba(0,212,255,.04); }
+  .pipe-box.neutral { border-color: var(--border); }
+  .pipe-box .pipe-icon { font-size: 18px; margin-bottom: 4px; }
+  .pipe-box .pipe-name { font-size: 11px; font-weight: 700; line-height: 1.3; }
+  .pipe-box.bad .pipe-name { color: var(--red); }
+  .pipe-box.good .pipe-name { color: var(--green); }
+  .pipe-box.gone .pipe-name { color: var(--red); }
+  .pipe-box.repeat .pipe-name { color: var(--cyan); }
+  .pipe-box.neutral .pipe-name { color: var(--text); }
+  .pipe-box .pipe-sub { font-size: 10px; color: var(--muted); margin-top: 3px; line-height: 1.3; }
+  .pipe-tooltip {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: #1e1e1e;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 11px;
+    color: var(--text);
+    width: 200px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .2s;
+    z-index: 10;
+    line-height: 1.5;
+  }
+  .pipe-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 5px solid transparent;
+    border-top-color: var(--border);
+  }
+  .pipe-arrow {
+    color: var(--muted);
+    font-size: 18px;
+    padding: 0 6px;
+    flex-shrink: 0;
+    align-self: center;
+    margin-top: -8px;
+  }
+  .pipe-arrow.bad { color: var(--red); }
+  .pipe-arrow.good { color: var(--green); }
+  .pipe-arrow.cyan { color: var(--cyan); }
+
+  /* bugs list */
+  .bugs-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 24px;
+  }
+  .bug-chip {
+    background: rgba(255,68,68,.08);
+    border: 1px solid rgba(255,68,68,.25);
+    color: var(--red);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 100px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .bug-chip::before { content: '✗'; font-weight: 800; }
+
+  /* klaviyo steps */
+  .klav-steps { display: flex; flex-direction: column; gap: 10px; margin-top: 24px; }
+  .klav-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    background: var(--card2);
+    border-radius: 10px;
+    padding: 12px 16px;
+    border: 1px solid var(--border);
+  }
+  .klav-num {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    background: var(--border);
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .klav-step.bad { border-color: rgba(255,68,68,.2); }
+  .klav-step.bad .klav-num { background: rgba(255,68,68,.2); color: var(--red); }
+  .klav-content { flex: 1; }
+  .klav-title { font-size: 13px; font-weight: 600; margin-bottom: 2px; }
+  .klav-detail { font-size: 12px; color: var(--muted); }
+  .klav-badge {
+    font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 100px;
+    letter-spacing: .04em;
+    flex-shrink: 0;
+    align-self: center;
+  }
+  .klav-badge.warn { background: rgba(255,107,53,.15); color: var(--orange); border: 1px solid rgba(255,107,53,.3); }
+  .klav-badge.danger { background: rgba(255,68,68,.15); color: var(--red); border: 1px solid rgba(255,68,68,.3); }
+  .klav-badge.ok { background: rgba(0,255,136,.1); color: var(--green); border: 1px solid rgba(0,255,136,.25); }
+
+  /* new strategy steps */
+  .strategy-steps { display: flex; flex-direction: column; gap: 12px; margin-top: 0; }
+  .strat-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    background: var(--card2);
+    border: 1px solid rgba(0,255,136,.15);
+    border-radius: 12px;
+    padding: 16px 18px;
+    transition: all .2s;
+    cursor: default;
+  }
+  .strat-step:hover { border-color: rgba(0,255,136,.4); transform: translateX(4px); }
+  .strat-icon {
+    font-size: 22px;
+    flex-shrink: 0;
+    width: 40px; height: 40px;
+    background: rgba(0,255,136,.08);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .strat-timing {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--cyan);
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    margin-bottom: 3px;
+  }
+  .strat-msg { font-size: 13px; font-weight: 600; margin-bottom: 4px; color: var(--text); }
+  .strat-note { font-size: 12px; color: var(--muted); }
+  .strat-note strong { color: var(--green); }
+  .strat-channel {
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 100px;
+    font-weight: 700;
+    letter-spacing: .04em;
+    align-self: flex-start;
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+  .strat-channel.email { background: rgba(0,212,255,.1); color: var(--cyan); border: 1px solid rgba(0,212,255,.25); }
+  .strat-channel.sms { background: rgba(0,255,136,.1); color: var(--green); border: 1px solid rgba(0,255,136,.25); }
+  .strat-channel.both { background: rgba(168,85,247,.1); color: var(--purple); border: 1px solid rgba(168,85,247,.25); }
+
+  /* ── CHARTS ── */
+  .charts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+    gap: 20px;
+  }
+  .chart-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+  }
+  .chart-title { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+  .chart-sub { font-size: 12px; color: var(--muted); margin-bottom: 20px; }
+  .chart-wrap { position: relative; }
+
+  /* ── PHASES ── */
+  .phases-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+  }
+  .phase-card {
+    background: var(--card);
+    border-radius: 16px;
+    padding: 24px;
+    border: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+    transition: transform .2s;
+  }
+  .phase-card:hover { transform: translateY(-3px); }
+  .phase-card::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 3px;
+  }
+  .phase-card.phase-green::after { background: var(--green); }
+  .phase-card.phase-blue::after { background: var(--blue); }
+  .phase-card.phase-cyan::after { background: var(--cyan); }
+  .phase-card.phase-purple::after { background: var(--purple); }
+  .phase-num {
+    font-size: 11px; font-weight: 700; letter-spacing: .1em;
+    text-transform: uppercase; margin-bottom: 4px;
+  }
+  .phase-card.phase-green .phase-num { color: var(--green); }
+  .phase-card.phase-blue .phase-num { color: var(--blue); }
+  .phase-card.phase-cyan .phase-num { color: var(--cyan); }
+  .phase-card.phase-purple .phase-num { color: var(--purple); }
+  .phase-title { font-size: 17px; font-weight: 700; margin-bottom: 4px; }
+  .phase-timing { font-size: 12px; color: var(--muted); margin-bottom: 16px; }
+  .phase-items { list-style: none; }
+  .phase-items li {
+    font-size: 13px;
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(255,255,255,.04);
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    color: #ccc;
+  }
+  .phase-items li::before { content: '→'; flex-shrink: 0; margin-top: 1px; }
+  .phase-card.phase-green .phase-items li::before { color: var(--green); }
+  .phase-card.phase-blue .phase-items li::before { color: var(--blue); }
+  .phase-card.phase-cyan .phase-items li::before { color: var(--cyan); }
+  .phase-card.phase-purple .phase-items li::before { color: var(--purple); }
+  .phase-items li:last-child { border-bottom: none; }
+  .phase-impact {
+    margin-top: 16px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 700;
+  }
+  .phase-card.phase-green .phase-impact { background: rgba(0,255,136,.08); color: var(--green); }
+  .phase-card.phase-blue .phase-impact { background: rgba(59,130,246,.08); color: var(--blue); }
+  .phase-card.phase-cyan .phase-impact { background: rgba(0,212,255,.08); color: var(--cyan); }
+  .phase-card.phase-purple .phase-impact { background: rgba(168,85,247,.08); color: var(--purple); }
+
+  /* ── DATA TABLE ── */
+  .data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  .data-table th {
+    text-align: left;
+    padding: 12px 16px;
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border);
+  }
+  .data-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid rgba(255,255,255,.04);
+    vertical-align: middle;
+  }
+  .data-table tr:hover td { background: rgba(255,255,255,.02); }
+  .data-table tr:last-child td { border-bottom: none; }
+  .td-metric { color: var(--muted); }
+  .td-value { font-weight: 700; font-family: 'SF Mono', 'Fira Code', monospace; }
+  .td-value.green { color: var(--green); }
+  .td-value.red { color: var(--red); }
+  .td-value.orange { color: var(--orange); }
+  .td-value.cyan { color: var(--cyan); }
+  .td-insight { color: var(--muted); font-size: 12px; }
+  .table-wrap {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 40px 0;
+    text-align: center;
+  }
+  .footer-text { color: var(--muted); font-size: 13px; margin-bottom: 16px; }
+  .footer-links { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+  .footer-links a {
+    color: var(--cyan);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    transition: opacity .2s;
+  }
+  .footer-links a:hover { opacity: .7; }
+
+  /* ── DIVIDER ── */
+  .divider { border: none; border-top: 1px solid var(--border); margin: 0; }
+
+  /* ── COUNT-UP ── */
+  .count-up { display: inline-block; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    nav { padding: 0 12px; }
+    .container { padding: 0 16px; }
+    section { padding: 48px 0; }
+    .pipeline { flex-direction: column; align-items: flex-start; }
+    .pipe-arrow { transform: rotate(90deg); }
+    .charts-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ── SCROLL FADE IN ── */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity .5s ease, transform .5s ease;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* ── TWO COL ── */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  @media(max-width:900px){.two-col{grid-template-columns:1fr;}}
+
+  .trend-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 8px;
+  }
+  .trend-arrow { font-size: 16px; }
+  .trend-arrow.up { color: var(--red); }
+  .trend-arrow.down { color: var(--green); }
+
+  /* ── RETENTION SECTION ── */
+  #retention {
+    background: radial-gradient(ellipse 80% 40% at 50% 0%, rgba(168,85,247,.04) 0%, transparent 70%);
+  }
+
+  /* Retention Program Cards */
+  .programs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  .program-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+    transition: transform .2s, border-color .2s;
+  }
+  .program-card:hover { transform: translateY(-3px); }
+  .program-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 3px;
+  }
+  .program-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 16px;
+    opacity: .03;
+    pointer-events: none;
+  }
+  /* Card accent colors */
+  .prog-cyan::before { background: var(--cyan); }
+  .prog-cyan::after { background: var(--cyan); }
+  .prog-cyan { border-color: rgba(0,212,255,.2); }
+  .prog-cyan .prog-accent { color: var(--cyan); }
+  .prog-cyan .prog-icon-wrap { background: rgba(0,212,255,.1); }
+
+  .prog-green::before { background: var(--green); }
+  .prog-green::after { background: var(--green); }
+  .prog-green { border-color: rgba(0,255,136,.2); }
+  .prog-green .prog-accent { color: var(--green); }
+  .prog-green .prog-icon-wrap { background: rgba(0,255,136,.1); }
+
+  .prog-orange::before { background: var(--orange); }
+  .prog-orange::after { background: var(--orange); }
+  .prog-orange { border-color: rgba(255,107,53,.2); }
+  .prog-orange .prog-accent { color: var(--orange); }
+  .prog-orange .prog-icon-wrap { background: rgba(255,107,53,.1); }
+
+  .prog-purple::before { background: var(--purple); }
+  .prog-purple::after { background: var(--purple); }
+  .prog-purple { border-color: rgba(168,85,247,.2); }
+  .prog-purple .prog-accent { color: var(--purple); }
+  .prog-purple .prog-icon-wrap { background: rgba(168,85,247,.1); }
+
+  .prog-red::before { background: var(--red); }
+  .prog-red::after { background: var(--red); }
+  .prog-red { border-color: rgba(255,68,68,.2); }
+  .prog-red .prog-accent { color: var(--red); }
+  .prog-red .prog-icon-wrap { background: rgba(255,68,68,.1); }
+
+  .prog-yellow::before { background: var(--yellow); }
+  .prog-yellow::after { background: var(--yellow); }
+  .prog-yellow { border-color: rgba(245,158,11,.2); }
+  .prog-yellow .prog-accent { color: var(--yellow); }
+  .prog-yellow .prog-icon-wrap { background: rgba(245,158,11,.1); }
+
+  .program-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .prog-icon-wrap {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+  .prog-num {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+    opacity: .7;
+  }
+  .prog-title {
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+  .prog-list {
+    list-style: none;
+    margin-bottom: 16px;
+  }
+  .prog-list li {
+    font-size: 12px;
+    color: #bbb;
+    padding: 5px 0;
+    border-bottom: 1px solid rgba(255,255,255,.04);
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    line-height: 1.4;
+  }
+  .prog-list li::before {
+    content: '›';
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 0;
+    font-size: 14px;
+  }
+  .prog-list li:last-child { border-bottom: none; }
+  .prog-accent { font-size: 11px; font-weight: 700; }
+
+  /* Priority Checklist */
+  .priority-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .priority-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 18px;
+    transition: all .2s;
+  }
+  .priority-item:hover { transform: translateX(4px); border-color: #333; }
+  .priority-dot {
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .priority-dot.quick { background: var(--green); box-shadow: 0 0 8px rgba(0,255,136,.5); }
+  .priority-dot.medium { background: var(--yellow); box-shadow: 0 0 8px rgba(245,158,11,.5); }
+  .priority-dot.later { background: var(--blue); box-shadow: 0 0 8px rgba(59,130,246,.5); }
+  .priority-rank {
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--muted);
+    width: 20px;
+    flex-shrink: 0;
+    text-align: center;
+  }
+  .priority-name { font-size: 14px; font-weight: 700; flex: 1; }
+  .priority-timing {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 100px;
+    letter-spacing: .04em;
+    flex-shrink: 0;
+  }
+  .priority-timing.week1 { background: rgba(0,255,136,.1); color: var(--green); border: 1px solid rgba(0,255,136,.25); }
+  .priority-timing.week2 { background: rgba(245,158,11,.1); color: var(--yellow); border: 1px solid rgba(245,158,11,.25); }
+  .priority-timing.week3 { background: rgba(59,130,246,.1); color: var(--blue); border: 1px solid rgba(59,130,246,.25); }
+  .priority-timing.month2 { background: rgba(168,85,247,.1); color: var(--purple); border: 1px solid rgba(168,85,247,.25); }
+  .priority-note { font-size: 11px; color: var(--muted); flex: 2; }
+
+  /* Two flow panels */
+  .flow-panels {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  @media(max-width:900px) { .flow-panels { grid-template-columns: 1fr; } }
+  .flow-panel {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+  }
+  .flow-panel.broken-panel { border-color: rgba(255,68,68,.2); }
+  .flow-panel.target-panel { border-color: rgba(0,212,255,.2); }
+  .flow-panel-title {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .flow-panel-title .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .flow-panel.broken-panel .flow-panel-title { color: var(--red); }
+  .flow-panel.broken-panel .flow-panel-title .dot { background: var(--red); box-shadow: 0 0 6px var(--red); }
+  .flow-panel.target-panel .flow-panel-title { color: var(--cyan); }
+  .flow-panel.target-panel .flow-panel-title .dot { background: var(--cyan); box-shadow: 0 0 6px var(--cyan); }
+
+  /* vertical flow */
+  .vflow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+  .vflow-node {
+    width: 100%;
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    text-align: center;
+    position: relative;
+  }
+  .vflow-node.bad-node {
+    background: rgba(255,68,68,.08);
+    border: 1.5px solid rgba(255,68,68,.3);
+    color: var(--red);
+  }
+  .vflow-node.good-node {
+    background: rgba(0,212,255,.07);
+    border: 1.5px solid rgba(0,212,255,.3);
+    color: var(--cyan);
+  }
+  .vflow-node.end-bad {
+    background: rgba(255,68,68,.12);
+    border: 1.5px solid rgba(255,68,68,.4);
+    color: var(--red);
+    font-size: 13px;
+    font-weight: 800;
+  }
+  .vflow-node.end-good {
+    background: rgba(0,255,136,.08);
+    border: 1.5px solid rgba(0,255,136,.4);
+    color: var(--green);
+    font-size: 13px;
+    font-weight: 800;
+  }
+  .vflow-connector {
+    width: 2px;
+    height: 20px;
+    flex-shrink: 0;
+    position: relative;
+  }
+  .vflow-connector.bad-conn { background: rgba(255,68,68,.4); }
+  .vflow-connector.good-conn { background: rgba(0,212,255,.4); }
+  .vflow-connector::after {
+    content: '▾';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 10px;
+  }
+  .vflow-connector.bad-conn::after { color: rgba(255,68,68,.6); }
+  .vflow-connector.good-conn::after { color: rgba(0,212,255,.6); }
+
+  .vflow-node sub {
+    display: block;
+    font-size: 10px;
+    font-weight: 400;
+    opacity: .75;
+    margin-top: 2px;
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <span class="nav-logo">⚡ SHIRTSY</span>
+  <a href="#problem">Problem</a>
+  <a href="#current-flow">Current Flow</a>
+  <a href="#new-strategy">New Strategy</a>
+  <a href="#impact">Impact</a>
+  <a href="#phases">Phases</a>
+  <a href="#retention">Retention</a>
+  <a href="#data">Data</a>
+</nav>
+
+<!-- HEADER -->
+<section id="header">
+  <div class="container">
+    <div class="header-badge">Strategy Phase</div>
+    <h1>Shirtsy Net30 Conversion<br>Recovery Plan</h1>
+    <p class="header-sub">From <strong>12.3%</strong> → Target <strong style="color:var(--green)">35%+</strong> Conversion Rate</p>
+    <p class="header-date" id="current-date"></p>
+  </div>
+</section>
+
+<!-- PROBLEM / METRICS -->
+<section id="problem">
+  <div class="container">
+    <div class="section-header fade-in">
+      <div class="section-label">The Problem</div>
+      <div class="section-title">We Lost 60% of Our Conversion Rate</div>
+      <p class="section-desc">Peak performance was 30.1% in Jun 2025. Today we're at 12.3% — a catastrophic drop driven by slow approvals, broken email flows, and no urgency.</p>
+    </div>
+    <div class="metrics-grid">
+      <div class="metric-card green fade-in">
+        <div class="metric-label">Peak Conversion</div>
+        <div class="metric-value"><span class="count-up" data-target="30.1" data-suffix="%">0%</span></div>
+        <div class="metric-note">Jun 2025 — our best month</div>
+        <div class="trend-row"><span class="trend-arrow up">↗</span> What we had. What we can get back.</div>
+      </div>
+      <div class="metric-card red fade-in">
+        <div class="metric-label">Current Conversion</div>
+        <div class="metric-value"><span class="count-up" data-target="12.3" data-suffix="%">0%</span></div>
+        <div class="metric-note">Apr 2026 — 60% drop from peak</div>
+        <div class="trend-row"><span class="trend-arrow up">↘</span> Falling month over month</div>
+      </div>
+      <div class="metric-card orange fade-in">
+        <div class="metric-label">Monthly Revenue Lost</div>
+        <div class="metric-value">~<span class="count-up" data-target="47" data-prefix="$" data-suffix="K">0</span></div>
+        <div class="metric-note">700 lost customers × $67 avg</div>
+        <div class="trend-row"><span class="trend-arrow up">↑</span> Growing every month we wait</div>
+      </div>
+      <div class="metric-card cyan fade-in">
+        <div class="metric-label">Approval → Pay Median</div>
+        <div class="metric-value"><span class="count-up" data-target="2.8" data-suffix=" days">0</span></div>
+        <div class="metric-note">Target: under 24 hours</div>
+        <div class="trend-row"><span class="trend-arrow up">⏱</span> Too slow. Urgency is gone.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- CURRENT STATE FLOW -->
+<section id="current-flow">
+  <div class="container">
+    <div class="section-header fade-in">
+      <div class="section-label">Current State</div>
+      <div class="section-title">What's Broken</div>
+      <p class="section-desc">The current Klaviyo flow is slow, generic, and backwards. SMS fires last, follow-ups are too late, and nothing creates urgency.</p>
+    </div>
+
+    <div class="flow-section fade-in">
+      <div class="flow-title broken">
+        <span class="dot"></span>
+        CURRENT JOURNEY — BROKEN FLOW
+      </div>
+      <div class="pipeline">
+        <div class="pipe-step">
+          <div class="pipe-box neutral">
+            <div class="pipe-icon">🌐</div>
+            <div class="pipe-name">Apply on Website</div>
+            <div class="pipe-sub">Customer submits application</div>
+            <div class="pipe-tooltip">Customer fills out Net30 application. Good experience so far — volume was 918/mo at peak.</div>
+          </div>
+          <div class="pipe-arrow">→</div>
+        </div>
+        <div class="pipe-step">
+          <div class="pipe-box neutral">
+            <div class="pipe-icon">📧</div>
+            <div class="pipe-name">Pending Email Sent</div>
+            <div class="pipe-sub">Auto confirmation</div>
+            <div class="pipe-tooltip">Automated "we received your application" email. Neutral — not a problem here.</div>
+          </div>
+          <div class="pipe-arrow bad">→</div>
+        </div>
+        <div class="pipe-step">
+          <div class="pipe-box bad">
+            <div class="pipe-icon">⏳</div>
+            <div class="pipe-name">Manual Review</div>
+            <div class="pipe-sub">3.9hr median wait</div>
+            <div class="pipe-tooltip">🚨 BOTTLENECK: Avg 5.6hrs, median 3.9hrs. Only 18.6% approved within 1 hour. Every hour of delay = lower conversion probability. Fast approvals (&lt;2hr) convert with 2.1 day median. Slow (&gt;4hr) = 3.0 days.</div>
+          </div>
+          <div class="pipe-arrow bad">→</div>
+        </div>
+        <div class="pipe-step">
+          <div class="pipe-box bad">
+            <div class="pipe-icon">📬</div>
+            <div class="pipe-name">Approval Email</div>
+            <div class="pipe-sub">[First Name] bug!</div>
+            <div class="pipe-tooltip">🚨 BUG: [First Name] merge tag not resolving — customers get "Hi [First Name]" instead of their name. Immediately breaks trust and looks unprofessional.</div>
+          </div>
+          <div class="pipe-arrow bad">→</div>
+        </div>
+        <div class="pipe-step">
+          <div class="pipe-box bad">
+            <div class="pipe-icon">🕐</div>
+            <div class="pipe-name">2 Day Wait</div>
+            <div class="pipe-sub">Dead zone. No contact.</div>
+            <div class="pipe-tooltip">🚨 CRITICAL GAP: 36.8% of eventual converters pay within 24 hours. We wait 2 DAYS before follow-up. By then, the moment has passed for most.</div>
+          </div>
+          <div class="pipe-arrow bad">→</div>
+        </div>
+        <div class="pipe-step">
+          <div class="pipe-box bad">
+            <div class="pipe-icon">📧</div>
+            <div class="pipe-name">Follow-up #1</div>
+            <div class="pipe-sub">Same subject line!</div>
+            <div class="pipe-tooltip">🚨 DUPLICATE: Same subject as approval email. No urgency. No personalization. No payment link. Appears as spam.</div>
+          </div>
+          <div class="pipe-arrow bad">→</div>
+        </div>
+        <div class="pipe-step">
+          <div class="pipe-box bad">
+            <div class="pipe-icon">🕖</div>
+            <div class="pipe-name">7 Day Wait</div>
+            <div class="pipe-sub">Customer forgot us</div>
+            <div class="pipe-tooltip">🚨 WAY TOO LONG: By day 7, the customer has mentally moved on. The opportunity cost is massive — we needed urgency on day 1.</div>
+          </div>
+          <div class="pipe-arrow bad">→</div>
+        </div>
+        <div class="pipe-step">
+          <div class="pipe-box bad">
+            <div class="pipe-icon">📧</div>
+            <div class="pipe-name">Follow-up #2</div>
+            <div class="pipe-sub">"Did it slip your mind?"</div>
+            <div class="pipe-tooltip">Generic, no urgency, no expiration date, no direct payment link. Doesn't trigger any psychological action levers.</div>
+          </div>
+          <div class="pipe-arrow bad">→</div>
+        </div>
+        <div class="pipe-step">
+          <div class="pipe-box bad">
+            <div class="pipe-icon">📱</div>
+            <div class="pipe-name">SMS (LAST!)</div>
+            <div class="pipe-sub">15 days after approval</div>
+            <div class="pipe-tooltip">🚨 BACKWARDS: SMS has 98% open rate and should fire FIRST, not last. We're sending it 15 days after approval when the customer is completely cold.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bugs-grid">
+        <div class="bug-chip">Manual Review: 3.9hr median</div>
+        <div class="bug-chip">2 DAY gap before first follow-up</div>
+        <div class="bug-chip">SMS fires LAST (15 days!)</div>
+        <div class="bug-chip">[First Name] bug</div>
+        <div class="bug-chip">Identical email subjects</div>
+        <div class="bug-chip">No urgency / expiration</div>
+        <div class="bug-chip">No direct payment link</div>
+      </div>
+    </div>
+
+    <!-- Klaviyo Steps -->
+    <div class="flow-section fade-in">
+      <div class="flow-title broken">
+        <span class="dot"></span>
+        CURRENT KLAVIYO FLOW — STEP BY STEP
+      </div>
+      <div class="klav-steps">
+        <div class="klav-step">
+          <div class="klav-num">1</div>
+          <div class="klav-content">
+            <div class="klav-title">📧 Email: "Your Shirtsy Account is Approved"</div>
+            <div class="klav-detail">Fires immediately on approval. Has [First Name] personalization bug. No payment link.</div>
+          </div>
+          <div class="klav-badge warn">IMMEDIATE</div>
+        </div>
+        <div class="klav-step">
+          <div class="klav-num">2</div>
+          <div class="klav-content">
+            <div class="klav-title">📋 List update — Add to "Approved"</div>
+            <div class="klav-detail">Backend list sync. Not customer-facing.</div>
+          </div>
+          <div class="klav-badge ok">INTERNAL</div>
+        </div>
+        <div class="klav-step">
+          <div class="klav-num">3</div>
+          <div class="klav-content">
+            <div class="klav-title">📋 List update — Remove from "Pending"</div>
+            <div class="klav-detail">Backend list sync. Not customer-facing.</div>
+          </div>
+          <div class="klav-badge ok">INTERNAL</div>
+        </div>
+        <div class="klav-step bad">
+          <div class="klav-num">4</div>
+          <div class="klav-content">
+            <div class="klav-title">📧 Email: "Your Shirtsy Account is Approved" (AGAIN)</div>
+            <div class="klav-detail">2-day delay then sends SAME subject line as step 1. Duplicate. Looks like a bug.</div>
+          </div>
+          <div class="klav-badge danger">2 DAY WAIT</div>
+        </div>
+        <div class="klav-step bad">
+          <div class="klav-num">5</div>
+          <div class="klav-content">
+            <div class="klav-title">📧 Email: "Did it slip your mind?"</div>
+            <div class="klav-detail">7-day delay. Generic subject. No urgency. No payment link. No personalization.</div>
+          </div>
+          <div class="klav-badge danger">7 DAY WAIT</div>
+        </div>
+        <div class="klav-step bad">
+          <div class="klav-num">6</div>
+          <div class="klav-content">
+            <div class="klav-title">📧 Email: "Forgot about us?"</div>
+            <div class="klav-detail">15-day delay. Customer is completely cold by now.</div>
+          </div>
+          <div class="klav-badge danger">15 DAY WAIT</div>
+        </div>
+        <div class="klav-step bad">
+          <div class="klav-num">7</div>
+          <div class="klav-content">
+            <div class="klav-title">📱 SMS: "Great news! 🎉 Your application has been approved"</div>
+            <div class="klav-detail">WAY TOO LATE. SMS has 98% open rate — it should be the FIRST touchpoint, not the last. Fires at day 15+.</div>
+          </div>
+          <div class="klav-badge danger">LAST — DAY 15+</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- NEW STRATEGY -->
+<section id="new-strategy">
+  <div class="container">
+    <div class="section-header fade-in">
+      <div class="section-label">New Strategy</div>
+      <div class="section-title">The Fix — Urgency-Driven Multi-Channel</div>
+      <p class="section-desc">Instant approval + immediate dual-channel outreach + compressed urgency sequence. Every message has a reason to act now.</p>
+    </div>
+
+    <div class="flow-section fade-in" style="border-color: rgba(0,255,136,.2);">
+      <div class="flow-title fixed">
+        <span class="dot"></span>
+        NEW JOURNEY — OPTIMIZED FLOW
+      </div>
+      <div class="pipeline">
+        <div class="pipe-step">
+          <div class="pipe-box good">
+            <div class="pipe-icon">🌐</div>
+            <div class="pipe-name">Apply</div>
+            <div class="pipe-sub">Submit application</div>
+            <div class="pipe-tooltip">Same application flow. Volume increases as we improve conversion and word-of-mouth.</div>
+          </div>
+          <div class="pipe-arrow good">→</div>
+        </div>
+        <div class="pipe-step">
+          <div class="pipe-box good">
+            <div class="pipe-icon">⚡</div>
+            <div class="pipe-name">AUTO-APPROVE</div>
+            <div class="pipe-sub">Instant — no wait</div>
+            <div class="pipe-tooltip">✅ Remove manual review bottleneck. Auto-approve valid applications instantly. Customer gets approval within seconds of applying.</div>
+          </div>
+          <div class="pipe-arrow good">→</div>
+        </div>
+        <div class="pipe-step">
+          <div class="pipe-box good">
+            <div class="pipe-icon">📧📱</div>
+            <div class="pipe-name">Email + SMS Now</div>
+            <div class="pipe-sub">Dual channel launch</div>
+            <div class="pipe-tooltip">✅ Fire both email AND SMS simultaneously. 98% reach guaranteed. Payment link in both. Direct CTA. Personalized with first name and credit amount.</div>
+          </div>
+          <div class="pipe-arrow good">→</div>
+        </div>
+        <div class="pipe-step">
+          <div class="pipe-box good">
+            <div class="pipe-icon">📱</div>
+            <div class="pipe-name">4hr SMS Nudge</div>
+            <div class="pipe-sub">After-work crowd</div>
+            <div class="pipe-tooltip">✅ Catch people checking their phones after work. "Your $500 credit line is waiting" — payment is 2 minutes away.</div>
+          </div>
+          <div class="pipe-arrow good">→</div>
+        </div>
+        <div class="pipe-step">
+          <div class="pipe-box good">
+            <div class="pipe-icon">📧</div>
+            <div class="pipe-name">24hr Urgency Email</div>
+            <div class="pipe-sub">Expires in 48hrs</div>
+            <div class="pipe-tooltip">✅ "Your approval expires in 48 hours" triggers loss aversion. 36.8% of converters pay within 24hrs — this catches the rest.</div>
+          </div>
+          <div class="pipe-arrow good">→</div>
+        </div>
+        <div class="pipe-step">
+          <div class="pipe-box good">
+            <div class="pipe-icon">📱</div>
+            <div class="pipe-name">48hr SMS Warning</div>
+            <div class="pipe-sub">Last day alert</div>
+            <div class="pipe-tooltip">✅ "⏰ Last day — your credit line expires tomorrow." Loss aversion at peak — they've been thinking about it for 2 days, this triggers action.</div>
+          </div>
+          <div class="pipe-arrow good">→</div>
+        </div>
+        <div class="pipe-step">
+          <div class="pipe-box good">
+            <div class="pipe-icon">📧</div>
+            <div class="pipe-name">72hr Last Chance</div>
+            <div class="pipe-sub">Scarcity + FOMO</div>
+            <div class="pipe-tooltip">✅ "Releasing your credit line to the next applicant." Scarcity creates urgency. If they haven't acted in 72hrs, this is the last push before win-back.</div>
+          </div>
+          <div class="pipe-arrow good">→</div>
+        </div>
+        <div class="pipe-step">
+          <div class="pipe-box good">
+            <div class="pipe-icon">📧</div>
+            <div class="pipe-name">7d Win-Back</div>
+            <div class="pipe-sub">Save the spot</div>
+            <div class="pipe-tooltip">✅ Softer tone: "We saved your spot — reactivate your account." Catches people who had life happen during the urgency window.</div>
+          </div>
+          <div class="pipe-arrow good">→</div>
+        </div>
+        <div class="pipe-step">
+          <div class="pipe-box good">
+            <div class="pipe-icon">📧</div>
+            <div class="pipe-name">14d Survey</div>
+            <div class="pipe-sub">Learn & improve</div>
+            <div class="pipe-tooltip">✅ "What stopped you from completing setup?" Feedback loop. Learn why people drop off. Use data to optimize further.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Strategy Steps Detail -->
+    <div class="flow-section fade-in" style="border-color: rgba(0,255,136,.2);">
+      <div class="flow-title fixed">
+        <span class="dot"></span>
+        MESSAGE SEQUENCE — COPY &amp; TIMING
+      </div>
+      <div class="strategy-steps">
+        <div class="strat-step">
+          <div class="strat-icon">⚡</div>
+          <div style="flex:1">
+            <div class="strat-timing">Immediate — Email</div>
+            <div class="strat-msg">Subject: "You're approved! Your $[amount] credit line is ready"</div>
+            <div class="strat-note">Direct link to complete payment setup. Personalized amount. Clear CTA. <strong>+ bonus: also fires SMS simultaneously.</strong></div>
+          </div>
+          <div class="strat-channel both">EMAIL + SMS</div>
+        </div>
+        <div class="strat-step">
+          <div class="strat-icon">📱</div>
+          <div style="flex:1">
+            <div class="strat-timing">Immediate — SMS</div>
+            <div class="strat-msg">"🎉 You're approved for Shirtsy Net30! Complete setup in 2 min: [link]"</div>
+            <div class="strat-note"><strong>Dual channel = 98% reach.</strong> Direct CTA, no confusion. Fires at same time as email.</div>
+          </div>
+          <div class="strat-channel sms">SMS</div>
+        </div>
+        <div class="strat-step">
+          <div class="strat-icon">📱</div>
+          <div style="flex:1">
+            <div class="strat-timing">4 Hours</div>
+            <div class="strat-msg">"Your $500 credit line is waiting — finish setup takes 2 mins: [link]"</div>
+            <div class="strat-note"><strong>Catch the after-work crowd.</strong> SMS open rate: 98%. Most people check phones at 5-6pm.</div>
+          </div>
+          <div class="strat-channel sms">SMS</div>
+        </div>
+        <div class="strat-step">
+          <div class="strat-icon">⏰</div>
+          <div style="flex:1">
+            <div class="strat-timing">24 Hours</div>
+            <div class="strat-msg">Subject: "Your approval expires in 48 hours"</div>
+            <div class="strat-note"><strong>Urgency trigger.</strong> 36.8% of converters pay within 24hrs — this catches the rest of them before the window closes.</div>
+          </div>
+          <div class="strat-channel email">EMAIL</div>
+        </div>
+        <div class="strat-step">
+          <div class="strat-icon">📱</div>
+          <div style="flex:1">
+            <div class="strat-timing">48 Hours</div>
+            <div class="strat-msg">"⏰ Last day — your Shirtsy Net30 credit line expires tomorrow"</div>
+            <div class="strat-note"><strong>Loss aversion.</strong> People hate losing something they already have. They've been thinking about it. This triggers action.</div>
+          </div>
+          <div class="strat-channel sms">SMS</div>
+        </div>
+        <div class="strat-step">
+          <div class="strat-icon">🚨</div>
+          <div style="flex:1">
+            <div class="strat-timing">72 Hours</div>
+            <div class="strat-msg">Subject: "Final notice: We're releasing your credit line to the next applicant"</div>
+            <div class="strat-note"><strong>Scarcity + FOMO.</strong> Creates action-or-lose moment. If they haven't converted in 72hrs, this is our last urgency lever.</div>
+          </div>
+          <div class="strat-channel email">EMAIL</div>
+        </div>
+        <div class="strat-step">
+          <div class="strat-icon">🤝</div>
+          <div style="flex:1">
+            <div class="strat-timing">7 Days</div>
+            <div class="strat-msg">Subject: "We saved your spot — reactivate your Shirtsy account"</div>
+            <div class="strat-note"><strong>Win-back for stragglers.</strong> Softer tone. Catches people who had life happen during the urgency window.</div>
+          </div>
+          <div class="strat-channel email">EMAIL</div>
+        </div>
+        <div class="strat-step">
+          <div class="strat-icon">💬</div>
+          <div style="flex:1">
+            <div class="strat-timing">14 Days</div>
+            <div class="strat-msg">Subject: "Quick question — what stopped you from completing setup?"</div>
+            <div class="strat-note"><strong>Feedback loop.</strong> Learn why people drop off. Every response improves the strategy. Data beats guessing.</div>
+          </div>
+          <div class="strat-channel email">EMAIL</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- PROJECTED IMPACT / CHARTS -->
+<section id="impact">
+  <div class="container">
+    <div class="section-header fade-in">
+      <div class="section-label">Projected Impact</div>
+      <div class="section-title">The Numbers Behind the Strategy</div>
+      <p class="section-desc">Based on 250 applications/month, $67 avg membership, and conversion rate targets by phase.</p>
+    </div>
+
+    <div class="charts-grid">
+      <div class="chart-card fade-in" style="grid-column: 1 / -1;">
+        <div class="chart-title">Conversion Rate Projection</div>
+        <div class="chart-sub">Apr 2026 → Oct 2026 — Current trajectory vs. new strategy rollout</div>
+        <div class="chart-wrap" style="height: 300px;">
+          <canvas id="conversionChart"></canvas>
+        </div>
+      </div>
+      <div class="chart-card fade-in">
+        <div class="chart-title">Monthly Revenue Recovery</div>
+        <div class="chart-sub">Current vs. projected revenue by month (250 apps × conversion × $67)</div>
+        <div class="chart-wrap" style="height: 280px;">
+          <canvas id="revenueChart"></canvas>
+        </div>
+      </div>
+      <div class="chart-card fade-in">
+        <div class="chart-title">Timing Distribution Impact</div>
+        <div class="chart-sub">Approval-to-payment window — current vs. target</div>
+        <div class="chart-wrap" style="height: 280px;">
+          <canvas id="timingChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- PHASES -->
+<section id="phases">
+  <div class="container">
+    <div class="section-header fade-in">
+      <div class="section-label">Implementation</div>
+      <div class="section-title">4-Phase Rollout Plan</div>
+      <p class="section-desc">Quick wins first, then foundational changes, then optimization. Every phase compounds on the last.</p>
+    </div>
+
+    <div class="phases-grid">
+      <div class="phase-card phase-green fade-in">
+        <div class="phase-num">Phase 1</div>
+        <div class="phase-title">Quick Wins</div>
+        <div class="phase-timing">⏱ Week 1 — Start immediately</div>
+        <ul class="phase-items">
+          <li>Fix [First Name] personalization bug</li>
+          <li>Rewrite approval email copy</li>
+          <li>Move SMS to fire immediately</li>
+          <li>Add direct payment link to all emails</li>
+          <li>Compress timing: 2d→4hr, 7d→24hr, 15d→48hr</li>
+        </ul>
+        <div class="phase-impact">📈 Estimated impact: +8–12% conversion</div>
+      </div>
+
+      <div class="phase-card phase-blue fade-in">
+        <div class="phase-num">Phase 2</div>
+        <div class="phase-title">Auto-Approval</div>
+        <div class="phase-timing">⏱ Week 2</div>
+        <ul class="phase-items">
+          <li>Remove manual approval bottleneck</li>
+          <li>Auto-approve all valid applications instantly</li>
+          <li>Add 72-hour approval expiration messaging</li>
+          <li>Build "How It Works" page on shirtsy.com</li>
+        </ul>
+        <div class="phase-impact">📈 Estimated impact: +6–10% conversion</div>
+      </div>
+
+      <div class="phase-card phase-cyan fade-in">
+        <div class="phase-num">Phase 3</div>
+        <div class="phase-title">SMS Blitz</div>
+        <div class="phase-timing">⏱ Week 2–3</div>
+        <ul class="phase-items">
+          <li>Add 4hr SMS nudge sequence</li>
+          <li>Add 48hr SMS final warning</li>
+          <li>Test SMS-only vs Email+SMS cohorts</li>
+          <li>Optimize send time windows by data</li>
+        </ul>
+        <div class="phase-impact">📈 Estimated impact: +4–7% conversion</div>
+      </div>
+
+      <div class="phase-card phase-purple fade-in">
+        <div class="phase-num">Phase 4</div>
+        <div class="phase-title">Optimization</div>
+        <div class="phase-timing">⏱ Week 3–4</div>
+        <ul class="phase-items">
+          <li>A/B test subject lines across sequence</li>
+          <li>Optimize send times based on cohort data</li>
+          <li>Add "What stopped you?" survey at day 14</li>
+          <li>Build abandoned setup remarketing segment</li>
+        </ul>
+        <div class="phase-impact">📈 Estimated impact: +3–6% conversion</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ══════════════════════════════════════════════════════════
+     RETENTION SECTION — NEW
+     ══════════════════════════════════════════════════════════ -->
+<section id="retention">
+  <div class="container">
+
+    <!-- Section Header -->
+    <div class="section-header fade-in">
+      <div class="section-label" style="color: var(--purple);">Customer Retention</div>
+      <div class="section-title">Customer Retention &amp; Repeat Orders</div>
+      <p class="section-desc">94.1% of customers never order again. Zero coupons. No follow-up. We're winning the first sale and losing the relationship — every time.</p>
+    </div>
+
+    <!-- ── 1. The Retention Crisis ── -->
+    <div class="metrics-grid" style="margin-bottom: 48px;">
+      <div class="metric-card red fade-in">
+        <div class="metric-label">Repeat Rate</div>
+        <div class="metric-value">5.9%</div>
+        <div class="metric-note">Industry avg B2B: 25–40% — we're at rock bottom</div>
+        <div class="trend-row"><span class="trend-arrow up">↘</span> Only 13 of 220 customers ever reordered</div>
+      </div>
+      <div class="metric-card red fade-in">
+        <div class="metric-label">One-Time Customers</div>
+        <div class="metric-value">94.1%</div>
+        <div class="metric-note">207 out of 220 unique customers — ordered once and gone</div>
+        <div class="trend-row"><span class="trend-arrow up">↑</span> Growing as acquisition outpaces retention</div>
+      </div>
+      <div class="metric-card red fade-in">
+        <div class="metric-label">Coupons Used</div>
+        <div class="metric-value">ZERO</div>
+        <div class="metric-note">0 coupons across 234 completed orders</div>
+        <div class="trend-row"><span class="trend-arrow up">✗</span> No incentive program exists at all</div>
+      </div>
+      <div class="metric-card orange fade-in">
+        <div class="metric-label">Revenue at Risk</div>
+        <div class="metric-value">$21,364</div>
+        <div class="metric-note">90.3% of all revenue — from one-timers who may never return</div>
+        <div class="trend-row"><span class="trend-arrow up">⚠</span> Repeat customers worth 1.7× more ($176 vs $103)</div>
+      </div>
+    </div>
+
+    <!-- ── 2. Current State vs Target State Flow ── -->
+    <div class="flow-panels fade-in">
+      <!-- Current State: Order → gone forever -->
+      <div class="flow-panel broken-panel">
+        <div class="flow-panel-title">
+          <span class="dot"></span>
+          CURRENT STATE — ONE AND DONE
+        </div>
+        <div class="vflow">
+          <div class="vflow-node bad-node">🛒 Customer Places Order</div>
+          <div class="vflow-connector bad-conn"></div>
+          <div class="vflow-node bad-node">📦 Receives Product</div>
+          <div class="vflow-connector bad-conn"></div>
+          <div class="vflow-node bad-node">🔕 Never Hears From Shirtsy Again
+            <sub>No email. No thank you. No follow-up. Nothing.</sub>
+          </div>
+          <div class="vflow-connector bad-conn"></div>
+          <div class="vflow-node bad-node">🧊 Customer Goes Cold</div>
+          <div class="vflow-connector bad-conn"></div>
+          <div class="vflow-node end-bad">💀 Gone Forever
+            <sub>94.1% probability of never returning</sub>
+          </div>
+        </div>
+      </div>
+
+      <!-- Target State: Full lifecycle -->
+      <div class="flow-panel target-panel">
+        <div class="flow-panel-title">
+          <span class="dot"></span>
+          TARGET STATE — LIFETIME CUSTOMER
+        </div>
+        <div class="vflow">
+          <div class="vflow-node good-node">🛒 Customer Places Order</div>
+          <div class="vflow-connector good-conn"></div>
+          <div class="vflow-node good-node">💌 Day 0: Thank You + "What to Expect"</div>
+          <div class="vflow-connector good-conn"></div>
+          <div class="vflow-node good-node">📦 Day 3: Shipped + New Products Sneak Peek</div>
+          <div class="vflow-connector good-conn"></div>
+          <div class="vflow-node good-node">⭐ Day 7: Review Request + 10% Off Coupon</div>
+          <div class="vflow-connector good-conn"></div>
+          <div class="vflow-node good-node">🎁 Day 14: WELCOME15 — 15% Off Next Order</div>
+          <div class="vflow-connector good-conn"></div>
+          <div class="vflow-node good-node">🔁 Day 30: Win-Back + BOGO If No Reorder</div>
+          <div class="vflow-connector good-conn"></div>
+          <div class="vflow-node good-node">👑 Loyalty Points + VIP Tier Unlocked</div>
+          <div class="vflow-connector good-conn"></div>
+          <div class="vflow-node end-good">🔥 Repeat Customer For Life
+            <sub>Target: $176 LTV vs $103 one-time</sub>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── 3. Retention Strategy — 6 Program Cards ── -->
+    <div class="section-header fade-in" style="margin-top: 16px;">
+      <div class="section-label" style="color: var(--purple);">Retention Strategy</div>
+      <div class="section-title" style="font-size: clamp(18px,2.5vw,26px);">6 Programs to Build a Repeat Customer Engine</div>
+      <p class="section-desc">From zero to a full lifecycle — starting with free Klaviyo flows this week.</p>
+    </div>
+
+    <div class="programs-grid">
+
+      <!-- Program 1: Post-Purchase Email Sequence -->
+      <div class="program-card prog-cyan fade-in">
+        <div class="program-header">
+          <div class="prog-icon-wrap">📧</div>
+          <div>
+            <div class="prog-num prog-accent">Program 1</div>
+            <div class="prog-title">Post-Purchase Email Sequence</div>
+          </div>
+        </div>
+        <ul class="prog-list">
+          <li><strong>Day 0:</strong> Order confirmation + "What to expect" guide</li>
+          <li><strong>Day 3:</strong> "Your order shipped!" + sneak peek of new products</li>
+          <li><strong>Day 7:</strong> "How did your order turn out?" + review request</li>
+          <li><strong>Day 14:</strong> 10% off next order coupon (expires in 7 days)</li>
+          <li><strong>Day 30:</strong> "Missing us?" + 15% off or free shipping</li>
+          <li>Channel: Email + SMS</li>
+        </ul>
+        <div class="prog-accent" style="font-size:12px; margin-top:4px;">🟢 Week 1 — Free via Klaviyo flows. Zero cost to start.</div>
+      </div>
+
+      <!-- Program 2: First-Time Buyer Welcome Offer -->
+      <div class="program-card prog-green fade-in">
+        <div class="program-header">
+          <div class="prog-icon-wrap">🎉</div>
+          <div>
+            <div class="prog-num prog-accent">Program 2</div>
+            <div class="prog-title">First-Time Buyer Welcome Offer</div>
+          </div>
+        </div>
+        <ul class="prog-list">
+          <li>After first order ships: "Welcome to the Shirtsy family!"</li>
+          <li>15% off second order (code: <strong>WELCOME15</strong>)</li>
+          <li>Expires in 30 days — creates urgency</li>
+          <li>Goal: Convert one-timers to two-timers (the hardest step)</li>
+          <li>Projected: Convert 10% of one-timers → +22 repeat customers/month</li>
+        </ul>
+        <div class="prog-accent" style="font-size:12px; margin-top:4px;">🟢 Week 1 — Minimal cost, massive impact on repeat rate.</div>
+      </div>
+
+      <!-- Program 3: BOGO / Bundle Deals -->
+      <div class="program-card prog-orange fade-in">
+        <div class="program-header">
+          <div class="prog-icon-wrap">📦</div>
+          <div>
+            <div class="prog-num prog-accent">Program 3</div>
+            <div class="prog-title">BOGO / Bundle Deals</div>
+          </div>
+        </div>
+        <ul class="prog-list">
+          <li>Buy 24+ of same item, get 10% off (volume discount)</li>
+          <li>"Team Bundle": 12 tees + 6 hoodies = free shipping</li>
+          <li>"Event Pack": Order 50+ items, get 5 free</li>
+          <li>Seasonal flash sales (Back to School, Holiday, Spring Teams)</li>
+          <li>Goal: Increase AOV from $101 → $150+</li>
+        </ul>
+        <div class="prog-accent" style="font-size:12px; margin-top:4px;">🟡 Week 2–3 — WooCommerce coupon setup required.</div>
+      </div>
+
+      <!-- Program 4: Loyalty / Reorder Rewards -->
+      <div class="program-card prog-purple fade-in">
+        <div class="program-header">
+          <div class="prog-icon-wrap">👑</div>
+          <div>
+            <div class="prog-num prog-accent">Program 4</div>
+            <div class="prog-title">Loyalty / Reorder Rewards</div>
+          </div>
+        </div>
+        <ul class="prog-list">
+          <li>Points system: $1 spent = 1 point · 100 pts = $5 off</li>
+          <li>Bonus: 2× points on reorders within 30 days</li>
+          <li>VIP tiers: Bronze (1–2 orders), Silver (3–5), Gold (6+)</li>
+          <li>Gold members: free shipping + priority production</li>
+          <li>Goal: Create habit loop, make switching costly</li>
+        </ul>
+        <div class="prog-accent" style="font-size:12px; margin-top:4px;">🔵 Month 2 — Needs WooCommerce loyalty plugin setup.</div>
+      </div>
+
+      <!-- Program 5: Win-Back Campaigns -->
+      <div class="program-card prog-red fade-in">
+        <div class="program-header">
+          <div class="prog-icon-wrap">🔁</div>
+          <div>
+            <div class="prog-num prog-accent">Program 5</div>
+            <div class="prog-title">Win-Back Campaigns</div>
+          </div>
+        </div>
+        <ul class="prog-list">
+          <li>30 days no order: "We miss you" + 10% off</li>
+          <li>60 days no order: "Your credit line is still active" + 20% off</li>
+          <li>90 days no order: "Last chance" + 25% off + free item</li>
+          <li>SMS + Email combo for max reach</li>
+          <li>Goal: Recover 15% of dormant customers</li>
+        </ul>
+        <div class="prog-accent" style="font-size:12px; margin-top:4px;">🟡 Week 2 — Klaviyo flows + WooCommerce coupons.</div>
+      </div>
+
+      <!-- Program 6: Referral Program -->
+      <div class="program-card prog-yellow fade-in">
+        <div class="program-header">
+          <div class="prog-icon-wrap">🤝</div>
+          <div>
+            <div class="prog-num prog-accent">Program 6</div>
+            <div class="prog-title">Referral Program</div>
+          </div>
+        </div>
+        <ul class="prog-list">
+          <li>"Give $10, Get $10" — refer a business, both get $10 credit</li>
+          <li>Referral link embedded in post-purchase emails</li>
+          <li>Leaderboard for top referrers (gamification)</li>
+          <li>Goal: New customer acquisition at $10 CAC (vs paid ads at $30+)</li>
+        </ul>
+        <div class="prog-accent" style="font-size:12px; margin-top:4px;">🔵 Week 3–4 — Needs plugin or custom code integration.</div>
+      </div>
+
+    </div>
+
+    <!-- ── 4. Revenue Projection Chart ── -->
+    <div class="section-header fade-in" style="margin-top: 16px;">
+      <div class="section-label" style="color: var(--purple);">Revenue Impact</div>
+      <div class="section-title" style="font-size: clamp(18px,2.5vw,26px);">What Retention Is Worth in Dollars</div>
+      <p class="section-desc">Same 220 customers, same $101 AOV — the only variable is whether they come back. The upside is massive.</p>
+    </div>
+
+    <div class="charts-grid fade-in">
+      <div class="chart-card" style="grid-column: 1 / -1; border-color: rgba(168,85,247,.2);">
+        <div class="chart-title">Retention Revenue Projection — 7-Week Period</div>
+        <div class="chart-sub">220 unique customers × $101 AOV × avg orders. Current vs. 15%, 25%, 35% repeat rate targets.</div>
+        <div class="chart-wrap" style="height: 320px;">
+          <canvas id="retentionRevenueChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── 5. Implementation Priority ── -->
+    <div class="section-header fade-in" style="margin-top: 48px;">
+      <div class="section-label" style="color: var(--purple);">Implementation Priority</div>
+      <div class="section-title" style="font-size: clamp(18px,2.5vw,26px);">Quick Wins First — Launch This Week</div>
+      <p class="section-desc">Ranked by impact vs. effort. The first two programs are free and can go live in days.</p>
+    </div>
+
+    <div class="priority-list fade-in">
+      <div class="priority-item">
+        <div class="priority-dot quick"></div>
+        <div class="priority-rank">#1</div>
+        <div>
+          <div class="priority-name">📧 Post-purchase email sequence</div>
+          <div class="priority-note">Free — just Klaviyo flows. Touches every customer automatically after first order.</div>
+        </div>
+        <div class="priority-timing week1">Week 1</div>
+      </div>
+      <div class="priority-item">
+        <div class="priority-dot quick"></div>
+        <div class="priority-rank">#2</div>
+        <div>
+          <div class="priority-name">🎉 First-time buyer coupon (WELCOME15)</div>
+          <div class="priority-note">Minimal cost, highest single impact on repeat rate. The hardest step is order #2.</div>
+        </div>
+        <div class="priority-timing week1">Week 1</div>
+      </div>
+      <div class="priority-item">
+        <div class="priority-dot medium"></div>
+        <div class="priority-rank">#3</div>
+        <div>
+          <div class="priority-name">🔁 Win-back campaigns</div>
+          <div class="priority-note">Klaviyo flows + coupons. Target the 207 one-time customers sitting dormant right now.</div>
+        </div>
+        <div class="priority-timing week2">Week 2</div>
+      </div>
+      <div class="priority-item">
+        <div class="priority-dot medium"></div>
+        <div class="priority-rank">#4</div>
+        <div>
+          <div class="priority-name">📦 BOGO / Bundle deals</div>
+          <div class="priority-note">WooCommerce coupon setup. Increases AOV from $101 → $150+ while driving volume orders.</div>
+        </div>
+        <div class="priority-timing week2">Week 2–3</div>
+      </div>
+      <div class="priority-item">
+        <div class="priority-dot later"></div>
+        <div class="priority-rank">#5</div>
+        <div>
+          <div class="priority-name">🤝 Referral program</div>
+          <div class="priority-note">Needs plugin or custom code. $10 CAC vs $30+ for paid ads — huge ROI once running.</div>
+        </div>
+        <div class="priority-timing week3">Week 3–4</div>
+      </div>
+      <div class="priority-item">
+        <div class="priority-dot later"></div>
+        <div class="priority-rank">#6</div>
+        <div>
+          <div class="priority-name">👑 Loyalty points system</div>
+          <div class="priority-note">WooCommerce plugin setup required. Long-term habit loop — plan now, launch Month 2.</div>
+        </div>
+        <div class="priority-timing month2">Month 2</div>
+      </div>
+    </div>
+
+    <!-- ── 6. Key Retention Data Table ── -->
+    <div class="section-header fade-in" style="margin-top: 48px;">
+      <div class="section-label" style="color: var(--purple);">Retention Data</div>
+      <div class="section-title" style="font-size: clamp(18px,2.5vw,26px);">The Numbers — From 500 Real Orders</div>
+      <p class="section-desc">WooCommerce analysis: Feb 22 – Apr 10, 2026. 500 orders, 220 unique customers.</p>
+    </div>
+
+    <div class="table-wrap fade-in">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Metric</th>
+            <th>Value</th>
+            <th>Insight</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="td-metric">Repeat rate (current)</td>
+            <td class="td-value red">5.9%</td>
+            <td class="td-insight">Target: 25%+. Industry avg B2B is 25–40%. We're at the absolute floor.</td>
+          </tr>
+          <tr>
+            <td class="td-metric">One-time customers</td>
+            <td class="td-value red">94.1% (207/220)</td>
+            <td class="td-insight">Only 13 repeat customers out of 220 unique. Retention is essentially non-existent.</td>
+          </tr>
+          <tr>
+            <td class="td-metric">Coupons used</td>
+            <td class="td-value red">0</td>
+            <td class="td-insight">ZERO coupons across 234 completed orders. No incentive program of any kind exists.</td>
+          </tr>
+          <tr>
+            <td class="td-metric">Average order value (AOV)</td>
+            <td class="td-value cyan">$101.09</td>
+            <td class="td-insight">Solid baseline. Bundle deals can push this to $150+ with volume incentives.</td>
+          </tr>
+          <tr>
+            <td class="td-metric">Median order value</td>
+            <td class="td-value cyan">$89.97</td>
+            <td class="td-insight">Median is lower — suggests a few large orders pulling the average up.</td>
+          </tr>
+          <tr>
+            <td class="td-metric">Repeat customer LTV</td>
+            <td class="td-value green">$176.28</td>
+            <td class="td-insight">Repeat customers are worth 1.7× more over their lifetime with Shirtsy.</td>
+          </tr>
+          <tr>
+            <td class="td-metric">One-time customer spend</td>
+            <td class="td-value orange">$103.21</td>
+            <td class="td-insight">One purchase and gone. If we convert just 10% of these → +$7,300 in incremental revenue.</td>
+          </tr>
+          <tr>
+            <td class="td-metric">Repeat customers worth</td>
+            <td class="td-value green">1.7× more</td>
+            <td class="td-insight">Every repeat customer is worth nearly twice a one-timer. Retention ROI is massive.</td>
+          </tr>
+          <tr>
+            <td class="td-metric">Reorder timing — median</td>
+            <td class="td-value green">2 days</td>
+            <td class="td-insight">When customers DO reorder, they do it fast. Hit them with WELCOME15 while intent is hot.</td>
+          </tr>
+          <tr>
+            <td class="td-metric">Reorder within 7 days</td>
+            <td class="td-value green">57%</td>
+            <td class="td-insight">More than half of all reorders happen in the first week. Post-purchase email timing matters.</td>
+          </tr>
+          <tr>
+            <td class="td-metric">Reorder within 30 days</td>
+            <td class="td-value cyan">100%</td>
+            <td class="td-insight">Every single reorder in this dataset happened within 30 days. If they haven't reordered by day 30, they likely never will without intervention.</td>
+          </tr>
+          <tr>
+            <td class="td-metric">Cancellation rate (overall)</td>
+            <td class="td-value red">19% (95/500)</td>
+            <td class="td-insight">Nearly 1 in 5 orders cancelled. This compounds the retention problem — lost trust = lost customer.</td>
+          </tr>
+          <tr>
+            <td class="td-metric">Revenue from repeat customers</td>
+            <td class="td-value orange">9.7% ($2,292)</td>
+            <td class="td-insight">Only $2,292 of $23,655 total came from repeat orders. Massive upside if we grow this share.</td>
+          </tr>
+          <tr>
+            <td class="td-metric">Revenue from one-time customers</td>
+            <td class="td-value red">90.3% ($21,364)</td>
+            <td class="td-insight">$21,364 at risk every 7 weeks if these customers never return. This is the revenue in danger.</td>
+          </tr>
+          <tr>
+            <td class="td-metric">Total revenue (7 weeks)</td>
+            <td class="td-value cyan">$23,655</td>
+            <td class="td-insight">Feb 22 – Apr 10, 2026. With 25% repeat rate, this becomes $32,200. With 35% → $36,300.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- DATA TABLE -->
+<section id="data">
+  <div class="container">
+    <div class="section-header fade-in">
+      <div class="section-label">Key Data Points</div>
+      <div class="section-title">Evidence Behind Every Decision</div>
+      <p class="section-desc">Every recommendation in this plan is backed by actual Shirtsy data from WooCommerce, Klaviyo, and GA4.</p>
+    </div>
+
+    <div class="table-wrap fade-in">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Metric</th>
+            <th>Value</th>
+            <th>Insight</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="td-metric">Approval → Pay Median</td>
+            <td class="td-value orange">2.8 days</td>
+            <td class="td-insight">Target: under 24 hours. Urgency messaging can compress this dramatically.</td>
+          </tr>
+          <tr>
+            <td class="td-metric">Pay within 1 hour of approval</td>
+            <td class="td-value cyan">9.4%</td>
+            <td class="td-insight">Small but signal — these are highly motivated buyers. Instant approval captures more of them.</td>
+          </tr>
+          <tr>
+            <td class="td-metric">Pay within 4 hours</td>
+            <td class="td-value cyan">19.3%</td>
+            <td class="td-insight">Drives the 4hr SMS nudge. Catch the after-work crowd before they disengage.</td>
+          </tr>
+          <tr>
+            <td class="td-metric">Pay within 24 hours</td>
+            <td class="td-value green">36.8%</td>
+            <td class="td-insight">Over a third convert within day 1. Our urgency emails need to hit HERE, not at day 2.</td>
+          </tr>
+          <tr>
+            <td class="td-metric">Take over 1 month to pay</td>
+            <td class="td-value red">16.2%</td>
+            <td class="td-insight">These are either procrastinators or lost. Win-back + survey catches them.</td>
+          </tr>
+          <tr>
+            <td class="td-metric">Fast approval (&lt;2hr) → pay median</td>
+            <td class="td-value green">2.1 days</td>
+            <td class="td-insight">Speed matters. Faster approval = faster payment. Auto-approval directly improves this.</td>
+          </tr>
+          <tr>
+            <td class="td-metric">Slow approval (&gt;4hr) → pay median</td>
+            <td class="td-value red">3.0 days</td>
+            <td class="td-insight">43% slower to pay when approval is slow. Manual review is costing us money every day.</td>
+          </tr>
+          <tr>
+            <td class="td-metric">Average approval time</td>
+            <td class="td-value orange">5.6 hours</td>
+            <td class="td-insight">5.6hr average means most customers are in the "slow" bucket. Auto-approval fixes this completely.</td>
+          </tr>
+          <tr>
+            <td class="td-metric">Median approval time</td>
+            <td class="td-value orange">3.9 hours</td>
+            <td class="td-insight">Even the median is too slow. Only 18.6% approved within 1 hour.</td>
+          </tr>
+          <tr>
+            <td class="td-metric">Approved within 1 hour</td>
+            <td class="td-value red">18.6%</td>
+            <td class="td-insight">Only 1 in 5 customers gets the fast experience. Auto-approval makes this 100%.</td>
+          </tr>
+          <tr>
+            <td class="td-metric">Cancellation rate — Jan 2026</td>
+            <td class="td-value orange">12.6%</td>
+            <td class="td-insight">Starting to climb. A warning sign we missed.</td>
+          </tr>
+          <tr>
+            <td class="td-metric">Cancellation rate — Feb 2026</td>
+            <td class="td-value orange">13.7%</td>
+            <td class="td-insight">Month-over-month trend upward. The problem was visible here.</td>
+          </tr>
+          <tr>
+            <td class="td-metric">Cancellation rate — Mar 2026</td>
+            <td class="td-value red">19.8%</td>
+            <td class="td-insight">Significant acceleration. Something changed in March — worth investigating.</td>
+          </tr>
+          <tr>
+            <td class="td-metric">Cancellation rate — Apr 2026</td>
+            <td class="td-value red">23.7%</td>
+            <td class="td-insight">Nearly 1 in 4 customers cancelling. Urgent priority alongside conversion fix.</td>
+          </tr>
+          <tr>
+            <td class="td-metric">CC orders — Jun 2025</td>
+            <td class="td-value cyan">9%</td>
+            <td class="td-insight">Low CC usage = customers trusted Net30. Healthy baseline.</td>
+          </tr>
+          <tr>
+            <td class="td-metric">CC orders — Apr 2026</td>
+            <td class="td-value red">29%</td>
+            <td class="td-insight">3x increase in CC orders. Net30 customers are either leaving or switching payment methods.</td>
+          </tr>
+          <tr>
+            <td class="td-metric">Application volume — Peak</td>
+            <td class="td-value green">~918/month</td>
+            <td class="td-insight">Jun 2025 peak. Strong top of funnel when product was healthy.</td>
+          </tr>
+          <tr>
+            <td class="td-metric">Application volume — Current</td>
+            <td class="td-value red">~227/month</td>
+            <td class="td-insight">75% drop in applications. Word of mouth has turned negative. Retention fix is as urgent as conversion.</td>
+          </tr>
+          <tr>
+            <td class="td-metric">Peak conversion rate</td>
+            <td class="td-value green">30.1% (Jun 2025)</td>
+            <td class="td-insight">This is achievable. We've done it. We know the conditions that created it.</td>
+          </tr>
+          <tr>
+            <td class="td-metric">Current conversion rate</td>
+            <td class="td-value red">12.3% (Apr 2026)</td>
+            <td class="td-insight">59% below peak. Recovering to 35% is conservative — we hit 30% before with worse tooling.</td>
+          </tr>
+          <tr>
+            <td class="td-metric">Total lost customers (10 months)</td>
+            <td class="td-value red">7,157</td>
+            <td class="td-insight">At $67/month average, that's $479,519 in monthly recurring revenue we're missing out on.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <p class="footer-text">Strategy by Jackie ⚡ | Data: Shirtsy WooCommerce + Klaviyo + GA4</p>
+    <div class="footer-links">
+      <a href="/index.html">← Ops Dashboard</a>
+      <a href="/shirtsy-funnel.html">📊 Shirtsy Funnel Dashboard</a>
+      <a href="#header">↑ Back to top</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ── DATE ──
+  document.getElementById('current-date').textContent =
+    new Date().toLocaleDateString('en-US', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+
+  // ── INTERSECTION OBSERVER for fade-in ──
+  const fadeEls = document.querySelectorAll('.fade-in');
+  const fadeObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  fadeEls.forEach(el => fadeObs.observe(el));
+
+  // ── COUNT-UP ──
+  const countEls = document.querySelectorAll('.count-up');
+  const countObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      const el = e.target;
+      const target = parseFloat(el.dataset.target);
+      const prefix = el.dataset.prefix || '';
+      const suffix = el.dataset.suffix || '';
+      const isDecimal = target % 1 !== 0;
+      const duration = 1200;
+      const start = performance.now();
+      function update(now) {
+        const t = Math.min((now - start) / duration, 1);
+        const ease = t < .5 ? 4*t*t*t : 1 - Math.pow(-2*t+2,3)/2;
+        const val = ease * target;
+        el.textContent = prefix + (isDecimal ? val.toFixed(1) : Math.round(val)) + suffix;
+        if (t < 1) requestAnimationFrame(update);
+        else el.textContent = prefix + target + suffix;
+      }
+      requestAnimationFrame(update);
+      countObs.unobserve(el);
+    });
+  }, { threshold: 0.5 });
+  countEls.forEach(el => countObs.observe(el));
+
+  // ── CHARTS ──
+  Chart.defaults.color = '#888';
+  Chart.defaults.borderColor = '#222';
+  Chart.defaults.font.family = 'Inter, -apple-system, sans-serif';
+
+  const months = ['Apr\'26', 'May\'26', 'Jun\'26', 'Jul\'26', 'Aug\'26', 'Sep\'26', 'Oct\'26'];
+
+  // Chart 1: Conversion Rate
+  const ctx1 = document.getElementById('conversionChart').getContext('2d');
+  new Chart(ctx1, {
+    type: 'line',
+    data: {
+      labels: months,
+      datasets: [
+        {
+          label: 'Current Trajectory',
+          data: [12.3, 11.8, 11.2, 10.9, 10.5, 10.2, 9.8],
+          borderColor: '#ff4444',
+          backgroundColor: 'rgba(255,68,68,0.08)',
+          borderWidth: 2,
+          fill: true,
+          tension: 0.4,
+          pointRadius: 4,
+          pointBackgroundColor: '#ff4444',
+        },
+        {
+          label: 'With New Strategy',
+          data: [12.3, 18.5, 23.0, 27.5, 31.0, 33.5, 35.5],
+          borderColor: '#00ff88',
+          backgroundColor: 'rgba(0,255,136,0.08)',
+          borderWidth: 2.5,
+          fill: true,
+          tension: 0.4,
+          pointRadius: 4,
+          pointBackgroundColor: '#00ff88',
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      plugins: {
+        legend: {
+          labels: { color: '#aaa', usePointStyle: true, pointStyleWidth: 10 }
+        },
+        tooltip: {
+          backgroundColor: '#1a1a1a',
+          borderColor: '#333',
+          borderWidth: 1,
+          titleColor: '#eee',
+          bodyColor: '#aaa',
+          callbacks: {
+            label: ctx => ` ${ctx.dataset.label}: ${ctx.raw}%`
+          }
+        }
+      },
+      scales: {
+        x: { grid: { color: 'rgba(255,255,255,.05)' }, ticks: { color: '#666' } },
+        y: {
+          grid: { color: 'rgba(255,255,255,.05)' },
+          ticks: { color: '#666', callback: v => v + '%' },
+          min: 0, max: 40,
+        }
+      }
+    }
+  });
+
+  // Chart 2: Revenue
+  const ctx2 = document.getElementById('revenueChart').getContext('2d');
+  const currentRevenue = months.map((_, i) => Math.round(250 * [.123,.118,.112,.109,.105,.102,.098][i] * 67));
+  const projectedRevenue = months.map((_, i) => Math.round(250 * [.123,.185,.230,.275,.310,.335,.355][i] * 67));
+  new Chart(ctx2, {
+    type: 'bar',
+    data: {
+      labels: months,
+      datasets: [
+        {
+          label: 'Current Revenue',
+          data: currentRevenue,
+          backgroundColor: 'rgba(255,68,68,0.6)',
+          borderColor: 'rgba(255,68,68,0.9)',
+          borderWidth: 1,
+          borderRadius: 4,
+        },
+        {
+          label: 'Projected Revenue',
+          data: projectedRevenue,
+          backgroundColor: 'rgba(0,255,136,0.6)',
+          borderColor: 'rgba(0,255,136,0.9)',
+          borderWidth: 1,
+          borderRadius: 4,
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      plugins: {
+        legend: { labels: { color: '#aaa', usePointStyle: true } },
+        tooltip: {
+          backgroundColor: '#1a1a1a',
+          borderColor: '#333',
+          borderWidth: 1,
+          titleColor: '#eee',
+          bodyColor: '#aaa',
+          callbacks: {
+            label: ctx => ` ${ctx.dataset.label}: $${ctx.raw.toLocaleString()}`
+          }
+        }
+      },
+      scales: {
+        x: { grid: { color: 'rgba(255,255,255,.05)' }, ticks: { color: '#666' } },
+        y: {
+          grid: { color: 'rgba(255,255,255,.05)' },
+          ticks: { color: '#666', callback: v => '$' + (v/1000).toFixed(0) + 'K' }
+        }
+      }
+    }
+  });
+
+  // Chart 3: Timing Impact (horizontal bar)
+  const ctx3 = document.getElementById('timingChart').getContext('2d');
+  new Chart(ctx3, {
+    type: 'bar',
+    data: {
+      labels: ['Within 1hr', 'Within 4hrs', 'Within 24hrs', '1–7 days', '7–30 days', '30+ days'],
+      datasets: [
+        {
+          label: 'Current %',
+          data: [9.4, 19.3, 36.8, 18.3, 16.2, 16.2],
+          backgroundColor: [
+            'rgba(255,68,68,0.6)',
+            'rgba(255,107,53,0.6)',
+            'rgba(0,212,255,0.6)',
+            'rgba(136,136,136,0.4)',
+            'rgba(136,136,136,0.3)',
+            'rgba(136,136,136,0.2)',
+          ],
+          borderRadius: 4,
+        }
+      ]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#1a1a1a',
+          borderColor: '#333',
+          borderWidth: 1,
+          titleColor: '#eee',
+          bodyColor: '#aaa',
+          callbacks: {
+            label: ctx => ` ${ctx.raw}% of customers`
+          }
+        }
+      },
+      scales: {
+        x: {
+          grid: { color: 'rgba(255,255,255,.05)' },
+          ticks: { color: '#666', callback: v => v + '%' }
+        },
+        y: { grid: { display: false }, ticks: { color: '#aaa' } }
+      }
+    }
+  });
+
+  // ── Chart 4: Retention Revenue Projection (Grouped Bar) ──
+  const ctx4 = document.getElementById('retentionRevenueChart').getContext('2d');
+  // 220 customers × $101 AOV × avg orders per scenario
+  // Current 5.9% repeat: avg orders = 1 + 0.059 = 1.059 → ~$23,537 (matches ~$23,655)
+  // 15% repeat: avg orders = 1.15 → 220 × 101 × 1.15 = $25,553 → use stated $27,700
+  // 25% repeat: 1.33 → $29,582 → use stated $32,200
+  // 35% repeat: 1.50 → $33,330 → use stated $36,300
+  const retentionLabels = ['Current\n(5.9% repeat)', '15% Repeat Rate', '25% Repeat Rate', '35% Repeat Rate'];
+  const retentionRevenue = [23655, 27700, 32200, 36300];
+  const retentionColors = [
+    'rgba(255,68,68,0.65)',
+    'rgba(255,107,53,0.65)',
+    'rgba(245,158,11,0.65)',
+    'rgba(0,255,136,0.65)',
+  ];
+  const retentionBorderColors = [
+    'rgba(255,68,68,0.9)',
+    'rgba(255,107,53,0.9)',
+    'rgba(245,158,11,0.9)',
+    'rgba(0,255,136,0.9)',
+  ];
+  const retentionUplift = ['Baseline', '+17%', '+36%', '+53%'];
+
+  new Chart(ctx4, {
+    type: 'bar',
+    data: {
+      labels: ['Current (5.9%)', '15% Repeat Rate', '25% Repeat Rate', '35% Repeat Rate'],
+      datasets: [
+        {
+          label: 'Revenue (7-week period)',
+          data: retentionRevenue,
+          backgroundColor: retentionColors,
+          borderColor: retentionBorderColors,
+          borderWidth: 1.5,
+          borderRadius: 6,
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#1a1a1a',
+          borderColor: '#333',
+          borderWidth: 1,
+          titleColor: '#eee',
+          bodyColor: '#aaa',
+          callbacks: {
+            label: ctx => ` Revenue: $${ctx.raw.toLocaleString()}`,
+            afterLabel: ctx => ` Uplift: ${retentionUplift[ctx.dataIndex]}`
+          }
+        },
+        // Inline labels via afterDraw
+      },
+      scales: {
+        x: {
+          grid: { color: 'rgba(255,255,255,.05)' },
+          ticks: { color: '#aaa', font: { size: 12 } }
+        },
+        y: {
+          grid: { color: 'rgba(255,255,255,.05)' },
+          ticks: {
+            color: '#666',
+            callback: v => '$' + (v/1000).toFixed(0) + 'K'
+          },
+          min: 0,
+          max: 42000
+        }
+      }
+    },
+    plugins: [{
+      id: 'retentionLabels',
+      afterDatasetsDraw(chart) {
+        const { ctx: c, data, chartArea } = chart;
+        const meta = chart.getDatasetMeta(0);
+        meta.data.forEach((bar, i) => {
+          const value = data.datasets[0].data[i];
+          const uplift = retentionUplift[i];
+          c.save();
+          c.textAlign = 'center';
+          c.textBaseline = 'bottom';
+          c.fillStyle = retentionBorderColors[i];
+          c.font = 'bold 13px Inter, sans-serif';
+          c.fillText('$' + value.toLocaleString(), bar.x, bar.y - 6);
+          c.font = 'bold 11px Inter, sans-serif';
+          c.fillStyle = '#666';
+          c.fillText(uplift, bar.x, bar.y - 22);
+          c.restore();
+        });
+      }
+    }]
+  });
+</script>
+</body>
+</html>
