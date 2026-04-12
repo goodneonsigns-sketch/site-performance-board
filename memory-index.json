@@ -1,16 +1,16 @@
 {
-  "generated_at": "2026-04-12T06:00:49.570661",
+  "generated_at": "2026-04-12T18:00:40.000127",
   "stats": {
     "total_days_logged": 31,
-    "total_entries": 390,
+    "total_entries": 396,
     "most_active_projects": [
       {
         "project": "Lux",
-        "days": 30
+        "days": 31
       },
       {
         "project": "Shopify",
-        "days": 28
+        "days": 29
       },
       {
         "project": "Crown",
@@ -18,11 +18,11 @@
       },
       {
         "project": "GoodNeon",
-        "days": 19
+        "days": 20
       },
       {
         "project": "Virtus",
-        "days": 17
+        "days": 18
       }
     ],
     "recent_activity_streak": 22
@@ -31,11 +31,19 @@
     {
       "date": "2026-04-12",
       "filename": "2026-04-12.md",
-      "section_count": 2,
-      "word_count": 175,
-      "file_size_bytes": 1076,
-      "activity_level": "light",
-      "projects": [],
+      "section_count": 8,
+      "word_count": 1441,
+      "file_size_bytes": 10458,
+      "activity_level": "active",
+      "projects": [
+        "Shopify",
+        "GoodNeon",
+        "Coconut",
+        "Cloudflare",
+        "Lux",
+        "Virtus",
+        "Nova Titans"
+      ],
       "sections": [
         {
           "title": "Ops Board Checks",
@@ -69,6 +77,179 @@
             "- Pipeline has been fully complete since ~March 29",
             ""
           ]
+        },
+        {
+          "title": "Ops Board Hourly Check (9:04 AM ET)",
+          "content": [
+            "- Pulled repo (already up to date). No jackie-execute tasks found.",
+            "- Task queue empty \u2014 no action needed.",
+            "- Logged to activityLog, committed and pushed.",
+            "",
+            "- Full rebuild of Nova Titans gallery as a modern React app",
+            "- **Supabase project**: hxrucwregtzirnesvhrj (nova-titans)",
+            "- **Supabase PAT**: saved in .secrets/supabase-novatitans.env (SUPABASE_ACCESS_TOKEN)",
+            "- **Database**: 7 tables created (players, seasons, games, batting_stats, pitching_stats, photos, team_info)",
+            "- **Data migrated**: 34 players, 17 games, 34 batting stats, 10 pitching stats, 2181 photos",
+            "- **6 game folders** without matching games (JV/practice): 4-10-26, 2-3-26, 2-4-26, 2-21-26, 2-28-26, 3-7-26 \u2014 need to add these as JV games",
+            "- **Vercel**: deployed at https://nova-titans-v2.vercel.app",
+            "- **GitHub**: https://github.com/goodneonsigns-sketch/nova-titans-v2",
+            "- **Stack**: Vite + React 19 + Tailwind v4 + @supabase/supabase-js + React Router",
+            "- **Components**: Hero, PlayerCard, PlayerModal, GameCard, Lightbox, StatsTable, Schedule, Layout",
+            "- **5 pages**: Home, Roster, Gallery, Schedule, Stats",
+            "- **TODO**: Photo URLs not yet set (need Dropbox links or Supabase Storage migration)",
+            "- **TODO**: Domain \u2014 Lex is buying a domain to point at Vercel",
+            "- **TODO**: Connect GitHub repo to Vercel for auto-deploy (manual deploy for now)",
+            "",
+            "",
+            "**Nova Titans Gallery \u2014 Major Overhaul (started ~3:18 PM 4/11, continued 4/12)**",
+            "",
+            "Key accomplishments across the full session:",
+            "",
+            "1. **New game photos added** (4/11): Downloaded 2 new game folders from Dropbox (3-31-26 Jupiter Warriors, 4-10-26 Everglades)",
+            "2. **Schedule corrections** (4/11): Fixed wrong opponents from stale data. Corrected from HSBN:",
+            "- 3/26 = South Broward Bulldogs (was Everglades), 3/31 = Jupiter Warriors (was South Broward), 4/7 = Piper Bengals, 4/9 = Everglades",
+            "- 4/7 = Rained Out, 4/9 vs Everglades = 9-8 (W), record updated to 5-11",
+            "- Removed phantom games (3/12, 4/02, 4/14) that don't exist on HSBN",
+            "3. **MaxPreps stats integrated** (4/11): Found printable stats endpoint, parsed full batting (17 players) + pitching (9 players) stats",
+            "4. **Headshots fixed** (4/11): `player-picks/` was in .gitignore \u2014 removed, committed 33 PNGs + action photos. Braylen Austin (#16) still has no photo on HSBN.",
+            "5. **HTTPS fixed** (4/11): SSL cert provisioned and HTTPS enforced on GitHub Pages",
+            "6. **Full Dropbox integration** (4/11): Generated temp links for all 3,335 photos across 18 game folders. Set up 3-hour cron to auto-refresh.",
+            "7. **Lightbox gallery built** (4/11): Full-screen photo viewer with swipe, keyboard nav, photo counter",
+            "8. **Dropbox links regenerated** (4/12 morning): Links had expired overnight, regenerated fresh set",
+            "9. **Nova Titans V2 launched** (4/12 afternoon): Full Supabase + Vercel + React rebuild (see entry above)",
+            "",
+            "**Channel rule established**: #titans (1492521592205480006) is Nova Titans baseball ONLY \u2014 saved to MEMORY.md",
+            "",
+            "**Skittles** (Dana, user ID 1492555472862056558) is active in #titans \u2014 she's the team photographer and requested gallery updates/headshot additions.",
+            "",
+            "**Ollama/local models were DOWN** all of 4/11 session \u2014 all coding delegated via Sonnet API",
+            "",
+            "**MaxPreps printable stats URL** (permanent, reusable):",
+            "`https://www.maxpreps.com/print/team_stats.aspx?admin=0&bygame=0&league=0&print=1&schoolid=15aa74c6-96b3-45f6-b6ee-9f452377baed&ssid=1278779e-84df-4e60-8d03-db0024535aa6`",
+            "",
+            "**Supabase access token** (PAT for Management API): saved in `.secrets/supabase-novatitans.env` as SUPABASE_ACCESS_TOKEN \u2014 enables CLI operations without bothering Lex",
+            "",
+            "**Vercel deployment**: Can deploy via `npx vercel --prod --token $VERCEL_TOKEN` from project dir. Token in `.secrets/vercel.env`.",
+            "",
+            "**TODO for next session:**",
+            "- Migrate photos to Supabase Storage (eliminate Dropbox dependency entirely)",
+            "- Add JV game entries for the 6 unmatched Dropbox folders",
+            "- Point Lex's new domain to Vercel",
+            "- Connect GitHub \u2192 Vercel for auto-deploy",
+            "- Update MEMORY.md with Nova Titans V2 details (Supabase, Vercel URLs, PAT info)",
+            "- Consider disabling the old Dropbox link refresh cron once V2 is fully live",
+            ""
+          ]
+        },
+        {
+          "title": "Lux SEO Page #1 \u2014 Auto-Published (3:00 PM cron)",
+          "content": [
+            "- **Niche:** Custom Neon Signs for Tattoo Parlors & Piercing Studios in Boca Raton, FL",
+            "- **Page ID:** 170884464919",
+            "- **Handle:** custom-neon-signs-for-tattoo-parlors-piercing-studios-in-boca-raton-fl",
+            "- **URL:** https://luxneonartgallery.com/pages/custom-neon-signs-for-tattoo-parlors-piercing-studios-in-boca-raton-fl",
+            "- **Admin:** https://bc414e-2.myshopify.com/admin/pages/170884464919",
+            "- **Word count:** ~1,100 words",
+            "- **AI-generated hero image included**",
+            "- Published via seo-autopublish.py \u2192 Shopify",
+            ""
+          ]
+        },
+        {
+          "title": "3:30 PM \u2014 Lux SEO Page #2 Auto-Published (Cron)",
+          "content": [
+            "- **Niche:** Wedding Neon Signs South Florida (B2C bridal/event)",
+            "- **Differentiation from Page #1:** Page 1 was tattoo parlors in Boca Raton (B2B); Page 2 is wedding couples across all South Florida (B2C lifestyle)",
+            "- **Page ID:** 170885251351",
+            "- **Store URL:** https://bc414e-2.myshopify.com/pages/wedding-neon-signs-south-florida-custom-led-neon-decor-for-your-big-day",
+            "- **Word count:** ~1,150 words",
+            "- **Target keywords:** wedding neon signs South Florida, custom wedding neon signs, LED neon wedding decor",
+            "- **Auto-published with AI-generated hero image**",
+            "",
+            "",
+            "**Photo URLs linked to database:**",
+            "- 2,181 game photos matched to Dropbox temp URLs (100% match rate)",
+            "- 33 player headshots uploaded to Supabase Storage bucket `headshots` (permanent URLs)",
+            "- Only Braylen Austin (#16) still missing headshot",
+            "",
+            "**Vercel Git integration:**",
+            "- Lex connected GitHub repo `goodneonsigns-sketch/nova-titans-v2` to Vercel via dashboard",
+            "- Vercel auto-assigned domain: `nova-titans-v2-gamma.vercel.app`",
+            "- Lex manually added env vars (`VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`) in Vercel dashboard",
+            "- Both `nova-titans-v2.vercel.app` (CLI deploy) and `nova-titans-v2-gamma.vercel.app` (Git deploy) are live",
+            "",
+            "**Bug fix deployed:**",
+            "- Supabase default row limit is 1000 \u2014 photos query was truncating 2,181 results",
+            "- Fixed: added `.limit(5000)` to photos query + narrowed select columns",
+            "- Also removed hardcoded service key from scripts (GitHub Push Protection blocked it)",
+            "- Commit `cda5577` pushed and deployed",
+            "",
+            "**Supabase Storage migration IN PROGRESS:**",
+            "- Script: `scripts/migrate-photos-to-storage.py` \u2014 downloads from Dropbox, uploads to Supabase Storage bucket `game-photos`",
+            "- 3 concurrent workers, ~1.6 photos/sec, ETA ~22 minutes",
+            "- Has resume support via `migration-progress.json`",
+            "- Running as session `good-crustacean`",
+            "- Once complete: photos served from Supabase CDN (Cloudflare edge), permanent URLs",
+            "- After migration: can disable Dropbox temp link refresh cron (`8f90e72f-8230-4041-8525-68dddb2ea042`)",
+            "",
+            "**Lex chose long-term approach** \u2014 full Supabase Storage migration instead of just lazy loading Dropbox links",
+            ""
+          ]
+        },
+        {
+          "title": "#virtus-realty Discord Channel \u2014 Established (11:59 AM ET)",
+          "content": [
+            "- **Channel ID:** 1492554665634562251",
+            "- **Rule:** Virtus Realty Group and Virtus Research Group ONLY \u2014 no cross-project discussion",
+            "- Lex is creating dedicated channels per project to keep context organized",
+            "- Saved to MEMORY.md channel rules alongside #titans and #coconut-and-closet",
+            ""
+          ]
+        },
+        {
+          "title": "Virtus Realty \u2014 New Zona Colonial Listing: 8-Studio Boutique Building (2:44 PM ET)",
+          "content": [
+            "",
+            "**Listing details:**",
+            "- **Property:** 2-level building with 8 studio apartments, Zona Colonial, Santo Domingo",
+            "- **Price:** $480,000 USD ($60K/unit)",
+            "- **Features:** Each studio has kitchen, queen bed, A/C, TV, private bathroom",
+            "- **Finishes:** Marble floors, LED cove lighting, granite countertops, glass shower enclosures, mirrored closets",
+            "- **13 photos** received from Lex, saved to `projects/virtus-realty/listings/zona-colonial-8-studios/`",
+            "",
+            "**Built & deployed (2:48 PM - 2:52 PM ET):**",
+            "- Added listing to `zona-colonial-listings.json` as `8-studios-colonial`",
+            "- Full investment analysis section with 3 scenarios:",
+            "- Conservative: $55/night, 45% occ \u2192 9.03% cap rate, 11.1yr payback",
+            "- Moderate: $70/night, 55% occ \u2192 16.39% cap rate, 6.1yr payback",
+            "- Optimistic: $90/night, 60% occ \u2192 24.64% cap rate, 4.1yr payback",
+            "- Monthly revenue bar chart (pure CSS, no chart libraries)",
+            "- Market data from AirROI/Airbtics/TheLatinvestor (2026)",
+            "- Bilingual headers (EN/ES)",
+            "- Deployed to Cloudflare Pages via Vanessa (Sonnet) \u2014 2m38s total",
+            "",
+            "**Airbnb Market Data Used (Santo Domingo, 2026):**",
+            "- Average ADR: $81 | Median: $68 | Top 25%: $90",
+            "- Average occupancy: 35.4% | Top 25%: 59%",
+            "- Peak month: July | Low: February",
+            "- Regulation: Low (operator-friendly)",
+            "- Sources: AirROI, Airbtics, TheLatinvestor",
+            ""
+          ]
+        },
+        {
+          "title": "Virtus Realty \u2014 8-Unit Building Investment Analysis Added (4:37 PM ET)",
+          "content": [
+            "",
+            "**Lex requested same Airbnb metrics treatment for existing 8-Unit Rental Building ($500K):**",
+            "- Added `investmentAnalysis` block to existing `8-unit-building` listing in JSON",
+            "- Mixed unit economics: 6 studios ($55-85/night) + 2 one-bedrooms ($75-110/night)",
+            "- Conservative: 8.83% cap rate, $44K NOI | Moderate: 16.86%, $84K NOI | Optimistic: 25.80%, $129K NOI",
+            "- No JSX changes needed \u2014 existing modal code already handled the data",
+            "- Deployed via Vanessa (Sonnet) \u2014 1m50s total",
+            "- Lex confirmed \"looks great!\" on both listings",
+            ""
+          ]
         }
       ]
     },
@@ -80,18 +261,18 @@
       "file_size_bytes": 18546,
       "activity_level": "very-active",
       "projects": [
-        "Coconut",
-        "Virtus",
-        "Crown",
-        "Reclaimed",
-        "Nova Titans",
-        "Lux Neon",
-        "Lux",
-        "NET30",
-        "Cloudflare",
-        "GoodNeon",
+        "Shopify",
         "Shirtsy",
-        "Shopify"
+        "NET30",
+        "GoodNeon",
+        "Coconut",
+        "Lux Neon",
+        "Cloudflare",
+        "Lux",
+        "Virtus",
+        "Reclaimed",
+        "Crown",
+        "Nova Titans"
       ],
       "sections": [
         {
@@ -496,16 +677,16 @@
       "file_size_bytes": 11494,
       "activity_level": "very-active",
       "projects": [
-        "Virtus",
-        "Crown",
-        "Nova Titans",
-        "Lux Neon",
-        "Lux",
+        "Shopify",
+        "Shirtsy",
         "NET30",
         "GoodNeon",
-        "Shirtsy",
+        "Lux Neon",
         "WordPress",
-        "Shopify"
+        "Lux",
+        "Virtus",
+        "Crown",
+        "Nova Titans"
       ],
       "sections": [
         {
@@ -753,11 +934,11 @@
       "file_size_bytes": 10877,
       "activity_level": "very-active",
       "projects": [
-        "Virtus",
-        "Crown",
-        "Lux",
+        "Shopify",
         "Cloudflare",
-        "Shopify"
+        "Lux",
+        "Virtus",
+        "Crown"
       ],
       "sections": [
         {
@@ -1049,11 +1230,11 @@
       "file_size_bytes": 11169,
       "activity_level": "very-active",
       "projects": [
-        "Virtus",
-        "Crown",
+        "Shopify",
         "Lux Neon",
         "Lux",
-        "Shopify"
+        "Virtus",
+        "Crown"
       ],
       "sections": [
         {
@@ -1313,14 +1494,14 @@
       "file_size_bytes": 11113,
       "activity_level": "active",
       "projects": [
-        "Virtus",
-        "Crown",
-        "Lux Neon",
-        "Lux",
-        "Cloudflare",
+        "Shopify",
         "Shirtsy",
+        "Lux Neon",
         "WordPress",
-        "Shopify"
+        "Lux",
+        "Virtus",
+        "Cloudflare",
+        "Crown"
       ],
       "sections": [
         {
@@ -1568,11 +1749,11 @@
       "file_size_bytes": 7060,
       "activity_level": "very-active",
       "projects": [
-        "Virtus",
-        "Crown",
-        "Reclaimed",
+        "Shopify",
         "Lux",
-        "Shopify"
+        "Virtus",
+        "Reclaimed",
+        "Crown"
       ],
       "sections": [
         {
@@ -1752,15 +1933,15 @@
       "file_size_bytes": 27498,
       "activity_level": "very-active",
       "projects": [
-        "Coconut",
-        "Virtus",
-        "Crown",
-        "Reclaimed",
-        "Lux",
-        "Cloudflare",
-        "GoodNeon",
+        "Shopify",
         "Shirtsy",
-        "Shopify"
+        "GoodNeon",
+        "Coconut",
+        "Cloudflare",
+        "Lux",
+        "Virtus",
+        "Reclaimed",
+        "Crown"
       ],
       "sections": [
         {
@@ -2322,12 +2503,12 @@
       "file_size_bytes": 17809,
       "activity_level": "very-active",
       "projects": [
-        "Virtus",
-        "Crown",
-        "Reclaimed",
-        "Lux",
+        "Shopify",
         "Cloudflare",
-        "Shopify"
+        "Lux",
+        "Virtus",
+        "Reclaimed",
+        "Crown"
       ],
       "sections": [
         {
@@ -2725,14 +2906,14 @@
       "file_size_bytes": 9421,
       "activity_level": "active",
       "projects": [
-        "Coconut",
-        "Virtus",
-        "Crown",
-        "Reclaimed",
-        "Lux",
-        "Cloudflare",
+        "Shopify",
         "GoodNeon",
-        "Shopify"
+        "Coconut",
+        "Cloudflare",
+        "Lux",
+        "Virtus",
+        "Reclaimed",
+        "Crown"
       ],
       "sections": [
         {
@@ -2967,12 +3148,12 @@
       "file_size_bytes": 6615,
       "activity_level": "moderate",
       "projects": [
-        "Virtus",
-        "Crown",
-        "Lux",
+        "Shopify",
         "Cloudflare",
         "WordPress",
-        "Shopify"
+        "Lux",
+        "Virtus",
+        "Crown"
       ],
       "sections": [
         {
@@ -3407,13 +3588,13 @@
       "file_size_bytes": 2458,
       "activity_level": "moderate",
       "projects": [
-        "Coconut",
-        "Crown",
-        "Reclaimed",
-        "Lux",
-        "GoodNeon",
+        "Shopify",
         "Shirtsy",
-        "Shopify"
+        "GoodNeon",
+        "Coconut",
+        "Lux",
+        "Reclaimed",
+        "Crown"
       ],
       "sections": [
         {
@@ -3487,17 +3668,17 @@
       "file_size_bytes": 45304,
       "activity_level": "very-active",
       "projects": [
-        "Coconut",
-        "Virtus",
-        "Crown",
-        "Reclaimed",
-        "Lux Neon",
-        "Lux",
-        "Cloudflare",
-        "GoodNeon",
+        "Shopify",
         "Shirtsy",
+        "GoodNeon",
+        "Coconut",
+        "Lux Neon",
         "WordPress",
-        "Shopify"
+        "Lux",
+        "Virtus",
+        "Cloudflare",
+        "Reclaimed",
+        "Crown"
       ],
       "sections": [
         {
@@ -4411,11 +4592,11 @@
       "file_size_bytes": 21594,
       "activity_level": "very-active",
       "projects": [
-        "Lux Neon",
+        "Shopify",
         "Cloudflare",
-        "Lux",
+        "Lux Neon",
         "WordPress",
-        "Shopify"
+        "Lux"
       ],
       "sections": [
         {
@@ -4827,15 +5008,15 @@
       "file_size_bytes": 27561,
       "activity_level": "very-active",
       "projects": [
+        "Shopify",
+        "Shirtsy",
+        "GoodNeon",
         "Coconut",
-        "Crown",
-        "Reclaimed",
-        "Nova Titans",
         "Lux Neon",
         "Lux",
-        "GoodNeon",
-        "Shirtsy",
-        "Shopify"
+        "Reclaimed",
+        "Crown",
+        "Nova Titans"
       ],
       "sections": [
         {
@@ -5363,16 +5544,16 @@
       "file_size_bytes": 23918,
       "activity_level": "very-active",
       "projects": [
-        "Crown",
-        "Nova Titans",
-        "Lux Neon",
-        "Lux",
-        "NET30",
-        "Cloudflare",
-        "GoodNeon",
+        "Shopify",
         "Shirtsy",
+        "NET30",
+        "GoodNeon",
+        "Lux Neon",
         "WordPress",
-        "Shopify"
+        "Lux",
+        "Cloudflare",
+        "Crown",
+        "Nova Titans"
       ],
       "sections": [
         {
@@ -5838,17 +6019,17 @@
       "file_size_bytes": 12002,
       "activity_level": "very-active",
       "projects": [
-        "Coconut",
-        "Virtus",
-        "Crown",
-        "Reclaimed",
-        "Lux Neon",
-        "Lux",
-        "Cloudflare",
-        "GoodNeon",
+        "Shopify",
         "Shirtsy",
+        "GoodNeon",
+        "Coconut",
+        "Lux Neon",
         "WordPress",
-        "Shopify"
+        "Lux",
+        "Virtus",
+        "Cloudflare",
+        "Reclaimed",
+        "Crown"
       ],
       "sections": [
         {
@@ -6129,14 +6310,14 @@
       "file_size_bytes": 10958,
       "activity_level": "moderate",
       "projects": [
-        "Coconut",
-        "Reclaimed",
-        "Nova Titans",
-        "Lux Neon",
-        "Lux",
-        "Cloudflare",
+        "Shopify",
         "GoodNeon",
-        "Shopify"
+        "Coconut",
+        "Lux Neon",
+        "Cloudflare",
+        "Lux",
+        "Reclaimed",
+        "Nova Titans"
       ],
       "sections": [
         {
@@ -6356,12 +6537,12 @@
       "file_size_bytes": 9060,
       "activity_level": "active",
       "projects": [
-        "Coconut",
-        "Reclaimed",
-        "Lux",
+        "Shopify",
         "GoodNeon",
+        "Coconut",
         "WordPress",
-        "Shopify"
+        "Lux",
+        "Reclaimed"
       ],
       "sections": [
         {
@@ -6573,9 +6754,9 @@
       "file_size_bytes": 4346,
       "activity_level": "light",
       "projects": [
+        "GoodNeon",
         "Lux",
-        "Shopify",
-        "GoodNeon"
+        "Shopify"
       ],
       "sections": [
         {
@@ -6637,19 +6818,19 @@
       "file_size_bytes": 16245,
       "activity_level": "active",
       "projects": [
-        "Coconut",
-        "Virtus",
-        "Crown",
-        "Reclaimed",
-        "NET60",
-        "Lux Neon",
-        "Lux",
-        "NET30",
-        "Cloudflare",
-        "GoodNeon",
+        "Shopify",
         "Shirtsy",
+        "NET30",
+        "GoodNeon",
+        "Coconut",
+        "Lux Neon",
+        "NET60",
+        "Lux",
+        "Virtus",
         "WordPress",
-        "Shopify"
+        "Reclaimed",
+        "Cloudflare",
+        "Crown"
       ],
       "sections": [
         {
@@ -6988,13 +7169,13 @@
       "file_size_bytes": 6938,
       "activity_level": "active",
       "projects": [
-        "Virtus",
-        "Crown",
-        "Lux",
-        "GoodNeon",
+        "Shopify",
         "Shirtsy",
+        "GoodNeon",
         "WordPress",
-        "Shopify"
+        "Lux",
+        "Virtus",
+        "Crown"
       ],
       "sections": [
         {
@@ -7181,15 +7362,15 @@
       "file_size_bytes": 8174,
       "activity_level": "moderate",
       "projects": [
+        "Shopify",
+        "Shirtsy",
+        "GoodNeon",
         "Coconut",
-        "Virtus",
-        "Crown",
-        "Reclaimed",
         "Lux Neon",
         "Lux",
-        "GoodNeon",
-        "Shirtsy",
-        "Shopify"
+        "Virtus",
+        "Reclaimed",
+        "Crown"
       ],
       "sections": [
         {
@@ -7370,17 +7551,17 @@
       "file_size_bytes": 9018,
       "activity_level": "very-active",
       "projects": [
-        "Coconut",
-        "Virtus",
-        "Crown",
-        "Reclaimed",
-        "Lux Neon",
-        "Lux",
+        "Shopify",
+        "Shirtsy",
         "NET30",
         "GoodNeon",
-        "Shirtsy",
+        "Coconut",
+        "Lux Neon",
         "WordPress",
-        "Shopify"
+        "Lux",
+        "Virtus",
+        "Reclaimed",
+        "Crown"
       ],
       "sections": [
         {
@@ -7627,14 +7808,14 @@
       "file_size_bytes": 12488,
       "activity_level": "moderate",
       "projects": [
+        "Shopify",
+        "GoodNeon",
         "Coconut",
-        "Reclaimed",
         "Lux Neon",
+        "WordPress",
         "Lux",
         "Cloudflare",
-        "GoodNeon",
-        "WordPress",
-        "Shopify"
+        "Reclaimed"
       ],
       "sections": [
         {
@@ -7887,17 +8068,17 @@
       "file_size_bytes": 8103,
       "activity_level": "very-active",
       "projects": [
-        "Coconut",
-        "Virtus",
-        "Crown",
-        "Reclaimed",
-        "Lux Neon",
-        "Lux",
-        "Cloudflare",
-        "GoodNeon",
+        "Shopify",
         "Shirtsy",
+        "GoodNeon",
+        "Coconut",
+        "Lux Neon",
         "WordPress",
-        "Shopify"
+        "Lux",
+        "Virtus",
+        "Cloudflare",
+        "Reclaimed",
+        "Crown"
       ],
       "sections": [
         {
@@ -8117,11 +8298,11 @@
       "file_size_bytes": 2542,
       "activity_level": "moderate",
       "projects": [
-        "Crown",
+        "Shirtsy",
+        "GoodNeon",
         "Lux Neon",
         "Lux",
-        "GoodNeon",
-        "Shirtsy"
+        "Crown"
       ],
       "sections": [
         {
