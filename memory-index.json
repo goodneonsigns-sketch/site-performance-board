@@ -1,33 +1,390 @@
 {
-  "generated_at": "2026-04-13T00:00:24.292817",
+  "generated_at": "2026-04-14T12:01:18.833703",
   "stats": {
-    "total_days_logged": 31,
-    "total_entries": 396,
+    "total_days_logged": 33,
+    "total_entries": 411,
     "most_active_projects": [
       {
         "project": "Lux",
-        "days": 31
+        "days": 33
       },
       {
         "project": "Shopify",
-        "days": 29
+        "days": 30
       },
       {
         "project": "Crown",
-        "days": 21
+        "days": 23
       },
       {
         "project": "GoodNeon",
         "days": 20
       },
       {
-        "project": "Virtus",
+        "project": "Shirtsy",
         "days": 18
       }
     ],
-    "recent_activity_streak": 22
+    "recent_activity_streak": 24
   },
   "days": [
+    {
+      "date": "2026-04-14",
+      "filename": "2026-04-14.md",
+      "section_count": 7,
+      "word_count": 939,
+      "file_size_bytes": 6985,
+      "activity_level": "moderate",
+      "projects": [
+        "Lux",
+        "NET30",
+        "Cloudflare",
+        "Crown",
+        "Shirtsy",
+        "Lux Neon"
+      ],
+      "sections": [
+        {
+          "title": "Ops Board Checks",
+          "content": [
+            "- **06:02 AM ET** \u2014 Hourly check. Repo up to date. No `jackie-execute` tasks. Board clear. Logged to activityLog, committed & pushed.",
+            "- **07:01 AM ET** \u2014 Hourly check. Repo up to date. No `jackie-execute` tasks. Board clear. Logged to activityLog, committed & pushed.",
+            "- **08:02 AM ET** \u2014 Hourly check. Repo up to date. No `jackie-execute` tasks. Board clear. Logged to activityLog, committed & pushed.",
+            ""
+          ]
+        },
+        {
+          "title": "ReferralCandy Integration (Crown Office Supplies) \u2014 Connected 8:39 AM ET",
+          "content": [
+            "- **API version:** v2.2 (HMAC-MD5 signature auth)",
+            "- **Credentials saved:** `.secrets/referralcandy.env` (Access ID + Secret Key)",
+            "- **Auth method:** MD5 signature = `SECRET_KEY + sorted params joined`; every call needs `accessID`, `timestamp`, `signature`",
+            "- **Base URL:** `https://my.referralcandy.com/api/v2.2/<method>.json`",
+            "- **Available endpoints:** verify, campaigns, referrals (requires `period_from`/`period_to`), purchase, referral (update)",
+            "- **Campaigns:** Default Campaign (ID 50126, ACTIVE) + \"Upgrade 20\" (ID 104119, ACTIVE)",
+            "- **Join URL:** `https://237crownofficesupp.refr.cc/join/default`",
+            "",
+            "- **1,733 total referrals**, **101 advocates**",
+            "- 45 referrals in 2026 so far (still active)",
+            "- Top advocates:",
+            "1. ar@nav.com \u2014 **459 referrals** (Nav.com)",
+            "2. catherine@bcc.credit \u2014 **263** (BCC Credit)",
+            "3. aff2@planning.net \u2014 **172** (Planning.net)",
+            "4. greatestnature@gmail.com \u2014 **164**",
+            "5. garit@garitboothe.com \u2014 **131** (Garit Boothe)",
+            "6. funding@startbusinesscredit.com \u2014 **112**",
+            "7. jgraceent@yahoo.com \u2014 **81**",
+            "8. info@creditplug.com \u2014 **47**",
+            "9. info@17keys.net \u2014 **33**",
+            "10. jtancongco@gmail.com \u2014 **31**",
+            "",
+            "Same organizations promoting BOTH brands (different emails, same domain):",
+            "- **Nav.com**: ar@nav.com (459 Crown) \u2194 chuber@nav.com (228 Shirtsy)",
+            "- **Planning.net**: aff2@planning.net (172 Crown) \u2194 aff@planning.net (179 Shirtsy)",
+            "- **StartBusinessCredit**: funding@ (112 Crown) \u2194 ceo@ (138 Shirtsy)",
+            "- **17Keys**: info@17keys.net \u2014 **33 Crown + 21 Shirtsy** (same email on both!)",
+            "",
+            "- catherine@bcc.credit \u2014 263 Crown referrals (warm lead, already trusts the brand)",
+            "- greatestnature@gmail.com \u2014 164 Crown referrals",
+            "- garit@garitboothe.com \u2014 131 Crown referrals (Garit Boothe \u2014 SEO/business blogger)",
+            "- jgraceent@yahoo.com \u2014 81 Crown referrals",
+            "- info@creditplug.com \u2014 47 Crown referrals",
+            ""
+          ]
+        },
+        {
+          "title": "Shirtsy Affiliate Landing Page & Dashboard Updates \u2014 8:30 AM ET",
+          "content": [
+            "- **Affiliate landing page built:** `projects/ops-dashboard-app/public/shirtsy-affiliate-landing.html`",
+            "- Commission calculator, social proof, pre-written social posts, email swipes, FAQ",
+            "- Live at: `https://ops-dashboard-61c.pages.dev/shirtsy-affiliate-landing.html`",
+            "- Banner ad creatives section **removed** per Lex's request (8:41 AM)",
+            "- **\"Affiliates\" tab added** to ShirtsyDashboard.jsx (Marketing group)",
+            "- 20 recruitment prospects: blogs (Ramp, Wise, StartupsAvant, PaymentCloud, etc.), YouTube channels (Get Business Credit, GreenScale, BizCreditCentral), platforms (CreditSuite, myFICO, Reddit)",
+            "- Status tracking, clickable visit buttons, current affiliate stats, outreach template links",
+            "- **Deployed** to Cloudflare Pages",
+            ""
+          ]
+        },
+        {
+          "title": "10:00 AM \u2014 Lux Weekly Newsletter (Cron)",
+          "content": [
+            "- **Article:** \"Art and Wine Evenings: Why Gallery Events Are the Most Exciting Night Out in South Florida\"",
+            "- **Published:** 2026-04-11",
+            "- **Klaviyo Campaign:** `01KP64SKFN9EJ3FDKPNW2FNDY3` \u2014 DRAFT",
+            "- **Campaign Message:** `01KP64SKG04KM9EHNFXS3NAEP9`",
+            "- **Template:** `XMWDQG` (cloned from `QS8SQW`)",
+            "- **Lists:** RifYyL (Lux All Clients) + URa3Mk (Newsletter)",
+            "- **Subject:** \u2728 Art and Wine Evenings: Why Gallery Events Are the Most Exciting Night Out in South Florida",
+            "- **From:** Lux Neon Art Gallery <luxneon2023@gmail.com>",
+            "- **Style:** Dark luxury (#0f1117 bg, #b8956a gold accents), article image, excerpt, CTA, footer links",
+            "- **Status:** DRAFT \u2014 awaiting Lex's review before sending",
+            "- **Klaviyo URL:** https://www.klaviyo.com/campaign/01KP64SKFN9EJ3FDKPNW2FNDY3",
+            ""
+          ]
+        },
+        {
+          "title": "9:01 AM \u2014 Ops Board Check (Cron)",
+          "content": [
+            "- Pulled repo: already up to date",
+            "- No `jackie-execute` tasks in queue",
+            "- Logged to activityLog, committed & pushed",
+            ""
+          ]
+        },
+        {
+          "title": "11:01 AM \u2014 Ops Board Check (Cron)",
+          "content": [
+            "- Pulled repo: already up to date",
+            "- No `jackie-execute` tasks in queue",
+            "- Logged to activityLog, committed & pushed",
+            ""
+          ]
+        },
+        {
+          "title": "11:28\u201311:43 AM \u2014 Shirtsy 4over Product Creation (#shirtsy-crown)",
+          "content": [
+            "",
+            "- **Type:** Simple product (DRAFT)",
+            "- **Price:** $129.99",
+            "- **Stock:** 32PT Uncoated, colored painted edges (14 colors incl. metallics)",
+            "- **NBDesigner:** Enabled, bleed 0.0625\", safe zone 0.125\", 300 DPI",
+            "- **Designer setting:** Uses existing postcard overlay images (IDs 3132/3133)",
+            "- **Background opacity lowered** from 50% \u2192 15% per Lex's feedback (template instructions graphic was distracting)",
+            "- 4over template files downloaded: horizontal + vertical EPS/JPG at /tmp/",
+            "",
+            "- **Type:** Variable product (DRAFT)",
+            "- **Variations:**",
+            "- 25 Bags \u2014 $199.99 (variation ID: 4527973)",
+            "- 50 Bags \u2014 $349.99 (variation ID: 4527974)",
+            "- **Specs:** 6oz Cotton Canvas, Natural color, 9\"\u00d713\" print area, 4/0 CMYK front, no bleed, 300 DPI",
+            "- **NBDesigner:** Enabled with custom flat 2D tote bag mockup as background",
+            "- **Tote bag mockup image:** WP Media ID 4527976 (`tote-bag-blank-mockup-1.jpg`) \u2014 AI-generated flat 2D blank tote illustration, used as both product image and designer background at 100% opacity",
+            "- **Design area positioned** over bag's front panel: 380\u00d7340 at offset (60,115), safe zone 0.5\" margins",
+            "- **Specs tab enabled** (`_nbdg_tab_enable=1`) with full specs table in `_nbdg_tab_content`",
+            "",
+            "- Existing postcards (ID: 126438) use \"Quantity\" as a product-level custom attribute (not global)",
+            "- NBDesigner `_designer_setting` is PHP serialized \u2014 careful with shell escaping; use Python to build JSON file then `curl -d @file`",
+            "- `bg_type: \"color\"` = solid color background; `bg_type: \"image\"` = uses `img_src` media ID",
+            "- `ratio` field = background image opacity (0-100)",
+            "- `_nbdg_tab_enable` + `_nbdg_tab_content` = populate the Specs tab on product page",
+            "- Lex wants **simple products** with minimal variations (2 quantity options), NOT complex multi-attribute configs",
+            "- Lex wants **flat 2D product mockups** as designer backgrounds so customers can visualize their design on the actual product",
+            "- 4over template files define print area but the diagram images are too distracting at >15% opacity",
+            "- WP media upload response may contain control characters \u2014 use `re.sub(r'[\\x00-\\x1f\\x7f]', '', raw)` before JSON parse",
+            "- Existing WC global attributes: Age, brand, Color, Gender, material, size, Sportwear Color, Style (no \"Quantity\")",
+            "- All 4over dropship products must stay under $400 (NET30 buying power cap)",
+            ""
+          ]
+        }
+      ]
+    },
+    {
+      "date": "2026-04-13",
+      "filename": "2026-04-13.md",
+      "section_count": 8,
+      "word_count": 1320,
+      "file_size_bytes": 9819,
+      "activity_level": "active",
+      "projects": [
+        "Lux",
+        "Shopify",
+        "NET30",
+        "Crown",
+        "WordPress",
+        "Shirtsy"
+      ],
+      "sections": [
+        {
+          "title": "Ops Board Checks",
+          "content": [
+            "",
+            "- **9:02 AM ET** \u2014 Hourly ops board check. No `jackie-execute` tasks queued. Board synced & activity log updated. Trimmed old log entries (kept last 24). Pushed to repo.",
+            "- **10:01 AM ET** \u2014 Hourly ops board check. No `jackie-execute` tasks. Board clear. Logged & pushed.",
+            "- **11:01 AM ET** \u2014 Hourly ops board check. No `jackie-execute` tasks. Board clear. Logged & pushed.",
+            "- **12:01 PM ET** \u2014 Hourly ops board check. No `jackie-execute` tasks. Board clear. Logged & pushed.",
+            "- **1:01 PM ET** \u2014 Hourly ops board check. No `jackie-execute` tasks queued. Activity log updated, committed & pushed.",
+            ""
+          ]
+        },
+        {
+          "title": "2:01 PM \u2014 Ops Board Check (Cron)",
+          "content": [
+            "- Pulled site-performance-board repo (already up to date)",
+            "- No `jackie-execute` tasks in queue",
+            "- Logged clear status to activityLog, committed & pushed",
+            "",
+            "- Pulled site-performance-board repo (already up to date)",
+            "- No `jackie-execute` tasks in queue",
+            "- Logged clear check to activityLog, committed & pushed",
+            "",
+            "- **Niche:** Personalized Neon Signs in Boca Raton, FL",
+            "- **Page ID:** 170921427223",
+            "- **Handle:** personalized-neon-signs-in-boca-raton-fl",
+            "- **URL:** https://luxneonartgallery.com/pages/personalized-neon-signs-in-boca-raton-fl",
+            "- **Admin:** https://bc414e-2.myshopify.com/admin/pages/170921427223",
+            "- **Word count:** ~1,180",
+            "- **AI-generated hero image included**",
+            "- Published via seo-autopublish.py \u2192 Shopify",
+            "- Note: First attempt tried \"Custom Neon Logo Signs for Miami Offices\" but that handle already existed from 3/25 (422 conflict). Pivoted to Boca Raton personalized neon niche instead.",
+            ""
+          ]
+        },
+        {
+          "title": "4:01 PM \u2014 Ops Board Check (Cron)",
+          "content": [
+            "- Pulled site-performance-board repo (already up to date)",
+            "- No `jackie-execute` tasks in queue",
+            "- Logged clear check to activityLog, committed & pushed",
+            ""
+          ]
+        },
+        {
+          "title": "5:01 PM \u2014 Ops Board Check (Cron)",
+          "content": [
+            "- Pulled site-performance-board repo (already up to date)",
+            "- No `jackie-execute` tasks in queue",
+            "- Logged clear check to activityLog, committed & pushed",
+            ""
+          ]
+        },
+        {
+          "title": "6:02 PM \u2014 Ops Board Check (Cron)",
+          "content": [
+            "- Pulled site-performance-board repo (got update: shirtsy-orders.html changed)",
+            "- No `jackie-execute` tasks in queue",
+            "- Trimmed activityLog to last 30 entries to prevent bloat",
+            "- Logged clear check to activityLog, committed & pushed",
+            ""
+          ]
+        },
+        {
+          "title": "Shirtsy Dashboard & Conversion Flow Work (10:26 AM \u2013 6:36 PM ET)",
+          "content": [
+            "",
+            "Lex spent most of the day building out the Shirtsy ops dashboard and NET30 conversion flow mock pages.",
+            "",
+            "- Built congratulations page for after NET30 approval",
+            "- Initially had credit card visual design \u2014 Lex said it looked \"scammy\", reverted to clean glassmorphism card",
+            "- Updated amounts: **$400 Buying Power** as hero number (not $6,000)",
+            "- $6,000 Credit Limit only mentioned as \"what we report to credit bureaus\"",
+            "- **KEY RULE: $400 Buying Power is what they can spend. $6,000 is what gets reported to D&B/Equifax/CreditSafe.**",
+            "- Added FAQ section explaining Credit Limit vs Buying Power, 60-90 day reporting timeline",
+            "- Deployed to ops-dashboard-61c.pages.dev",
+            "",
+            "- Built premium checkout page to replace bare MemberPress form",
+            "- Two-column layout: form (left) + trust sidebar (right)",
+            "- Green \"You're approved!\" banner, progress steps, order summary, benefits checklist, trust badges, testimonial, FAQ",
+            "- $99/year ($8.25/mo) with secure checkout messaging",
+            "- Deployed to ops-dashboard-61c.pages.dev",
+            "",
+            "- Built complete NET30 conversion email flow for Klaviyo:",
+            "1. Approval + Setup CTA (immediate)",
+            "2. SMS blast (immediate) \u2014 iPhone mockup",
+            "3. \"Expires in 48hrs\" urgency (+24hr)",
+            "4. Last day warning (+48hr)",
+            "5. Win-back \"we saved your spot\" (+7 days)",
+            "6. Feedback \"what stopped you?\" (+14 days)",
+            "- **Klaviyo HTML Export page** built (`projects/shirtsy/emails/klaviyo-html-export.html`) \u2014 copy-paste ready HTML with Klaviyo merge tags (`{{ first_name }}`, `{{ buying_power }}`, `{{ payment_url }}`, `{% unsubscribe %}`)",
+            "- All updated to lead with $400 buying power, $6,000 only as bureau reporting context",
+            "- Index page at: ops-dashboard-61c.pages.dev/shirtsy-email-flow-index",
+            "- Export page at: ops-dashboard-61c.pages.dev/shirtsy-klaviyo-export",
+            "",
+            "- Lex wanted the dashboard to look more exciting \u2014 tried dark mode (too much), settled on **light mode glassmorphism**",
+            "- Floating geometric shapes (circles, hexagons, triangles) in subtle cyan at low opacity",
+            "- Gradient mesh background, glass cards with hover lift, gradient accent bars",
+            "- All 14 tabs restyled: Overview, Sales, NET30, Production, Retention, Analytics, Email, Advertising, GBP, Performance, Support, Posts, Settings, Developing",
+            "",
+            "- New tab under Marketing group in sidebar",
+            "- Shows GA4 traffic sources, referral breakdown, First Promoter section, channel summary",
+            "- Uses real GA4 data (from historical pull)",
+            "",
+            "- **Built `projects/ops-dashboard-app/scripts/fetch-shirtsy-data.sh`** \u2014 pulls real data from WooCommerce + GA4 + WordPress users",
+            "- WooCommerce API: WP Application Password auth works (WooCommerce API keys have limited perms \u2014 use `SHIRTSY_WP_USER` + `SHIRTSY_WP_APP_PASSWORD` for full access)",
+            "- GA4 data: service account `jackie-analytics@jackie-489915.iam.gserviceaccount.com`",
+            "- **Cron job created**: \"Shirtsy Dashboard Data Refresh\" \u2014 runs 3x daily at 8am, 12pm, 5pm ET",
+            "- Cron ID: `3a444828-7bd1-4298-b457-6af449009177`",
+            "",
+            "- **KEY DISCOVERY**: NET30 pipeline data comes from **WordPress user roles**, NOT MemberPress API",
+            "- `approved` role = 128,140 users (applications that got approved)",
+            "- `net30_customer` role = 2,796 users (paid memberships)",
+            "- `customer` role = 32,910 users",
+            "- All-time conversion rate: 2.2% (approved \u2192 paid)",
+            "- Today's numbers: 33 approved, 8 paid",
+            "- This month: 100+ approved, 53 paid, 53% conversion rate",
+            "- Script updated to pull these via WP REST API `/wp-json/wp/v2/users?roles=approved|net30_customer`",
+            "- Data added to `shirtsy-live-data.json` under `net30` key",
+            "- Dashboard being wired to display these real numbers (vanessa-net30-live subagent in progress)",
+            "",
+            "- Measurement ID: **G-QJMQZZ6Z2N** (property 369319762)",
+            "- Injected via Elementor Pro Custom Code (snippet ID 4527841)",
+            "- Confirmed live: 10 active users showing in realtime, 262 sessions in last 7 days",
+            "- GA4 had been broken since late Feb 2026 (~6 weeks blind)",
+            "",
+            "- React app at: ops-dashboard-61c.pages.dev/shirtsy",
+            "- Sidebar tabs organized in groups:",
+            "- **Core**: Overview, Posts, Settings",
+            "- **Operations**: Sales, NET30, Production, Retention",
+            "- **Marketing**: Analytics, Email, Advertising, GBP, Performance",
+            "- **Support**: Support",
+            "- **Development**: Developing",
+            "- Developing tab links to all mock pages (approval, checkout, email flow, Klaviyo export, conversion plan, etc.)",
+            "- All standalone HTML pages served from `public/` directory",
+            "",
+            "- `projects/shirtsy/net30-approval.html` (approval page)",
+            "- `projects/shirtsy/net30-membership-checkout.html` (checkout page)",
+            "- `projects/shirtsy/emails/00-index.html` through `06-feedback-14day.html` (email flow)",
+            "- `projects/shirtsy/emails/klaviyo-html-export.html` (Klaviyo copy-paste)",
+            "- `projects/ops-dashboard-app/scripts/fetch-shirtsy-data.sh` (data refresh script)",
+            "- `projects/ops-dashboard-app/src/pages/ShirtsyDashboard.jsx` (multiple updates)",
+            "- `projects/ops-dashboard-app/src/components/Sidebar.jsx` (grouped tabs support)",
+            "- `projects/ops-dashboard-app/src/components/Layout.jsx` (controlled tab state)",
+            ""
+          ]
+        },
+        {
+          "title": "7:01 PM \u2014 Ops Board Check (Cron)",
+          "content": [
+            "- Pulled site-performance-board repo (already up to date)",
+            "- No `jackie-execute` tasks found \u2014 queue empty",
+            "- Logged check to activityLog, committed & pushed (db05cbd)",
+            ""
+          ]
+        },
+        {
+          "title": "6:36\u20137:20 PM \u2014 NET30 Live Data Wired + Referral Source Discovery",
+          "content": [
+            "",
+            "- Lex confirmed: NET30 pipeline data comes from **WordPress user roles**, NOT MemberPress API",
+            "- `approved` role = applications approved (128,140 all-time)",
+            "- `net30_customer` role = paid memberships (2,796 all-time)",
+            "- Updated `fetch-shirtsy-data.sh` to pull user counts by role, with today/yesterday/week/month breakdowns",
+            "- Dashboard overview now shows REAL numbers (33 approved today, 8 paid today, 53% monthly conversion rate)",
+            "- Subagent `vanessa-net30-live` deployed the live wiring successfully",
+            "",
+            "- Lex clarified: **First Promoter** is the affiliate/referral tracking platform for Shirtsy, not MemberPress",
+            "- First Promoter API: REST, 400 req/min, needs API Key + Account ID",
+            "- API docs: https://docs.firstpromoter.com/api-reference-v2/api-admin/introduction",
+            "- **Still waiting on Lex for the First Promoter API key** \u2014 once received, will pull promoter data and wire into Analytics tab",
+            "- MemberPress has NO exposed REST API on shirtsy.com (checked all namespaces \u2014 not registered)",
+            "- Custom `shirtsy/v1` namespace exists but only has magic-login endpoints",
+            "",
+            "- `shirtsy/v1` \u2014 magic login only",
+            "- `klaviyo/v1` \u2014 Klaviyo integration",
+            "- `mailin/v1` \u2014 Brevo/Sendinblue",
+            "- `nbdl/v1` \u2014 designer/gallery stats",
+            "- `wc-analytics` \u2014 WooCommerce analytics & reports (rich endpoint set)",
+            "- `wc-shipstation/v1` \u2014 ShipStation integration",
+            "- `wc/v3` \u2014 WooCommerce REST API v3",
+            "",
+            "- Pulled site-performance-board repo (already up to date)",
+            "- No jackie-execute tasks found \u2014 queue empty",
+            "- Logged to activityLog, committed & pushed",
+            ""
+          ]
+        }
+      ]
+    },
     {
       "date": "2026-04-12",
       "filename": "2026-04-12.md",
@@ -36,12 +393,12 @@
       "file_size_bytes": 10458,
       "activity_level": "active",
       "projects": [
-        "Shopify",
-        "Cloudflare",
         "Lux",
-        "Virtus",
-        "Nova Titans",
+        "Shopify",
         "Coconut",
+        "Nova Titans",
+        "Virtus",
+        "Cloudflare",
         "GoodNeon"
       ],
       "sections": [
@@ -261,18 +618,18 @@
       "file_size_bytes": 18546,
       "activity_level": "very-active",
       "projects": [
-        "NET30",
-        "Shopify",
-        "Cloudflare",
         "Lux",
+        "Shopify",
+        "Coconut",
         "Virtus",
         "Nova Titans",
-        "Lux Neon",
-        "Reclaimed",
-        "Shirtsy",
+        "NET30",
+        "Cloudflare",
         "Crown",
-        "Coconut",
-        "GoodNeon"
+        "GoodNeon",
+        "Shirtsy",
+        "Reclaimed",
+        "Lux Neon"
       ],
       "sections": [
         {
@@ -677,16 +1034,16 @@
       "file_size_bytes": 11494,
       "activity_level": "very-active",
       "projects": [
-        "NET30",
-        "Shopify",
         "Lux",
-        "WordPress",
+        "Shopify",
         "Virtus",
         "Nova Titans",
-        "Lux Neon",
-        "Shirtsy",
+        "NET30",
         "Crown",
-        "GoodNeon"
+        "WordPress",
+        "GoodNeon",
+        "Shirtsy",
+        "Lux Neon"
       ],
       "sections": [
         {
@@ -934,9 +1291,9 @@
       "file_size_bytes": 10877,
       "activity_level": "very-active",
       "projects": [
+        "Lux",
         "Shopify",
         "Cloudflare",
-        "Lux",
         "Virtus",
         "Crown"
       ],
@@ -1230,11 +1587,11 @@
       "file_size_bytes": 11169,
       "activity_level": "very-active",
       "projects": [
-        "Shopify",
         "Lux",
+        "Shopify",
         "Virtus",
-        "Lux Neon",
-        "Crown"
+        "Crown",
+        "Lux Neon"
       ],
       "sections": [
         {
@@ -1494,14 +1851,14 @@
       "file_size_bytes": 11113,
       "activity_level": "active",
       "projects": [
-        "Shopify",
-        "Cloudflare",
         "Lux",
-        "WordPress",
+        "Shopify",
         "Virtus",
-        "Lux Neon",
+        "Cloudflare",
+        "Crown",
+        "WordPress",
         "Shirtsy",
-        "Crown"
+        "Lux Neon"
       ],
       "sections": [
         {
@@ -1749,11 +2106,11 @@
       "file_size_bytes": 7060,
       "activity_level": "very-active",
       "projects": [
-        "Shopify",
         "Lux",
+        "Shopify",
         "Virtus",
-        "Reclaimed",
-        "Crown"
+        "Crown",
+        "Reclaimed"
       ],
       "sections": [
         {
@@ -1933,15 +2290,15 @@
       "file_size_bytes": 27498,
       "activity_level": "very-active",
       "projects": [
-        "Shopify",
-        "Cloudflare",
         "Lux",
-        "Virtus",
-        "Reclaimed",
-        "Shirtsy",
-        "Crown",
+        "Shopify",
         "Coconut",
-        "GoodNeon"
+        "Virtus",
+        "Cloudflare",
+        "Crown",
+        "GoodNeon",
+        "Shirtsy",
+        "Reclaimed"
       ],
       "sections": [
         {
@@ -2503,12 +2860,12 @@
       "file_size_bytes": 17809,
       "activity_level": "very-active",
       "projects": [
-        "Shopify",
-        "Cloudflare",
         "Lux",
+        "Shopify",
         "Virtus",
-        "Reclaimed",
-        "Crown"
+        "Cloudflare",
+        "Crown",
+        "Reclaimed"
       ],
       "sections": [
         {
@@ -2906,14 +3263,14 @@
       "file_size_bytes": 9421,
       "activity_level": "active",
       "projects": [
-        "Shopify",
-        "Cloudflare",
         "Lux",
-        "Virtus",
-        "Reclaimed",
-        "Crown",
+        "Shopify",
         "Coconut",
-        "GoodNeon"
+        "Virtus",
+        "Cloudflare",
+        "Crown",
+        "GoodNeon",
+        "Reclaimed"
       ],
       "sections": [
         {
@@ -3148,12 +3505,12 @@
       "file_size_bytes": 6615,
       "activity_level": "moderate",
       "projects": [
-        "Shopify",
-        "Cloudflare",
         "Lux",
-        "WordPress",
+        "Shopify",
         "Virtus",
-        "Crown"
+        "Cloudflare",
+        "Crown",
+        "WordPress"
       ],
       "sections": [
         {
@@ -3284,8 +3641,8 @@
       "file_size_bytes": 1017,
       "activity_level": "light",
       "projects": [
-        "Shopify",
-        "Lux"
+        "Lux",
+        "Shopify"
       ],
       "sections": [
         {
@@ -3320,8 +3677,8 @@
       "file_size_bytes": 3176,
       "activity_level": "moderate",
       "projects": [
-        "Shopify",
-        "Lux"
+        "Lux",
+        "Shopify"
       ],
       "sections": [
         {
@@ -3549,8 +3906,8 @@
       "file_size_bytes": 771,
       "activity_level": "light",
       "projects": [
-        "Shopify",
-        "Lux"
+        "Lux",
+        "Shopify"
       ],
       "sections": [
         {
@@ -3588,13 +3945,13 @@
       "file_size_bytes": 2458,
       "activity_level": "moderate",
       "projects": [
-        "Shopify",
         "Lux",
-        "Reclaimed",
-        "Shirtsy",
-        "Crown",
+        "Shopify",
         "Coconut",
-        "GoodNeon"
+        "Crown",
+        "GoodNeon",
+        "Shirtsy",
+        "Reclaimed"
       ],
       "sections": [
         {
@@ -3668,17 +4025,17 @@
       "file_size_bytes": 45304,
       "activity_level": "very-active",
       "projects": [
-        "Shopify",
-        "Cloudflare",
         "Lux",
-        "WordPress",
-        "Virtus",
-        "Lux Neon",
-        "Reclaimed",
-        "Shirtsy",
-        "Crown",
+        "Shopify",
         "Coconut",
-        "GoodNeon"
+        "Virtus",
+        "Cloudflare",
+        "Crown",
+        "WordPress",
+        "GoodNeon",
+        "Shirtsy",
+        "Reclaimed",
+        "Lux Neon"
       ],
       "sections": [
         {
@@ -4592,9 +4949,9 @@
       "file_size_bytes": 21594,
       "activity_level": "very-active",
       "projects": [
+        "Lux",
         "Shopify",
         "Cloudflare",
-        "Lux",
         "WordPress",
         "Lux Neon"
       ],
@@ -5008,15 +5365,15 @@
       "file_size_bytes": 27561,
       "activity_level": "very-active",
       "projects": [
-        "Shopify",
         "Lux",
-        "Nova Titans",
-        "Lux Neon",
-        "Reclaimed",
-        "Shirtsy",
-        "Crown",
+        "Shopify",
         "Coconut",
-        "GoodNeon"
+        "Nova Titans",
+        "Crown",
+        "GoodNeon",
+        "Shirtsy",
+        "Reclaimed",
+        "Lux Neon"
       ],
       "sections": [
         {
@@ -5544,16 +5901,16 @@
       "file_size_bytes": 23918,
       "activity_level": "very-active",
       "projects": [
-        "NET30",
-        "Shopify",
-        "Cloudflare",
         "Lux",
-        "WordPress",
+        "Shopify",
         "Nova Titans",
-        "Lux Neon",
-        "Shirtsy",
+        "NET30",
+        "Cloudflare",
         "Crown",
-        "GoodNeon"
+        "WordPress",
+        "GoodNeon",
+        "Shirtsy",
+        "Lux Neon"
       ],
       "sections": [
         {
@@ -6019,17 +6376,17 @@
       "file_size_bytes": 12002,
       "activity_level": "very-active",
       "projects": [
-        "Shopify",
-        "Cloudflare",
         "Lux",
-        "WordPress",
-        "Virtus",
-        "Lux Neon",
-        "Reclaimed",
-        "Shirtsy",
-        "Crown",
+        "Shopify",
         "Coconut",
-        "GoodNeon"
+        "Virtus",
+        "Cloudflare",
+        "Crown",
+        "WordPress",
+        "GoodNeon",
+        "Shirtsy",
+        "Reclaimed",
+        "Lux Neon"
       ],
       "sections": [
         {
@@ -6310,14 +6667,14 @@
       "file_size_bytes": 10958,
       "activity_level": "moderate",
       "projects": [
-        "Shopify",
-        "Cloudflare",
         "Lux",
-        "Nova Titans",
-        "Lux Neon",
-        "Reclaimed",
+        "Shopify",
         "Coconut",
-        "GoodNeon"
+        "Nova Titans",
+        "Cloudflare",
+        "GoodNeon",
+        "Reclaimed",
+        "Lux Neon"
       ],
       "sections": [
         {
@@ -6537,12 +6894,12 @@
       "file_size_bytes": 9060,
       "activity_level": "active",
       "projects": [
-        "Shopify",
         "Lux",
-        "WordPress",
-        "Reclaimed",
+        "Shopify",
         "Coconut",
-        "GoodNeon"
+        "WordPress",
+        "GoodNeon",
+        "Reclaimed"
       ],
       "sections": [
         {
@@ -6754,9 +7111,9 @@
       "file_size_bytes": 4346,
       "activity_level": "light",
       "projects": [
-        "Shopify",
+        "Lux",
         "GoodNeon",
-        "Lux"
+        "Shopify"
       ],
       "sections": [
         {
@@ -6818,19 +7175,19 @@
       "file_size_bytes": 16245,
       "activity_level": "active",
       "projects": [
-        "NET30",
-        "Shopify",
-        "Cloudflare",
         "Lux",
-        "NET60",
-        "WordPress",
-        "Virtus",
-        "Lux Neon",
-        "Reclaimed",
-        "Shirtsy",
-        "Crown",
+        "Shopify",
         "Coconut",
-        "GoodNeon"
+        "Virtus",
+        "NET30",
+        "Cloudflare",
+        "Crown",
+        "WordPress",
+        "NET60",
+        "GoodNeon",
+        "Shirtsy",
+        "Reclaimed",
+        "Lux Neon"
       ],
       "sections": [
         {
@@ -7169,13 +7526,13 @@
       "file_size_bytes": 6938,
       "activity_level": "active",
       "projects": [
-        "Shopify",
         "Lux",
-        "WordPress",
+        "Shopify",
         "Virtus",
-        "Shirtsy",
         "Crown",
-        "GoodNeon"
+        "WordPress",
+        "GoodNeon",
+        "Shirtsy"
       ],
       "sections": [
         {
@@ -7362,15 +7719,15 @@
       "file_size_bytes": 8174,
       "activity_level": "moderate",
       "projects": [
-        "Shopify",
         "Lux",
-        "Virtus",
-        "Lux Neon",
-        "Reclaimed",
-        "Shirtsy",
-        "Crown",
+        "Shopify",
         "Coconut",
-        "GoodNeon"
+        "Virtus",
+        "Crown",
+        "GoodNeon",
+        "Shirtsy",
+        "Reclaimed",
+        "Lux Neon"
       ],
       "sections": [
         {
@@ -7551,17 +7908,17 @@
       "file_size_bytes": 9018,
       "activity_level": "very-active",
       "projects": [
-        "NET30",
-        "Shopify",
         "Lux",
-        "WordPress",
-        "Virtus",
-        "Lux Neon",
-        "Reclaimed",
-        "Shirtsy",
-        "Crown",
+        "Shopify",
         "Coconut",
-        "GoodNeon"
+        "Virtus",
+        "NET30",
+        "Crown",
+        "WordPress",
+        "GoodNeon",
+        "Shirtsy",
+        "Reclaimed",
+        "Lux Neon"
       ],
       "sections": [
         {
@@ -7808,14 +8165,14 @@
       "file_size_bytes": 12488,
       "activity_level": "moderate",
       "projects": [
-        "Shopify",
-        "Cloudflare",
         "Lux",
-        "WordPress",
-        "Lux Neon",
-        "Reclaimed",
+        "Shopify",
         "Coconut",
-        "GoodNeon"
+        "Cloudflare",
+        "WordPress",
+        "GoodNeon",
+        "Reclaimed",
+        "Lux Neon"
       ],
       "sections": [
         {
@@ -8068,17 +8425,17 @@
       "file_size_bytes": 8103,
       "activity_level": "very-active",
       "projects": [
-        "Shopify",
-        "Cloudflare",
         "Lux",
-        "WordPress",
-        "Virtus",
-        "Lux Neon",
-        "Reclaimed",
-        "Shirtsy",
-        "Crown",
+        "Shopify",
         "Coconut",
-        "GoodNeon"
+        "Virtus",
+        "Cloudflare",
+        "Crown",
+        "WordPress",
+        "GoodNeon",
+        "Shirtsy",
+        "Reclaimed",
+        "Lux Neon"
       ],
       "sections": [
         {
@@ -8299,10 +8656,10 @@
       "activity_level": "moderate",
       "projects": [
         "Lux",
-        "Lux Neon",
-        "Shirtsy",
         "Crown",
-        "GoodNeon"
+        "GoodNeon",
+        "Shirtsy",
+        "Lux Neon"
       ],
       "sections": [
         {
