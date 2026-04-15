@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-04-14T12:01:18.833703",
+  "generated_at": "2026-04-15T06:00:49.727120",
   "stats": {
-    "total_days_logged": 33,
-    "total_entries": 411,
+    "total_days_logged": 34,
+    "total_entries": 431,
     "most_active_projects": [
       {
         "project": "Lux",
@@ -25,22 +25,82 @@
         "days": 18
       }
     ],
-    "recent_activity_streak": 24
+    "recent_activity_streak": 25
   },
   "days": [
     {
+      "date": "2026-04-15",
+      "filename": "2026-04-15.md",
+      "section_count": 5,
+      "word_count": 199,
+      "file_size_bytes": 1176,
+      "activity_level": "moderate",
+      "projects": [],
+      "sections": [
+        {
+          "title": "Ops Board Checks",
+          "content": [
+            "- **11:01 PM ET (04/14)** \u2014 Hourly check. Repo up to date. No `jackie-execute` tasks. Board clear. Logged to activityLog, committed & pushed.",
+            "- **12:02 AM ET** \u2014 Hourly check. Repo up to date. No `jackie-execute` tasks. Queue empty. Logged & pushed.",
+            "- **1:01 AM ET** \u2014 Hourly check. Repo up to date. No `jackie-execute` tasks. Queue empty. Logged & pushed.",
+            ""
+          ]
+        },
+        {
+          "title": "2:01 AM \u2014 Ops Board Check (Cron)",
+          "content": [
+            "- Pulled site-performance-board repo (up to date)",
+            "- No `jackie-execute` tasks found \u2014 queue empty",
+            "- Logged to activityLog, committed & pushed (9681cd7)",
+            "- Trimmed log to 24 entries",
+            ""
+          ]
+        },
+        {
+          "title": "3:02 AM \u2014 Ops Board Check (Cron)",
+          "content": [
+            "- Pulled repo: already up to date",
+            "- No `jackie-execute` tasks found \u2014 queue empty",
+            "- Logged to activityLog, committed & pushed",
+            "- Trimmed log to last 30 entries",
+            ""
+          ]
+        },
+        {
+          "title": "4:01 AM \u2014 Ops Board Check (Cron)",
+          "content": [
+            "- Pulled repo: already up to date",
+            "- No `jackie-execute` tasks found \u2014 queue empty",
+            "- Logged to activityLog, committed & pushed",
+            ""
+          ]
+        },
+        {
+          "title": "5:02 AM \u2014 Ops Board Check (Cron)",
+          "content": [
+            "- Pulled repo: already up to date",
+            "- No `jackie-execute` tasks found \u2014 queue empty",
+            "- Logged to activityLog, committed & pushed (0060607)",
+            ""
+          ]
+        }
+      ]
+    },
+    {
       "date": "2026-04-14",
       "filename": "2026-04-14.md",
-      "section_count": 7,
-      "word_count": 939,
-      "file_size_bytes": 6985,
-      "activity_level": "moderate",
+      "section_count": 22,
+      "word_count": 4069,
+      "file_size_bytes": 27670,
+      "activity_level": "very-active",
       "projects": [
         "Lux",
+        "WordPress",
         "NET30",
         "Cloudflare",
-        "Crown",
+        "Nova Titans",
         "Shirtsy",
+        "Crown",
         "Lux Neon"
       ],
       "sections": [
@@ -176,6 +236,397 @@
             "- All 4over dropship products must stay under $400 (NET30 buying power cap)",
             ""
           ]
+        },
+        {
+          "title": "Nova Titans V2 \u2014 novatitansphotos.com (#titans channel)",
+          "content": [
+            "",
+            "- **Domain:** novatitansphotos.com",
+            "- DNS records added by Lex: A record \u2192 76.76.21.21, CNAME www \u2192 cname.vercel-dns.com (TTL 600)",
+            "- Verified live + SSL cert provisioned",
+            "- **Important:** Domain is on the CLI-deployed Vercel project (`nova-titans-v2`), NOT the Git-connected `gamma` one. Must use `npx vercel --prod` to deploy to this domain (not just `git push`).",
+            "",
+            "- Vanessa's mobile optimization overwrote my Gallery lazy loading changes (both edited same files)",
+            "- Fixed Gallery.jsx to import `fetchPhotos` and use `useState`/`useEffect` instead of `data.photos`",
+            "- Commit: `ad5abfa`",
+            "",
+            "- **AuthContext** (`src/contexts/AuthContext.jsx`): Provides user, loading, signIn, signUp, signOut via React context + Supabase onAuthStateChange",
+            "- **AuthModal** (`src/components/AuthModal.jsx`): Two-tab Sign In / Sign Up modal, dark theme with gold/green accents, form validation",
+            "- **User menu in Layout header**: Sign In button (gold outline) when logged out, user dropdown (name + Sign Out) when logged in",
+            "- **Lightbox buttons**: \u2b07\ufe0f Download (green, requires auth, tracks downloads) + \ud83d\udda8\ufe0f Buy Print (gold, opens PrintOrderModal)",
+            "- **PrintOrderModal** (`src/components/PrintOrderModal.jsx`): Photo preview + 4 size cards ($12/$20/$30/$60), posts to `/api/create-checkout`, redirects to Stripe",
+            "- **OrderSuccess page** (`src/pages/OrderSuccess.jsx`): Route `/order-success`, shows confirmation after Stripe payment",
+            "- **Stripe dependency installed** (`npm install stripe`)",
+            "- **Checkout URLs updated** to use novatitansphotos.com instead of vercel.app",
+            "- Commit: `874e528`, deployed via `npx vercel --prod`",
+            "",
+            "- `STRIPE_SECRET_KEY` env var NOT yet added to Vercel \u2014 Buy Print button will fail until Lex adds it",
+            "- Need Lex to create Stripe test keys and add to Vercel project settings",
+            "- Also need `STRIPE_WEBHOOK_SECRET` for the webhook endpoint (`api/stripe-webhook.js`)",
+            "",
+            "- [ ] Add Stripe test/live keys to Vercel env vars",
+            "- [ ] Test full print purchase flow end-to-end",
+            "- [ ] Enable Google OAuth in Supabase (needs Google OAuth client ID)",
+            "- [ ] Order notification system (email Lex when print is purchased)",
+            "- [ ] Parent manual photo tagging UI",
+            "- [ ] Code-splitting (bundle still >500KB)",
+            ""
+          ]
+        },
+        {
+          "title": "12:00\u20131:25 PM \u2014 Shirtsy WooCommerce Product Batch 1 Complete + Batch 2 Started (#shirtsy-crown)",
+          "content": [
+            "",
+            "Bulk builder subagent (`shirtsy-bulk-builder`) completed, creating 26 products (+ 2 earlier = 28 total). All drafts in category 3303, NBDesigner configured, mockup images, quantity attributes with 2 variations, specs tables, descriptions. ~15 of 26 have 4over templates as designer backgrounds; rest use white canvas fallback.",
+            "",
+            "| ID | Product | Qty1 Price | Qty2 Price |",
+            "|---|---|---|---|",
+            "| 4527972 | Custom Tote Bags | $199.99 (25) | $349.99 (50) |",
+            "| 4527981 | Custom Business Cards | $19.99 (250) | $33.99 (500) |",
+            "| 4527989 | Custom Postcards 4x6 | $40 (250) | $72 (500) |",
+            "| 4527994 | Custom Flyers 8.5x11 | $60 (250) | $110 (500) |",
+            "| 4527999 | Custom Brochures (Tri-Fold) | $60 (250) | $110 (500) |",
+            "| 4528004 | Custom Rack Cards 4x9 | $40 (250) | $72 (500) |",
+            "| 4528008 | Custom Door Hangers | $50 (250) | $90 (500) |",
+            "| 4528012 | Custom Bookmarks | $30 (250) | $52 (500) |",
+            "| 4528017 | Custom Greeting Cards | $50 (100) | $110 (250) |",
+            "| 4528022 | Custom Vinyl Banners | $50 (3\u00d76ft) | $90 (4\u00d78ft) |",
+            "| 4528027 | Custom Yard Signs 18x24 | $80 (10) | $170 (25) |",
+            "| 4528032 | Custom Retractable Banner Stand | $90 (1) | $170 (2) |",
+            "| 4528037 | Custom Sidewalk Signs | $90 (1) | $170 (2) |",
+            "| 4528041 | Custom Window Clings | $50 (10) | $110 (25) |",
+            "| 4528046 | Custom Car Magnets | $50 (2pk 12\u00d718) | $90 (2pk 12\u00d724) |",
+            "| 4528050 | Custom Foam Board Signs | $60 (1) | $150 (3) |",
+            "| 4528055 | Custom Mugs 11oz | $96 (12) | $168 (24) |",
+            "| 4528060 | Custom Buttons & Pins | $50 (50) | $90 (100) |",
+            "| 4528065 | Custom Stickers | $32 (250) | $56 (500) |",
+            "| 4528069 | Custom Magnets | $32 (250) | $56 (500) |",
+            "| 4528073 | Custom Koozies | $75 (25) | $125 (50) |",
+            "| 4528077 | Custom Mousepads | $175 (25) | $300 (50) |",
+            "| 4528081 | Custom Lanyards | $150 (50) | $260 (100) |",
+            "| 4528086 | Custom Hang Tags | $32 (250) | $56 (500) |",
+            "| 4528090 | Custom Acrylic Signs | $70 (1) | $130 (2) |",
+            "| 4528094 | Custom Metal Prints | $80 (1) | $150 (2) |",
+            "| 4528099 | Custom Envelopes | $36 (250) | $64 (500) |",
+            "| 4528103 | Custom Letterhead | $36 (250) | $64 (500) |",
+            "",
+            "Subagent `shirtsy-batch2-builder` spawned (sonnet model, 30-min timeout). Products:",
+            "",
+            "**Premium Business Cards (5):** Silk, Suede, Painted Edge, Raised Foil, Brown Kraft",
+            "**Apparel (6):** Men's Tees, Men's Premium Tees, Long Sleeve, Tank Tops, Women's Premium, Kids",
+            "**Premium Marketing (4):** Presentation Folders 6\u00d79 & 9\u00d712, Tear-Off Flyers, Tear-Off Postcards, Booklets",
+            "**Signs & Displays (7):** Feather Flags, Teardrop Flags, Event Tents, Tablecloths, Tabletop Displays, Heavy-Duty Coroplast, Aluminum Signs",
+            "**Labels & Stickers (4):** Round Stickers, Rectangle Stickers, Bumper Stickers, Roll Labels",
+            "**Packaging & Print (3):** Business Card Boxes, Header Cards, Posters",
+            "",
+            "Full config at `/tmp/shirtsy-batch2-config.json`.",
+            "",
+            "- Added \ud83d\udd04 **Refresh** button next to the \"Updated\" timestamp on Shirtsy dashboard Overview tab",
+            "- Cyan-themed, hover effect, spinning animation while loading",
+            "- Cache-busts with `?t=Date.now()` query param",
+            "- Re-fetches `shirtsy-live-data.json` on click",
+            "- Deployed to Cloudflare Pages",
+            "- **Note:** Data freshness still depends on cron sync (8am/12pm/5pm). Lex asked about checking numbers frequently \u2014 could bump cron frequency if needed.",
+            "",
+            "- Lex published the new NET30 application page on shirtsy.com (replacing old Elementor form)",
+            "- Test page at `shirtsy.com/test-application/` (WP page ID: 4528262, template: template-builder.php)",
+            "- Same design as `shirtsy-net30-application` mockup \u2014 hero, trust bar, mini steps, sidebar, 4-section form, testimonials, FAQ, CTA",
+            "- Uses exact Elementor form field names (form_fields[first], form_fields[ein], etc.)",
+            "- **This is DONE \u2014 off the todo list**",
+            "",
+            "- Batch 1: \u2705 28 products built, awaiting Lex's product images",
+            "- Batch 2: \u2705 30 products built + pricing fixed (all 23 underpriced products corrected)",
+            "- **58 total products** on shirtsy.com, all drafts, all with NBDesigner",
+            "- Lex needs to add product images, then potential Batch 3",
+            "",
+            "- Pulled site-performance-board repo (already up to date)",
+            "- No `jackie-execute` tasks found \u2014 queue empty",
+            "- Logged to activityLog, committed & pushed",
+            ""
+          ]
+        },
+        {
+          "title": "4:01 PM \u2014 Ops Board Check (Cron)",
+          "content": [
+            "- Pulled repo \u2014 already up to date",
+            "- No `jackie-execute` tasks queued",
+            "- Logged to activityLog, committed & pushed",
+            ""
+          ]
+        },
+        {
+          "title": "5:01 PM \u2014 Ops Board Check (Cron)",
+          "content": [
+            "- Pulled repo \u2014 already up to date",
+            "- No `jackie-execute` tasks queued",
+            "- Logged to activityLog, committed & pushed",
+            ""
+          ]
+        },
+        {
+          "title": "6:02 PM \u2014 Ops Board Check (Cron)",
+          "content": [
+            "- Pulled repo \u2014 got update (shirtsy-orders.html)",
+            "- No `jackie-execute` tasks queued",
+            "- Logged to activityLog, committed & pushed",
+            ""
+          ]
+        },
+        {
+          "title": "3:30\u20133:50 PM \u2014 Shirtsy Homepage Mockup Updates (#shirtsy-crown)",
+          "content": [
+            "",
+            "- File: `projects/ops-dashboard-app/public/shirtsy-homepage-mockup.html`",
+            "- Live at: `https://ops-dashboard-61c.pages.dev/shirtsy-homepage-mockup.html`",
+            "- Dashboard tab: \ud83c\udfe0 New Homepage (Development group)",
+            "",
+            "- \ud83c\udfe0 New Homepage tab in sidebar now **opens mockup as full page in new tab** instead of embedding in dashboard iframe",
+            "- Added `href` property support to `Sidebar.jsx` \u2014 tabs with `href` render as `<a target=\"_blank\">` links with \u2197 indicator instead of buttons",
+            "- ShirtsyDashboard.jsx updated: `new-homepage` tab config has `href: '/shirtsy-homepage-mockup.html'`",
+            "",
+            "- **Hero product cards:** Unsplash images for business cards, t-shirts, banners, stickers",
+            "- **Category cards:** Each category now has a real photo (business cards, clothing rack, banner, print materials, stickers, promo products) with hover zoom effect",
+            "- **Lifestyle banner added** between categories and NET30: team photo with cyan\u2192magenta gradient overlay, \"Your Brand, Printed Perfectly\" headline",
+            "- **Photo strip** before bottom CTA: 4-column grid alternating lifestyle photos + colored stat blocks (cyan \"50+ Custom Products\" + magenta \"NET30 Business Credit\")",
+            "- **Featured product cards** now have real images with hover zoom",
+            "",
+            "- Lex said \"try not to use any other colors at all\" \u2014 purged ALL green (#8DC63F) references",
+            "- **Only colors allowed:** Cyan #00AEEF (primary), Magenta #EC008C, Yellow #FFF200, Black/Ink #231F20, white, grays",
+            "- Green was used for checkmarks, category accents, How It Works step 3, product badges, testimonial card, CMYK divider bar \u2014 ALL replaced with cyan/yellow/ink",
+            "- CMYK divider bar now correctly shows C/M/Y/**K** (was C/M/Y/Green)",
+            "- This is a standing design rule for Shirtsy \u2014 **no green, no blue, no off-palette colors**",
+            ""
+          ]
+        },
+        {
+          "title": "3:55 PM \u2014 Dashboard Data Freshness Issue",
+          "content": [
+            "- Lex noticed numbers weren't updating after clicking Refresh button",
+            "- **Root cause:** Refresh button re-fetches the JSON file, but the JSON is only rebuilt by the cron (8am/12pm/5pm ET). Between syncs, the data is stale.",
+            "- Ran `fetch-shirtsy-data.sh` manually, rebuilt, and redeployed \u2014 data updated",
+            "- **Consideration:** Bump cron to hourly, or make refresh button trigger a live API fetch",
+            ""
+          ]
+        },
+        {
+          "title": "6:16 PM \u2014 Dashboard Data Verification",
+          "content": [
+            "- Lex asked to double-check dashboard numbers after refresh",
+            "- **Verified against live WooCommerce + WordPress APIs:**",
+            "- Applications today: Dashboard=22, Actual=**24** (2 more came in after 5pm sync)",
+            "- Paid today: 7 \u2705 matches",
+            "- Revenue today: Dashboard=$585.61, Actual=**$1,024.26** (11 orders) \u2014 discrepancy likely from `today` block using different time window than `daily_7d`",
+            "- Yesterday: 37 approved, 9 paid \u2705 matches",
+            "- Yesterday revenue: $1,422.64 \u2705 matches",
+            "- **Revenue bug:** The `today` stats block and `daily_7d` block may count orders differently \u2014 needs investigation",
+            "- **Action needed:** Fix revenue discrepancy between `today` and `daily_7d` blocks in `fetch-shirtsy-data.sh`, consider bumping cron frequency",
+            ""
+          ]
+        },
+        {
+          "title": "7:01 PM \u2014 Ops Board Check (Cron)",
+          "content": [
+            "- Pulled repo: already up to date",
+            "- No `jackie-execute` tasks queued",
+            "- Logged to activityLog, committed & pushed",
+            ""
+          ]
+        },
+        {
+          "title": "6:30\u20137:10 PM \u2014 NBDesigner Pattern Study & 5-Product Test (#shirtsy-crown)",
+          "content": [
+            "",
+            "Analyzed all published NBDesigner-enabled products on shirtsy.com. Identified **5 distinct configuration patterns**:",
+            "",
+            "1. **Flat Print** (cards, stickers, magnets, posters, signs, flyers)",
+            "- `bg_type: \"color\"` (#ffffff) or `\"tran\"`",
+            "- `img_overlay`: Template with bleed/safe zone lines (show_overlay=1, include_overlay=0)",
+            "- product_width \u2248 real_width (design IS the product)",
+            "- DPI: 300",
+            "",
+            "2. **Apparel** (tees, hoodies, crops, jackets)",
+            "- `bg_type: \"image\"` \u2014 blank garment photo as faint background",
+            "- Placeholder overlay (3133), not visible",
+            "- Large canvas (24-36\") with smaller print zone (8-16\") positioned over chest",
+            "- Ratio: 13-17% opacity, DPI: 144",
+            "- Often 2 sides (front + back)",
+            "",
+            "3. **Drinkware** (mugs, tumblers, flasks)",
+            "- Wrap template overlay with \"Left/Center/Right\" labels",
+            "- product_width \u2248 real_width (full wrap)",
+            "- DPI: 600 (sublimation)",
+            "",
+            "4. **Bags/Accessories** (backpacks, totes, aprons)",
+            "- Product photo background at 25-50% opacity",
+            "- Smaller design zone on bag face",
+            "- DPI: 72",
+            "",
+            "5. **Custom Shapes** (shoes, masks)",
+            "- Shape outline overlay as design guide",
+            "",
+            "- 3133: 101\u00d7101 gray square (placeholder for apparel \u2014 invisible)",
+            "- 3132: placeholder image",
+            "- 77839: 216\u00d7216 transparent placeholder (bags)",
+            "- 130561: Magnet_Safe.png (252\u00d7144, red rectangle)",
+            "- 153111: Business card template (520\u00d7315, cyan safe + magenta trim + gray bleed)",
+            "- 77936: Circle sticker (500\u00d7500, black circle outline)",
+            "- 1134071: Mug template (576\u00d7288, Left/Center/Right labels)",
+            "- 388801: Mask area (504\u00d7396)",
+            "",
+            "Created overlays and configured all 5 products:",
+            "",
+            "| Product | ID | Category | Overlay/BG | Media ID |",
+            "|---|---|---|---|---|",
+            "| Custom Business Cards | 4527981 | Flat Print | Template (magenta trim + cyan safe + gray bleed) | 4528376 |",
+            "| Custom Round Stickers | 4528226 | Flat Print (Circle) | Black circle outline | 4528378 |",
+            "| Custom Men's T-Shirts | 4528141 | Apparel | Blank white tee flatlay (15% opacity) | 4528381 |",
+            "| Custom Mugs 11oz | 4528055 | Drinkware | Wrap template L/C/R labels (600 DPI) | 4528379 |",
+            "| Custom Tote Bags | 4527972 | Bags | Blank tote flatlay (40% opacity) | 4528382 |",
+            "",
+            "- **`_nbdesigner_enable` meta key was NOT set** on 3 of 5 products \u2014 WooCommerce API update of `_designer_setting` alone doesn't enable NBDesigner. Must explicitly set `_nbdesigner_enable: \"1\"` and `_nbdesigner_enable_upload: \"0\"` via meta_data.",
+            "- **PHP serialization bug for 2-sided products** \u2014 my serializer had a bad join separator between sides. Fixed: sides concatenate directly without delimiter (`}i:1;a:` not `};i:1;a:`)",
+            "- **Business Cards updated to 2 sides** (Front + Back) \u2014 Lex reminded me about double-sided prints",
+            "- **Round Stickers product image is wrong** \u2014 showing rectangle sticker (PR_3204 from 4over). Needs round sticker mockup. Image gen hit rate limit (Google 429), deferred.",
+            "- **Image generation rate limited** \u2014 Google monthly spending cap hit. Can't generate new mockups via Gemini/Imagen right now.",
+            "",
+            "- Saved full guide to `projects/shirtsy/nbdesigner-patterns.md`",
+            "",
+            "Business cards, postcards, flyers, brochures, rack cards, greeting cards, door hangers, bookmarks, envelopes, letterhead, yard signs, presentation folders",
+            "",
+            "- Lex testing the 5 products now",
+            "- Fix round sticker product image when image gen is back",
+            "- Apply correct pattern to all 59 products based on category",
+            "- 59th product = Painted Edge Postcards (4527970)",
+            ""
+          ]
+        },
+        {
+          "title": "7:10\u20138:07 PM \u2014 NBDesigner Test Products Refined (#shirtsy-crown)",
+          "content": [
+            "",
+            "- Any WooCommerce REST API PUT triggers NBDesigner's `save_post` hook",
+            "- The hook DELETES all `_nb*` / `_designer_setting` meta and only writes what it finds from its own form POST data",
+            "- Since API calls have no form data, the hook nukes everything",
+            "- **Solution:** Products must be CREATED (POST) with meta, never updated. To change config: DELETE \u2192 CREATE new.",
+            "- This is why 30 batch-builder products lost their `_nbdesigner_enable` \u2014 they were created with wrong key names, and attempts to fix via PUT were always stripped",
+            "",
+            "Each test product was rebuilt 2-4 times as we refined configs:",
+            "",
+            "**Business Cards (final: 4528450)**",
+            "- Added 2 sides (Front + Back) with same template overlay on both",
+            "- Template overlay (4528376) shows magenta trim + cyan safe zone + gray bleed",
+            "- Lex approved \u2705",
+            "",
+            "**Round Stickers (final: 4528467)**",
+            "- Fixed: was showing rectangle sticker image (PR_3204) \u2014 replaced with subagent's round sticker mockup (4528401)",
+            "- Fixed: overlay changed from complex bleed/safe zone circles to **simple black circle outline** (4528463)",
+            "- Lex showed how he does it: just a plain circle PNG as overlay with `show_overlay=1`",
+            "- Added bleed to canvas: 3.125\" total (3\" trim + 0.0625\" bleed)",
+            "",
+            "**Men's T-Shirts (final: 4528455)**",
+            "- Fixed: was using labeled print template image (4528140) with \"PRINT AREA: 11X9.5\" text baked in",
+            "- Replaced with clean blank white tee flatlay (4528381)",
+            "- Fixed scaling: `img_src_width=441`, `img_src_left=30` (centered), matching Ladies Crop Tee reference",
+            "- Canvas 30\u00d734\", print area 11\u00d715\" at (9.5, 6), ratio=17",
+            "",
+            "**Mugs 11oz (final: 4528442)**",
+            "- Added mug photo background (4528422) so customers visualize design ON the mug",
+            "- Wrap template overlay (4528379) with Left/Center/Right labels",
+            "- Canvas 9.33\u00d73.8\", print 9\u00d73.5\", DPI=600",
+            "",
+            "**Tote Bags (final: 4528446)**",
+            "- Lex feedback: original bag image was \"not proportionate to scaling, strap in the way\"",
+            "- Generated new body panel image (4528427) \u2014 cropped to just the front panel, handles barely visible at top",
+            "- Design area positioned below handles: 9\u00d710\" at (2, 3.5)",
+            "",
+            "- All **59 product mockup images** generated and uploaded (41 Gemini + 18 OpenAI)",
+            "- Zero failures, 37m50s runtime",
+            "- Results at `/tmp/shirtsy-mockup-results.json`",
+            "",
+            "1. Product listing image must be similar to 4over mock image style",
+            "2. Must match the product name and description (round stickers \u2192 round sticker photo)",
+            "3. The subagent's original AI mockup style was good \u2014 just verify accuracy",
+            "",
+            "- `projects/shirtsy/4over-nbdesigner-playbook.md` \u2014 complete product creation guide",
+            "- `projects/shirtsy/nbdesigner-patterns.md` \u2014 category pattern reference",
+            "- MEMORY.md updated with NBDesigner section",
+            ""
+          ]
+        },
+        {
+          "title": "Ops Board Check \u2014 8:01 PM EDT",
+          "content": [
+            "- Pulled repo, no jackie-execute tasks queued",
+            "- Trimmed activity log from 46 \u2192 20 entries (housekeeping)",
+            "- Committed & pushed to site-performance-board",
+            ""
+          ]
+        },
+        {
+          "title": "8:33\u20138:46 PM \u2014 Shirtsy Homepage Mockup V2 (Brand Alignment) (#shirtsy-crown)",
+          "content": [
+            "",
+            "Pulled CSS from shirtsy.com Elementor (kit-1289.css + post-293.css homepage). **Discovered our mockup was using wrong colors:**",
+            "",
+            "| What | Old (wrong) | Actual Site |",
+            "|---|---|---|",
+            "| Cyan/Teal | #00AEEF | **#00A3D2** |",
+            "| Magenta/Pink | #EC008C | **#EB2485** |",
+            "| Yellow | #FFF200 | **#EDFF00** (yellow-green) |",
+            "| Header bg | White / #32373c | **#32373c charcoal** |",
+            "| Font | Exo | **Roboto / Roboto Slab** |",
+            "| Ink/Black | #231F20 | **#000000** |",
+            "| Section bgs | Pastel/glassmorphism | **#dadada gray, black, white** (solid, high contrast) |",
+            "",
+            "- Primary: `#6EC1E4` (soft cyan blue)",
+            "- Secondary: `#54595F` (dark gray)",
+            "- Text: `#7A7A7A` (medium gray)",
+            "- Accent: `#61CE70` (green)",
+            "- Custom: `#4054B2` (indigo/dark blue), `#23A455` (green)",
+            "- Page transition: `#FFBC7D` (peach)",
+            "- Typography: Roboto (primary/text/accent, weights 400-600), Roboto Slab (secondary, 400)",
+            "",
+            "1. **All hex colors replaced** to match actual site palette",
+            "2. **All cyan\u2192magenta gradients removed** \u2014 site uses flat solid colors, not gradients",
+            "3. **Nav changed** to pure black `#000` per Lex's request (actual site is #32373c charcoal)",
+            "4. **Real Shirtsy logo** \u2014 `cropped-logo-white.png` from actual site header (was text \"Shirtsy\")",
+            "5. **Font** \u2192 Roboto / Roboto Slab (was Exo)",
+            "6. **Hero rebuilt**: Full-width dark background with cool tee lifestyle photo, overlaid text \"Your Design, Your Style, Our Expertise.\" (matching site tagline), yellow `#EDFF00` accent on CTA + highlight text",
+            "7. **Product cards removed from hero** \u2014 replaced with bold text-over-image layout",
+            "8. Deployed to Cloudflare Pages",
+            "",
+            "- \"The blue magenta gradient is not really on brand\" \u2014 confirmed, site doesn't use gradients",
+            "- \"Make it closer to the shirtsy website\" \u2014 matched actual site colors, fonts, and design language",
+            "- \"Use the real logo\" \u2014 done, using cropped-logo-white.png",
+            "- \"Menu bar black\" \u2014 done, pure #000",
+            "- \"Full-width hero\" \u2014 done, dark bg with lifestyle tee photo",
+            "- \"Take those products out, put some cool tees there\" \u2014 done, product cards \u2192 tee imagery",
+            "",
+            "- Lex browsing 4over for drinkware/sublimation products to add",
+            "- Current published drinkware on shirtsy.com: 14 items (mugs, tumblers, coolers, flask, sport bottle, candle jar, coasters)",
+            "- 4over offers: 11oz/15oz ceramic mugs (sublimation, 300 DPI), sports bottles, tumblers, koozies",
+            "- New draft drinkware: Custom Mugs 11oz (4528442, $96/12pk), Custom Koozies (4528073, $75/25pk)",
+            "- Lex will come back with specific drinkware picks from 4over",
+            ""
+          ]
+        },
+        {
+          "title": "Ops Board Check \u2014 9:01 PM EDT",
+          "content": [
+            "- Pulled site-performance-board repo (already up to date)",
+            "- No jackie-execute tasks found \u2014 queue empty",
+            "- Logged to activityLog, committed & pushed",
+            ""
+          ]
+        },
+        {
+          "title": "10:02 PM \u2014 Ops Board Check (Cron)",
+          "content": [
+            "- Pulled repo \u2014 already up to date",
+            "- No `jackie-execute` tasks queued",
+            "- Logged to activityLog, committed & pushed",
+            ""
+          ]
         }
       ]
     },
@@ -188,11 +639,11 @@
       "activity_level": "active",
       "projects": [
         "Lux",
+        "WordPress",
         "Shopify",
         "NET30",
-        "Crown",
-        "WordPress",
-        "Shirtsy"
+        "Shirtsy",
+        "Crown"
       ],
       "sections": [
         {
@@ -393,13 +844,13 @@
       "file_size_bytes": 10458,
       "activity_level": "active",
       "projects": [
+        "Virtus",
         "Lux",
+        "GoodNeon",
         "Shopify",
         "Coconut",
         "Nova Titans",
-        "Virtus",
-        "Cloudflare",
-        "GoodNeon"
+        "Cloudflare"
       ],
       "sections": [
         {
@@ -618,17 +1069,17 @@
       "file_size_bytes": 18546,
       "activity_level": "very-active",
       "projects": [
-        "Lux",
-        "Shopify",
-        "Coconut",
         "Virtus",
-        "Nova Titans",
-        "NET30",
-        "Cloudflare",
-        "Crown",
+        "Lux",
         "GoodNeon",
-        "Shirtsy",
         "Reclaimed",
+        "Shopify",
+        "NET30",
+        "Coconut",
+        "Cloudflare",
+        "Nova Titans",
+        "Shirtsy",
+        "Crown",
         "Lux Neon"
       ],
       "sections": [
@@ -1034,15 +1485,15 @@
       "file_size_bytes": 11494,
       "activity_level": "very-active",
       "projects": [
-        "Lux",
-        "Shopify",
         "Virtus",
-        "Nova Titans",
-        "NET30",
-        "Crown",
-        "WordPress",
+        "Lux",
         "GoodNeon",
+        "WordPress",
+        "Shopify",
+        "NET30",
+        "Nova Titans",
         "Shirtsy",
+        "Crown",
         "Lux Neon"
       ],
       "sections": [
@@ -1291,10 +1742,10 @@
       "file_size_bytes": 10877,
       "activity_level": "very-active",
       "projects": [
+        "Virtus",
         "Lux",
         "Shopify",
         "Cloudflare",
-        "Virtus",
         "Crown"
       ],
       "sections": [
@@ -1587,9 +2038,9 @@
       "file_size_bytes": 11169,
       "activity_level": "very-active",
       "projects": [
+        "Virtus",
         "Lux",
         "Shopify",
-        "Virtus",
         "Crown",
         "Lux Neon"
       ],
@@ -1851,13 +2302,13 @@
       "file_size_bytes": 11113,
       "activity_level": "active",
       "projects": [
+        "Virtus",
         "Lux",
         "Shopify",
-        "Virtus",
         "Cloudflare",
-        "Crown",
         "WordPress",
         "Shirtsy",
+        "Crown",
         "Lux Neon"
       ],
       "sections": [
@@ -2106,11 +2557,11 @@
       "file_size_bytes": 7060,
       "activity_level": "very-active",
       "projects": [
-        "Lux",
-        "Shopify",
         "Virtus",
-        "Crown",
-        "Reclaimed"
+        "Lux",
+        "Reclaimed",
+        "Shopify",
+        "Crown"
       ],
       "sections": [
         {
@@ -2290,15 +2741,15 @@
       "file_size_bytes": 27498,
       "activity_level": "very-active",
       "projects": [
+        "Virtus",
         "Lux",
+        "GoodNeon",
+        "Reclaimed",
         "Shopify",
         "Coconut",
-        "Virtus",
         "Cloudflare",
-        "Crown",
-        "GoodNeon",
         "Shirtsy",
-        "Reclaimed"
+        "Crown"
       ],
       "sections": [
         {
@@ -2860,12 +3311,12 @@
       "file_size_bytes": 17809,
       "activity_level": "very-active",
       "projects": [
-        "Lux",
-        "Shopify",
         "Virtus",
+        "Lux",
+        "Reclaimed",
+        "Shopify",
         "Cloudflare",
-        "Crown",
-        "Reclaimed"
+        "Crown"
       ],
       "sections": [
         {
@@ -3263,14 +3714,14 @@
       "file_size_bytes": 9421,
       "activity_level": "active",
       "projects": [
+        "Virtus",
         "Lux",
+        "Reclaimed",
+        "GoodNeon",
         "Shopify",
         "Coconut",
-        "Virtus",
         "Cloudflare",
-        "Crown",
-        "GoodNeon",
-        "Reclaimed"
+        "Crown"
       ],
       "sections": [
         {
@@ -3505,12 +3956,12 @@
       "file_size_bytes": 6615,
       "activity_level": "moderate",
       "projects": [
+        "Virtus",
         "Lux",
         "Shopify",
-        "Virtus",
+        "WordPress",
         "Cloudflare",
-        "Crown",
-        "WordPress"
+        "Crown"
       ],
       "sections": [
         {
@@ -3641,8 +4092,8 @@
       "file_size_bytes": 1017,
       "activity_level": "light",
       "projects": [
-        "Lux",
-        "Shopify"
+        "Shopify",
+        "Lux"
       ],
       "sections": [
         {
@@ -3677,8 +4128,8 @@
       "file_size_bytes": 3176,
       "activity_level": "moderate",
       "projects": [
-        "Lux",
-        "Shopify"
+        "Shopify",
+        "Lux"
       ],
       "sections": [
         {
@@ -3766,9 +4217,9 @@
       "file_size_bytes": 7972,
       "activity_level": "moderate",
       "projects": [
-        "Lux",
         "Shirtsy",
-        "Lux Neon"
+        "Lux Neon",
+        "Lux"
       ],
       "sections": [
         {
@@ -3906,8 +4357,8 @@
       "file_size_bytes": 771,
       "activity_level": "light",
       "projects": [
-        "Lux",
-        "Shopify"
+        "Shopify",
+        "Lux"
       ],
       "sections": [
         {
@@ -3946,12 +4397,12 @@
       "activity_level": "moderate",
       "projects": [
         "Lux",
+        "GoodNeon",
+        "Reclaimed",
         "Shopify",
         "Coconut",
-        "Crown",
-        "GoodNeon",
         "Shirtsy",
-        "Reclaimed"
+        "Crown"
       ],
       "sections": [
         {
@@ -4025,16 +4476,16 @@
       "file_size_bytes": 45304,
       "activity_level": "very-active",
       "projects": [
+        "Virtus",
         "Lux",
+        "GoodNeon",
+        "Reclaimed",
         "Shopify",
         "Coconut",
-        "Virtus",
         "Cloudflare",
-        "Crown",
         "WordPress",
-        "GoodNeon",
         "Shirtsy",
-        "Reclaimed",
+        "Crown",
         "Lux Neon"
       ],
       "sections": [
@@ -4950,9 +5401,9 @@
       "activity_level": "very-active",
       "projects": [
         "Lux",
+        "WordPress",
         "Shopify",
         "Cloudflare",
-        "WordPress",
         "Lux Neon"
       ],
       "sections": [
@@ -5366,13 +5817,13 @@
       "activity_level": "very-active",
       "projects": [
         "Lux",
+        "GoodNeon",
+        "Reclaimed",
         "Shopify",
         "Coconut",
         "Nova Titans",
-        "Crown",
-        "GoodNeon",
         "Shirtsy",
-        "Reclaimed",
+        "Crown",
         "Lux Neon"
       ],
       "sections": [
@@ -5902,14 +6353,14 @@
       "activity_level": "very-active",
       "projects": [
         "Lux",
+        "GoodNeon",
+        "WordPress",
         "Shopify",
-        "Nova Titans",
         "NET30",
         "Cloudflare",
-        "Crown",
-        "WordPress",
-        "GoodNeon",
+        "Nova Titans",
         "Shirtsy",
+        "Crown",
         "Lux Neon"
       ],
       "sections": [
@@ -6376,16 +6827,16 @@
       "file_size_bytes": 12002,
       "activity_level": "very-active",
       "projects": [
+        "Virtus",
         "Lux",
+        "GoodNeon",
+        "Reclaimed",
         "Shopify",
         "Coconut",
-        "Virtus",
         "Cloudflare",
-        "Crown",
         "WordPress",
-        "GoodNeon",
         "Shirtsy",
-        "Reclaimed",
+        "Crown",
         "Lux Neon"
       ],
       "sections": [
@@ -6668,12 +7119,12 @@
       "activity_level": "moderate",
       "projects": [
         "Lux",
+        "Reclaimed",
+        "GoodNeon",
         "Shopify",
         "Coconut",
         "Nova Titans",
         "Cloudflare",
-        "GoodNeon",
-        "Reclaimed",
         "Lux Neon"
       ],
       "sections": [
@@ -6895,11 +7346,11 @@
       "activity_level": "active",
       "projects": [
         "Lux",
+        "Reclaimed",
+        "GoodNeon",
         "Shopify",
         "Coconut",
-        "WordPress",
-        "GoodNeon",
-        "Reclaimed"
+        "WordPress"
       ],
       "sections": [
         {
@@ -7111,9 +7562,9 @@
       "file_size_bytes": 4346,
       "activity_level": "light",
       "projects": [
+        "Shopify",
         "Lux",
-        "GoodNeon",
-        "Shopify"
+        "GoodNeon"
       ],
       "sections": [
         {
@@ -7175,18 +7626,18 @@
       "file_size_bytes": 16245,
       "activity_level": "active",
       "projects": [
-        "Lux",
-        "Shopify",
-        "Coconut",
-        "Virtus",
-        "NET30",
-        "Cloudflare",
-        "Crown",
-        "WordPress",
         "NET60",
+        "Virtus",
+        "Lux",
         "GoodNeon",
-        "Shirtsy",
         "Reclaimed",
+        "Shopify",
+        "WordPress",
+        "Coconut",
+        "Cloudflare",
+        "NET30",
+        "Shirtsy",
+        "Crown",
         "Lux Neon"
       ],
       "sections": [
@@ -7526,13 +7977,13 @@
       "file_size_bytes": 6938,
       "activity_level": "active",
       "projects": [
-        "Lux",
-        "Shopify",
         "Virtus",
-        "Crown",
-        "WordPress",
+        "Lux",
         "GoodNeon",
-        "Shirtsy"
+        "Shopify",
+        "WordPress",
+        "Shirtsy",
+        "Crown"
       ],
       "sections": [
         {
@@ -7719,14 +8170,14 @@
       "file_size_bytes": 8174,
       "activity_level": "moderate",
       "projects": [
+        "Virtus",
         "Lux",
+        "GoodNeon",
+        "Reclaimed",
         "Shopify",
         "Coconut",
-        "Virtus",
-        "Crown",
-        "GoodNeon",
         "Shirtsy",
-        "Reclaimed",
+        "Crown",
         "Lux Neon"
       ],
       "sections": [
@@ -7908,16 +8359,16 @@
       "file_size_bytes": 9018,
       "activity_level": "very-active",
       "projects": [
-        "Lux",
-        "Shopify",
-        "Coconut",
         "Virtus",
-        "NET30",
-        "Crown",
-        "WordPress",
+        "Lux",
         "GoodNeon",
-        "Shirtsy",
         "Reclaimed",
+        "Shopify",
+        "WordPress",
+        "Coconut",
+        "NET30",
+        "Shirtsy",
+        "Crown",
         "Lux Neon"
       ],
       "sections": [
@@ -8166,12 +8617,12 @@
       "activity_level": "moderate",
       "projects": [
         "Lux",
+        "Reclaimed",
+        "GoodNeon",
         "Shopify",
         "Coconut",
-        "Cloudflare",
         "WordPress",
-        "GoodNeon",
-        "Reclaimed",
+        "Cloudflare",
         "Lux Neon"
       ],
       "sections": [
@@ -8425,16 +8876,16 @@
       "file_size_bytes": 8103,
       "activity_level": "very-active",
       "projects": [
+        "Virtus",
         "Lux",
+        "GoodNeon",
+        "Reclaimed",
         "Shopify",
         "Coconut",
-        "Virtus",
         "Cloudflare",
-        "Crown",
         "WordPress",
-        "GoodNeon",
         "Shirtsy",
-        "Reclaimed",
+        "Crown",
         "Lux Neon"
       ],
       "sections": [
@@ -8656,9 +9107,9 @@
       "activity_level": "moderate",
       "projects": [
         "Lux",
-        "Crown",
         "GoodNeon",
         "Shirtsy",
+        "Crown",
         "Lux Neon"
       ],
       "sections": [
