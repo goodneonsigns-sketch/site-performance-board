@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-04-15T12:00:44.199062",
+  "generated_at": "2026-04-15T18:00:27.500987",
   "stats": {
     "total_days_logged": 34,
-    "total_entries": 438,
+    "total_entries": 443,
     "most_active_projects": [
       {
         "project": "Lux",
@@ -31,13 +31,14 @@
     {
       "date": "2026-04-15",
       "filename": "2026-04-15.md",
-      "section_count": 12,
-      "word_count": 832,
-      "file_size_bytes": 5919,
-      "activity_level": "active",
+      "section_count": 17,
+      "word_count": 1739,
+      "file_size_bytes": 12660,
+      "activity_level": "very-active",
       "projects": [
-        "Shirtsy",
-        "NET30"
+        "Cloudflare",
+        "NET30",
+        "Shirtsy"
       ],
       "sections": [
         {
@@ -183,6 +184,109 @@
             "- Logged to activityLog, committed & pushed",
             ""
           ]
+        },
+        {
+          "title": "AdRoll Ad Creative Refinements (~12:30\u20131:05 PM)",
+          "content": [
+            "- Lex reviewed the 8 ad sizes and requested specific tweaks:",
+            "- **970x250 billboard**: Reworked layout \u2014 photo left, text center, CTA pushed right using `flex-direction: row` + `margin-left: auto` on CTA. Spread content across full width instead of clustering left.",
+            "- **320x50 mobile banner**: Content was getting cut off \u2014 tightened photo (40px), reduced font sizes, hid \"Buying Power Waiting\" sub-text via `.sub-text { display: none }`. Also hid sub-text on 728x90.",
+            "- **728x90 leaderboard**: Logo was overlapping CTA \u2014 hid logo entirely (`display: none`). Branding on the woman's shirt is sufficient.",
+            "- **300x250 / 336x280 rectangles**: Logo too small \u2014 bumped from 14px to 22px (300x250) and 24px (336x280).",
+            "- All 8 sizes re-rendered via Playwright and redeployed to Cloudflare Pages after each change",
+            "- Ad creative HTML template: `projects/shirtsy/adroll-creatives/ad-template.html`",
+            "- Added `.sub-text` class to \"Buying Power Waiting\" div for CSS targeting across ad sizes",
+            ""
+          ]
+        },
+        {
+          "title": "NBDesigner \u2014 No Settings Changed by Jackie",
+          "content": [
+            "- Lex asked if I changed any NBDesigner plugin settings \u2014 confirmed I did NOT",
+            "- I never touched NBDesigner \u2192 Settings (global plugin config) at any point",
+            "- All April 14 work was product-level meta only (POST via WC REST API): `_designer_setting`, `_nbdesigner_option`, `_nbdesigner_enable`",
+            "- Today (April 15): only installed AdRoll pixel (WPCode + Elementor snippet) \u2014 no WooCommerce product changes",
+            ""
+          ]
+        },
+        {
+          "title": "4over Dropship Fulfillment Automation (~2:48\u20133:13 PM)",
+          "content": [
+            "- Lex wants automated fulfillment: when a customer orders on Shirtsy, Jackie handles the entire 4over dropship process (select product, fill specs, upload designs, enter shipping, add to cart) \u2014 Lex just reviews cart and pays",
+            "- 4over **does have an API** (product UUIDs, order submission, dropship) but **won't give Lex access yet**",
+            "- Fallback: **browser automation via Playwright** to drive 4over.com directly",
+            "",
+            "- **Old site `trade.4over.com` is retired** \u2014 redirects to new `4over.com` with message: \"We've upgraded! Register a new account on the new site\"",
+            "- **New site is Magento-based** (form actions like `/customer/account/loginPost/`)",
+            "- Login page has 3 login forms (dropdown, hidden, main visible form #3)",
+            "- Must target `form[action=\"https://4over.com/customer/account/loginPost/\"]` specifically",
+            "- **Login works** \u2705 \u2014 credentials from `.secrets/4over.env` (`FOUROVER_USER` / `FOUROVER_PASS`)",
+            "- Login uses: `input[name=\"login[username]\"]` + `input[name=\"login[password]\"]` + `button#send2` (force click needed \u2014 initial visibility quirk)",
+            "- After login redirects to `/customer/account/`",
+            "- Cookies saved to `/tmp/4over-cookies.json` (40 cookies)",
+            "",
+            "- Business Cards: `4over.com/rectangle-business-cards` (also `/round-2-corner-business-cards`)",
+            "- Postcards: `4over.com/marketing-products/postcards`",
+            "- Stickers: `4over.com/rolls-labels-stickers/stickers`",
+            "- Greeting Cards: `4over.com/marketing-products/greeting-cards`",
+            "- Rack Cards: `4over.com/marketing-products/rack-cards`",
+            "",
+            "- Map one full product ordering flow (business cards): specs form fields, file upload, shipping, add-to-cart",
+            "- Build fulfillment script that chains: WooCommerce order webhook \u2192 download NBDesigner files \u2192 Playwright drives 4over.com \u2192 add to cart",
+            "- Eventually upgrade to full API when 4over grants access",
+            ""
+          ]
+        },
+        {
+          "title": "Ops Board Check \u2014 4:02 PM EDT",
+          "content": [
+            "- **Status:** Queue clear \u2014 no `jackie-execute` tasks",
+            "- **Action:** Logged to activityLog, committed & pushed",
+            ""
+          ]
+        },
+        {
+          "title": "4over Fulfillment Script Built (~4:00\u20134:30 PM)",
+          "content": [
+            "",
+            "- Built `projects/shirtsy/4over-fulfillment.js` \u2014 417-line Node.js + Playwright script",
+            "- **Usage:** `node 4over-fulfillment.js <order_id> [--dry-run]`",
+            "- Successfully tested all steps in dry run:",
+            "1. Pulls order from WooCommerce REST API",
+            "2. Auto-identifies 4over product by ID or name pattern matching",
+            "3. Downloads customer design PDFs from NBDesigner File Server plugin",
+            "4. Logs into 4over.com (blocks HubSpot chat widget to prevent click interception)",
+            "5. Configures product specs (cascading `super_attribute` dropdowns)",
+            "6. Selects quantity from `.runsizes-table li` list",
+            "7. Names project with order number + customer name",
+            "8. Clicks \"Proceed to Shipping\" \u2192 opens dropship form",
+            "9. Fills full shipping address (including state via `select[name=\"region_id\"]` dropdown)",
+            "10. Saves address (via JS `.click()` to bypass modal overlay)",
+            "11. Uploads design PDFs (or selects \"upload later\" fallback)",
+            "12. In live mode: clicks \"Add to Cart\" \u2014 in dry run: stops here",
+            "",
+            "- Maps products by **direct ID match** first, then **name pattern regex** fallback",
+            "- Currently mapped: Business Cards (4711, 4528450), Silk BC (4528116), Postcards (4527989), Flyers (4527994), Rack Cards (4528004), Stickers (4528467), plus name patterns for greeting cards, bookmarks, door hangers, brochures, envelopes, letterhead",
+            "- Each mapping includes: 4over URL, spec selections, default quantity, number of sides",
+            "",
+            "- **HubSpot chat widget (`hubspot-conversations-iframe`) intercepts pointer events** on the dropship address modal \u2014 must block `**/*hubspot*/**` route or hide the iframe",
+            "- **Two `button#send2` elements** on login page \u2014 first is hidden (dropdown form), second is visible (main form). Must scope with form locator",
+            "- **`select[name=\"region_id\"]` for US states** \u2014 NOT `input[name=\"region\"]` (text input is hidden)",
+            "- **Address save button** blocked by both modal overlay (`pdp-address-form-modal`) and HubSpot iframe \u2014 `page.evaluate(() => btn.click())` bypasses both",
+            "- **4over.env `$$` shell expansion bug**: `FOUROVER_PASS=\"Shirtsy2023$$\"` gets mangled by shell (replaces `$$` with PID). Must use single quotes or heredoc for export",
+            "",
+            "- After ~10+ automated login attempts during testing, the account (`lex@lexgraphic.com`) got temporarily locked",
+            "- Page shows \"locked\" message after login attempt",
+            "- **Lex needs to:** wait for lockout to expire (15-30 min typical for Magento) or reset password",
+            "- **TODO:** Add login retry limit and exponential backoff to script to prevent future lockouts",
+            "- **TODO:** Once unlocked, do one final end-to-end test including the artwork upload step",
+            "",
+            "- Script reads from env: `SHIRTSY_WP_USER`, `SHIRTSY_WP_APP_PASSWORD`, `FOUROVER_USER`, `FOUROVER_PASS`",
+            "- These must be **exported** (not just sourced) for Node.js to see them",
+            "- WP API auth uses HTTP Basic with `Buffer.from(user:pass).toString('base64')`",
+            "- NBDesigner File Server endpoint needs cache-bust param: `?_=${Date.now()}`",
+            ""
+          ]
         }
       ]
     },
@@ -194,14 +298,14 @@
       "file_size_bytes": 27670,
       "activity_level": "very-active",
       "projects": [
-        "Lux Neon",
         "Nova Titans",
-        "Crown",
-        "Lux",
-        "Cloudflare",
         "NET30",
+        "Cloudflare",
+        "Crown",
+        "Lux Neon",
         "WordPress",
-        "Shirtsy"
+        "Shirtsy",
+        "Lux"
       ],
       "sections": [
         {
@@ -738,12 +842,12 @@
       "file_size_bytes": 9819,
       "activity_level": "active",
       "projects": [
-        "Crown",
-        "Lux",
         "NET30",
-        "WordPress",
+        "Crown",
         "Shopify",
-        "Shirtsy"
+        "WordPress",
+        "Shirtsy",
+        "Lux"
       ],
       "sections": [
         {
@@ -945,12 +1049,12 @@
       "activity_level": "active",
       "projects": [
         "Nova Titans",
-        "Virtus",
-        "GoodNeon",
-        "Lux",
         "Cloudflare",
+        "Shopify",
         "Coconut",
-        "Shopify"
+        "Virtus",
+        "Lux",
+        "GoodNeon"
       ],
       "sections": [
         {
@@ -1169,18 +1273,18 @@
       "file_size_bytes": 18546,
       "activity_level": "very-active",
       "projects": [
-        "Lux Neon",
         "Nova Titans",
-        "Virtus",
+        "NET30",
+        "Cloudflare",
         "Crown",
-        "GoodNeon",
+        "Shopify",
+        "Lux Neon",
+        "Coconut",
+        "Shirtsy",
+        "Virtus",
         "Lux",
         "Reclaimed",
-        "Cloudflare",
-        "Coconut",
-        "NET30",
-        "Shopify",
-        "Shirtsy"
+        "GoodNeon"
       ],
       "sections": [
         {
@@ -1585,16 +1689,16 @@
       "file_size_bytes": 11494,
       "activity_level": "very-active",
       "projects": [
-        "Lux Neon",
         "Nova Titans",
-        "Virtus",
-        "Crown",
-        "GoodNeon",
-        "Lux",
         "NET30",
-        "WordPress",
+        "Crown",
         "Shopify",
-        "Shirtsy"
+        "Lux Neon",
+        "WordPress",
+        "Shirtsy",
+        "Virtus",
+        "Lux",
+        "GoodNeon"
       ],
       "sections": [
         {
@@ -1842,11 +1946,11 @@
       "file_size_bytes": 10877,
       "activity_level": "very-active",
       "projects": [
-        "Virtus",
-        "Crown",
-        "Lux",
         "Cloudflare",
-        "Shopify"
+        "Crown",
+        "Shopify",
+        "Virtus",
+        "Lux"
       ],
       "sections": [
         {
@@ -2138,11 +2242,11 @@
       "file_size_bytes": 11169,
       "activity_level": "very-active",
       "projects": [
+        "Crown",
+        "Shopify",
         "Lux Neon",
         "Virtus",
-        "Crown",
-        "Lux",
-        "Shopify"
+        "Lux"
       ],
       "sections": [
         {
@@ -2402,14 +2506,14 @@
       "file_size_bytes": 11113,
       "activity_level": "active",
       "projects": [
-        "Lux Neon",
-        "Virtus",
-        "Crown",
-        "Lux",
         "Cloudflare",
-        "WordPress",
+        "Crown",
         "Shopify",
-        "Shirtsy"
+        "Lux Neon",
+        "WordPress",
+        "Shirtsy",
+        "Virtus",
+        "Lux"
       ],
       "sections": [
         {
@@ -2657,11 +2761,11 @@
       "file_size_bytes": 7060,
       "activity_level": "very-active",
       "projects": [
-        "Virtus",
         "Crown",
+        "Shopify",
+        "Virtus",
         "Lux",
-        "Reclaimed",
-        "Shopify"
+        "Reclaimed"
       ],
       "sections": [
         {
@@ -2841,15 +2945,15 @@
       "file_size_bytes": 27498,
       "activity_level": "very-active",
       "projects": [
-        "Virtus",
+        "Cloudflare",
         "Crown",
-        "GoodNeon",
+        "Shopify",
+        "Coconut",
+        "Shirtsy",
+        "Virtus",
         "Lux",
         "Reclaimed",
-        "Cloudflare",
-        "Coconut",
-        "Shopify",
-        "Shirtsy"
+        "GoodNeon"
       ],
       "sections": [
         {
@@ -3411,12 +3515,12 @@
       "file_size_bytes": 17809,
       "activity_level": "very-active",
       "projects": [
-        "Virtus",
-        "Crown",
-        "Lux",
-        "Reclaimed",
         "Cloudflare",
-        "Shopify"
+        "Crown",
+        "Shopify",
+        "Virtus",
+        "Lux",
+        "Reclaimed"
       ],
       "sections": [
         {
@@ -3814,14 +3918,14 @@
       "file_size_bytes": 9421,
       "activity_level": "active",
       "projects": [
-        "Virtus",
+        "Cloudflare",
         "Crown",
-        "GoodNeon",
+        "Shopify",
+        "Coconut",
+        "Virtus",
         "Lux",
         "Reclaimed",
-        "Cloudflare",
-        "Coconut",
-        "Shopify"
+        "GoodNeon"
       ],
       "sections": [
         {
@@ -4056,12 +4160,12 @@
       "file_size_bytes": 6615,
       "activity_level": "moderate",
       "projects": [
-        "Virtus",
-        "Crown",
-        "Lux",
         "Cloudflare",
+        "Crown",
+        "Shopify",
         "WordPress",
-        "Shopify"
+        "Virtus",
+        "Lux"
       ],
       "sections": [
         {
@@ -4192,8 +4296,8 @@
       "file_size_bytes": 1017,
       "activity_level": "light",
       "projects": [
-        "Shopify",
-        "Lux"
+        "Lux",
+        "Shopify"
       ],
       "sections": [
         {
@@ -4228,8 +4332,8 @@
       "file_size_bytes": 3176,
       "activity_level": "moderate",
       "projects": [
-        "Shopify",
-        "Lux"
+        "Lux",
+        "Shopify"
       ],
       "sections": [
         {
@@ -4317,9 +4421,9 @@
       "file_size_bytes": 7972,
       "activity_level": "moderate",
       "projects": [
+        "Lux",
         "Shirtsy",
-        "Lux Neon",
-        "Lux"
+        "Lux Neon"
       ],
       "sections": [
         {
@@ -4457,8 +4561,8 @@
       "file_size_bytes": 771,
       "activity_level": "light",
       "projects": [
-        "Shopify",
-        "Lux"
+        "Lux",
+        "Shopify"
       ],
       "sections": [
         {
@@ -4497,12 +4601,12 @@
       "activity_level": "moderate",
       "projects": [
         "Crown",
-        "GoodNeon",
+        "Shopify",
+        "Coconut",
+        "Shirtsy",
         "Lux",
         "Reclaimed",
-        "Coconut",
-        "Shopify",
-        "Shirtsy"
+        "GoodNeon"
       ],
       "sections": [
         {
@@ -4576,17 +4680,17 @@
       "file_size_bytes": 45304,
       "activity_level": "very-active",
       "projects": [
-        "Lux Neon",
-        "Virtus",
+        "Cloudflare",
         "Crown",
-        "GoodNeon",
+        "Shopify",
+        "Lux Neon",
+        "WordPress",
+        "Coconut",
+        "Shirtsy",
+        "Virtus",
         "Lux",
         "Reclaimed",
-        "Cloudflare",
-        "Coconut",
-        "WordPress",
-        "Shopify",
-        "Shirtsy"
+        "GoodNeon"
       ],
       "sections": [
         {
@@ -5500,11 +5604,11 @@
       "file_size_bytes": 21594,
       "activity_level": "very-active",
       "projects": [
-        "Lux Neon",
-        "Lux",
         "Cloudflare",
+        "Shopify",
+        "Lux Neon",
         "WordPress",
-        "Shopify"
+        "Lux"
       ],
       "sections": [
         {
@@ -5916,15 +6020,15 @@
       "file_size_bytes": 27561,
       "activity_level": "very-active",
       "projects": [
-        "Lux Neon",
         "Nova Titans",
         "Crown",
-        "GoodNeon",
+        "Shopify",
+        "Lux Neon",
+        "Coconut",
+        "Shirtsy",
         "Lux",
         "Reclaimed",
-        "Coconut",
-        "Shopify",
-        "Shirtsy"
+        "GoodNeon"
       ],
       "sections": [
         {
@@ -6452,16 +6556,16 @@
       "file_size_bytes": 23918,
       "activity_level": "very-active",
       "projects": [
-        "Lux Neon",
         "Nova Titans",
-        "Crown",
-        "GoodNeon",
-        "Lux",
-        "Cloudflare",
         "NET30",
-        "WordPress",
+        "Cloudflare",
+        "Crown",
         "Shopify",
-        "Shirtsy"
+        "Lux Neon",
+        "WordPress",
+        "Shirtsy",
+        "Lux",
+        "GoodNeon"
       ],
       "sections": [
         {
@@ -6927,17 +7031,17 @@
       "file_size_bytes": 12002,
       "activity_level": "very-active",
       "projects": [
-        "Lux Neon",
-        "Virtus",
+        "Cloudflare",
         "Crown",
-        "GoodNeon",
+        "Shopify",
+        "Lux Neon",
+        "WordPress",
+        "Coconut",
+        "Shirtsy",
+        "Virtus",
         "Lux",
         "Reclaimed",
-        "Cloudflare",
-        "Coconut",
-        "WordPress",
-        "Shopify",
-        "Shirtsy"
+        "GoodNeon"
       ],
       "sections": [
         {
@@ -7218,14 +7322,14 @@
       "file_size_bytes": 10958,
       "activity_level": "moderate",
       "projects": [
-        "Lux Neon",
         "Nova Titans",
-        "GoodNeon",
+        "Cloudflare",
+        "Shopify",
+        "Lux Neon",
+        "Coconut",
         "Lux",
         "Reclaimed",
-        "Cloudflare",
-        "Coconut",
-        "Shopify"
+        "GoodNeon"
       ],
       "sections": [
         {
@@ -7445,12 +7549,12 @@
       "file_size_bytes": 9060,
       "activity_level": "active",
       "projects": [
-        "GoodNeon",
+        "Shopify",
+        "WordPress",
+        "Coconut",
         "Lux",
         "Reclaimed",
-        "Coconut",
-        "WordPress",
-        "Shopify"
+        "GoodNeon"
       ],
       "sections": [
         {
@@ -7662,9 +7766,9 @@
       "file_size_bytes": 4346,
       "activity_level": "light",
       "projects": [
+        "Lux",
         "Shopify",
-        "GoodNeon",
-        "Lux"
+        "GoodNeon"
       ],
       "sections": [
         {
@@ -7726,19 +7830,19 @@
       "file_size_bytes": 16245,
       "activity_level": "active",
       "projects": [
-        "Lux Neon",
-        "Virtus",
+        "NET30",
+        "NET60",
+        "Cloudflare",
         "Crown",
-        "GoodNeon",
+        "Shopify",
+        "Lux Neon",
+        "WordPress",
+        "Coconut",
+        "Shirtsy",
+        "Virtus",
         "Lux",
         "Reclaimed",
-        "Cloudflare",
-        "Coconut",
-        "NET30",
-        "WordPress",
-        "Shopify",
-        "Shirtsy",
-        "NET60"
+        "GoodNeon"
       ],
       "sections": [
         {
@@ -8077,13 +8181,13 @@
       "file_size_bytes": 6938,
       "activity_level": "active",
       "projects": [
-        "Virtus",
         "Crown",
-        "GoodNeon",
-        "Lux",
-        "WordPress",
         "Shopify",
-        "Shirtsy"
+        "WordPress",
+        "Shirtsy",
+        "Virtus",
+        "Lux",
+        "GoodNeon"
       ],
       "sections": [
         {
@@ -8270,15 +8374,15 @@
       "file_size_bytes": 8174,
       "activity_level": "moderate",
       "projects": [
-        "Lux Neon",
-        "Virtus",
         "Crown",
-        "GoodNeon",
+        "Shopify",
+        "Lux Neon",
+        "Coconut",
+        "Shirtsy",
+        "Virtus",
         "Lux",
         "Reclaimed",
-        "Coconut",
-        "Shopify",
-        "Shirtsy"
+        "GoodNeon"
       ],
       "sections": [
         {
@@ -8459,17 +8563,17 @@
       "file_size_bytes": 9018,
       "activity_level": "very-active",
       "projects": [
-        "Lux Neon",
-        "Virtus",
+        "NET30",
         "Crown",
-        "GoodNeon",
+        "Shopify",
+        "Lux Neon",
+        "WordPress",
+        "Coconut",
+        "Shirtsy",
+        "Virtus",
         "Lux",
         "Reclaimed",
-        "Coconut",
-        "NET30",
-        "WordPress",
-        "Shopify",
-        "Shirtsy"
+        "GoodNeon"
       ],
       "sections": [
         {
@@ -8716,14 +8820,14 @@
       "file_size_bytes": 12488,
       "activity_level": "moderate",
       "projects": [
+        "Cloudflare",
+        "Shopify",
         "Lux Neon",
-        "GoodNeon",
+        "WordPress",
+        "Coconut",
         "Lux",
         "Reclaimed",
-        "Cloudflare",
-        "Coconut",
-        "WordPress",
-        "Shopify"
+        "GoodNeon"
       ],
       "sections": [
         {
@@ -8976,17 +9080,17 @@
       "file_size_bytes": 8103,
       "activity_level": "very-active",
       "projects": [
-        "Lux Neon",
-        "Virtus",
+        "Cloudflare",
         "Crown",
-        "GoodNeon",
+        "Shopify",
+        "Lux Neon",
+        "WordPress",
+        "Coconut",
+        "Shirtsy",
+        "Virtus",
         "Lux",
         "Reclaimed",
-        "Cloudflare",
-        "Coconut",
-        "WordPress",
-        "Shopify",
-        "Shirtsy"
+        "GoodNeon"
       ],
       "sections": [
         {
@@ -9206,11 +9310,11 @@
       "file_size_bytes": 2542,
       "activity_level": "moderate",
       "projects": [
-        "Lux Neon",
         "Crown",
-        "GoodNeon",
+        "Lux Neon",
+        "Shirtsy",
         "Lux",
-        "Shirtsy"
+        "GoodNeon"
       ],
       "sections": [
         {
