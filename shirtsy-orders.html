@@ -1,0 +1,2752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🏭 Shirtsy Production Board</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg-base: #0a0a0a;
+    --bg-card: #1a1a1a;
+    --bg-card-hover: #222;
+    --bg-panel: #111;
+    --border: #2a2a2a;
+    --border-light: #333;
+    --text-primary: #e8e8e8;
+    --text-secondary: #888;
+    --text-muted: #555;
+    --red: #ff4444;
+    --red-dark: #cc2222;
+    --orange: #ffaa00;
+    --green: #00ff88;
+    --cyan: #00d4ff;
+    --pink: #ff66aa;
+    --purple: #aa66ff;
+    --blue: #4488ff;
+    --teal: #00ccaa;
+    --yellow: #ffdd00;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg-base);
+    color: var(--text-primary);
+    font-size: 13px;
+    line-height: 1.5;
+    min-height: 100vh;
+  }
+
+  /* ===== HEADER ===== */
+  .header {
+    background: linear-gradient(135deg, #0f0f0f 0%, #111 50%, #0d0d14 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 16px 24px;
+    position: sticky;
+    top: 0;
+    z-index: 200;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+  }
+
+  .header-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .header-title {
+    font-size: 22px;
+    font-weight: 800;
+    background: linear-gradient(90deg, #fff 0%, #aaa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -0.5px;
+  }
+
+  .header-subtitle {
+    color: var(--text-secondary);
+    font-size: 12px;
+    margin-top: 2px;
+  }
+
+  .live-clock {
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 14px;
+    color: var(--cyan);
+    background: rgba(0, 212, 255, 0.08);
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    letter-spacing: 1px;
+  }
+
+  .stats-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .stat-pill {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    transition: all 0.2s;
+  }
+
+  .stat-pill:hover { border-color: var(--border-light); }
+
+  .stat-value {
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .stat-label {
+    color: var(--text-secondary);
+    font-size: 11px;
+  }
+
+  .stat-pill.green .stat-value { color: var(--green); }
+  .stat-pill.cyan .stat-value { color: var(--cyan); }
+  .stat-pill.orange .stat-value { color: var(--orange); }
+  .stat-pill.pink .stat-value { color: var(--pink); }
+  .stat-pill.red .stat-value { color: var(--red); }
+  .stat-pill.blue .stat-value { color: var(--blue); }
+
+  /* ===== FILTER BAR ===== */
+  .filter-bar {
+    background: var(--bg-panel);
+    border-bottom: 1px solid var(--border);
+    padding: 10px 24px;
+    position: sticky;
+    top: 105px;
+    z-index: 190;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .filter-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .filter-label {
+    color: var(--text-muted);
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    min-width: 50px;
+  }
+
+  .filter-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    padding: 5px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 12px;
+    font-family: inherit;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+
+  .filter-btn:hover { border-color: var(--border-light); color: var(--text-primary); }
+  .filter-btn.active {
+    background: var(--cyan);
+    border-color: var(--cyan);
+    color: #000;
+    font-weight: 600;
+  }
+  .filter-btn.urgency-overdue.active { background: var(--red-dark); border-color: var(--red); color: #fff; }
+  .filter-btn.urgency-critical.active { background: var(--red); border-color: var(--red); color: #fff; }
+  .filter-btn.urgency-warning.active { background: var(--orange); border-color: var(--orange); color: #000; }
+  .filter-btn.urgency-today.active { background: var(--green); border-color: var(--green); color: #000; }
+  .filter-btn.urgency-flagged.active { background: var(--pink); border-color: var(--pink); color: #000; }
+
+  select.filter-select {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    color: var(--text-primary);
+    padding: 5px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 12px;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  select.filter-select:hover, select.filter-select:focus { border-color: var(--cyan); }
+
+  .search-box {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    color: var(--text-primary);
+    padding: 5px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-family: inherit;
+    outline: none;
+    width: 220px;
+    transition: border-color 0.15s;
+  }
+  .search-box:focus { border-color: var(--cyan); }
+  .search-box::placeholder { color: var(--text-muted); }
+
+  .result-count {
+    color: var(--cyan);
+    font-size: 12px;
+    font-weight: 600;
+    margin-left: auto;
+  }
+
+  /* ===== MAIN LAYOUT ===== */
+  .main-layout {
+    display: flex;
+    gap: 0;
+    min-height: calc(100vh - 200px);
+  }
+
+  .board-container {
+    flex: 1;
+    padding: 20px 24px;
+    overflow: hidden;
+  }
+
+  /* ===== WEEK GROUPS ===== */
+  .week-group {
+    margin-bottom: 24px;
+  }
+
+  .week-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .week-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-secondary);
+  }
+
+  .week-badge {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 2px 10px;
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+
+  .week-revenue {
+    margin-left: auto;
+    font-size: 12px;
+    color: var(--green);
+    font-weight: 600;
+  }
+
+  /* ===== CARDS GRID ===== */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 10px;
+  }
+
+  /* ===== ORDER CARD ===== */
+  .order-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+    border-left: 3px solid transparent;
+  }
+
+  .order-card:hover {
+    background: var(--bg-card-hover);
+    border-color: var(--border-light);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+  }
+
+  /* Urgency borders */
+  .order-card.today { border-left-color: var(--green); }
+  .order-card.warning { border-left-color: var(--orange); }
+  .order-card.critical { border-left-color: var(--red); }
+  .order-card.overdue {
+    border-left-color: var(--red-dark);
+    animation: pulse-red 2s infinite;
+  }
+
+  @keyframes pulse-red {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(255,68,68,0); }
+    50% { box-shadow: 0 0 0 3px rgba(255,68,68,0.15); }
+  }
+
+  /* Flag styling */
+  .order-card.flagged {
+    border-left-color: var(--pink);
+    box-shadow: 0 0 12px rgba(255, 102, 170, 0.12);
+  }
+
+  .order-card.flagged::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(135deg, rgba(255,102,170,0.04) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  /* Test order watermark */
+  .order-card.test-order {
+    border-left-color: #444;
+    opacity: 0.75;
+  }
+
+  .order-card.test-order::after {
+    content: 'TEST';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-30deg);
+    font-size: 40px;
+    font-weight: 900;
+    color: rgba(255,255,255,0.04);
+    pointer-events: none;
+    letter-spacing: 4px;
+  }
+
+  /* Card header */
+  .card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    gap: 6px;
+  }
+
+  .card-order-id {
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 10px;
+    color: var(--text-muted);
+  }
+
+  .card-date {
+    font-size: 10px;
+    color: var(--text-muted);
+  }
+
+  .age-badge {
+    padding: 2px 7px;
+    border-radius: 10px;
+    font-size: 10px;
+    font-weight: 700;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .age-badge.today { background: rgba(0,255,136,0.15); color: var(--green); }
+  .age-badge.warning { background: rgba(255,170,0,0.15); color: var(--orange); }
+  .age-badge.critical { background: rgba(255,68,68,0.2); color: var(--red); }
+  .age-badge.overdue { background: rgba(204,34,34,0.25); color: #ff6666; }
+
+  /* Card customer */
+  .card-customer {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 1px;
+  }
+
+  .card-company {
+    font-size: 11px;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 6px;
+  }
+
+  /* Card meta row */
+  .card-meta {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+  }
+
+  .card-location {
+    font-size: 11px;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    flex: 1;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .cat-chip {
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 10px;
+    font-weight: 600;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* Category colors */
+  .cat-tshirts { background: rgba(68,136,255,0.15); color: var(--blue); }
+  .cat-hoodies { background: rgba(170,102,255,0.15); color: var(--purple); }
+  .cat-business-cards { background: rgba(0,204,170,0.15); color: var(--teal); }
+  .cat-gift-card { background: rgba(255,102,170,0.15); color: var(--pink); }
+  .cat-tumblers { background: rgba(0,212,255,0.15); color: var(--cyan); }
+  .cat-mugs { background: rgba(255,221,0,0.15); color: var(--yellow); }
+  .cat-long-sleeves { background: rgba(255,170,0,0.12); color: var(--orange); }
+  .cat-car-magnets { background: rgba(0,255,136,0.12); color: var(--green); }
+  .cat-stickers { background: rgba(255,136,68,0.15); color: #ff8844; }
+  .cat-masks { background: rgba(136,204,255,0.15); color: #88ccff; }
+  .cat-jackets { background: rgba(200,180,120,0.15); color: #c8b478; }
+  .cat-other { background: rgba(120,120,120,0.15); color: #aaa; }
+  .cat-sandals { background: rgba(255,170,136,0.15); color: #ffaa88; }
+  .cat-crop-tops { background: rgba(255,136,204,0.15); color: #ff88cc; }
+  .cat-decals { background: rgba(136,255,204,0.15); color: #88ffcc; }
+  .cat-mouse-pads { background: rgba(180,136,255,0.15); color: #b488ff; }
+
+  /* Card footer */
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+  }
+
+  .card-qty {
+    font-size: 11px;
+    color: var(--text-muted);
+    background: rgba(255,255,255,0.04);
+    padding: 2px 7px;
+    border-radius: 4px;
+  }
+
+  .card-total {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-primary);
+    flex: 1;
+    text-align: center;
+  }
+
+  .payment-badge {
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+
+  .payment-net30 { background: rgba(255,170,0,0.15); color: var(--orange); border: 1px solid rgba(255,170,0,0.2); }
+  .payment-cc { background: rgba(0,255,136,0.1); color: var(--green); border: 1px solid rgba(0,255,136,0.15); }
+
+  .flag-indicator {
+    font-size: 14px;
+    cursor: help;
+    flex-shrink: 0;
+  }
+
+  .gc-code {
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 9px;
+    color: var(--red);
+    background: rgba(255,68,68,0.1);
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-top: 4px;
+    display: block;
+    border: 1px solid rgba(255,68,68,0.2);
+  }
+
+  /* Card expanded content */
+  .card-expanded {
+    display: none;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+    animation: slideDown 0.2s ease;
+  }
+
+  .order-card.expanded .card-expanded { display: block; }
+
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .product-list {
+    margin-bottom: 8px;
+  }
+
+  .product-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 3px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    font-size: 11px;
+    color: var(--text-secondary);
+  }
+
+  .product-item:last-child { border-bottom: none; }
+  .product-qty-badge {
+    background: rgba(255,255,255,0.06);
+    border-radius: 4px;
+    padding: 1px 6px;
+    font-size: 10px;
+    color: var(--cyan);
+    font-weight: 600;
+    flex-shrink: 0;
+    margin-left: 8px;
+  }
+
+  .expanded-field {
+    display: flex;
+    gap: 6px;
+    align-items: baseline;
+    font-size: 11px;
+    color: var(--text-secondary);
+    margin-bottom: 4px;
+  }
+
+  .expanded-field-label {
+    color: var(--text-muted);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    min-width: 45px;
+    flex-shrink: 0;
+  }
+
+  .expanded-field a {
+    color: var(--cyan);
+    text-decoration: none;
+  }
+
+  .expanded-field a:hover { text-decoration: underline; }
+
+  /* ===== FRAUD PANEL ===== */
+  .fraud-panel {
+    width: 280px;
+    flex-shrink: 0;
+    background: var(--bg-panel);
+    border-left: 1px solid var(--border);
+    padding: 16px;
+    overflow-y: auto;
+    max-height: calc(100vh - 200px);
+    position: sticky;
+    top: 200px;
+    align-self: flex-start;
+  }
+
+  .fraud-panel-header {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--pink);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 4px;
+  }
+
+  .fraud-total {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .fraud-total .amount { color: var(--red); font-weight: 700; }
+
+  .fraud-section-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+    margin-top: 12px;
+    font-weight: 600;
+  }
+
+  .fraud-item {
+    background: rgba(255,102,170,0.06);
+    border: 1px solid rgba(255,102,170,0.15);
+    border-radius: 8px;
+    padding: 8px 10px;
+    margin-bottom: 6px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .fraud-item:hover { background: rgba(255,102,170,0.1); }
+
+  .fraud-item-id {
+    font-family: monospace;
+    font-size: 10px;
+    color: var(--text-muted);
+    margin-bottom: 2px;
+  }
+
+  .fraud-item-customer {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 2px;
+  }
+
+  .fraud-item-reason {
+    font-size: 10px;
+    color: var(--pink);
+  }
+
+  .fraud-item-amount {
+    font-size: 11px;
+    color: var(--orange);
+    font-weight: 700;
+    float: right;
+  }
+
+  .fraud-gc-code {
+    font-family: monospace;
+    font-size: 10px;
+    background: rgba(255,68,68,0.15);
+    color: var(--red);
+    padding: 2px 6px;
+    border-radius: 3px;
+    display: block;
+    margin-top: 3px;
+    border: 1px solid rgba(255,68,68,0.2);
+  }
+
+  .test-item {
+    background: rgba(100,100,100,0.08);
+    border: 1px solid rgba(100,100,100,0.2);
+    border-radius: 8px;
+    padding: 8px 10px;
+    margin-bottom: 6px;
+    font-size: 11px;
+  }
+
+  /* ===== ANALYTICS ===== */
+  .analytics-section {
+    padding: 24px;
+    border-top: 1px solid var(--border);
+    background: var(--bg-panel);
+  }
+
+  .analytics-title {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .analytics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 20px;
+  }
+
+  .chart-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+  }
+
+  .chart-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .chart-canvas-wrap {
+    position: relative;
+    height: 200px;
+  }
+
+  /* ===== FOOTER STATS ===== */
+  .footer-stats {
+    background: var(--bg-base);
+    border-top: 1px solid var(--border);
+    padding: 20px 24px;
+  }
+
+  .footer-stats-title {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+  }
+
+  .footer-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+  }
+
+  .footer-stat {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 16px;
+  }
+
+  .footer-stat-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+  }
+
+  .footer-stat-value {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--cyan);
+  }
+
+  .footer-stat-sub {
+    font-size: 10px;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+
+  /* ===== EMPTY STATE ===== */
+  .empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-muted);
+  }
+
+  .empty-state-icon { font-size: 40px; margin-bottom: 12px; }
+  .empty-state-text { font-size: 14px; }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 768px) {
+    .header { padding: 12px 16px; top: 0; }
+    .filter-bar { top: 140px; padding: 8px 16px; }
+    .board-container { padding: 12px 16px; }
+    .fraud-panel { display: none; }
+    .header-title { font-size: 16px; }
+    .stats-row { gap: 6px; }
+    .stat-pill { padding: 6px 10px; }
+    .stat-value { font-size: 14px; }
+    .analytics-grid { grid-template-columns: 1fr; }
+    .footer-stats-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  /* ===== PRINT STYLES ===== */
+  @media print {
+    .header { position: relative; background: #fff; color: #000; border-color: #ccc; }
+    .filter-bar { display: none; }
+    .fraud-panel { display: none; }
+    .analytics-section { display: none; }
+    .order-card { break-inside: avoid; background: #fff; border: 1px solid #ccc; color: #000; }
+    .card-customer, .card-total { color: #000; }
+    .cat-chip, .payment-badge, .age-badge { border: 1px solid #999; }
+    body { background: #fff; color: #000; }
+    .main-layout { display: block; }
+    .board-container { padding: 8px; }
+  }
+
+  /* ===== SCROLLBAR ===== */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg-base); }
+  ::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: #444; }
+
+  .no-results { color: var(--text-muted); text-align: center; padding: 40px; font-size: 14px; }
+
+  /* ===== BULK ACTIONS BAR ===== */
+  .bulk-bar {
+    background: #0f0f1a;
+    border-bottom: 1px solid rgba(68,136,255,0.3);
+    padding: 8px 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    position: sticky;
+    top: 175px;
+    z-index: 185;
+    transition: all 0.2s;
+  }
+
+  .bulk-bar.hidden { display: none; }
+
+  .bulk-select-all {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .bulk-select-all input[type=checkbox] {
+    accent-color: var(--cyan);
+    width: 14px; height: 14px;
+    cursor: pointer;
+  }
+
+  .bulk-count {
+    font-size: 12px;
+    color: var(--cyan);
+    font-weight: 600;
+    min-width: 100px;
+  }
+
+  .bulk-btn {
+    padding: 5px 14px;
+    border-radius: 6px;
+    border: none;
+    font-size: 12px;
+    font-family: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .bulk-btn-complete {
+    background: rgba(0,255,136,0.15);
+    color: var(--green);
+    border: 1px solid rgba(0,255,136,0.3);
+  }
+  .bulk-btn-complete:hover { background: rgba(0,255,136,0.25); }
+
+  .bulk-btn-cancel {
+    background: rgba(255,68,68,0.1);
+    color: var(--red);
+    border: 1px solid rgba(255,68,68,0.25);
+  }
+  .bulk-btn-cancel:hover { background: rgba(255,68,68,0.2); }
+
+  /* ===== CARD CHECKBOX ===== */
+  .card-checkbox-wrap {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 10;
+    display: none;
+  }
+
+  .card-checkbox-wrap input[type=checkbox] {
+    accent-color: var(--cyan);
+    width: 16px; height: 16px;
+    cursor: pointer;
+  }
+
+  .bulk-mode .card-checkbox-wrap { display: block; }
+  .bulk-mode .order-card { cursor: default; }
+  .bulk-mode .order-card.selected { outline: 2px solid var(--cyan); }
+
+  /* ===== ACTION BUTTONS (in expanded card) ===== */
+  .card-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+
+  .action-btn {
+    padding: 5px 12px;
+    border-radius: 6px;
+    border: none;
+    font-size: 11px;
+    font-family: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+
+  .action-btn-complete {
+    background: rgba(0,255,136,0.15);
+    color: var(--green);
+    border: 1px solid rgba(0,255,136,0.3);
+  }
+  .action-btn-complete:hover { background: rgba(0,255,136,0.28); transform: translateY(-1px); }
+
+  .action-btn-design {
+    background: rgba(255,170,0,0.12);
+    color: var(--orange);
+    border: 1px solid rgba(255,170,0,0.3);
+  }
+  .action-btn-design:hover { background: rgba(255,170,0,0.22); transform: translateY(-1px); }
+
+  .action-btn-cancel {
+    background: transparent;
+    color: var(--red);
+    border: none;
+    font-size: 11px;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 5px 6px;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    font-family: inherit;
+    transition: color 0.15s;
+    margin-left: auto;
+  }
+  .action-btn-cancel:hover { color: #ff6666; }
+
+  /* ===== CARD OVERLAYS ===== */
+  .card-overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s;
+    z-index: 5;
+  }
+
+  .card-overlay.show { opacity: 1; }
+
+  .card-overlay.completed {
+    background: rgba(0,255,136,0.18);
+    color: var(--green);
+    border: 2px solid var(--green);
+  }
+
+  .card-overlay.cancelled {
+    background: rgba(255,68,68,0.15);
+    color: var(--red);
+    border: 2px solid var(--red);
+  }
+
+  .card-overlay.contacted {
+    background: rgba(255,170,0,0.15);
+    color: var(--orange);
+    border: 2px solid var(--orange);
+  }
+
+  .order-card.is-cancelled .card-customer,
+  .order-card.is-cancelled .card-company,
+  .order-card.is-cancelled .card-total {
+    text-decoration: line-through;
+    opacity: 0.5;
+  }
+
+  .contacted-badge {
+    display: inline-block;
+    background: rgba(255,170,0,0.15);
+    color: var(--orange);
+    border: 1px solid rgba(255,170,0,0.3);
+    border-radius: 10px;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 8px;
+    margin-left: 6px;
+    letter-spacing: 0.5px;
+  }
+
+  /* ===== MODAL ===== */
+  .modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.75);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    animation: fadeInBd 0.15s ease;
+  }
+
+  @keyframes fadeInBd {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .modal {
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 14px;
+    padding: 24px;
+    max-width: 500px;
+    width: 100%;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.7);
+    animation: slideUp 0.2s ease;
+  }
+
+  @keyframes slideUp {
+    from { transform: translateY(16px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  .modal-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+  }
+
+  .modal-subtitle {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+  }
+
+  .modal-section-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+
+  .modal-template-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 16px;
+  }
+
+  .template-radio {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .template-radio:hover { border-color: var(--orange); background: rgba(255,170,0,0.05); }
+  .template-radio.selected { border-color: var(--orange); background: rgba(255,170,0,0.08); }
+
+  .template-radio input[type=radio] {
+    accent-color: var(--orange);
+    margin-top: 2px;
+    flex-shrink: 0;
+  }
+
+  .template-radio-label { font-size: 12px; font-weight: 600; color: var(--text-primary); }
+  .template-radio-desc { font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
+
+  .modal-textarea {
+    width: 100%;
+    background: #111;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 12px;
+    padding: 10px 12px;
+    resize: vertical;
+    min-height: 90px;
+    outline: none;
+    transition: border-color 0.15s;
+    margin-bottom: 16px;
+    display: none;
+  }
+
+  .modal-textarea.show { display: block; }
+  .modal-textarea:focus { border-color: var(--orange); }
+
+  .modal-preview {
+    background: #111;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 16px;
+    font-size: 11px;
+    color: var(--text-secondary);
+    max-height: 140px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    font-family: 'SF Mono', monospace;
+    line-height: 1.6;
+    display: none;
+  }
+
+  .modal-preview.show { display: block; }
+
+  .modal-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+  }
+
+  .modal-btn {
+    padding: 8px 20px;
+    border-radius: 8px;
+    border: none;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .modal-btn-cancel {
+    background: transparent;
+    color: var(--text-secondary);
+    border: 1px solid var(--border);
+  }
+  .modal-btn-cancel:hover { border-color: var(--border-light); color: var(--text-primary); }
+
+  .modal-btn-confirm-green {
+    background: rgba(0,255,136,0.15);
+    color: var(--green);
+    border: 1px solid rgba(0,255,136,0.3);
+  }
+  .modal-btn-confirm-green:hover { background: rgba(0,255,136,0.25); }
+
+  .modal-btn-confirm-red {
+    background: rgba(255,68,68,0.15);
+    color: var(--red);
+    border: 1px solid rgba(255,68,68,0.3);
+  }
+  .modal-btn-confirm-red:hover { background: rgba(255,68,68,0.25); }
+
+  .modal-btn-confirm-orange {
+    background: rgba(255,170,0,0.15);
+    color: var(--orange);
+    border: 1px solid rgba(255,170,0,0.3);
+  }
+  .modal-btn-confirm-orange:hover { background: rgba(255,170,0,0.25); }
+
+  /* ===== TOAST NOTIFICATIONS ===== */
+  .toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 2000;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    pointer-events: none;
+  }
+
+  .toast {
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-size: 13px;
+    color: var(--text-primary);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+    max-width: 320px;
+    animation: toastIn 0.25s ease;
+    pointer-events: all;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .toast.success { border-left: 3px solid var(--green); }
+  .toast.error { border-left: 3px solid var(--red); }
+  .toast.info { border-left: 3px solid var(--cyan); }
+  .toast.warning { border-left: 3px solid var(--orange); }
+
+  @keyframes toastIn {
+    from { transform: translateX(20px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+  }
+
+  @keyframes toastOut {
+    from { transform: translateX(0); opacity: 1; max-height: 100px; margin-bottom: 0; }
+    to { transform: translateX(20px); opacity: 0; max-height: 0; margin-bottom: -8px; }
+  }
+
+  .toast.removing { animation: toastOut 0.25s ease forwards; }
+
+  .toast-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+  .toast-body { flex: 1; }
+  .toast-title { font-weight: 700; font-size: 12px; margin-bottom: 2px; }
+  .toast-msg { font-size: 11px; color: var(--text-secondary); }
+
+  /* ===== SESSION SUMMARY PILLS ===== */
+  .session-summary {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    padding: 6px 0;
+  }
+
+  .session-pill {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 5px 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+  }
+
+  .session-pill-val { font-weight: 700; font-size: 15px; line-height: 1; }
+  .session-pill-label { color: var(--text-secondary); font-size: 10px; }
+
+  .session-pill.completed .session-pill-val { color: var(--green); }
+  .session-pill.cancelled .session-pill-val { color: var(--red); }
+  .session-pill.contacted .session-pill-val { color: var(--orange); }
+
+  .session-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+    margin-right: 4px;
+  }
+
+  /* ===== ACTION LOG PANEL ===== */
+  .action-log-section {
+    background: var(--bg-panel);
+    border-top: 1px solid var(--border);
+  }
+
+  .action-log-header {
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.15s;
+  }
+
+  .action-log-header:hover { background: rgba(255,255,255,0.02); }
+
+  .action-log-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+  }
+
+  .action-log-count {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 2px 8px;
+    font-size: 11px;
+    color: var(--text-secondary);
+  }
+
+  .action-log-toggle {
+    color: var(--text-muted);
+    font-size: 12px;
+    transition: transform 0.2s;
+  }
+
+  .action-log-toggle.open { transform: rotate(180deg); }
+
+  .action-log-body {
+    display: none;
+    padding: 0 24px 20px;
+  }
+
+  .action-log-body.open { display: block; }
+
+  .action-log-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+  }
+
+  .action-log-table th {
+    text-align: left;
+    padding: 6px 10px;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+    border-bottom: 1px solid var(--border);
+    font-weight: 600;
+  }
+
+  .action-log-table td {
+    padding: 7px 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    color: var(--text-secondary);
+    vertical-align: middle;
+  }
+
+  .action-log-table tr:last-child td { border-bottom: none; }
+
+  .log-action-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 10px;
+    font-weight: 700;
+  }
+
+  .log-completed { background: rgba(0,255,136,0.12); color: var(--green); }
+  .log-cancelled { background: rgba(255,68,68,0.12); color: var(--red); }
+  .log-contacted { background: rgba(255,170,0,0.12); color: var(--orange); }
+  .log-error { background: rgba(255,68,68,0.08); color: #ff6666; }
+
+  .log-result-ok { color: var(--green); }
+  .log-result-err { color: var(--red); }
+
+  .log-export-btn {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.15s;
+    margin-top: 12px;
+  }
+  .log-export-btn:hover { border-color: var(--border-light); color: var(--text-primary); }
+
+  .log-empty { color: var(--text-muted); text-align: center; padding: 20px; font-size: 12px; }
+
+  /* ===== SPINNER ===== */
+  .btn-spinner {
+    display: inline-block;
+    width: 11px; height: 11px;
+    border: 2px solid rgba(255,255,255,0.2);
+    border-top-color: currentColor;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+    vertical-align: middle;
+    margin-right: 4px;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ===== RESPONSIVE (additions) ===== */
+  @media (max-width: 768px) {
+    .bulk-bar { top: 220px; padding: 8px 16px; }
+    .action-log-header { padding: 12px 16px; }
+    .action-log-body { padding: 0 16px 16px; }
+    .action-log-table { font-size: 11px; }
+  }
+
+</style>
+</head>
+<body>
+
+<!-- ===== HEADER ===== -->
+<header class="header">
+  <div class="header-top">
+    <div>
+      <div class="header-title">🏭 Shirtsy Production Board</div>
+      <div class="header-subtitle">90-Day Order Review — Last 90 Days of Processing Orders</div>
+    </div>
+    <div class="live-clock" id="liveClock">--:--:-- --</div>
+  </div>
+  <div class="stats-row" id="statsRow">
+    <!-- Populated by JS -->
+  </div>
+  <div class="session-summary" id="sessionSummary" style="margin-top:8px; display:none;">
+    <span class="session-label">This Session:</span>
+    <div class="session-pill completed">
+      <span class="session-pill-val" id="sessionCompleted">0</span>
+      <span class="session-pill-label">Completed</span>
+    </div>
+    <div class="session-pill cancelled">
+      <span class="session-pill-val" id="sessionCancelled">0</span>
+      <span class="session-pill-label">Cancelled</span>
+    </div>
+    <div class="session-pill contacted">
+      <span class="session-pill-val" id="sessionContacted">0</span>
+      <span class="session-pill-label">Contacted</span>
+    </div>
+  </div>
+</header>
+
+<!-- ===== FILTER BAR ===== -->
+<div class="filter-bar">
+  <div class="filter-row">
+    <span class="filter-label">Urgency</span>
+    <button class="filter-btn active" data-urgency="all">All</button>
+    <button class="filter-btn urgency-overdue" data-urgency="overdue">🔴 Overdue (5d+)</button>
+    <button class="filter-btn urgency-critical" data-urgency="critical">🔴 Critical (3-4d)</button>
+    <button class="filter-btn urgency-warning" data-urgency="warning">🟡 Warning (1-2d)</button>
+    <button class="filter-btn urgency-today" data-urgency="today">🟢 Today</button>
+    <button class="filter-btn urgency-flagged" data-urgency="flagged">🚩 Flagged</button>
+    <span class="result-count" id="resultCount"></span>
+  </div>
+  <div class="filter-row">
+    <span class="filter-label">Category</span>
+    <select class="filter-select" id="categoryFilter">
+      <option value="all">All Categories</option>
+      <option value="T-Shirts">T-Shirts</option>
+      <option value="Hoodies">Hoodies</option>
+      <option value="Business Cards">Business Cards</option>
+      <option value="Gift Card">Gift Cards</option>
+      <option value="Tumblers">Tumblers</option>
+      <option value="Mugs">Mugs</option>
+      <option value="Long Sleeves">Long Sleeves</option>
+      <option value="Car Magnets">Car Magnets</option>
+      <option value="Stickers">Stickers</option>
+      <option value="Masks">Masks</option>
+      <option value="Jackets">Jackets</option>
+      <option value="Crop Tops">Crop Tops</option>
+      <option value="Sandals">Sandals</option>
+      <option value="Decals">Decals</option>
+      <option value="Mouse Pads">Mouse Pads</option>
+      <option value="Other">Other</option>
+    </select>
+
+    <span class="filter-label" style="margin-left:8px">Payment</span>
+    <button class="filter-btn active" data-payment="all">All</button>
+    <button class="filter-btn" data-payment="NET30">NET30</button>
+    <button class="filter-btn" data-payment="Credit Card">Credit Card</button>
+
+    <span class="filter-label" style="margin-left:8px">Range</span>
+    <button class="filter-btn" data-days="7">7d</button>
+    <button class="filter-btn" data-days="14">14d</button>
+    <button class="filter-btn" data-days="30">30d</button>
+    <button class="filter-btn active" data-days="90">90d</button>
+
+    <input type="text" class="search-box" id="searchBox" placeholder="🔍 Search customer, company, email, order #...">
+    <button class="filter-btn" id="bulkToggleBtn" onclick="toggleBulkMode()" style="margin-left:8px; border-color:rgba(68,136,255,0.4); color:var(--blue);">&#9744; Bulk Select</button>
+  </div>
+</div>
+
+<!-- ===== BULK ACTIONS BAR ===== -->
+<div class="bulk-bar hidden" id="bulkBar">
+  <label class="bulk-select-all">
+    <input type="checkbox" id="selectAllCheckbox" onchange="toggleSelectAll(this)">
+    Select All Visible
+  </label>
+  <span class="bulk-count" id="bulkCount">0 selected</span>
+  <button class="bulk-btn bulk-btn-complete" onclick="bulkAction('completed')">&#10003; Mark All Selected Completed</button>
+  <button class="bulk-btn bulk-btn-cancel" onclick="bulkAction('cancelled')">&#10005; Cancel All Selected</button>
+</div>
+
+<!-- ===== MAIN LAYOUT ===== -->
+<div class="main-layout">
+  <div class="board-container" id="boardContainer">
+    <!-- Cards rendered by JS -->
+  </div>
+
+  <!-- Fraud Panel -->
+  <aside class="fraud-panel" id="fraudPanel">
+    <div class="fraud-panel-header">🚩 Flagged for Review</div>
+    <div class="fraud-total" id="fraudTotal"></div>
+    <!-- Populated by JS -->
+  </aside>
+</div>
+
+<!-- ===== ANALYTICS ===== -->
+<div class="analytics-section">
+  <div class="analytics-title">📊 Analytics Dashboard</div>
+  <div class="analytics-grid">
+    <div class="chart-card">
+      <div class="chart-title">Orders by Week</div>
+      <div class="chart-canvas-wrap"><canvas id="timelineChart"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">Category Breakdown</div>
+      <div class="chart-canvas-wrap"><canvas id="categoryChart"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">Payment Split</div>
+      <div class="chart-canvas-wrap"><canvas id="paymentChart"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">Revenue by Week</div>
+      <div class="chart-canvas-wrap"><canvas id="revenueChart"></canvas></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== FOOTER STATS ===== -->
+<div class="footer-stats">
+  <div class="footer-stats-title">📈 Summary Statistics</div>
+  <div class="footer-stats-grid" id="footerStatsGrid">
+    <!-- Populated by JS -->
+  </div>
+</div>
+
+<!-- ===== ACTION LOG PANEL ===== -->
+<div class="action-log-section">
+  <div class="action-log-header" onclick="toggleActionLog()">
+    <div class="action-log-title">
+      &#128221; Action Log
+      <span class="action-log-count" id="actionLogCount">0 actions</span>
+    </div>
+    <span class="action-log-toggle" id="actionLogToggle">&#9660;</span>
+  </div>
+  <div class="action-log-body" id="actionLogBody">
+    <div class="log-empty" id="actionLogEmpty">No actions taken this session yet.</div>
+    <table class="action-log-table" id="actionLogTable" style="display:none;">
+      <thead>
+        <tr>
+          <th>Time</th>
+          <th>Order #</th>
+          <th>Customer</th>
+          <th>Action</th>
+          <th>Result</th>
+        </tr>
+      </thead>
+      <tbody id="actionLogTbody"></tbody>
+    </table>
+    <button class="log-export-btn" onclick="exportLogCSV()">&#8659; Export Log as CSV</button>
+  </div>
+</div>
+
+<!-- ===== TOAST CONTAINER ===== -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- ===== CONFIRM MODAL ===== -->
+<div class="modal-backdrop" id="confirmModal" style="display:none;" onclick="if(event.target===this)closeConfirmModal()">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-title" id="confirmTitle">Confirm Action</div>
+    <div class="modal-subtitle" id="confirmSubtitle"></div>
+    <div class="modal-actions">
+      <button class="modal-btn modal-btn-cancel" onclick="closeConfirmModal()">No, Cancel</button>
+      <button class="modal-btn" id="confirmYesBtn" onclick="confirmYes()">Yes, Proceed</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== DESIGN ISSUE MODAL ===== -->
+<div class="modal-backdrop" id="designModal" style="display:none;" onclick="if(event.target===this)closeDesignModal()">
+  <div class="modal" style="max-width:520px;" onclick="event.stopPropagation()">
+    <div class="modal-title">&#9888;&#65039; Design Issue</div>
+    <div class="modal-subtitle" id="designModalSubtitle">Order #<span id="designOrderId"></span> &mdash; <span id="designCustomerName"></span></div>
+    <div class="modal-section-label">Select Email Template</div>
+    <div class="modal-template-list">
+      <label class="template-radio" onclick="selectTemplate(this, 'missing')">
+        <input type="radio" name="designTemplate" value="missing">
+        <div>
+          <div class="template-radio-label">Missing Design Files</div>
+          <div class="template-radio-desc">Customer hasn't uploaded their artwork</div>
+        </div>
+      </label>
+      <label class="template-radio" onclick="selectTemplate(this, 'quality')">
+        <input type="radio" name="designTemplate" value="quality">
+        <div>
+          <div class="template-radio-label">Design Quality Issue</div>
+          <div class="template-radio-desc">Artwork is low resolution or wrong format</div>
+        </div>
+      </label>
+      <label class="template-radio" onclick="selectTemplate(this, 'confirmation')">
+        <input type="radio" name="designTemplate" value="confirmation">
+        <div>
+          <div class="template-radio-label">Design Confirmation Needed</div>
+          <div class="template-radio-desc">Need customer to approve proof before production</div>
+        </div>
+      </label>
+      <label class="template-radio" onclick="selectTemplate(this, 'custom')">
+        <input type="radio" name="designTemplate" value="custom">
+        <div>
+          <div class="template-radio-label">Custom Message</div>
+          <div class="template-radio-desc">Write your own message</div>
+        </div>
+      </label>
+    </div>
+    <textarea class="modal-textarea" id="customMessageArea" placeholder="Type your custom message here..."></textarea>
+    <div class="modal-section-label">Email Preview</div>
+    <pre class="modal-preview" id="emailPreview"></pre>
+    <div class="modal-actions">
+      <button class="modal-btn modal-btn-cancel" onclick="closeDesignModal()">Cancel</button>
+      <button class="modal-btn modal-btn-confirm-orange" id="designSendBtn" onclick="sendDesignEmail()" disabled>&#9993; Open Email Client</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ===== WOOCOMMERCE API CONFIG =====
+const WOO_API_URL = 'https://shirtsy.com/wp-json/wc/v3';
+const WOO_CONSUMER_KEY = 'ck_ff44ee480e215d95bcdf3b360c3f486bf67879fd';
+const WOO_CONSUMER_SECRET = 'cs_aeeec3ca4628d863d67d2741b8455f7efb3c6846';
+
+// ===== SESSION STATE =====
+const sessionState = {
+  completed: 0,
+  cancelled: 0,
+  contacted: 0,
+  actionLog: []
+};
+
+// ===== WOO API HELPER =====
+async function wooUpdateOrder(orderId, status) {
+  const url = `${WOO_API_URL}/orders/${orderId}?consumer_key=${WOO_CONSUMER_KEY}&consumer_secret=${WOO_CONSUMER_SECRET}`;
+  const resp = await fetch(url, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ status })
+  });
+  if (!resp.ok) {
+    const err = await resp.text();
+    throw new Error(`API error ${resp.status}: ${err}`);
+  }
+  return await resp.json();
+}
+
+// ===== TOAST =====
+function showToast(type, title, msg, durationMs = 3500) {
+  const container = document.getElementById('toastContainer');
+  const icons = { success: '\u2705', error: '\u274c', info: '\u2139\ufe0f', warning: '\u26a0\ufe0f' };
+  const toast = document.createElement('div');
+  toast.className = `toast ${type}`;
+  toast.innerHTML = `<span class="toast-icon">${icons[type] || '\u2139\ufe0f'}</span><div class="toast-body"><div class="toast-title">${title}</div><div class="toast-msg">${msg}</div></div>`;
+  container.appendChild(toast);
+  setTimeout(() => {
+    toast.classList.add('removing');
+    setTimeout(() => toast.remove(), 300);
+  }, durationMs);
+}
+
+// ===== ACTION LOG =====
+function addToLog(orderId, customer, action, result) {
+  const now = new Date();
+  const time = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+  sessionState.actionLog.push({ time, orderId, customer, action, result });
+  renderActionLog();
+}
+
+function renderActionLog() {
+  const log = sessionState.actionLog;
+  const countEl = document.getElementById('actionLogCount');
+  const emptyEl = document.getElementById('actionLogEmpty');
+  const tableEl = document.getElementById('actionLogTable');
+  const tbody = document.getElementById('actionLogTbody');
+
+  if (countEl) countEl.textContent = `${log.length} action${log.length !== 1 ? 's' : ''}`;
+  if (log.length === 0) {
+    if (emptyEl) emptyEl.style.display = '';
+    if (tableEl) tableEl.style.display = 'none';
+    return;
+  }
+  if (emptyEl) emptyEl.style.display = 'none';
+  if (tableEl) tableEl.style.display = '';
+
+  const badgeClass = { completed: 'log-completed', cancelled: 'log-cancelled', contacted: 'log-contacted', error: 'log-error' };
+
+  tbody.innerHTML = log.slice().reverse().map(entry => `
+    <tr>
+      <td style="font-family:monospace;font-size:10px;color:var(--text-muted)">${entry.time}</td>
+      <td style="font-family:monospace">#${entry.orderId}</td>
+      <td>${entry.customer}</td>
+      <td><span class="log-action-badge ${badgeClass[entry.action] || ''}">${entry.action.toUpperCase()}</span></td>
+      <td class="${entry.result === 'success' ? 'log-result-ok' : 'log-result-err'}">${entry.result === 'success' ? '\u2714 Success' : entry.result}</td>
+    </tr>`).join('');
+}
+
+function toggleActionLog() {
+  const body = document.getElementById('actionLogBody');
+  const toggle = document.getElementById('actionLogToggle');
+  body.classList.toggle('open');
+  toggle.classList.toggle('open');
+}
+
+function exportLogCSV() {
+  const log = sessionState.actionLog;
+  if (log.length === 0) { showToast('info', 'Empty Log', 'No actions to export yet.'); return; }
+  const header = 'Time,Order #,Customer,Action,Result';
+  const rows = log.map(e => `"${e.time}","${e.orderId}","${e.customer.replace(/"/g,'""')}","${e.action}","${e.result}"`);
+  const csv = [header, ...rows].join('\n');
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `shirtsy-action-log-${new Date().toISOString().slice(0,10)}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// ===== SESSION SUMMARY =====
+function updateSessionSummary() {
+  const hasAny = sessionState.completed + sessionState.cancelled + sessionState.contacted > 0;
+  const summary = document.getElementById('sessionSummary');
+  if (summary) {
+    summary.style.display = hasAny ? 'flex' : 'none';
+    document.getElementById('sessionCompleted').textContent = sessionState.completed;
+    document.getElementById('sessionCancelled').textContent = sessionState.cancelled;
+    document.getElementById('sessionContacted').textContent = sessionState.contacted;
+  }
+}
+
+// ===== CONFIRM MODAL =====
+let _confirmCallback = null;
+
+function showConfirmModal(title, subtitle, btnLabel, btnClass, onConfirm) {
+  document.getElementById('confirmTitle').textContent = title;
+  document.getElementById('confirmSubtitle').textContent = subtitle;
+  const btn = document.getElementById('confirmYesBtn');
+  btn.textContent = btnLabel;
+  btn.className = `modal-btn ${btnClass}`;
+  _confirmCallback = onConfirm;
+  document.getElementById('confirmModal').style.display = 'flex';
+}
+
+function closeConfirmModal() {
+  document.getElementById('confirmModal').style.display = 'none';
+  _confirmCallback = null;
+}
+
+function confirmYes() {
+  closeConfirmModal();
+  if (_confirmCallback) _confirmCallback();
+}
+
+// ===== MARK COMPLETE =====
+function markComplete(orderId, customerName) {
+  showConfirmModal(
+    'Mark as Completed?',
+    `Mark Order #${orderId} for ${customerName} as completed? This will update the order in WooCommerce.`,
+    '\u2705 Yes, Mark Completed',
+    'modal-btn-confirm-green',
+    () => doMarkComplete(orderId, customerName)
+  );
+}
+
+async function doMarkComplete(orderId, customerName) {
+  const card = document.querySelector(`[data-id="${orderId}"]`);
+  const btn = card ? card.querySelector('.action-btn-complete') : null;
+  if (btn) { btn.disabled = true; btn.innerHTML = '<span class="btn-spinner"></span>Completing...'; }
+
+  try {
+    await wooUpdateOrder(orderId, 'completed');
+    // Success visual
+    if (card) {
+      let overlay = card.querySelector('.card-overlay.completed');
+      if (!overlay) {
+        overlay = document.createElement('div');
+        overlay.className = 'card-overlay completed';
+        overlay.textContent = '\u2705 COMPLETED';
+        card.appendChild(overlay);
+      }
+      overlay.classList.add('show');
+      setTimeout(() => {
+        overlay.style.transition = 'opacity 1s';
+        overlay.style.opacity = '0';
+        setTimeout(() => { card.style.transition = 'all 0.4s'; card.style.opacity = '0'; card.style.maxHeight = '0'; card.style.padding = '0'; setTimeout(() => card.style.display = 'none', 400); }, 1000);
+      }, 2500);
+    }
+    sessionState.completed++;
+    updateSessionSummary();
+    addToLog(orderId, customerName, 'completed', 'success');
+    showToast('success', 'Order Completed', `Order #${orderId} marked as completed.`);
+  } catch (err) {
+    if (btn) { btn.disabled = false; btn.innerHTML = '\u2705 Complete'; }
+    addToLog(orderId, customerName, 'completed', err.message);
+    showToast('error', 'API Error', `Could not update order #${orderId}: ${err.message}`, 6000);
+  }
+}
+
+// ===== CANCEL ORDER =====
+function cancelOrder(orderId, customerName) {
+  showConfirmModal(
+    '\u26a0\ufe0f Cancel Order?',
+    `Cancel Order #${orderId} for ${customerName}? This cannot be undone and will update WooCommerce.`,
+    '\u274c Yes, Cancel Order',
+    'modal-btn-confirm-red',
+    () => doCancelOrder(orderId, customerName)
+  );
+}
+
+async function doCancelOrder(orderId, customerName) {
+  const card = document.querySelector(`[data-id="${orderId}"]`);
+  const btn = card ? card.querySelector('.action-btn-cancel-order') : null;
+  if (btn) { btn.disabled = true; btn.textContent = 'Cancelling...'; }
+
+  try {
+    await wooUpdateOrder(orderId, 'cancelled');
+    if (card) {
+      card.classList.add('is-cancelled');
+      let overlay = card.querySelector('.card-overlay.cancelled');
+      if (!overlay) {
+        overlay = document.createElement('div');
+        overlay.className = 'card-overlay cancelled';
+        overlay.textContent = '\u274c CANCELLED';
+        card.appendChild(overlay);
+      }
+      overlay.classList.add('show');
+    }
+    sessionState.cancelled++;
+    updateSessionSummary();
+    addToLog(orderId, customerName, 'cancelled', 'success');
+    showToast('warning', 'Order Cancelled', `Order #${orderId} has been cancelled.`);
+  } catch (err) {
+    if (btn) { btn.disabled = false; btn.textContent = 'Cancel'; }
+    addToLog(orderId, customerName, 'cancelled', err.message);
+    showToast('error', 'API Error', `Could not cancel order #${orderId}: ${err.message}`, 6000);
+  }
+}
+
+// ===== DESIGN ISSUE MODAL =====
+let _currentDesignOrder = null;
+
+const EMAIL_TEMPLATES = {
+  missing: (order) => ({
+    subject: `Shirtsy Order #${order.id} \u2014 We Need Your Design Files`,
+    body: `Hi ${order.customer},\n\nWe're ready to start production on your order (#${order.id}), but we haven't received your design files yet.\n\nPlease reply to this email with your artwork, or upload it through your Shirtsy account.\n\nFile requirements:\n\u2022 PNG or PDF format\n\u2022 Minimum 300 DPI resolution\n\u2022 Transparent background preferred\n\nWe'll get your order into production as soon as we receive your files!\n\nBest,\nShirtsy Team`
+  }),
+  quality: (order) => ({
+    subject: `Shirtsy Order #${order.id} \u2014 Design Quality Update`,
+    body: `Hi ${order.customer},\n\nWe've reviewed the design for your order (#${order.id}) and noticed a quality concern that could affect your final product.\n\n[ISSUE DETAILS]\n\nTo ensure you get the best result, could you please:\n1. Send us a higher resolution version of your design\n2. Or let us know if you'd like our design team to help optimize it\n\nWe want your order to look amazing!\n\nBest,\nShirtsy Team`
+  }),
+  confirmation: (order) => ({
+    subject: `Shirtsy Order #${order.id} \u2014 Please Approve Your Design Proof`,
+    body: `Hi ${order.customer},\n\nYour design proof for order #${order.id} is ready for review!\n\nPlease reply to this email to:\n\u2705 APPROVE \u2014 and we'll start production immediately\n\u274c REQUEST CHANGES \u2014 and we'll revise the proof\n\nWe'll hold production until we hear from you.\n\nBest,\nShirtsy Team`
+  }),
+  custom: null
+};
+
+function openDesignModal(orderId, customerName, customerEmail) {
+  const order = orderData.find(o => o.id === orderId);
+  _currentDesignOrder = order || { id: orderId, customer: customerName, email: customerEmail };
+
+  document.getElementById('designOrderId').textContent = orderId;
+  document.getElementById('designCustomerName').textContent = customerName;
+  // Reset
+  document.querySelectorAll('.template-radio').forEach(r => r.classList.remove('selected'));
+  document.querySelectorAll('input[name=designTemplate]').forEach(r => r.checked = false);
+  document.getElementById('customMessageArea').classList.remove('show');
+  document.getElementById('emailPreview').classList.remove('show');
+  document.getElementById('emailPreview').textContent = '';
+  document.getElementById('designSendBtn').disabled = true;
+  document.getElementById('designModal').style.display = 'flex';
+}
+
+function closeDesignModal() {
+  document.getElementById('designModal').style.display = 'none';
+  _currentDesignOrder = null;
+}
+
+function selectTemplate(labelEl, templateKey) {
+  document.querySelectorAll('.template-radio').forEach(r => r.classList.remove('selected'));
+  labelEl.classList.add('selected');
+
+  const customArea = document.getElementById('customMessageArea');
+  const preview = document.getElementById('emailPreview');
+  const sendBtn = document.getElementById('designSendBtn');
+
+  if (templateKey === 'custom') {
+    customArea.classList.add('show');
+    preview.classList.remove('show');
+    sendBtn.disabled = false;
+  } else {
+    customArea.classList.remove('show');
+    const tmpl = EMAIL_TEMPLATES[templateKey];
+    if (tmpl && _currentDesignOrder) {
+      const { subject, body } = tmpl(_currentDesignOrder);
+      preview.textContent = `To: ${_currentDesignOrder.email}\nSubject: ${subject}\n\n${body}`;
+      preview.classList.add('show');
+    }
+    sendBtn.disabled = false;
+  }
+}
+
+function sendDesignEmail() {
+  if (!_currentDesignOrder) return;
+  const order = _currentDesignOrder;
+  const selectedRadio = document.querySelector('input[name=designTemplate]:checked');
+  if (!selectedRadio) { showToast('warning', 'Select Template', 'Please select an email template first.'); return; }
+
+  const templateKey = selectedRadio.value;
+  let subject, body;
+
+  if (templateKey === 'custom') {
+    subject = `Shirtsy Order #${order.id} \u2014 Action Needed on Your Design`;
+    body = document.getElementById('customMessageArea').value;
+    if (!body.trim()) { showToast('warning', 'Empty Message', 'Please type your custom message.'); return; }
+  } else {
+    const tmpl = EMAIL_TEMPLATES[templateKey];
+    ({ subject, body } = tmpl(order));
+  }
+
+  const mailto = `mailto:${order.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  window.location.href = mailto;
+
+  // Mark card as contacted
+  const card = document.querySelector(`[data-id="${order.id}"]`);
+  if (card) {
+    // Add contacted overlay briefly
+    let overlay = card.querySelector('.card-overlay.contacted');
+    if (!overlay) {
+      overlay = document.createElement('div');
+      overlay.className = 'card-overlay contacted';
+      card.appendChild(overlay);
+    }
+    overlay.textContent = '\u{1f4e7} CONTACTED';
+    overlay.classList.add('show');
+    // Add badge to customer name
+    const custEl = card.querySelector('.card-customer');
+    if (custEl && !custEl.querySelector('.contacted-badge')) {
+      const badge = document.createElement('span');
+      badge.className = 'contacted-badge';
+      badge.textContent = 'CONTACTED';
+      custEl.appendChild(badge);
+    }
+    setTimeout(() => overlay.classList.remove('show'), 3000);
+  }
+
+  sessionState.contacted++;
+  updateSessionSummary();
+  addToLog(order.id, order.customer, 'contacted', 'success');
+  showToast('info', 'Email Client Opened', `Opening email to ${order.email}`);
+  closeDesignModal();
+}
+
+// ===== BULK ACTIONS =====
+let bulkMode = false;
+let selectedOrders = new Set();
+
+function toggleBulkMode() {
+  bulkMode = !bulkMode;
+  const board = document.getElementById('boardContainer');
+  const bulkBar = document.getElementById('bulkBar');
+  const btn = document.getElementById('bulkToggleBtn');
+  board.classList.toggle('bulk-mode', bulkMode);
+  bulkBar.classList.toggle('hidden', !bulkMode);
+  if (btn) {
+    btn.innerHTML = bulkMode ? '&#10005; Exit Bulk' : '&#9744; Bulk Select';
+    btn.style.background = bulkMode ? 'rgba(68,136,255,0.15)' : 'transparent';
+    btn.classList.toggle('active', bulkMode);
+  }
+  selectedOrders.clear();
+  updateBulkCount();
+  // Re-render to show/hide checkboxes
+  renderBoard();
+}
+
+function updateBulkCount() {
+  const el = document.getElementById('bulkCount');
+  if (el) el.textContent = `${selectedOrders.size} selected`;
+  const allCb = document.getElementById('selectAllCheckbox');
+  if (allCb) {
+    const visibleCards = document.querySelectorAll('.order-card:not([style*="display: none"])');
+    allCb.checked = visibleCards.length > 0 && [...visibleCards].every(c => selectedOrders.has(parseInt(c.dataset.id)));
+    allCb.indeterminate = selectedOrders.size > 0 && !allCb.checked;
+  }
+}
+
+function toggleCardSelect(orderId, checked) {
+  if (checked) selectedOrders.add(orderId);
+  else selectedOrders.delete(orderId);
+  const card = document.querySelector(`[data-id="${orderId}"]`);
+  if (card) card.classList.toggle('selected', checked);
+  updateBulkCount();
+}
+
+function toggleSelectAll(checkbox) {
+  const visibleCards = document.querySelectorAll('.order-card');
+  visibleCards.forEach(card => {
+    const id = parseInt(card.dataset.id);
+    const cb = card.querySelector('.card-checkbox-wrap input');
+    if (cb) {
+      cb.checked = checkbox.checked;
+      if (checkbox.checked) selectedOrders.add(id);
+      else selectedOrders.delete(id);
+      card.classList.toggle('selected', checkbox.checked);
+    }
+  });
+  updateBulkCount();
+}
+
+function bulkAction(status) {
+  if (selectedOrders.size === 0) { showToast('warning', 'Nothing Selected', 'Select at least one order first.'); return; }
+  const count = selectedOrders.size;
+  showConfirmModal(
+    `Bulk ${status === 'completed' ? 'Complete' : 'Cancel'}?`,
+    `${status === 'completed' ? 'Mark' : 'Cancel'} ${count} selected order${count !== 1 ? 's' : ''}? This will update all of them in WooCommerce.`,
+    `Yes, ${status === 'completed' ? 'Complete' : 'Cancel'} ${count} Orders`,
+    status === 'completed' ? 'modal-btn-confirm-green' : 'modal-btn-confirm-red',
+    () => doBulkAction(status)
+  );
+}
+
+async function doBulkAction(status) {
+  const ids = [...selectedOrders];
+  let successCount = 0;
+  let errorCount = 0;
+
+  for (const orderId of ids) {
+    const order = orderData.find(o => o.id === orderId);
+    const customerName = order ? order.customer : String(orderId);
+    try {
+      await wooUpdateOrder(orderId, status);
+      const card = document.querySelector(`[data-id="${orderId}"]`);
+      if (card) {
+        if (status === 'completed') {
+          let overlay = card.querySelector('.card-overlay.completed');
+          if (!overlay) { overlay = document.createElement('div'); overlay.className = 'card-overlay completed'; overlay.textContent = '\u2705 COMPLETED'; card.appendChild(overlay); }
+          overlay.classList.add('show');
+          setTimeout(() => { overlay.style.transition = 'opacity 1s'; overlay.style.opacity = '0'; setTimeout(() => { card.style.display = 'none'; }, 1200); }, 2000);
+          sessionState.completed++;
+        } else {
+          card.classList.add('is-cancelled');
+          let overlay = card.querySelector('.card-overlay.cancelled');
+          if (!overlay) { overlay = document.createElement('div'); overlay.className = 'card-overlay cancelled'; overlay.textContent = '\u274c CANCELLED'; card.appendChild(overlay); }
+          overlay.classList.add('show');
+          sessionState.cancelled++;
+        }
+      }
+      addToLog(orderId, customerName, status, 'success');
+      successCount++;
+    } catch (err) {
+      addToLog(orderId, customerName, status, err.message);
+      errorCount++;
+    }
+  }
+
+  updateSessionSummary();
+  selectedOrders.clear();
+  updateBulkCount();
+
+  if (errorCount === 0) {
+    showToast('success', 'Bulk Action Complete', `${successCount} order${successCount !== 1 ? 's' : ''} ${status === 'completed' ? 'marked completed' : 'cancelled'} successfully.`);
+  } else {
+    showToast('warning', 'Partial Success', `${successCount} succeeded, ${errorCount} failed. Check the action log.`);
+  }
+}
+
+const orderData = [{"id":4527801,"date_created":"2026-04-11T13:51:23","date":"2026-04-11","days":0,"hours":3.143611111111111,"customer":"Javier Vela","company":"Ladinos equipment & transportation LLC","email":"info@ladinosllc.com","city":"Rio grande city","state":"TX","qty":1,"total":69.98,"payment":"NET30","category":"Other","products":[{"name":"Hustle - Light Blue Street Font - Men's Heavy Metal Grey - M","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-04-11T13:52:03","customer_id":161489},{"id":4527797,"date_created":"2026-04-11T12:33:57","date":"2026-04-11","days":0,"hours":4.434166666666667,"customer":"Carville Stephenson","company":"Cyverra","email":"info@cyverrallc.com","city":"Washington","state":"DC","qty":1,"total":47.98,"payment":"NET30","category":"T-Shirts","products":[{"name":"Ladies Ideal Fitted Tee","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-04-11T12:35:03","customer_id":164168},{"id":4527792,"date_created":"2026-04-11T12:28:47","date":"2026-04-11","days":0,"hours":4.520277777777777,"customer":"Julian Rucker","company":"","email":"pts007services@gmail.com","city":"Jenkinton","state":"PA","qty":1,"total":69.98,"payment":"NET30","category":"Other","products":[{"name":"Hustle - Light Blue Street Font - Men's Heavy Metal Grey - M","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-04-11T12:30:03","customer_id":162993},{"id":4527784,"date_created":"2026-04-11T11:33:31","date":"2026-04-11","days":0,"hours":5.441388888888889,"customer":"shawn johnson","company":"Bishop Star Logistics LLC","email":"bishopstarlogistics@gmail.com","city":"Calumet City","state":"IL","qty":1,"total":80.48,"payment":"NET30","category":"Hoodies","products":[{"name":"Unisex Hoodies - Black, L","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-04-11T11:34:04","customer_id":163947},{"id":4527776,"date_created":"2026-04-11T10:55:33","date":"2026-04-11","days":0,"hours":6.074166666666667,"customer":"Charraine Ferreira","company":"","email":"Ferreiraferrarillc@gmail.com","city":"Camden","state":"NJ","qty":1,"total":69.98,"payment":"NET30","category":"T-Shirts","products":[{"name":"Unisex Game Day Eagles T-Shirt - L","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-04-11T10:56:04","customer_id":162994},{"id":4527760,"date_created":"2026-04-10T23:10:04","date":"2026-04-10","days":0,"hours":17.83222222222222,"customer":"ELISHA ABRAMS III","company":"DRONAGE LLC","email":"drone.pilot@dronage-ny.com","city":"ROCHESTER","state":"NY","qty":4,"total":167.95,"payment":"NET30","category":"T-Shirts","products":[{"name":"Men's Cotton Tee","qty":2},{"name":"Men's Cotton Tee","qty":2}],"flags":[],"gc_codes":[],"date_paid":"2026-04-10T23:11:03","customer_id":164116},{"id":4527757,"date_created":"2026-04-10T22:14:33","date":"2026-04-10","days":0,"hours":18.7575,"customer":"Gladys leyanis Lopez fernandez","company":"","email":"aylmfoodservices@gmail.com","city":"MIAMI","state":"FL","qty":1,"total":64.98,"payment":"NET30","category":"Other","products":[{"name":"Hustler - Neon Yellow - Ladies Military Green - M","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-04-10T22:15:04","customer_id":163413},{"id":4527742,"date_created":"2026-04-10T17:18:04","date":"2026-04-10","days":0,"hours":23.698888888888888,"customer":"Roque Hernandez Martinez","company":"R&R PAINTING AND RENOVATION LLC","email":"rrpainting.renovation@gmail.com","city":"LILBURN","state":"GA","qty":3,"total":85.96,"payment":"NET30","category":"Mugs","products":[{"name":"Premium Mug - White","qty":3}],"flags":[],"gc_codes":[],"date_paid":"2026-04-10T17:19:03","customer_id":161206},{"id":4527741,"date_created":"2026-04-10T16:30:43","date":"2026-04-10","days":1,"hours":24.488055555555555,"customer":"MIKESHA BLOXTON","company":"","email":"shatibasserenity@gmail.com","city":"HOUSTON","state":"TX","qty":2,"total":75.97,"payment":"Credit Card","category":"T-Shirts","products":[{"name":"Men's Cotton Tee","qty":1},{"name":"Men's Cotton Tee","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-04-10T16:32:07","customer_id":164140},{"id":4527737,"date_created":"2026-04-10T15:27:03","date":"2026-04-10","days":1,"hours":25.549166666666668,"customer":"Fernando Ardila","company":"adez professional llc","email":"admin@adezprofessional.com","city":"orlando","state":"FL","qty":4,"total":107.95,"payment":"NET30","category":"Mugs","products":[{"name":"Premium Mug - Black/White","qty":4}],"flags":[],"gc_codes":[],"date_paid":"2026-04-10T15:30:03","customer_id":164144},{"id":4527733,"date_created":"2026-04-10T15:08:24","date":"2026-04-10","days":1,"hours":25.86,"customer":"Chad Bowlin","company":"Urban Roots Properties,LLC","email":"info@my-urbanroots.com","city":"DECATUR","state":"IL","qty":2,"total":83.97,"payment":"NET30","category":"T-Shirts","products":[{"name":"Men's Cotton Tee","qty":2}],"flags":[],"gc_codes":[],"date_paid":"2026-04-10T15:09:03","customer_id":164099},{"id":4527729,"date_created":"2026-04-10T14:44:26","date":"2026-04-10","days":1,"hours":26.259444444444444,"customer":"Jose Brito","company":"Brito Electrical","email":"contact@britoelectrical.com","city":"Reading","state":"PA","qty":2,"total":63.97,"payment":"NET30","category":"Mugs","products":[{"name":"Premium Mug - White","qty":1},{"name":"Premium Mug - White","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-04-10T14:45:04","customer_id":164126},{"id":4527725,"date_created":"2026-04-10T14:40:55","date":"2026-04-10","days":1,"hours":26.318055555555556,"customer":"Carl Belser","company":"","email":"carlbelser@comcast.net","city":"Round","state":"IL","qty":1,"total":58.98,"payment":"NET30","category":"Long Sleeves","products":[{"name":"Men's Long Sleeves","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-04-10T14:43:39","customer_id":163690},{"id":4527717,"date_created":"2026-04-10T13:11:56","date":"2026-04-10","days":1,"hours":27.801111111111112,"customer":"Angela Simmons","company":"Rosa Royce Transport LLC","email":"angela@rosaroycellc.com","city":"ATLANTA","state":"GA","qty":3,"total":164.96,"payment":"NET30","category":"T-Shirts","products":[{"name":"CEO. - Men's Black T-Shirt - 2XL","qty":1},{"name":"CEO - Neon Yellow - Ladies Navy Blue Tee - XL","qty":1},{"name":"Hustler - Neon Yellow - Men's Military Green - 2XL","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-04-10T13:15:04","customer_id":163538},{"id":4527713,"date_created":"2026-04-10T12:03:23","date":"2026-04-10","days":1,"hours":28.94361111111111,"customer":"Eric pitt","company":"","email":"epitt252@pittbrandllc.com","city":"Raleigh","state":"NC","qty":2,"total":93.97,"payment":"NET30","category":"T-Shirts","products":[{"name":"Men's Cotton Tee","qty":2}],"flags":[],"gc_codes":[],"date_paid":"2026-04-10T12:04:03","customer_id":163855},{"id":4527709,"date_created":"2026-04-10T11:48:15","date":"2026-04-10","days":1,"hours":29.195833333333333,"customer":"Donyah Neal","company":"","email":"donyah6672@gmail.com","city":"atlanta","state":"GA","qty":1,"total":64.98,"payment":"NET30","category":"T-Shirts","products":[{"name":"CEO - Neon Yellow - Ladies Navy Blue Tee - S","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-04-10T11:49:03","customer_id":164121},{"id":4527700,"date_created":"2026-04-10T10:12:52","date":"2026-04-10","days":1,"hours":30.785555555555554,"customer":"Jahson Jahi","company":"","email":"jahijahson74@gmail.com","city":"Jonesboro","state":"GA","qty":1,"total":69.98,"payment":"NET30","category":"T-Shirts","products":[{"name":"Unisex Game Day Eagles T-Shirt - M","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-04-10T10:15:03","customer_id":164124},{"id":4527694,"date_created":"2026-04-10T07:58:36","date":"2026-04-10","days":1,"hours":33.02333333333333,"customer":"john Carter","company":"World wide writers","email":"john@worldwidewritersllc.com","city":"conley","state":"GA","qty":1,"total":86.53,"payment":"NET30","category":"Hoodies","products":[{"name":"Unisex Hoodies - Black, XXL","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-04-10T08:00:04","customer_id":163935},{"id":4527690,"date_created":"2026-04-10T07:20:56","date":"2026-04-10","days":1,"hours":33.65111111111111,"customer":"Gekiara Spann","company":"","email":"info@pathwaycommunitysolutions.com","city":"Baltimore","state":"MD","qty":2,"total":92.74,"payment":"NET30","category":"Tumblers","products":[{"name":"Custom Skinny Matte Black Tumbler - 20oz","qty":1},{"name":"Ladies Ideal Fitted Tee","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-04-10T07:22:02","customer_id":163801},{"id":4527686,"date_created":"2026-04-10T05:12:17","date":"2026-04-10","days":1,"hours":35.79527777777778,"customer":"Alexus Thomas","company":"ALEXUS MARIE LLC","email":"alexus@alexusmarie.com","city":"Sandy Springs","state":"GA","qty":1,"total":64.75,"payment":"NET30","category":"Tumblers","products":[{"name":"Custom Skinny Matte Black Tumbler - 20oz","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-04-10T05:15:03","customer_id":164047},{"id":4527680,"date_created":"2026-04-10T00:35:38","date":"2026-04-10","days":1,"hours":40.40611111111111,"customer":"Akintunde Akinleye","company":"","email":"paymeinlove@paydinlove.com","city":"Croton","state":"NY","qty":2,"total":120.47,"payment":"NET30","category":"Hoodies","products":[{"name":"Unisex Hoodies - Black, M","qty":1},{"name":"Men's Long Sleeves","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-04-10T00:36:04","customer_id":163551},{"id":4527666,"date_created":"2026-04-09T16:47:52","date":"2026-04-09","days":2,"hours":48.202222222222225,"customer":"KAREN KAISER","company":"LKBUSINESS LLC","email":"lkbusiness.usa.llc@gmail.com","city":"MIAMI","state":"FL","qty":1,"total":159.98,"payment":"NET30","category":"Stickers","products":[{"name":"6x3 Custom Rectangle Stickers - Landscape - 100","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-04-09T16:49:03","customer_id":159231},{"id":4527662,"date_created":"2026-04-09T16:16:23","date":"2026-04-09","days":2,"hours":48.72694444444444,"customer":"Yara Amirbahonar","company":"","email":"yarabahonar@gmail.com","city":"Woodland Hills","state":"CA","qty":1,"total":144.98,"payment":"NET30","category":"Jackets","products":[{"name":"Customizable Letterman Jacket - BLACK - L, Y","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-04-09T16:17:03","customer_id":164098},{"id":4527652,"date_created":"2026-04-09T13:23:36","date":"2026-04-09","days":2,"hours":51.60666666666667,"customer":"Tanya Lovett","company":"Benshirl Courier LLC","email":"benshirlcourierllc@gmail.com","city":"Barker","state":"TX","qty":3,"total":111.73,"payment":"NET30","category":"Mouse Pads","products":[{"name":"Mouse Pad","qty":1},{"name":"Custom Skinny Matte Black Tumbler - 20oz","qty":1},{"name":"Premium Mug - Black/White","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-04-09T13:24:03","customer_id":154357},{"id":4527651,"date_created":"2026-04-09T12:26:28","date":"2026-04-09","days":2,"hours":52.55888888888889,"customer":"ANTHONY WINDOM","company":"","email":"windom.anthony@yahoo.com","city":"ALBANY","state":"NY","qty":2,"total":112.47,"payment":"Credit Card","category":"T-Shirts","products":[{"name":"Men's Cotton Tee","qty":1},{"name":"Unisex Hoodies - Black, XL","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-04-09T12:26:30","customer_id":164041},{"id":4527643,"date_created":"2026-04-09T11:17:41","date":"2026-04-09","days":2,"hours":53.70527777777778,"customer":"Tron Katherine","company":"","email":"fitk@mukhtalif.info","city":"Phoenix","state":"AZ","qty":1,"total":119.98,"payment":"NET30","category":"Business Cards","products":[{"name":"Business Cards X 1000","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-04-09T11:18:04","customer_id":163758},{"id":4527615,"date_created":"2026-04-09T03:45:52","date":"2026-04-09","days":2,"hours":61.23555555555556,"customer":"Layton Martin","company":"","email":"infommtsmanagement@gmail.com","city":"Saint louis","state":"MO","qty":2,"total":85.97,"payment":"NET30","category":"T-Shirts","products":[{"name":"Men's Cotton Tee","qty":2}],"flags":[],"gc_codes":[],"date_paid":"2026-04-09T03:47:03","customer_id":164055},{"id":4527604,"date_created":"2026-04-08T20:35:28","date":"2026-04-08","days":2,"hours":68.4088888888889,"customer":"LaToya Smith","company":"","email":"sales@theseedbaskets.com","city":"Oxford","state":"AL","qty":4,"total":151.95,"payment":"Credit Card","category":"T-Shirts","products":[{"name":"Men's Cotton Tee","qty":2},{"name":"Ladies Ideal Fitted Tee","qty":2}],"flags":[],"gc_codes":[],"date_paid":"2026-04-08T20:35:29","customer_id":163907},{"id":4527601,"date_created":"2026-04-08T20:31:53","date":"2026-04-08","days":2,"hours":68.46861111111112,"customer":"Dwayne Hutchinson","company":"","email":"integrityglobalmgmt@gmail.com","city":"Atlanta","state":"GA","qty":2,"total":119.97,"payment":"NET30","category":"T-Shirts","products":[{"name":"Unisex Game Day Ravens T-Shirt - XL","qty":1},{"name":"Unisex Game Day Dolphins T-Shirt - XL","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-04-08T20:33:03","customer_id":163195},{"id":4527598,"date_created":"2026-04-08T19:49:19","date":"2026-04-08","days":2,"hours":69.17805555555556,"customer":"Ismelys Anderson","company":"Redeye Consulting LLC","email":"redeyeconsulting25@gmail.com","city":"ST. PETERSBURG","state":"FL","qty":1,"total":64.75,"payment":"NET30","category":"Tumblers","products":[{"name":"Custom Skinny Matte Black Tumbler - 20oz","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-04-08T19:50:04","customer_id":159375},{"id":4527594,"date_created":"2026-04-08T18:45:17","date":"2026-04-08","days":2,"hours":70.24527777777777,"customer":"jamal king","company":"","email":"jamalking@pcsolutionshouston.com","city":"houston","state":"TX","qty":1,"total":119.98,"payment":"NET30","category":"Business Cards","products":[{"name":"Business Cards X 1000","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-04-08T18:46:03","customer_id":163802},{"id":4527590,"date_created":"2026-04-08T18:41:59","date":"2026-04-08","days":2,"hours":70.30027777777778,"customer":"Otto Ontaneda","company":"","email":"admin@traffictoprofit.com","city":"Middletown","state":"DE","qty":2,"total":74.97,"payment":"NET30","category":"Hoodies","products":[{"name":"B.E.A.R - Turtle Love Hoodie - XL, Black","qty":2}],"flags":[],"gc_codes":[],"date_paid":"2026-04-08T18:45:03","customer_id":164085},{"id":4527587,"date_created":"2026-04-08T15:05:08","date":"2026-04-08","days":3,"hours":73.91444444444444,"customer":"Erica Wortham","company":"Transformational Business Endeavors","email":"karenrenshaw299@gmail.com","city":"Miami","state":"FL","qty":6,"total":379.93,"payment":"NET30","category":"Hoodies","products":[{"name":"DONT QUIT ( Rose Gold and White Letters ) Red Hoodie - S","qty":2},{"name":"DONT QUIT ( Rose Gold and White Letters ) Red Hoodie - M","qty":2},{"name":"DONT QUIT ( Rose Gold and White Letters ) Red Hoodie - L","qty":2}],"flags":[],"gc_codes":[],"date_paid":"2026-04-08T15:06:03","customer_id":91187},{"id":4527586,"date_created":"2026-04-08T14:56:39","date":"2026-04-08","days":3,"hours":74.05583333333334,"customer":"Carl Belser","company":"B&B Sports Club","email":"carlbelser@bbbasketballclub.com","city":"Round Lake, IL","state":"IL","qty":2,"total":97.97,"payment":"Credit Card","category":"Long Sleeves","products":[{"name":"Men's Long Sleeves","qty":1},{"name":"Men's Long Sleeves","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-04-08T14:56:41","customer_id":163696},{"id":4527582,"date_created":"2026-04-08T13:50:43","date":"2026-04-08","days":3,"hours":75.15472222222222,"customer":"Olena SYDORCHUK","company":"OLENASY CORP","email":"olenasycorp@gmail.com","city":"Chicago","state":"IL","qty":1,"total":100.0,"payment":"NET30","category":"Gift Card","products":[{"name":"Gift Card - $100","qty":1}],"flags":["gift_card_net30"],"gc_codes":[],"date_paid":null,"customer_id":161228},{"id":4527578,"date_created":"2026-04-08T13:49:13","date":"2026-04-08","days":3,"hours":75.17972222222222,"customer":"Rebecca Beeman","company":"","email":"booking@rashedastylez.com","city":"Katy","state":"TX","qty":1,"total":64.98,"payment":"NET30","category":"Other","products":[{"name":"Hustler - Neon Yellow - Ladies Military Green - S","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-04-08T13:50:05","customer_id":164074},{"id":4527574,"date_created":"2026-04-08T13:15:26","date":"2026-04-08","days":3,"hours":75.74277777777777,"customer":"YANA TARASENKO","company":"YANATARA INC","email":"yanatarainc@gmail.com","city":"LEXINGTON","state":"IL","qty":1,"total":100.0,"payment":"NET30","category":"Gift Card","products":[{"name":"Gift Card - $100","qty":1}],"flags":["gift_card_net30"],"gc_codes":[],"date_paid":null,"customer_id":161083},{"id":4527570,"date_created":"2026-04-08T13:15:10","date":"2026-04-08","days":3,"hours":75.74722222222222,"customer":"Linyonda London","company":"Bar Crazy LLC","email":"linlon007@yahoo.com","city":"Baton Rouge","state":"LA","qty":1,"total":64.98,"payment":"NET30","category":"T-Shirts","products":[{"name":"She-EO. Ladies Tee - XXL","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-04-08T13:16:03","customer_id":164056},{"id":4527566,"date_created":"2026-04-08T12:58:11","date":"2026-04-08","days":3,"hours":76.03027777777778,"customer":"Ricardo Subero","company":"","email":"aftrtheclub@icloud.com","city":"Las vegas","state":"NV","qty":1,"total":119.98,"payment":"NET30","category":"Business Cards","products":[{"name":"Business Cards X 1000","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-04-08T13:00:03","customer_id":163973},{"id":4527558,"date_created":"2026-04-08T11:15:10","date":"2026-04-08","days":3,"hours":77.74722222222222,"customer":"Reginald Alston","company":"Legacy Wealth Investments, LLC","email":"r.alston@legacywealthinvest.com","city":"Durham","state":"NC","qty":1,"total":69.98,"payment":"NET30","category":"T-Shirts","products":[{"name":"CEO. - Men's Black T-Shirt - M","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-04-08T11:16:04","customer_id":164039},{"id":4527550,"date_created":"2026-04-08T08:59:42","date":"2026-04-08","days":3,"hours":80.005,"customer":"Reteeka Barnes","company":"PTLLM","email":"reteekazenay@ptllm.com","city":"Catharpin","state":"VA","qty":1,"total":179.98,"payment":"NET30","category":"Stickers","products":[{"name":"3\" Custom Circle Stickers - 100","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-04-08T09:01:03","customer_id":163912},{"id":4527539,"date_created":"2026-04-07T22:28:01","date":"2026-04-07","days":3,"hours":90.53305555555555,"customer":"Jacinto Raymundo","company":"Raymundo & Partners LLC","email":"admin@raymundopartners.com","city":"Bladeensburg","state":"MD","qty":2,"total":82.97,"payment":"NET30","category":"Long Sleeves","products":[{"name":"Men's Long Sleeves","qty":1},{"name":"Ladies Ideal Fitted Tee","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-04-07T22:30:03","customer_id":159907},{"id":4527529,"date_created":"2026-04-07T20:53:38","date":"2026-04-07","days":3,"hours":92.1061111111111,"customer":"Kion Coats","company":"","email":"kioncoats14@gmail.com","city":"Philadelphia","state":"PA","qty":1,"total":119.98,"payment":"NET30","category":"Hoodies","products":[{"name":"Thirst Trap Unisex Hoodie Black - S","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-04-07T20:54:03","customer_id":162689},{"id":4527520,"date_created":"2026-04-07T15:31:27","date":"2026-04-07","days":4,"hours":97.47583333333333,"customer":"Christopher Francis","company":"CEFrancis Investing LLC","email":"info@cefrancisinvesting.com","city":"Livonia","state":"MI","qty":1,"total":41.98,"payment":"NET30","category":"Mugs","products":[{"name":"Premium Mug - Black/White","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-04-07T15:32:04","customer_id":163890},{"id":4527519,"date_created":"2026-04-07T15:28:05","date":"2026-04-07","days":4,"hours":97.53194444444445,"customer":"Bryant Sharp","company":"Juggernaut Knowledge Dash","email":"bsharp@juggernaut-ai.com","city":"Mineola","state":"TX","qty":2,"total":89.97,"payment":"Credit Card","category":"Long Sleeves","products":[{"name":"Men's Long Sleeves","qty":2}],"flags":[],"gc_codes":[],"date_paid":"2026-04-07T15:28:06","customer_id":0},{"id":4527512,"date_created":"2026-04-07T14:57:57","date":"2026-04-07","days":4,"hours":98.03416666666666,"customer":"Ali Shah","company":"","email":"leqsoantadze@gmail.com","city":"Alexnadira","state":"VA","qty":1,"total":79.98,"payment":"NET30","category":"Hoodies","products":[{"name":"DONT QUIT ( Rose Gold and White Letters ) Red Hoodie - S","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-04-07T15:00:04","customer_id":163476},{"id":4527469,"date_created":"2026-04-06T21:09:29","date":"2026-04-06","days":4,"hours":115.84194444444445,"customer":"Tasheem Bell","company":"Bell & Stevens Consulting Group","email":"admin@bellstevensconsulting.com","city":"atlanta","state":"GA","qty":1,"total":44.98,"payment":"NET30","category":"Mouse Pads","products":[{"name":"Mouse Pad","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-04-06T21:10:03","customer_id":163898},{"id":4527465,"date_created":"2026-04-06T20:27:48","date":"2026-04-06","days":4,"hours":116.53666666666666,"customer":"Marcus Walker","company":"","email":"kingmarcusster@gmail.com","city":"St. Louis","state":"MO","qty":8,"total":199.13,"payment":"NET30","category":"T-Shirts","products":[{"name":"Men's Cotton Tee","qty":8}],"flags":[],"gc_codes":[],"date_paid":"2026-04-06T20:30:04","customer_id":162777},{"id":4527461,"date_created":"2026-04-06T18:47:06","date":"2026-04-06","days":4,"hours":118.215,"customer":"SAVANNAH LOMAX","company":"","email":"info@savvys-immaculate.org","city":"BUFORD","state":"GA","qty":2,"total":92.74,"payment":"NET30","category":"T-Shirts","products":[{"name":"Ladies Ideal Fitted Tee","qty":1},{"name":"Custom Skinny Matte Black Tumbler - 20oz","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-04-06T18:48:04","customer_id":163857},{"id":4527446,"date_created":"2026-04-06T14:38:26","date":"2026-04-06","days":5,"hours":122.35944444444445,"customer":"Monnperez Vernet","company":"","email":"info@h2dist.com","city":"Bridgeport","state":"CT","qty":1,"total":80.48,"payment":"NET30","category":"Hoodies","products":[{"name":"Unisex Hoodies - Black, L","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-04-06T14:39:03","customer_id":164006},{"id":4527442,"date_created":"2026-04-06T14:03:19","date":"2026-04-06","days":5,"hours":122.94472222222223,"customer":"Keilly Trujillo","company":"True Fence LLC","email":"info@truefenceflorida.com","city":"North Port","state":"FL","qty":1,"total":80.48,"payment":"NET30","category":"Hoodies","products":[{"name":"Unisex Hoodies - Black, L","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-04-06T14:04:03","customer_id":158147},{"id":4527436,"date_created":"2026-04-06T10:23:37","date":"2026-04-06","days":5,"hours":126.60638888888889,"customer":"Gardy Jean","company":"","email":"info@jeanglobalholdings.com","city":"Sheridan","state":"WY","qty":1,"total":69.98,"payment":"NET30","category":"T-Shirts","products":[{"name":"Unisex Game Day Dolphins T-Shirt - M","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-04-06T10:24:03","customer_id":163654},{"id":4527430,"date_created":"2026-04-06T08:23:59","date":"2026-04-06","days":5,"hours":128.6002777777778,"customer":"Robert Crenshaw","company":"Blvklist","email":"blvklistclothing@gmail.com","city":"Helena","state":"AL","qty":1,"total":56.98,"payment":"NET30","category":"T-Shirts","products":[{"name":"Men's Cotton Tee","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-04-06T08:25:02","customer_id":162146},{"id":4527415,"date_created":"2026-04-05T18:34:07","date":"2026-04-05","days":5,"hours":142.43138888888888,"customer":"Tariq Owens","company":"OP Integrations LLC","email":"accounts@opintegrations.com","city":"St Petersburg","state":"FL","qty":2,"total":97.97,"payment":"NET30","category":"T-Shirts","products":[{"name":"Men's Cotton Tee","qty":1},{"name":"Ladies Ideal Fitted Tee","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-04-05T18:35:04","customer_id":163843},{"id":4527411,"date_created":"2026-04-05T17:19:05","date":"2026-04-05","days":5,"hours":143.68194444444444,"customer":"Mali Diskaya","company":"HomeComfortsDepot","email":"info@homecomfortsdepot.com","city":"EVESHAM","state":"NJ","qty":3,"total":107.96,"payment":"NET30","category":"T-Shirts","products":[{"name":"Men's Cotton Tee","qty":2},{"name":"Men's Cotton Tee","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-04-05T17:20:04","customer_id":161174},{"id":4527401,"date_created":"2026-04-04T22:39:49","date":"2026-04-04","days":6,"hours":162.33638888888888,"customer":"Dr Dina Norwood","company":"Volcano's Bistro & Bar","email":"drdinanorwood@volcanoesedge.com","city":"Gary","state":"IN","qty":8,"total":295.91,"payment":"NET30","category":"T-Shirts","products":[{"name":"Ladies Ideal Fitted Tee","qty":2},{"name":"Ladies Ideal Fitted Tee","qty":2},{"name":"Men's Cotton Tee","qty":2},{"name":"Men's Cotton Tee","qty":2}],"flags":[],"gc_codes":[],"date_paid":"2026-04-04T22:41:02","customer_id":157730},{"id":4527386,"date_created":"2026-04-04T20:03:05","date":"2026-04-04","days":6,"hours":164.94861111111112,"customer":"JOHN DARBY","company":"JOHNS LAWN CARE LLC","email":"ballinsince1986@gmail.com","city":"elm grove","state":"LA","qty":5,"total":151.95,"payment":"NET30","category":"T-Shirts","products":[{"name":"Men's Cotton Tee","qty":5}],"flags":[],"gc_codes":[],"date_paid":"2026-04-04T20:04:04","customer_id":107410},{"id":4527382,"date_created":"2026-04-04T15:18:26","date":"2026-04-04","days":7,"hours":169.6927777777778,"customer":"Sharmaine Hopkins","company":"Whitlock Property Management Group LLC","email":"sharmainehopkins@whitlockpropertymgmtgrp.com","city":"Dallas","state":"TX","qty":2,"total":140.97,"payment":"NET30","category":"Hoodies","products":[{"name":"Unisex Hoodies - Black, L","qty":1},{"name":"Unisex Hoodies - Black, XL","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-04-04T15:19:03","customer_id":163828},{"id":4527379,"date_created":"2026-04-04T11:55:20","date":"2026-04-04","days":7,"hours":173.07777777777778,"customer":"Michael Watts","company":"Rewriting Home LLC","email":"info@rewritinghome.com","city":"McDonough","state":"GA","qty":1,"total":69.98,"payment":"NET30","category":"T-Shirts","products":[{"name":"Unisex Game Day Lions T-Shirt - 2XL","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-04-04T11:56:04","customer_id":159104},{"id":4527375,"date_created":"2026-04-04T11:02:04","date":"2026-04-04","days":7,"hours":173.96555555555557,"customer":"Amiah Lovette","company":"","email":"uniqueam45@gmail.com","city":"Saintpetesburg","state":"FL","qty":1,"total":41.98,"payment":"NET30","category":"Masks","products":[{"name":"Custom Masks - 3 Pack","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-04-04T11:03:03","customer_id":163886},{"id":4527370,"date_created":"2026-04-04T10:12:30","date":"2026-04-04","days":7,"hours":174.79166666666666,"customer":"Stephanie Williams","company":"Air Duct Dynasty","email":"info@airductdynasty.co","city":"Kingman","state":"AZ","qty":1,"total":47.98,"payment":"NET30","category":"T-Shirts","products":[{"name":"Ladies Ideal Fitted Tee","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-04-04T10:15:03","customer_id":163949},{"id":4527362,"date_created":"2026-04-04T08:37:26","date":"2026-04-04","days":7,"hours":176.3761111111111,"customer":"Latrice Savannah","company":"Savlula Legacy Homes LLC","email":"serenetrice39@gmail.com","city":"Lewisville","state":"TX","qty":2,"total":114.97,"payment":"NET30","category":"T-Shirts","products":[{"name":"Never Give Up Ladies Red Tee - M","qty":1},{"name":"Hustler - Neon Yellow - Men's Military Green - 2XL","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-04-04T08:38:03","customer_id":163158},{"id":4527339,"date_created":"2026-04-04T01:06:47","date":"2026-04-04","days":7,"hours":183.88694444444445,"customer":"Devan Tipler","company":"","email":"devan@tastefullyinfusedllc.com","city":"Kennett","state":"MO","qty":6,"total":187.93,"payment":"NET30","category":"Crop Tops","products":[{"name":"Ladies Flowy Crop Tee - L, White","qty":1},{"name":"Ladies Flowy Crop Tee - XL, White","qty":1},{"name":"Ladies Flowy Crop Tee - L, Black","qty":1},{"name":"Ladies Flowy Crop Tee - XL, Black","qty":1},{"name":"Ladies Flowy Crop Tee - M, Black","qty":1},{"name":"Ladies Flowy Crop Tee - M, White","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-04-04T01:08:03","customer_id":163862},{"id":4527332,"date_created":"2026-04-03T21:48:34","date":"2026-04-03","days":7,"hours":187.19055555555556,"customer":"Joseph Hicks","company":"O'Dell Motors, Inc.","email":"sales@odellmotorsinc.com","city":"Mingo Junction","state":"OH","qty":1,"total":119.98,"payment":"NET30","category":"Business Cards","products":[{"name":"Business Cards X 1000","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-04-03T21:49:03","customer_id":162393},{"id":4527325,"date_created":"2026-04-03T19:15:55","date":"2026-04-03","days":7,"hours":189.73472222222222,"customer":"Leslie Rousseau","company":"Juggernaut Buzz Circle","email":"support@juggernautbuzzcircle.com","city":"Mineola","state":"TX","qty":4,"total":107.95,"payment":"NET30","category":"Mugs","products":[{"name":"Premium Mug - Black/White","qty":2},{"name":"Premium Mug - White","qty":2}],"flags":[],"gc_codes":[],"date_paid":"2026-04-03T19:17:02","customer_id":159639},{"id":4527314,"date_created":"2026-04-03T15:04:48","date":"2026-04-03","days":8,"hours":193.92,"customer":"JUNNEBUGG GENTRY","company":"GBROTHAS PRODUCTION","email":"Gbrothasproductionllc@gmail.com","city":"CHICAGO","state":"IL","qty":8,"total":199.13,"payment":"NET30","category":"T-Shirts","products":[{"name":"Men's Cotton Tee","qty":8}],"flags":[],"gc_codes":[],"date_paid":"2026-04-03T15:06:03","customer_id":157515},{"id":4527310,"date_created":"2026-04-03T13:18:30","date":"2026-04-03","days":8,"hours":195.69166666666666,"customer":"Robert Crocetti","company":"","email":"robcr0000@gmail.com","city":"Amissville","state":"VA","qty":1,"total":41.98,"payment":"NET30","category":"Masks","products":[{"name":"Custom Masks - 3 Pack","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-04-03T13:19:03","customer_id":163936},{"id":4527291,"date_created":"2026-04-03T12:09:52","date":"2026-04-03","days":8,"hours":196.83555555555554,"customer":"Dillan Coleman","company":"","email":"info@apexdevicesolutionsllc.shop","city":"Bessemer","state":"AL","qty":1,"total":64.98,"payment":"NET30","category":"Other","products":[{"name":"Hustler - Neon Yellow - Ladies Military Green - S","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-04-03T12:11:03","customer_id":163775},{"id":4527253,"date_created":"2026-04-02T22:13:34","date":"2026-04-02","days":8,"hours":210.77388888888888,"customer":"Leilani Lacusong","company":"Leis Consulting Group","email":"leisconsultinggroup@gmail.com","city":"RANCHO PALOS VERDES","state":"CA","qty":4,"total":147.95,"payment":"Credit Card","category":"T-Shirts","products":[{"name":"Men's Cotton Tee","qty":4}],"flags":[],"gc_codes":[],"date_paid":"2026-04-02T22:13:37","customer_id":154556},{"id":4527245,"date_created":"2026-04-02T21:34:30","date":"2026-04-02","days":8,"hours":211.425,"customer":"Raamel Walcott","company":"WORK MAJOR","email":"workmajorllc@gmail.com","city":"BLOOMFIELD","state":"NJ","qty":1,"total":58.98,"payment":"NET30","category":"T-Shirts","products":[{"name":"Men's Cotton Tee","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-04-02T21:35:05","customer_id":163666},{"id":4527241,"date_created":"2026-04-02T21:33:57","date":"2026-04-02","days":8,"hours":211.43416666666667,"customer":"erika castro","company":"","email":"castrogirlsclean@gmail.com","city":"Indio","state":"CA","qty":12,"total":388.28,"payment":"NET30","category":"T-Shirts","products":[{"name":"Ladies Ideal Fitted Tee","qty":6},{"name":"Ladies Ideal Fitted Tee","qty":3},{"name":"Ladies Ideal Fitted Tee","qty":3}],"flags":[],"gc_codes":[],"date_paid":"2026-04-02T21:35:02","customer_id":74471},{"id":4527231,"date_created":"2026-04-02T17:05:42","date":"2026-04-02","days":8,"hours":215.905,"customer":"Maria Rosa velez","company":"","email":"prosavelez@gmail.com","city":"San diego","state":"CA","qty":4,"total":131.95,"payment":"NET30","category":"T-Shirts","products":[{"name":"Men's Cotton Tee","qty":4}],"flags":[],"gc_codes":[],"date_paid":"2026-04-02T17:07:03","customer_id":163902},{"id":4527227,"date_created":"2026-04-02T16:59:23","date":"2026-04-02","days":9,"hours":216.0102777777778,"customer":"Maria Rosa velez","company":"","email":"prosavelez@gmail.com","city":"San diego","state":"CA","qty":1,"total":51.98,"payment":"NET30","category":"T-Shirts","products":[{"name":"Men's Cotton Tee","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-04-02T17:01:04","customer_id":163902},{"id":4527207,"date_created":"2026-04-02T14:17:05","date":"2026-04-02","days":9,"hours":218.71527777777777,"customer":"Karen Hinton-McQueen","company":"Shoshana Inc","email":"support@shoshanainc.com","city":"Amelia Court House","state":"VA","qty":1,"total":47.98,"payment":"NET30","category":"T-Shirts","products":[{"name":"Ladies Ideal Fitted Tee","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-04-02T14:19:03","customer_id":163909},{"id":4527199,"date_created":"2026-04-02T11:54:33","date":"2026-04-02","days":9,"hours":221.09083333333334,"customer":"Carlensky Bertrand","company":"Platinum Motion LLC","email":"info@platinummotion.net","city":"Miami Gardens","state":"FL","qty":3,"total":118.96,"payment":"NET30","category":"T-Shirts","products":[{"name":"Men's Cotton Tee","qty":1},{"name":"Men's Cotton Tee","qty":1},{"name":"Men's Cotton Tee","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-04-02T11:55:03","customer_id":163786},{"id":4527183,"date_created":"2026-04-01T22:47:15","date":"2026-04-01","days":9,"hours":234.2125,"customer":"Alexandria Ashby","company":"","email":"a.ashby@briesariusinvestments.com","city":"San Diego","state":"CA","qty":1,"total":64.75,"payment":"NET30","category":"Tumblers","products":[{"name":"Custom Skinny Matte Black Tumbler - 20oz","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-04-02T00:19:06","customer_id":163625},{"id":4527177,"date_created":"2026-04-01T21:36:23","date":"2026-04-01","days":9,"hours":235.3936111111111,"customer":"Jennifer Perrin","company":"Iron Balloon Capital LLC","email":"ironballooncapitalllc@gmail.com","city":"Brooklyn","state":"NY","qty":2,"total":63.97,"payment":"NET30","category":"Mugs","products":[{"name":"Premium Mug - Black/White","qty":2}],"flags":[],"gc_codes":[],"date_paid":"2026-04-02T00:19:03","customer_id":156740},{"id":4527167,"date_created":"2026-04-01T19:25:53","date":"2026-04-01","days":9,"hours":237.56861111111112,"customer":"Ryan Woodall","company":"91 Properties LLC","email":"ryan@91propertiesllc.com","city":"Smiths Station","state":"AL","qty":1,"total":56.98,"payment":"NET30","category":"T-Shirts","products":[{"name":"Men's Cotton Tee","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-04-01T20:41:04","customer_id":162035},{"id":4527160,"date_created":"2026-04-01T18:04:35","date":"2026-04-01","days":9,"hours":238.92361111111111,"customer":"Devan Tipler","company":"","email":"tastefullyinfusedllc@gmail.com","city":"Kennett","state":"MO","qty":1,"total":96.98,"payment":"Credit Card","category":"Car Magnets","products":[{"name":"Car Magnet 12\"x 24\"","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-04-01T18:04:38","customer_id":163862},{"id":4527149,"date_created":"2026-04-01T16:28:44","date":"2026-04-01","days":10,"hours":240.5211111111111,"customer":"Donovan Hornaday","company":"Fair Exchange Enterprise LLC","email":"dhornaday91@gmail.com","city":"Louisville","state":"KY","qty":1,"total":58.48,"payment":"NET30","category":"Masks","products":[{"name":"Custom Masks - 6 Pack","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-04-01T16:49:03","customer_id":163884},{"id":4526738,"date_created":"2026-03-31T23:04:06","date":"2026-03-31","days":10,"hours":257.9316666666667,"customer":"Dale Brewton","company":"Mooboc Consultant LLC","email":"info@moobocconsultant.com","city":"Salem","state":"NJ","qty":1,"total":69.98,"payment":"NET30","category":"T-Shirts","products":[{"name":"Unisex Game Day Ravens T-Shirt - 2XL","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-03-31T23:05:03","customer_id":163451},{"id":4526735,"date_created":"2026-03-31T21:40:32","date":"2026-03-31","days":10,"hours":259.32444444444445,"customer":"Luis Familia","company":"","email":"breakboxvending@outlook.com","city":"Newark","state":"NJ","qty":1,"total":69.98,"payment":"Credit Card","category":"Other","products":[{"name":"Hustler - Neon Yellow - Men's Military Green - L","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-03-31T21:40:34","customer_id":163671},{"id":4526681,"date_created":"2026-03-31T01:33:06","date":"2026-03-31","days":11,"hours":279.4483333333333,"customer":"Jessica Reel","company":"Jessica Mobile Notary LLC","email":"Jessica@Jessicamobilenotary.com","city":"Phoenix","state":"AZ","qty":1,"total":96.98,"payment":"NET30","category":"Car Magnets","products":[{"name":"Car Magnet 12\"x 24\"","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-03-31T01:34:05","customer_id":156746},{"id":4526659,"date_created":"2026-03-30T18:20:30","date":"2026-03-30","days":11,"hours":286.65833333333336,"customer":"Stephanie Sharpe","company":"A Sharpe Mindset","email":"stephanie@asharpemindset.com","city":"PEACHTREE CORNERS","state":"GA","qty":4,"total":210.95,"payment":"NET30","category":"Hoodies","products":[{"name":"Unisex Hoodies - Black, L","qty":1},{"name":"Men's Cotton Tee","qty":1},{"name":"Men's Cotton Tee","qty":1},{"name":"Unisex Hoodies - Black, M","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-03-30T18:21:03","customer_id":163662},{"id":4526624,"date_created":"2026-03-30T11:24:31","date":"2026-03-30","days":12,"hours":293.5913888888889,"customer":"iryna leonova","company":"IRYNALE CORP","email":"irynalecorp@gmail.com","city":"DEKALB","state":"IL","qty":1,"total":100.0,"payment":"NET30","category":"Gift Card","products":[{"name":"Gift Card - $100","qty":1}],"flags":["gift_card_net30"],"gc_codes":[],"date_paid":null,"customer_id":161196},{"id":4526620,"date_created":"2026-03-30T09:48:55","date":"2026-03-30","days":12,"hours":295.1847222222222,"customer":"Brian Fischer","company":"","email":"ladybirdteahouse@gmail.com","city":"Fair Oaks","state":"CA","qty":1,"total":119.98,"payment":"NET30","category":"Business Cards","products":[{"name":"Business Cards X 1000","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-03-30T09:50:04","customer_id":162709},{"id":4526615,"date_created":"2026-03-30T06:18:20","date":"2026-03-30","days":12,"hours":298.69444444444446,"customer":"Marcus Anthony Hand","company":"Mysterious Enterprise LLC","email":"Mar@MysteriousEnterprise.com","city":"Sacramento","state":"CA","qty":4,"total":213.45,"payment":"NET30","category":"Car Magnets","products":[{"name":"Car Magnet 12\"x 24\"","qty":1},{"name":"Men's Cotton Tee","qty":1},{"name":"Men's Cotton Tee","qty":1},{"name":"Unisex Hoodies - Black, L","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-03-30T06:19:04","customer_id":152680},{"id":4526604,"date_created":"2026-03-29T22:26:34","date":"2026-03-29","days":12,"hours":306.5572222222222,"customer":"Jasmin Tokovic","company":"Tokovic Company Inc","email":"jasmintokovic8@gmail.com","city":"Lisle","state":"IL","qty":1,"total":69.98,"payment":"NET30","category":"Other","products":[{"name":"Hustler - Neon Yellow - Men's Military Green - L","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-03-29T22:34:03","customer_id":163558},{"id":4526599,"date_created":"2026-03-29T15:34:12","date":"2026-03-29","days":13,"hours":313.43,"customer":"Michael Austin","company":"Sewn LLC","email":"heavyblazes@sewn-threads.com","city":"Orlando","state":"FL","qty":1,"total":119.98,"payment":"Credit Card","category":"Business Cards","products":[{"name":"Business Cards X 1000","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-03-29T15:34:15","customer_id":163530},{"id":4526592,"date_created":"2026-03-29T10:18:59","date":"2026-03-29","days":13,"hours":318.68361111111113,"customer":"Jeffrey Allen","company":"","email":"jeff.allen@prolific-mgmt.net","city":"SACRAMENTO","state":"CA","qty":2,"total":109.51,"payment":"Credit Card","category":"Tumblers","products":[{"name":"Custom Skinny Matte Black Tumbler - 20oz","qty":2}],"flags":[],"gc_codes":[],"date_paid":"2026-03-29T10:19:01","customer_id":163729},{"id":4526572,"date_created":"2026-03-28T19:27:31","date":"2026-03-28","days":13,"hours":333.5413888888889,"customer":"Jaylen Davis","company":"","email":"jaylen@geauxexpresshotshot.net","city":"Manvel","state":"TX","qty":2,"total":75.97,"payment":"NET30","category":"Mugs","products":[{"name":"Premium Mug - White","qty":1},{"name":"Men's Cotton Tee","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-03-28T19:34:03","customer_id":163403},{"id":4526534,"date_created":"2026-03-27T16:47:35","date":"2026-03-27","days":15,"hours":360.20694444444445,"customer":"Gregory Corso","company":"Supplement World Company","email":"bariiicode@icloud.com","city":"Pittsburgh","state":"PA","qty":12,"total":397.89,"payment":"NET30","category":"T-Shirts","products":[{"name":"Men's Cotton Tee","qty":10},{"name":"Men's Cotton Tee","qty":2}],"flags":[],"gc_codes":[],"date_paid":"2026-03-27T16:49:03","customer_id":158211},{"id":4526470,"date_created":"2026-03-26T11:08:04","date":"2026-03-26","days":16,"hours":389.86555555555555,"customer":"Edinson Mora Garza","company":"EMG GLOBAL SALES LLC","email":"emgglobalsales@gmail.com","city":"Norwalk","state":"CT","qty":1,"total":41.98,"payment":"NET30","category":"Mugs","products":[{"name":"Premium Mug - Black/White","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-03-26T11:09:03","customer_id":163378},{"id":4526419,"date_created":"2026-03-25T13:15:39","date":"2026-03-25","days":17,"hours":411.7391666666667,"customer":"steve jeong","company":"","email":"steve@thednc-global.com","city":"fullerton","state":"CA","qty":2,"total":109.51,"payment":"NET30","category":"Tumblers","products":[{"name":"Custom Skinny Matte Black Tumbler - 20oz","qty":2}],"flags":[],"gc_codes":[],"date_paid":"2026-03-25T13:19:04","customer_id":163428},{"id":4526386,"date_created":"2026-03-24T16:00:12","date":"2026-03-24","days":18,"hours":432.99666666666667,"customer":"RANDEL RODRIGUEZ","company":"ALLIYAH TRANSPORTATION LLC","email":"randel011107@gmail.com","city":"PHILADELPHIA","state":"PA","qty":1,"total":80.48,"payment":"NET30","category":"Hoodies","products":[{"name":"Unisex Hoodies - Black, L","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-03-24T16:00:15","customer_id":0},{"id":4526383,"date_created":"2026-03-24T15:35:29","date":"2026-03-24","days":18,"hours":433.4086111111111,"customer":"Yen Ferro","company":"Testing","email":"yenferro@live.com","city":"Dania Beach","state":"FL","qty":1,"total":41.98,"payment":"NET30","category":"Masks","products":[{"name":"Custom Masks - 3 Pack","qty":1}],"flags":["test_order"],"gc_codes":[],"date_paid":"2026-03-24T15:36:03","customer_id":162524},{"id":4526378,"date_created":"2026-03-24T14:42:42","date":"2026-03-24","days":18,"hours":434.28833333333336,"customer":"Jamal Davis","company":"Positive Connection Electrical Service","email":"jldavis@pces.online","city":"Chicago","state":"IL","qty":1,"total":96.98,"payment":"NET30","category":"Car Magnets","products":[{"name":"Car Magnet 12\"x 24\"","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-03-24T14:49:04","customer_id":163633},{"id":4526368,"date_created":"2026-03-24T14:25:57","date":"2026-03-24","days":18,"hours":434.5675,"customer":"Andre Phillips","company":"","email":"artdealercreations@gmail.com","city":"Winston Salem","state":"NC","qty":4,"total":327.95,"payment":"NET30","category":"T-Shirts","products":[{"name":"Men's Cotton Tee","qty":3},{"name":"Business Cards X 5000","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-03-24T14:32:58","customer_id":163192},{"id":4526314,"date_created":"2026-03-23T15:44:59","date":"2026-03-23","days":19,"hours":457.2502777777778,"customer":"Ahmed Halim","company":"","email":"adam@softwareconsultingservices.net","city":"Fresno","state":"CA","qty":1,"total":100.0,"payment":"NET30","category":"Gift Card","products":[{"name":"Gift Card - $100","qty":1}],"flags":["gift_card_net30"],"gc_codes":[],"date_paid":null,"customer_id":162028},{"id":4526131,"date_created":"2026-03-20T22:47:00","date":"2026-03-20","days":21,"hours":522.2166666666667,"customer":"Raymond Williams","company":"","email":"operations@backutilities.com","city":"Scurry","state":"TX","qty":1,"total":119.98,"payment":"NET30","category":"Business Cards","products":[{"name":"Business Cards X 1000","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-03-20T22:49:03","customer_id":163039},{"id":4526123,"date_created":"2026-03-20T20:15:15","date":"2026-03-20","days":21,"hours":524.7458333333333,"customer":"Jonathon Fishman","company":"CambionCustoms LLC","email":"business.operations@cambioncustoms.com","city":"Freeport","state":"IL","qty":1,"total":119.98,"payment":"NET30","category":"Business Cards","products":[{"name":"Business Cards X 1000","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-03-20T20:19:04","customer_id":158434},{"id":4525973,"date_created":"2026-03-19T07:34:25","date":"2026-03-19","days":23,"hours":561.4263888888889,"customer":"Christopher Yanez-Ramirez","company":"RyCozy Stays LLC","email":"admin@rycozystays.com","city":"Knightdale","state":"NC","qty":2,"total":87.97,"payment":"Credit Card","category":"T-Shirts","products":[{"name":"Men's Cotton Tee","qty":2}],"flags":[],"gc_codes":[],"date_paid":"2026-03-19T07:34:28","customer_id":163170},{"id":4525888,"date_created":"2026-03-17T20:24:07","date":"2026-03-17","days":24,"hours":596.5980555555556,"customer":"Angela D Williams","company":"","email":"my360vitalityfittness1@yahoo.com","city":"Chicago","state":"IL","qty":3,"total":152.96,"payment":"NET30","category":"T-Shirts","products":[{"name":"Ladies Ideal Fitted Tee","qty":1},{"name":"Ladies Ideal Fitted Tee","qty":1},{"name":"Car Magnet 12\"x 24\"","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-03-17T20:25:03","customer_id":162757},{"id":4525815,"date_created":"2026-03-17T08:52:15","date":"2026-03-17","days":25,"hours":608.1291666666667,"customer":"Datron Gillon","company":"","email":"datrongillon9@gmail.com","city":"Amory","state":"MS","qty":1,"total":119.98,"payment":"NET30","category":"Business Cards","products":[{"name":"Business Cards X 1000","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-03-17T08:53:03","customer_id":163370},{"id":4525796,"date_created":"2026-03-16T20:08:39","date":"2026-03-16","days":25,"hours":620.8558333333333,"customer":"Eugert islamaj","company":"Haxhi holdings llc","email":"gertii008@gmail.com","city":"Hartford","state":"CT","qty":1,"total":52.98,"payment":"NET30","category":"T-Shirts","products":[{"name":"Men's Cotton Tee","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-03-16T20:09:03","customer_id":152929},{"id":4525779,"date_created":"2026-03-16T14:07:05","date":"2026-03-16","days":26,"hours":626.8819444444445,"customer":"Jason Rubio","company":"","email":"jason@imperiumhomes.com","city":"Jupiter","state":"FL","qty":4,"total":151.95,"payment":"NET30","category":"T-Shirts","products":[{"name":"Men's Cotton Tee","qty":4}],"flags":[],"gc_codes":[],"date_paid":"2026-03-16T14:08:03","customer_id":163427},{"id":4525762,"date_created":"2026-03-16T10:23:37","date":"2026-03-16","days":26,"hours":630.6063888888889,"customer":"Ricky Williams","company":"","email":"rickwill@rwselecrgroup.com","city":"Fort Worth","state":"TX","qty":2,"total":81.98,"payment":"NET30","category":"T-Shirts","products":[{"name":"Men's Cotton Tee","qty":1},{"name":"Gift Card - $25","qty":1}],"flags":["gift_card_net30"],"gc_codes":[],"date_paid":"2026-03-16T10:24:04","customer_id":163418},{"id":4525711,"date_created":"2026-03-15T17:41:26","date":"2026-03-15","days":26,"hours":647.3094444444445,"customer":"Lance Camel","company":"","email":"lcamel@saversconsultinggroup.com","city":"New orleans","state":"LA","qty":1,"total":179.98,"payment":"NET30","category":"Stickers","products":[{"name":"3x3 Custom Square Sticker - 100","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-03-15T17:50:03","customer_id":163310},{"id":4525703,"date_created":"2026-03-15T14:37:28","date":"2026-03-15","days":27,"hours":650.3755555555556,"customer":"Jessica Reel","company":"Jessica Mobile Notary LLC","email":"Jessica@Jessicamobilenotary.com","city":"Phoenix","state":"AZ","qty":1,"total":184.98,"payment":"NET30","category":"Jackets","products":[{"name":"Custom Women's Rigid Classic Jacket - XS","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-03-15T14:38:03","customer_id":156746},{"id":4525655,"date_created":"2026-03-14T22:44:53","date":"2026-03-14","days":27,"hours":666.2519444444445,"customer":"emelie roybal","company":"","email":"emelie.rsp@gmail.com","city":"new york","state":"NY","qty":1,"total":67.28,"payment":"Credit Card","category":"Decals","products":[{"name":"Custom Nails Decal Set (10 Pcs) - 8mm","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-03-14T22:44:59","customer_id":0},{"id":4524920,"date_created":"2026-03-13T11:38:38","date":"2026-03-13","days":29,"hours":701.3561111111111,"customer":"Brandon Ransom","company":"Ransom Green Solutions","email":"bransom71@gmail.com","city":"DeKalb","state":"IL","qty":2,"total":83.97,"payment":"NET30","category":"T-Shirts","products":[{"name":"Men's Cotton Tee","qty":2}],"flags":[],"gc_codes":[],"date_paid":"2026-03-13T11:39:03","customer_id":150421},{"id":4524784,"date_created":"2026-03-12T23:47:16","date":"2026-03-12","days":29,"hours":713.2122222222222,"customer":"Clifford Evans","company":"Gwalla Music LLC","email":"info@gwallamusic.com","city":"Austin","state":"TX","qty":1,"total":119.98,"payment":"Credit Card","category":"Business Cards","products":[{"name":"Business Cards X 1000","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-03-12T23:47:21","customer_id":162465},{"id":4524646,"date_created":"2026-03-11T16:16:10","date":"2026-03-11","days":31,"hours":744.7305555555556,"customer":"Ernesqueshia Parker","company":"Parker Court Reporting","email":"que@parkercourtreporting.com","city":"Stone Mountain","state":"GA","qty":1,"total":119.98,"payment":"NET30","category":"Business Cards","products":[{"name":"Business Cards X 1000","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-03-11T16:19:04","customer_id":163289},{"id":4522700,"date_created":"2026-03-10T20:25:11","date":"2026-03-10","days":31,"hours":764.5802777777777,"customer":"Rachelle Gaspard","company":"","email":"info@rachelleaesthetics.com","city":"Miami","state":"FL","qty":1,"total":64.98,"payment":"Credit Card","category":"T-Shirts","products":[{"name":"CEO - Neon Yellow - Ladies Navy Blue Tee - L","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-03-10T20:27:46","customer_id":163232},{"id":4519904,"date_created":"2026-03-10T00:17:18","date":"2026-03-10","days":32,"hours":784.7116666666667,"customer":"Stella Del Nord Therapeutic Inc","company":"STELLA DEL NORD THERAPEUTICS. INC","email":"stelladelnordtherapeutics@gmail.com","city":"Lafayette","state":"IN","qty":1,"total":119.98,"payment":"Credit Card","category":"Business Cards","products":[{"name":"Business Cards X 1000","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-03-10T00:17:23","customer_id":0},{"id":4518999,"date_created":"2026-03-09T16:44:56","date":"2026-03-09","days":33,"hours":792.2511111111111,"customer":"John Rosario","company":"","email":"renewablestorageusa@solution4u.com","city":"Denver","state":"CO","qty":4,"total":131.95,"payment":"NET30","category":"T-Shirts","products":[{"name":"Men's Cotton Tee","qty":2},{"name":"Men's Cotton Tee","qty":2}],"flags":[],"gc_codes":[],"date_paid":"2026-03-09T16:45:26","customer_id":163175},{"id":4515866,"date_created":"2026-03-08T15:00:43","date":"2026-03-08","days":34,"hours":817.9880555555555,"customer":"Joshua Rathbun","company":"Fresh Start Field Services LLC","email":"joshuarathbun@freshstartfieldservices.com","city":"Denton","state":"TX","qty":1,"total":119.98,"payment":"NET30","category":"Business Cards","products":[{"name":"Business Cards X 1000","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-03-08T15:02:30","customer_id":163143},{"id":4508936,"date_created":"2026-03-06T00:04:52","date":"2026-03-06","days":36,"hours":880.9188888888889,"customer":"Christopher Taylor","company":"","email":"chris@valleydentalinc.com","city":"Washington","state":"MO","qty":1,"total":80.48,"payment":"Credit Card","category":"Hoodies","products":[{"name":"Unisex Hoodies - Black, L","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-03-06T00:04:58","customer_id":0},{"id":4507880,"date_created":"2026-03-05T14:36:22","date":"2026-03-05","days":37,"hours":890.3938888888889,"customer":"Dr Angela Hadley","company":"Montez Care@Home LLC","email":"angela@montezcarehome.com","city":"Humble","state":"TX","qty":2,"total":91.97,"payment":"NET30","category":"T-Shirts","products":[{"name":"Ladies Ideal Fitted Tee","qty":1},{"name":"Ladies Ideal Fitted Tee","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-03-05T14:38:36","customer_id":157659},{"id":4507574,"date_created":"2026-03-05T11:49:05","date":"2026-03-05","days":37,"hours":893.1819444444444,"customer":"Kiedrick Addison","company":"TURTLELAND INVESTMENT PROPERTIES LLC","email":"frshfla.78@gmail.com","city":"New Orleans","state":"LA","qty":1,"total":52.98,"payment":"Credit Card","category":"Sandals","products":[{"name":"Custom Slide-On Sandals - XL","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-03-05T11:49:10","customer_id":0},{"id":4506498,"date_created":"2026-03-05T02:09:44","date":"2026-03-05","days":37,"hours":902.8377777777778,"customer":"Tarjee Williams","company":"Krowned Qulture Notary","email":"krownedqulturenotary@gmail.com","city":"Marine","state":"CA","qty":1,"total":144.98,"payment":"Credit Card","category":"Jackets","products":[{"name":"Customizable Letterman Jacket - BLACK - L, O","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-03-05T02:09:50","customer_id":44384},{"id":4498328,"date_created":"2026-03-02T02:08:10","date":"2026-03-02","days":40,"hours":974.8638888888889,"customer":"Emily Gordon","company":"Glow Up Cleaners","email":"emily@myglowclean.com","city":"Jeffersonville","state":"IN","qty":1,"total":47.98,"payment":"NET30","category":"T-Shirts","products":[{"name":"Ladies Ideal Fitted Tee","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-03-02T02:08:37","customer_id":162854},{"id":4497165,"date_created":"2026-03-01T23:00:08","date":"2026-03-01","days":40,"hours":977.9977777777777,"customer":"Tyas Montgomery","company":"VanSaint Management and Private equity co","email":"tyasmceo@vsmanagementco.com","city":"Conroe","state":"TX","qty":1,"total":119.98,"payment":"NET30","category":"Business Cards","products":[{"name":"Business Cards X 1000","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-03-01T23:00:39","customer_id":162971},{"id":4476034,"date_created":"2026-02-28T22:56:34","date":"2026-02-28","days":41,"hours":1002.0572222222222,"customer":"Dwayne Scott","company":"","email":"Support@blue-district.com","city":"Milwaukee","state":"WI","qty":1,"total":56.98,"payment":"Credit Card","category":"T-Shirts","products":[{"name":"Men's Cotton Tee","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-02-28T23:05:46","customer_id":161271},{"id":4464057,"date_created":"2026-02-24T15:35:56","date":"2026-02-24","days":46,"hours":1105.401111111111,"customer":"Brianna Mosley","company":"Little Legacy Academy INC","email":"littlelegacyacademy2022@gmail.com","city":"philadephia","state":"PA","qty":1,"total":119.98,"payment":"Credit Card","category":"Business Cards","products":[{"name":"Business Cards X 1000","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-02-24T15:36:01","customer_id":162792},{"id":4456348,"date_created":"2026-02-21T16:43:21","date":"2026-02-21","days":49,"hours":1176.2775,"customer":"Jose L Ozuna","company":"Titan Purpose Solutions LLC","email":"info@titanpurposesolutions.com","city":"Garfield","state":"NJ","qty":1,"total":119.98,"payment":"Credit Card","category":"Business Cards","products":[{"name":"Business Cards X 1000","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-02-21T16:43:26","customer_id":160742},{"id":4455324,"date_created":"2026-02-21T06:38:13","date":"2026-02-21","days":49,"hours":1186.3630555555555,"customer":"Teresa Buchanan-Robinson","company":"Impactful Harvest LLC","email":"admin@impactfulharvest.com","city":"APO","state":"AE","qty":4,"total":107.95,"payment":"NET30","category":"Mugs","products":[{"name":"Premium Mug - White","qty":4}],"flags":[],"gc_codes":[],"date_paid":"2026-02-21T06:38:41","customer_id":162590},{"id":4447566,"date_created":"2026-02-18T11:36:35","date":"2026-02-18","days":52,"hours":1253.3902777777778,"customer":"Elizabeth Rodas","company":"Space beauty spa","email":"spacebeautyspa14@gmail.com","city":"New rochelle","state":"NY","qty":6,"total":192.93,"payment":"Credit Card","category":"T-Shirts","products":[{"name":"Ladies Ideal Fitted Tee","qty":1},{"name":"Ladies Ideal Fitted Tee","qty":2},{"name":"Ladies Ideal Fitted Tee","qty":2},{"name":"Custom Slide-On Sandals - L","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-02-18T11:36:39","customer_id":162678},{"id":4445837,"date_created":"2026-02-17T19:46:48","date":"2026-02-17","days":52,"hours":1269.22,"customer":"Romona James","company":"","email":"cucheerich@gmail.com","city":"Norristown","state":"PA","qty":1,"total":47.98,"payment":"Credit Card","category":"Crop Tops","products":[{"name":"Ladies Flowy Crop Tee - M, White","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-02-17T19:48:07","customer_id":162613},{"id":4445482,"date_created":"2026-02-17T16:38:45","date":"2026-02-17","days":53,"hours":1272.3541666666667,"customer":"oscar nunez","company":"D carmen llc","email":"aj19222024@gmail.com","city":"Amityville","state":"NY","qty":1,"total":54.98,"payment":"NET30","category":"Long Sleeves","products":[{"name":"Men's Long Sleeves","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-02-17T16:40:23","customer_id":162653},{"id":4414649,"date_created":"2026-02-06T19:57:43","date":"2026-02-06","days":63,"hours":1533.0380555555555,"customer":"sajid mallick","company":"paradigm real estate llc","email":"sajidmallick.1964@gmail.com","city":"columbus","state":"OH","qty":2,"total":74.99,"payment":"NET30","category":"Tumblers","products":[{"name":"White Tumbler 20 Oz (PortCityGolfClub) - Vertical","qty":1},{"name":"Hoodie (PortCityGolfClub) - White, M","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-02-06T20:28:43","customer_id":152538},{"id":4405025,"date_created":"2026-02-03T15:32:42","date":"2026-02-03","days":67,"hours":1609.455,"customer":"Demetrice Jordan","company":"Jordans Transportation Llc","email":"geirondaniel9@gmail.com","city":"MIAMI","state":"FL","qty":6,"total":217.43,"payment":"NET30","category":"Hoodies","products":[{"name":"HU$TLE Silver logo - Men's Black Hoodie - M","qty":1},{"name":"B.E.A.R Black Hoodie - M, Black","qty":5}],"flags":[],"gc_codes":[],"date_paid":"2026-02-03T15:35:00","customer_id":250},{"id":4404605,"date_created":"2026-02-03T11:55:26","date":"2026-02-03","days":67,"hours":1613.076111111111,"customer":"Ebony Stocks","company":"EJ ASSET MANAGEMENT GROUP LLC","email":"contact@ejassetgroup.com","city":"Mount Pleasant","state":"SC","qty":2,"total":132.52,"payment":"NET30","category":"Hoodies","products":[{"name":"Unisex Hoodies - Black, XXL","qty":1},{"name":"Men's Long Sleeves","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-02-03T11:56:03","customer_id":162279},{"id":4388738,"date_created":"2026-01-29T12:15:46","date":"2026-01-29","days":72,"hours":1732.7372222222223,"customer":"iryna leonova","company":"IRYNALE CORP","email":"irynalecorp@gmail.com","city":"DEKALB","state":"IL","qty":1,"total":100.0,"payment":"NET30","category":"Gift Card","products":[{"name":"Gift Card - $100","qty":1}],"flags":["gift_card_net30"],"gc_codes":[],"date_paid":null,"customer_id":161196},{"id":4387951,"date_created":"2026-01-28T15:16:39","date":"2026-01-28","days":73,"hours":1753.7225,"customer":"Merrissa Wesley","company":"","email":"info@oaysisbehavioraltx.com","city":"HOUSTON","state":"TX","qty":3,"total":136.96,"payment":"NET30","category":"T-Shirts","products":[{"name":"CEO. - Men's Black T-Shirt - 2XL","qty":1},{"name":"CEO - Neon Yellow - Ladies Navy Blue Tee - M","qty":1},{"name":"Premium Mug - Black/White","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-01-28T15:16:40","customer_id":162059},{"id":4387413,"date_created":"2026-01-28T01:35:10","date":"2026-01-28","days":73,"hours":1767.4138888888888,"customer":"Kenyatt Williams","company":"","email":"accounts.payable@visionneer.org","city":"Austell","state":"GA","qty":2,"total":140.97,"payment":"NET30","category":"Hoodies","products":[{"name":"Unisex Hoodies - Black, M","qty":2}],"flags":[],"gc_codes":[],"date_paid":"2026-01-28T01:35:10","customer_id":161253},{"id":4386026,"date_created":"2026-01-26T19:01:25","date":"2026-01-26","days":74,"hours":1797.9763888888888,"customer":"Ahmed Halim","company":"","email":"adam@softwareconsultingservices.net","city":"Fresno","state":"CA","qty":1,"total":100.0,"payment":"NET30","category":"Gift Card","products":[{"name":"Gift Card - $100","qty":1}],"flags":["gift_card_net30"],"gc_codes":[],"date_paid":null,"customer_id":162028},{"id":4385801,"date_created":"2026-01-26T14:29:03","date":"2026-01-26","days":75,"hours":1802.5158333333334,"customer":"Olena SYDORCHUK","company":"OLENASY CORP","email":"olenasycorp@gmail.com","city":"Chicago","state":"IL","qty":1,"total":100.0,"payment":"NET30","category":"Gift Card","products":[{"name":"Gift Card - $100","qty":1}],"flags":["gift_card_net30"],"gc_codes":[],"date_paid":null,"customer_id":161228},{"id":4385714,"date_created":"2026-01-26T12:55:39","date":"2026-01-26","days":75,"hours":1804.0725,"customer":"YANA TARASENKO","company":"YANATARA INC","email":"yanatarainc@gmail.com","city":"LEXINGTON","state":"IL","qty":1,"total":100.0,"payment":"NET30","category":"Gift Card","products":[{"name":"Gift Card - $100","qty":1}],"flags":["gift_card_net30"],"gc_codes":[],"date_paid":null,"customer_id":161083},{"id":4385676,"date_created":"2026-01-26T12:02:22","date":"2026-01-26","days":75,"hours":1804.9605555555556,"customer":"NATALIYA TROYAN","company":"TROYAN CORP","email":"troyancorp1@gmail.com","city":"rantoul","state":"IL","qty":1,"total":100.0,"payment":"NET30","category":"Gift Card","products":[{"name":"Gift Card - $100","qty":1}],"flags":["gift_card_net30"],"gc_codes":[],"date_paid":null,"customer_id":161224},{"id":4384119,"date_created":"2026-01-25T11:21:24","date":"2026-01-25","days":76,"hours":1829.6433333333334,"customer":"Jose Lobo","company":"Lobo auto collision corp","email":"loboautoCollisonCorp@gmail.com","city":"Freeport","state":"NY","qty":1,"total":51.98,"payment":"Credit Card","category":"T-Shirts","products":[{"name":"Men's Cotton Tee","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-01-25T11:21:29","customer_id":161987},{"id":4381987,"date_created":"2026-01-23T14:02:09","date":"2026-01-23","days":78,"hours":1874.9641666666666,"customer":"Aleksandr Lobko","company":"TIMBER GROVE SPRINGS INC","email":"timbergrovespringsinc@gmail.com","city":"Peoria","state":"IL","qty":1,"total":100.0,"payment":"NET30","category":"Gift Card","products":[{"name":"Gift Card - $100","qty":1}],"flags":["gift_card_net30"],"gc_codes":[],"date_paid":null,"customer_id":160971},{"id":4390822,"date_created":"2026-01-23T11:38:28","date":"2026-01-23","days":78,"hours":1877.358888888889,"customer":"Gideon Agyekum","company":"So-Me Clothing","email":"giddokream@gmail.com","city":"SugarLand","state":"TX","qty":1,"total":80.48,"payment":"NET30","category":"Hoodies","products":[{"name":"Unisex Hoodies - Black, L","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-01-30T11:39:52","customer_id":156986},{"id":4379598,"date_created":"2026-01-21T20:35:52","date":"2026-01-21","days":79,"hours":1916.4022222222222,"customer":"Leah Zacher","company":"Guest Haus Stays","email":"info@guesthausstays.com","city":"Scottsdale","state":"AZ","qty":1,"total":47.98,"payment":"NET30","category":"T-Shirts","products":[{"name":"Ladies Ideal Fitted Tee","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-01-21T20:35:58","customer_id":160307},{"id":4379231,"date_created":"2026-01-21T13:53:52","date":"2026-01-21","days":80,"hours":1923.1022222222223,"customer":"Dmytro Koshyk","company":"","email":"dmitriy@dndfreight.net","city":"DALLAS","state":"TX","qty":1,"total":96.98,"payment":"NET30","category":"Car Magnets","products":[{"name":"Car Magnet 12\"x 24\"","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-01-30T16:25:46","customer_id":161991},{"id":4368185,"date_created":"2026-01-13T09:31:50","date":"2026-01-13","days":88,"hours":2119.4694444444444,"customer":"regina johnson","company":"bakers home care llc","email":"bakershc@yahoo.com","city":"dallas","state":"TX","qty":1,"total":64.98,"payment":"Credit Card","category":"T-Shirts","products":[{"name":"Love - Mirror Red - Ladies White Tee - XL","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-01-13T09:33:01","customer_id":161513},{"id":4367268,"date_created":"2026-01-12T22:23:35","date":"2026-01-12","days":88,"hours":2130.6069444444443,"customer":"Shaquita Tutt","company":"Integrity Tax & Consulting Company LLC","email":"integritytax757@gmail.com","city":"Norfolk","state":"VA","qty":2,"total":75.97,"payment":"NET30","category":"T-Shirts","products":[{"name":"Ladies Ideal Fitted Tee","qty":1},{"name":"Men's Cotton Tee","qty":1}],"flags":[],"gc_codes":[],"date_paid":"2026-01-22T14:36:37","customer_id":161725}];
+
+// ===== UTILITIES =====
+function getUrgencyClass(days) {
+  if (days <= 0) return 'today';
+  if (days <= 2) return 'warning';
+  if (days <= 4) return 'critical';
+  return 'overdue';
+}
+
+function getAgeBadgeLabel(days, hours) {
+  if (days <= 0) return `${Math.round(hours)}h old`;
+  if (days === 1) return '1 day';
+  return `${days} days`;
+}
+
+function getCatClass(cat) {
+  const map = {
+    'T-Shirts': 'cat-tshirts',
+    'Hoodies': 'cat-hoodies',
+    'Business Cards': 'cat-business-cards',
+    'Gift Card': 'cat-gift-card',
+    'Tumblers': 'cat-tumblers',
+    'Mugs': 'cat-mugs',
+    'Long Sleeves': 'cat-long-sleeves',
+    'Car Magnets': 'cat-car-magnets',
+    'Stickers': 'cat-stickers',
+    'Masks': 'cat-masks',
+    'Jackets': 'cat-jackets',
+    'Crop Tops': 'cat-crop-tops',
+    'Sandals': 'cat-sandals',
+    'Decals': 'cat-decals',
+    'Mouse Pads': 'cat-mouse-pads',
+    'Other': 'cat-other',
+  };
+  return map[cat] || 'cat-other';
+}
+
+function fmtDate(d) {
+  const dt = new Date(d + 'Z');
+  return dt.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+
+function fmtMoney(n) {
+  return '$' + n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+
+function getWeekKey(dateStr) {
+  const d = new Date(dateStr);
+  const day = d.getDay();
+  const diff = d.getDate() - day + (day === 0 ? -6 : 1);
+  const mon = new Date(d.setDate(diff));
+  return mon.toISOString().slice(0, 10);
+}
+
+function weekLabel(key) {
+  const d = new Date(key + 'T00:00:00');
+  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+}
+
+// ===== STATE =====
+let activeUrgency = 'all';
+let activePayment = 'all';
+let activeDays = 90;
+let activeCategory = 'all';
+let searchQuery = '';
+
+// ===== CLOCK =====
+function updateClock() {
+  const now = new Date();
+  const h = now.getHours().toString().padStart(2, '0');
+  const m = now.getMinutes().toString().padStart(2, '0');
+  const s = now.getSeconds().toString().padStart(2, '0');
+  const ampm = now.getHours() >= 12 ? 'PM' : 'AM';
+  const h12 = (now.getHours() % 12 || 12).toString().padStart(2, '0');
+  document.getElementById('liveClock').textContent = `${h12}:${m}:${s} ${ampm}`;
+}
+setInterval(updateClock, 1000);
+updateClock();
+
+// ===== HEADER STATS =====
+function renderHeaderStats(filtered) {
+  const total = orderData.length;
+  const revenue = orderData.reduce((s, o) => s + o.total, 0);
+  const filteredRevenue = filtered.reduce((s, o) => s + o.total, 0);
+  const net30Count = orderData.filter(o => o.payment === 'NET30').length;
+  const flaggedCount = orderData.filter(o => o.flags && o.flags.length > 0).length;
+  const today = orderData.filter(o => o.days <= 0).length;
+
+  const statsRow = document.getElementById('statsRow');
+  statsRow.innerHTML = `
+    <div class="stat-pill green">
+      <div>
+        <div class="stat-value">${total}</div>
+        <div class="stat-label">Total Orders</div>
+      </div>
+    </div>
+    <div class="stat-pill cyan">
+      <div>
+        <div class="stat-value">${fmtMoney(revenue)}</div>
+        <div class="stat-label">90-Day Revenue</div>
+      </div>
+    </div>
+    <div class="stat-pill orange">
+      <div>
+        <div class="stat-value">${net30Count}</div>
+        <div class="stat-label">NET30 Orders</div>
+      </div>
+    </div>
+    <div class="stat-pill pink">
+      <div>
+        <div class="stat-value">${flaggedCount}</div>
+        <div class="stat-label">Flagged</div>
+      </div>
+    </div>
+    <div class="stat-pill blue">
+      <div>
+        <div class="stat-value">${today}</div>
+        <div class="stat-label">Today</div>
+      </div>
+    </div>
+    <div class="stat-pill green" style="margin-left:auto;">
+      <div>
+        <div class="stat-value">${filtered.length}</div>
+        <div class="stat-label">Showing</div>
+      </div>
+    </div>
+  `;
+}
+
+// ===== FILTER LOGIC =====
+function getFiltered() {
+  return orderData.filter(order => {
+    // Days range filter
+    if (order.days > activeDays) return false;
+
+    // Urgency filter
+    if (activeUrgency !== 'all') {
+      if (activeUrgency === 'flagged') {
+        if (!order.flags || order.flags.length === 0) return false;
+      } else {
+        const urg = getUrgencyClass(order.days);
+        if (urg !== activeUrgency) return false;
+      }
+    }
+
+    // Payment filter
+    if (activePayment !== 'all' && order.payment !== activePayment) return false;
+
+    // Category filter
+    if (activeCategory !== 'all') {
+      const cats = order.category.split(', ');
+      if (!cats.includes(activeCategory)) return false;
+    }
+
+    // Search filter
+    if (searchQuery) {
+      const q = searchQuery.toLowerCase();
+      const haystack = [
+        order.customer, order.company, order.email,
+        order.city, order.state, String(order.id),
+        order.category, order.payment
+      ].join(' ').toLowerCase();
+      if (!haystack.includes(q)) return false;
+    }
+
+    return true;
+  });
+}
+
+// ===== CARD HTML =====
+function buildCardHTML(order) {
+  const urg = getUrgencyClass(order.days);
+  const isFlagged = order.flags && order.flags.length > 0;
+  const isTest = order.flags && order.flags.includes('test_order');
+  const isGCNet30 = order.flags && order.flags.includes('gift_card_net30');
+
+  let cardClasses = `order-card ${urg}`;
+  if (isFlagged) cardClasses += ' flagged';
+  if (isTest) cardClasses += ' test-order';
+
+  const ageBadge = getAgeBadgeLabel(order.days, order.hours);
+  const cats = order.category.split(', ');
+  const primaryCat = cats[0];
+
+  const productList = order.products.map(p =>
+    `<div class="product-item">
+      <span>${p.name}</span>
+      <span class="product-qty-badge">×${p.qty}</span>
+    </div>`
+  ).join('');
+
+  const gcCodesHTML = order.gc_codes && order.gc_codes.length > 0
+    ? order.gc_codes.map(c => `<span class="gc-code">🎁 ${c}</span>`).join('')
+    : '';
+
+  const flagIcon = isFlagged
+    ? `<span class="flag-indicator" title="${order.flags.join(', ')}">🚩</span>`
+    : '';
+
+  const catChips = cats.map(c => `<span class="cat-chip ${getCatClass(c)}">${c}</span>`).join('');
+
+  const isSelected = selectedOrders.has(order.id);
+
+  return `
+    <div class="${cardClasses}${isSelected ? ' selected' : ''}" data-id="${order.id}" onclick="handleCardClick(event, this, ${order.id})">
+      <div class="card-checkbox-wrap">
+        <input type="checkbox" ${isSelected ? 'checked' : ''} onclick="event.stopPropagation()" onchange="toggleCardSelect(${order.id}, this.checked)">
+      </div>
+      <div class="card-header">
+        <div>
+          <div class="card-order-id">#${order.id}</div>
+          <div class="card-date">${fmtDate(order.date_created)}</div>
+        </div>
+        <span class="age-badge ${urg}">${ageBadge}</span>
+      </div>
+      <div class="card-customer">${order.customer}</div>
+      <div class="card-company">${order.company || '\u2014'}</div>
+      <div class="card-meta">
+        <span class="card-location">\ud83d\udccd ${order.city}, ${order.state}</span>
+        ${catChips}
+      </div>
+      <div class="card-footer">
+        <span class="card-qty">\xd7${order.qty}</span>
+        <span class="card-total">${fmtMoney(order.total)}</span>
+        <span class="payment-badge ${order.payment === 'NET30' ? 'payment-net30' : 'payment-cc'}">${order.payment}</span>
+        ${flagIcon}
+      </div>
+      ${gcCodesHTML}
+      <div class="card-expanded">
+        <div class="product-list">${productList}</div>
+        <div class="expanded-field">
+          <span class="expanded-field-label">Email</span>
+          <a href="mailto:${order.email}">${order.email}</a>
+        </div>
+        ${order.date_paid ? `<div class="expanded-field"><span class="expanded-field-label">Paid</span><span>${fmtDate(order.date_paid)}</span></div>` : '<div class="expanded-field"><span class="expanded-field-label">Paid</span><span style="color:var(--red)">\u26a0 Unpaid</span></div>'}
+        ${order.customer_id ? `<div class="expanded-field"><span class="expanded-field-label">Cust ID</span><span>${order.customer_id}</span></div>` : ''}
+        <div class="card-actions">
+          <button class="action-btn action-btn-complete" onclick="event.stopPropagation(); markComplete(${order.id}, '${order.customer.replace(/'/g,"\\'")}')">\u2705 Complete</button>
+          <button class="action-btn action-btn-design" onclick="event.stopPropagation(); openDesignModal(${order.id}, '${order.customer.replace(/'/g,"\\'")}', '${order.email}')">\u26a0\ufe0f Design Issue</button>
+          <button class="action-btn-cancel action-btn-cancel-order" onclick="event.stopPropagation(); cancelOrder(${order.id}, '${order.customer.replace(/'/g,"\\'")}')">Cancel</button>
+        </div>
+      </div>
+    </div>`;
+}
+
+// ===== TOGGLE CARD EXPAND =====
+function toggleCard(el) {
+  el.classList.toggle('expanded');
+}
+
+function handleCardClick(event, el, orderId) {
+  if (bulkMode) {
+    // In bulk mode, clicking card toggles selection
+    const cb = el.querySelector('.card-checkbox-wrap input');
+    if (cb) {
+      cb.checked = !cb.checked;
+      toggleCardSelect(orderId, cb.checked);
+    }
+  } else {
+    toggleCard(el);
+  }
+}
+
+// ===== RENDER BOARD =====
+function renderBoard() {
+  const filtered = getFiltered();
+  document.getElementById('resultCount').textContent = `${filtered.length} orders`;
+  renderHeaderStats(filtered);
+
+  const container = document.getElementById('boardContainer');
+
+  if (filtered.length === 0) {
+    container.innerHTML = '<div class="empty-state"><div class="empty-state-icon">🔍</div><div class="empty-state-text">No orders match your filters</div></div>';
+    return;
+  }
+
+  // Group by week
+  const weeks = {};
+  filtered.forEach(order => {
+    const wk = getWeekKey(order.date);
+    if (!weeks[wk]) weeks[wk] = [];
+    weeks[wk].push(order);
+  });
+
+  const sortedWeeks = Object.keys(weeks).sort((a, b) => b.localeCompare(a));
+
+  let html = '';
+  sortedWeeks.forEach(wk => {
+    const weekOrders = weeks[wk];
+    const weekRevenue = weekOrders.reduce((s, o) => s + o.total, 0);
+    html += `
+      <div class="week-group">
+        <div class="week-header">
+          <span class="week-label">Week of ${weekLabel(wk)}</span>
+          <span class="week-badge">${weekOrders.length} orders</span>
+          <span class="week-revenue">${fmtMoney(weekRevenue)}</span>
+        </div>
+        <div class="cards-grid">
+          ${weekOrders.map(buildCardHTML).join('')}
+        </div>
+      </div>`;
+  });
+
+  container.innerHTML = html;
+  // Re-apply bulk mode class after re-render
+  if (bulkMode) container.classList.add('bulk-mode');
+  renderFooterStats(filtered);
+}
+
+// ===== FRAUD PANEL =====
+function renderFraudPanel() {
+  const flagged = orderData.filter(o => o.flags && o.flags.length > 0);
+  const gcNet30 = flagged.filter(o => o.flags.includes('gift_card_net30'));
+  const testOrders = flagged.filter(o => o.flags.includes('test_order'));
+  const totalFlaggedValue = flagged.reduce((s, o) => s + o.total, 0);
+
+  const panel = document.getElementById('fraudPanel');
+  const totalEl = document.getElementById('fraudTotal');
+  totalEl.innerHTML = `${flagged.length} flagged orders — <span class="amount">${fmtMoney(totalFlaggedValue)}</span> at risk`;
+
+  let html = '';
+  if (gcNet30.length > 0) {
+    html += `<div class="fraud-section-label">🎁 Gift Card + NET30 (${gcNet30.length})</div>`;
+    gcNet30.forEach(o => {
+      const gcCodes = o.gc_codes && o.gc_codes.length > 0
+        ? o.gc_codes.map(c => `<span class="fraud-gc-code">${c}</span>`).join('')
+        : '<span style="color:var(--text-muted);font-size:10px">No code yet</span>';
+      html += `
+        <div class="fraud-item" onclick="scrollToOrder(${o.id})">
+          <div class="fraud-item-amount">${fmtMoney(o.total)}</div>
+          <div class="fraud-item-id">#${o.id}</div>
+          <div class="fraud-item-customer">${o.customer}</div>
+          <div class="fraud-item-reason">${o.flags.join(', ')}</div>
+          ${gcCodes}
+        </div>`;
+    });
+  }
+
+  if (testOrders.length > 0) {
+    html += `<div class="fraud-section-label">🧪 Test Orders (${testOrders.length})</div>`;
+    testOrders.forEach(o => {
+      html += `
+        <div class="test-item">
+          <div style="font-weight:600">#${o.id} — ${o.customer}</div>
+          <div style="color:var(--text-muted)">${fmtDate(o.date_created)}</div>
+        </div>`;
+    });
+  }
+
+  panel.innerHTML += html;
+}
+
+function scrollToOrder(id) {
+  const el = document.querySelector(`[data-id="${id}"]`);
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    el.classList.add('expanded');
+    el.style.outline = '2px solid var(--pink)';
+    setTimeout(() => el.style.outline = '', 2000);
+  }
+}
+
+// ===== FOOTER STATS =====
+function renderFooterStats(filtered) {
+  const grid = document.getElementById('footerStatsGrid');
+  const revenue = filtered.reduce((s, o) => s + o.total, 0);
+  const qty = filtered.reduce((s, o) => s + o.qty, 0);
+  const avgOrder = filtered.length > 0 ? revenue / filtered.length : 0;
+  const net30 = filtered.filter(o => o.payment === 'NET30');
+  const net30Rev = net30.reduce((s, o) => s + o.total, 0);
+  const ccRev = revenue - net30Rev;
+  const flagged = filtered.filter(o => o.flags && o.flags.length > 0);
+
+  // Top category
+  const catCounts = {};
+  filtered.forEach(o => {
+    o.category.split(', ').forEach(c => {
+      catCounts[c] = (catCounts[c] || 0) + 1;
+    });
+  });
+  const topCat = Object.entries(catCounts).sort((a, b) => b[1] - a[1])[0] || ['—', 0];
+
+  // Top state
+  const stateCounts = {};
+  filtered.forEach(o => {
+    stateCounts[o.state] = (stateCounts[o.state] || 0) + 1;
+  });
+  const topState = Object.entries(stateCounts).sort((a, b) => b[1] - a[1])[0] || ['—', 0];
+
+  grid.innerHTML = `
+    <div class="footer-stat">
+      <div class="footer-stat-label">Total Revenue</div>
+      <div class="footer-stat-value">${fmtMoney(revenue)}</div>
+      <div class="footer-stat-sub">${filtered.length} orders shown</div>
+    </div>
+    <div class="footer-stat">
+      <div class="footer-stat-label">Total Items Ordered</div>
+      <div class="footer-stat-value">${qty}</div>
+      <div class="footer-stat-sub">avg ${(qty / (filtered.length || 1)).toFixed(1)} items/order</div>
+    </div>
+    <div class="footer-stat">
+      <div class="footer-stat-label">Avg Order Value</div>
+      <div class="footer-stat-value">${fmtMoney(avgOrder)}</div>
+      <div class="footer-stat-sub">per transaction</div>
+    </div>
+    <div class="footer-stat">
+      <div class="footer-stat-label">NET30 Revenue</div>
+      <div class="footer-stat-value">${fmtMoney(net30Rev)}</div>
+      <div class="footer-stat-sub">${net30.length} NET30 orders</div>
+    </div>
+    <div class="footer-stat">
+      <div class="footer-stat-label">Credit Card Revenue</div>
+      <div class="footer-stat-value">${fmtMoney(ccRev)}</div>
+      <div class="footer-stat-sub">${filtered.filter(o => o.payment === 'Credit Card').length} CC orders</div>
+    </div>
+    <div class="footer-stat">
+      <div class="footer-stat-label">Top Category</div>
+      <div class="footer-stat-value">${topCat[0]}</div>
+      <div class="footer-stat-sub">${topCat[1]} orders</div>
+    </div>
+    <div class="footer-stat">
+      <div class="footer-stat-label">Top State</div>
+      <div class="footer-stat-value">${topState[0]}</div>
+      <div class="footer-stat-sub">${topState[1]} orders</div>
+    </div>
+    <div class="footer-stat">
+      <div class="footer-stat-label">Flagged Orders</div>
+      <div class="footer-stat-value" style="color:var(--pink)">${flagged.length}</div>
+      <div class="footer-stat-sub">${fmtMoney(flagged.reduce((s, o) => s + o.total, 0))} at risk</div>
+    </div>
+  `;
+}
+
+// ===== CHARTS =====
+let charts = {};
+
+function destroyCharts() {
+  Object.values(charts).forEach(c => c.destroy());
+  charts = {};
+}
+
+function renderCharts() {
+  destroyCharts();
+
+  const chartDefaults = {
+    color: '#888',
+    borderColor: '#2a2a2a',
+    plugins: {
+      legend: {
+        labels: { color: '#888', font: { size: 11 } }
+      },
+      tooltip: {
+        backgroundColor: '#1a1a1a',
+        borderColor: '#333',
+        borderWidth: 1,
+        titleColor: '#e8e8e8',
+        bodyColor: '#aaa',
+      }
+    },
+    scales: {
+      x: {
+        ticks: { color: '#666', font: { size: 10 } },
+        grid: { color: '#1f1f1f' }
+      },
+      y: {
+        ticks: { color: '#666', font: { size: 10 } },
+        grid: { color: '#1f1f1f' }
+      }
+    }
+  };
+
+  // --- Orders by Week (stacked bar) ---
+  const weekMap = {};
+  orderData.forEach(o => {
+    const wk = getWeekKey(o.date);
+    if (!weekMap[wk]) weekMap[wk] = { NET30: 0, 'Credit Card': 0 };
+    weekMap[wk][o.payment] = (weekMap[wk][o.payment] || 0) + 1;
+  });
+  const weekKeys = Object.keys(weekMap).sort();
+  const weekLabels = weekKeys.map(weekLabel);
+
+  charts.timeline = new Chart(document.getElementById('timelineChart'), {
+    type: 'bar',
+    data: {
+      labels: weekLabels,
+      datasets: [
+        {
+          label: 'NET30',
+          data: weekKeys.map(k => weekMap[k].NET30 || 0),
+          backgroundColor: 'rgba(255,170,0,0.7)',
+          borderRadius: 3,
+        },
+        {
+          label: 'Credit Card',
+          data: weekKeys.map(k => weekMap[k]['Credit Card'] || 0),
+          backgroundColor: 'rgba(0,255,136,0.6)',
+          borderRadius: 3,
+        }
+      ]
+    },
+    options: {
+      ...chartDefaults,
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { ...chartDefaults.plugins, tooltip: { ...chartDefaults.plugins.tooltip } },
+      scales: {
+        ...chartDefaults.scales,
+        x: { ...chartDefaults.scales.x, stacked: true },
+        y: { ...chartDefaults.scales.y, stacked: true, beginAtZero: true }
+      }
+    }
+  });
+
+  // --- Category Breakdown (horizontal bar) ---
+  const catCount = {};
+  orderData.forEach(o => {
+    o.category.split(', ').forEach(c => {
+      catCount[c] = (catCount[c] || 0) + 1;
+    });
+  });
+  const catEntries = Object.entries(catCount).sort((a, b) => b[1] - a[1]).slice(0, 10);
+  const catColors = ['#4488ff','#aa66ff','#00ccaa','#ff66aa','#00d4ff','#ffdd00','#ffaa00','#00ff88','#ff8844','#88ccff'];
+
+  charts.category = new Chart(document.getElementById('categoryChart'), {
+    type: 'bar',
+    data: {
+      labels: catEntries.map(e => e[0]),
+      datasets: [{
+        label: 'Orders',
+        data: catEntries.map(e => e[1]),
+        backgroundColor: catColors,
+        borderRadius: 4,
+      }]
+    },
+    options: {
+      ...chartDefaults,
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        ...chartDefaults.plugins,
+        legend: { display: false }
+      },
+      scales: {
+        x: { ...chartDefaults.scales.x, beginAtZero: true },
+        y: { ticks: { color: '#888', font: { size: 10 } }, grid: { color: '#1f1f1f' } }
+      }
+    }
+  });
+
+  // --- Payment Split (donut) ---
+  const net30Count = orderData.filter(o => o.payment === 'NET30').length;
+  const ccCount = orderData.filter(o => o.payment === 'Credit Card').length;
+
+  charts.payment = new Chart(document.getElementById('paymentChart'), {
+    type: 'doughnut',
+    data: {
+      labels: ['NET30', 'Credit Card'],
+      datasets: [{
+        data: [net30Count, ccCount],
+        backgroundColor: ['rgba(255,170,0,0.8)', 'rgba(0,255,136,0.7)'],
+        borderColor: '#1a1a1a',
+        borderWidth: 2,
+      }]
+    },
+    options: {
+      ...chartDefaults,
+      responsive: true,
+      maintainAspectRatio: false,
+      cutout: '65%',
+      plugins: {
+        ...chartDefaults.plugins,
+        legend: {
+          position: 'bottom',
+          labels: { color: '#888', font: { size: 11 }, padding: 16 }
+        }
+      },
+      scales: { x: { display: false }, y: { display: false } }
+    }
+  });
+
+  // --- Revenue by Week (line) ---
+  const revByWeek = {};
+  orderData.forEach(o => {
+    const wk = getWeekKey(o.date);
+    revByWeek[wk] = (revByWeek[wk] || 0) + o.total;
+  });
+  const revKeys = Object.keys(revByWeek).sort();
+
+  charts.revenue = new Chart(document.getElementById('revenueChart'), {
+    type: 'line',
+    data: {
+      labels: revKeys.map(weekLabel),
+      datasets: [{
+        label: 'Revenue',
+        data: revKeys.map(k => parseFloat(revByWeek[k].toFixed(2))),
+        borderColor: '#00d4ff',
+        backgroundColor: 'rgba(0,212,255,0.08)',
+        pointBackgroundColor: '#00d4ff',
+        pointRadius: 4,
+        tension: 0.3,
+        fill: true,
+      }]
+    },
+    options: {
+      ...chartDefaults,
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        ...chartDefaults.plugins,
+        legend: { display: false }
+      },
+      scales: {
+        x: { ...chartDefaults.scales.x },
+        y: {
+          ...chartDefaults.scales.y,
+          beginAtZero: true,
+          ticks: {
+            color: '#666',
+            font: { size: 10 },
+            callback: v => '$' + v.toLocaleString()
+          }
+        }
+      }
+    }
+  });
+}
+
+// ===== EVENT LISTENERS =====
+// Urgency buttons
+document.querySelectorAll('[data-urgency]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('[data-urgency]').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    activeUrgency = btn.dataset.urgency;
+    renderBoard();
+  });
+});
+
+// Payment buttons
+document.querySelectorAll('[data-payment]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('[data-payment]').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    activePayment = btn.dataset.payment;
+    renderBoard();
+  });
+});
+
+// Days range buttons
+document.querySelectorAll('[data-days]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('[data-days]').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    activeDays = parseInt(btn.dataset.days);
+    renderBoard();
+  });
+});
+
+// Category filter
+document.getElementById('categoryFilter').addEventListener('change', e => {
+  activeCategory = e.target.value;
+  renderBoard();
+});
+
+// Search
+let searchDebounce;
+document.getElementById('searchBox').addEventListener('input', e => {
+  clearTimeout(searchDebounce);
+  searchDebounce = setTimeout(() => {
+    searchQuery = e.target.value.trim();
+    renderBoard();
+  }, 200);
+});
+
+// ===== INIT =====
+renderBoard();
+renderFraudPanel();
+renderCharts();
+
+</script>
+</body>
+</html>

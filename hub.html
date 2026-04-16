@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Command Center | Operations Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f0f2f5;
+            --card-bg: #ffffff;
+            --text-primary: #0f172a;
+            --text-secondary: #64748b;
+            --text-light: #94a3b8;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.08), 0 2px 4px -1px rgba(0,0,0,0.04);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.12), 0 4px 6px -2px rgba(0,0,0,0.06);
+            --radius-lg: 20px;
+            --radius-md: 12px;
+            --radius-sm: 8px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 24px;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            border-radius: var(--radius-lg);
+            padding: 40px 48px;
+            margin-bottom: 48px;
+            box-shadow: var(--shadow-md);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6, #10b981);
+            opacity: 0.8;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 32px;
+        }
+
+        .header-left h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #0f172a 0%, #3b82f6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 12px;
+            letter-spacing: -0.02em;
+        }
+
+        .header-left .subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+        }
+
+        .header-left .subtitle::before {
+            content: "⚡";
+            font-size: 1.5rem;
+        }
+
+        .live-clock {
+            background: var(--card-bg);
+            padding: 24px 32px;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-sm);
+            min-width: 280px;
+            text-align: center;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .live-clock .time {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .live-clock .date {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* Dashboard Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 24px;
+            margin-bottom: 48px;
+            opacity: 0;
+            animation: fadeIn 0.8s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        @media (min-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .dashboard-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        /* Company Cards */
+        .company-card {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: cardAppear 0.6s ease forwards;
+        }
+
+        @keyframes cardAppear {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .company-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--brand-color), var(--brand-color-light));
+        }
+
+        .company-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .card-header {
+            margin-bottom: 20px;
+        }
+
+        .company-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            line-height: 1.2;
+        }
+
+        .status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+        }
+
+        .status-pill::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .metric-highlight {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 20px 0;
+            padding: 16px;
+            background: linear-gradient(135deg, rgba(0,0,0,0.02), rgba(0,0,0,0.04));
+            border-radius: var(--radius-md);
+            text-align: center;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .section-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 24px;
+            flex-grow: 1;
+        }
+
+        .section-pill {
+            background: rgba(0,0,0,0.04);
+            color: var(--text-secondary);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .section-pill:hover {
+            background: rgba(0,0,0,0.08);
+            transform: translateY(-2px);
+        }
+
+        .dashboard-button {
+            display: block;
+            width: 100%;
+            background: linear-gradient(135deg, var(--brand-color), var(--brand-color-dark));
+            color: white;
+            text-align: center;
+            padding: 16px;
+            border-radius: var(--radius-md);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            margin-top: auto;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dashboard-button::after {
+            content: "→";
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: transform 0.3s ease;
+        }
+
+        .dashboard-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+
+        .dashboard-button:hover::after {
+            transform: translateY(-50%) translateX(4px);
+        }
+
+        /* Quick Links */
+        .quick-links-section {
+            margin-bottom: 48px;
+        }
+
+        .quick-links-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .quick-links-title::before {
+            content: "🔗";
+            font-size: 1.5rem;
+        }
+
+        .quick-links-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .quick-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--card-bg);
+            padding: 16px 24px;
+            border-radius: var(--radius-lg);
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 500;
+            transition: var(--transition);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .quick-link:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+            background: linear-gradient(135deg, var(--card-bg), #f8fafc);
+        }
+
+        .quick-link-icon {
+            font-size: 1.25rem;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 32px;
+            color: var(--text-light);
+            font-size: 0.875rem;
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            margin-top: 48px;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .footer .powered-by {
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .footer .powered-by::before {
+            content: "⚡";
+            font-size: 1.25rem;
+        }
+
+        .footer .stats {
+            font-size: 0.875rem;
+            color: var(--text-light);
+        }
+
+        /* Brand Colors */
+        .crown {
+            --brand-color: #1a365d;
+            --brand-color-light: #2d4a7d;
+            --brand-color-dark: #0f2547;
+        }
+
+        .shirtsy {
+            --brand-color: #00AEEF;
+            --brand-color-light: #2bc1ff;
+            --brand-color-dark: #0099d6;
+        }
+
+        .goodneon {
+            --brand-color: #22c55e;
+            --brand-color-light: #40d674;
+            --brand-color-dark: #1a9e48;
+        }
+
+        .lux-us {
+            --brand-color: #b8956a;
+            --brand-color-light: #d4b48c;
+            --brand-color-dark: #9c7d54;
+        }
+
+        .lux-dr {
+            --brand-color: #c4956a;
+            --brand-color-light: #e0b48c;
+            --brand-color-dark: #a87d54;
+        }
+
+        .coconut {
+            --brand-color: #f472b6;
+            --brand-color-light: #ff8fcc;
+            --brand-color-dark: #e055a0;
+        }
+
+        .reclaimed {
+            --brand-color: #a7997d;
+            --brand-color-light: #c4b9a1;
+            --brand-color-dark: #8a7e65;
+        }
+
+        .virtus {
+            --brand-color: #141e31;
+            --brand-color-light: #2a3a5a;
+            --brand-color-dark: #0a1423;
+        }
+
+        /* Animation delays for staggered card appearance */
+        .company-card:nth-child(1) { animation-delay: 0.1s; }
+        .company-card:nth-child(2) { animation-delay: 0.2s; }
+        .company-card:nth-child(3) { animation-delay: 0.3s; }
+        .company-card:nth-child(4) { animation-delay: 0.4s; }
+        .company-card:nth-child(5) { animation-delay: 0.5s; }
+        .company-card:nth-child(6) { animation-delay: 0.6s; }
+        .company-card:nth-child(7) { animation-delay: 0.7s; }
+        .company-card:nth-child(8) { animation-delay: 0.8s; }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .header {
+                padding: 32px 24px;
+            }
+            
+            .header-left h1 {
+                font-size: 2.5rem;
+            }
+            
+            .live-clock {
+                min-width: 100%;
+            }
+            
+            .company-card {
+                padding: 20px;
+            }
+            
+            .company-name {
+                font-size: 1.25rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 16px;
+            }
+            
+            .header-left h1 {
+                font-size: 2rem;
+            }
+            
+            .header-left .subtitle {
+                font-size: 1rem;
+            }
+            
+            .quick-link {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="header-left">
+                    <h1>Command Center</h1>
+                    <div class="subtitle">Your empire at a glance ⚡</div>
+                </div>
+                <div class="live-clock">
+                    <div class="time" id="currentTime">Loading...</div>
+                    <div class="date" id="currentDate">Loading...</div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Dashboard Grid -->
+        <main class="dashboard-grid">
+            <!-- Crown Office Supplies -->
+            <div class="company-card crown">
+                <div class="card-icon">👑</div>
+                <div class="card-header">
+                    <div class="company-name">Crown Office Supplies</div>
+                    <div class="status-pill">Online</div>
+                </div>
+                <div class="metric-highlight">26 drafts ready</div>
+                <div class="section-pills">
+                    <span class="section-pill">Sales</span>
+                    <span class="section-pill">Blog</span>
+                    <span class="section-pill">Email Marketing</span>
+                    <span class="section-pill">Support</span>
+                    <span class="section-pill">Analytics</span>
+                    <span class="section-pill">Advertising</span>
+                </div>
+                <a href="crown-dashboard.html" class="dashboard-button">Open Dashboard →</a>
+            </div>
+
+            <!-- Shirtsy -->
+            <div class="company-card shirtsy">
+                <div class="card-icon">👕</div>
+                <div class="card-header">
+                    <div class="company-name">Shirtsy</div>
+                    <div class="status-pill">Online</div>
+                </div>
+                <div class="metric-highlight">17 drafts • ⚠️ GA4 broken</div>
+                <div class="section-pills">
+                    <span class="section-pill">Sales</span>
+                    <span class="section-pill">NET30 Pipeline</span>
+                    <span class="section-pill">Production</span>
+                    <span class="section-pill">Retention</span>
+                    <span class="section-pill">Email</span>
+                    <span class="section-pill">Support</span>
+                </div>
+                <a href="shirtsy-dashboard.html" class="dashboard-button">Open Dashboard →</a>
+            </div>
+
+            <!-- GoodNeon -->
+            <div class="company-card goodneon">
+                <div class="card-icon">💡</div>
+                <div class="card-header">
+                    <div class="company-name">GoodNeon</div>
+                    <div class="status-pill">Online</div>
+                </div>
+                <div class="metric-highlight">Neon Pipeline Active 🟢</div>
+                <div class="section-pills">
+                    <span class="section-pill">Sales</span>
+                    <span class="section-pill">Neon Pipeline</span>
+                    <span class="section-pill">Blog</span>
+                    <span class="section-pill">Email</span>
+                    <span class="section-pill">Infrastructure</span>
+                </div>
+                <a href="goodneon-dashboard.html" class="dashboard-button">Open Dashboard →</a>
+            </div>
+
+            <!-- Lux Neon Art Gallery -->
+            <div class="company-card lux-us">
+                <div class="card-icon">✨</div>
+                <div class="card-header">
+                    <div class="company-name">Lux Neon Art Gallery</div>
+                    <div class="status-pill">Online</div>
+                </div>
+                <div class="metric-highlight">50 drafts • 2 Ad campaigns</div>
+                <div class="section-pills">
+                    <span class="section-pill">Sales</span>
+                    <span class="section-pill">Google Ads</span>
+                    <span class="section-pill">CRM</span>
+                    <span class="section-pill">Email</span>
+                    <span class="section-pill">Blog & SEO</span>
+                    <span class="section-pill">GBP</span>
+                </div>
+                <a href="lux-us-dashboard.html" class="dashboard-button">Open Dashboard →</a>
+            </div>
+
+            <!-- Lux Neon DR -->
+            <div class="company-card lux-dr">
+                <div class="card-icon">🇩🇴</div>
+                <div class="card-header">
+                    <div class="company-name">Lux Neon DR</div>
+                    <div class="status-pill">Online</div>
+                </div>
+                <div class="metric-highlight">20 products • Migration 35%</div>
+                <div class="section-pills">
+                    <span class="section-pill">Sales</span>
+                    <span class="section-pill">Products</span>
+                    <span class="section-pill">Migration Tracker</span>
+                    <span class="section-pill">Local SEO</span>
+                    <span class="section-pill">WhatsApp</span>
+                </div>
+                <a href="lux-dr-dashboard.html" class="dashboard-button">Open Dashboard →</a>
+            </div>
+
+            <!-- Coconut Bikini -->
+            <div class="company-card coconut">
+                <div class="card-icon">🥥</div>
+                <div class="card-header">
+                    <div class="company-name">Coconut Bikini</div>
+                    <div class="status-pill">Online</div>
+                </div>
+                <div class="metric-highlight">50 drafts ready</div>
+                <div class="section-pills">
+                    <span class="section-pill">Sales</span>
+                    <span class="section-pill">Products</span>
+                    <span class="section-pill">Blog & SEO</span>
+                    <span class="section-pill">Email</span>
+                    <span class="section-pill">Social</span>
+                </div>
+                <a href="coconut-dashboard.html" class="dashboard-button">Open Dashboard →</a>
+            </div>
+
+            <!-- Reclaimed Closet -->
+            <div class="company-card reclaimed">
+                <div class="card-icon">♻️</div>
+                <div class="card-header">
+                    <div class="company-name">Reclaimed Closet</div>
+                    <div class="status-pill">Online</div>
+                </div>
+                <div class="metric-highlight">143 products • 50 drafts</div>
+                <div class="section-pills">
+                    <span class="section-pill">Sales</span>
+                    <span class="section-pill">Products (143)</span>
+                    <span class="section-pill">Blog & SEO</span>
+                    <span class="section-pill">Email</span>
+                    <span class="section-pill">Team Pages</span>
+                </div>
+                <a href="reclaimed-dashboard.html" class="dashboard-button">Open Dashboard →</a>
+            </div>
+
+            <!-- Virtus Realty Group -->
+            <div class="company-card virtus">
+                <div class="card-icon">🏡</div>
+                <div class="card-header">
+                    <div class="company-name">Virtus Realty Group</div>
+                    <div class="status-pill">Online</div>
+                </div>
+                <div class="metric-highlight">33 pages • 41K listings</div>
+                <div class="section-pills">
+                    <span class="section-pill">Website</span>
+                    <span class="section-pill">Listings</span>
+                    <span class="section-pill">Lead Gen</span>
+                    <span class="section-pill">Blog & SEO</span>
+                    <span class="section-pill">DR Properties</span>
+                </div>
+                <a href="virtus-dashboard.html" class="dashboard-button">Open Dashboard →</a>
+            </div>
+        </main>
+
+        <!-- Quick Links -->
+        <section class="quick-links-section">
+            <h2 class="quick-links-title">Quick Links</h2>
+            <div class="quick-links-grid">
+                <a href="shirtsy-orders.html" class="quick-link">
+                    <span class="quick-link-icon">📋</span>
+                    <span>Shirtsy Production</span>
+                </a>
+                <a href="shirtsy-conversion-plan.html" class="quick-link">
+                    <span class="quick-link-icon">📊</span>
+                    <span>Conversion Plan</span>
+                </a>
+                <a href="shirtsy-net30-application.html" class="quick-link">
+                    <span class="quick-link-icon">📝</span>
+                    <span>NET30 Application</span>
+                </a>
+                <a href="index.html" class="quick-link">
+                    <span class="quick-link-icon">📌</span>
+                    <span>Task Kanban</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="powered-by">Powered by Jackie ⚡</div>
+            <div class="stats">Managing 8 companies, 193 blog drafts, 29 active crons</div>
+        </footer>
+    </div>
+
+    <script>
+        // Live clock update
+        function updateClock() {
+            const now = new Date();
+            const timeOptions = { 
+                hour: '2-digit', 
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: true,
+                timeZone: 'America/New_York'
+            };
+            const dateOptions = { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric',
+                timeZone: 'America/New_York'
+            };
+            
+            const timeStr = now.toLocaleTimeString('en-US', timeOptions);
+            const dateStr = now.toLocaleDateString('en-US', dateOptions);
+            
+            // Add timezone abbreviation
+            const timezone = new Intl.DateTimeFormat('en-US', { 
+                timeZoneName: 'short',
+                timeZone: 'America/New_York'
+            }).format(now).split(', ')[1];
+            
+            document.getElementById('currentTime').textContent = timeStr;
+            document.getElementById('currentDate').textContent = `${dateStr} • ${timezone}`;
+        }
+
+        // Initialize clock
+        updateClock();
+        setInterval(updateClock, 1000);
+
+        // Add animation class to cards after page load
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.company-card');
+            cards.forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+            });
+            
+            // Trigger reflow
+            setTimeout(() => {
+                cards.forEach(card => {
+                    card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                });
+            }, 100);
+        });
+
+        // Add hover sound effect (optional - could be added later)
+        const buttons = document.querySelectorAll('.dashboard-button, .quick-link');
+        buttons.forEach(button => {
+            button.addEventListener('mouseenter', () => {
+                // Could add subtle sound effect here
+            });
+        });
+    </script>
+</body>
+</html>
