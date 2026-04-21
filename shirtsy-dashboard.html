@@ -129,6 +129,44 @@
             font-size: 18px;
         }
 
+        .nav-section-label {
+            padding: 16px 16px 6px;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            opacity: 0.6;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border-top: 1px solid var(--border);
+            margin-top: 8px;
+        }
+
+        .nav-tab-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 500;
+            transition: all 0.2s ease;
+            font-size: 14px;
+            margin: 0 16px;
+        }
+
+        .nav-tab-link:hover {
+            background: #f1f5f9;
+            color: var(--text-primary);
+        }
+
+        .nav-tab-link .emoji {
+            font-size: 18px;
+        }
+
         .main-content {
             flex: 1;
             margin-left: 240px;
@@ -757,6 +795,16 @@
                     <span>Settings</span>
                 </button>
             </div>
+
+            <div class="nav-section-label">🚧 Developing</div>
+            <a class="nav-tab-link" href="shirtsy-conversion-plan.html" target="_blank">
+                <span class="emoji">🔄</span>
+                <span>Conversion Plan</span>
+            </a>
+            <a class="nav-tab-link" href="shirtsy-net30-application.html" target="_blank">
+                <span class="emoji">📋</span>
+                <span>Net 30 Application</span>
+            </a>
         </nav>
 
         <!-- Main Content -->

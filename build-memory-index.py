@@ -15,7 +15,7 @@ from datetime import datetime, timedelta
 from pathlib import Path
 
 # Directories
-MEMORY_DIR = Path(__file__).parent.parent.parent / "memory"
+MEMORY_DIR = Path(__file__).parent.parent / "memory"
 OUTPUT_FILE = Path(__file__).parent / "memory-index.json"
 
 
