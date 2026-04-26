@@ -1394,60 +1394,79 @@
                     </div>
                 </div>
 
-                <!-- Master Task Checklist -->
-                <div class="section-card" style="margin-top: 24px;">
+                <!-- Cost Summary (Sticky) -->
+                <div id="reno-cost-summary" class="section-card" style="margin-top: 24px; border-left: 4px solid #10b981; position: sticky; top: 0; z-index: 50; background: white;">
+                    <div class="section-content" style="padding: 16px 20px;">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; text-align: center;">
+                            <div>
+                                <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-secondary); margin-bottom: 4px;">✅ Doing Now</div>
+                                <div id="cost-doing" style="font-size: 22px; font-weight: 700; color: #10b981;">$0</div>
+                                <div id="count-doing" style="font-size: 11px; color: var(--text-secondary);">0 items</div>
+                            </div>
+                            <div>
+                                <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-secondary); margin-bottom: 4px;">⏳ Later</div>
+                                <div id="cost-later" style="font-size: 22px; font-weight: 700; color: #f59e0b;">$0</div>
+                                <div id="count-later" style="font-size: 11px; color: var(--text-secondary);">0 items</div>
+                            </div>
+                            <div>
+                                <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-secondary); margin-bottom: 4px;">❌ Skipping</div>
+                                <div id="cost-skip" style="font-size: 22px; font-weight: 700; color: #ef4444;">$0</div>
+                                <div id="count-skip" style="font-size: 11px; color: var(--text-secondary);">0 items</div>
+                            </div>
+                            <div>
+                                <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-secondary); margin-bottom: 4px;">⬜ Undecided</div>
+                                <div id="cost-undecided" style="font-size: 22px; font-weight: 700; color: #94a3b8;">$0</div>
+                                <div id="count-undecided" style="font-size: 11px; color: var(--text-secondary);">0 items</div>
+                            </div>
+                        </div>
+                        <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
+                            <div style="font-size: 13px; color: var(--text-secondary);">
+                                Total Budget (Doing + Later): <strong id="cost-total" style="color: var(--text-primary); font-size: 16px;">$0</strong>
+                            </div>
+                            <div style="font-size: 12px; color: var(--text-secondary);">
+                                Savings vs COHEVI: <strong id="cost-savings" style="color: #10b981;">$0</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Decision Tracker -->
+                <div class="section-card" style="margin-top: 16px;">
                     <div class="section-header">
-                        <h3>✅ Master Task Checklist</h3>
-                        <span class="section-icon">📝</span>
+                        <h3>📋 Renovation Decision Tracker</h3>
+                        <span class="section-icon" style="cursor: pointer;" onclick="resetAllDecisions()" title="Reset all decisions">🔄</span>
                     </div>
                     <div class="section-content">
-                        <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 16px;">Check off items as completed. Prices show COHEVI quote → fair market estimate.</p>
+                        <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 16px;">Click a button to decide: <span style="background:#dcfce7;color:#166534;padding:1px 8px;border-radius:10px;font-size:12px;">✅ Do It</span> <span style="background:#fef9c3;color:#854d0e;padding:1px 8px;border-radius:10px;font-size:12px;">⏳ Later</span> <span style="background:#fee2e2;color:#991b1b;padding:1px 8px;border-radius:10px;font-size:12px;">❌ Skip</span> — costs update live using fair market estimates.</p>
                         
                         <div style="margin-bottom: 20px;">
                             <h4 style="font-size: 14px; font-weight: 700; color: var(--text-primary); margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border);">🔨 DEMOLITION & STRUCTURAL</h4>
-                            <div id="demo-tasks" style="display: flex; flex-direction: column; gap: 6px;">
-                            </div>
+                            <div id="demo-tasks" style="display: flex; flex-direction: column; gap: 4px;"></div>
                         </div>
 
                         <div style="margin-bottom: 20px;">
                             <h4 style="font-size: 14px; font-weight: 700; color: var(--text-primary); margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border);">🏗️ STRUCTURAL / WATERPROOFING / ROOF</h4>
-                            <div id="structural-tasks" style="display: flex; flex-direction: column; gap: 6px;">
-                            </div>
+                            <div id="structural-tasks" style="display: flex; flex-direction: column; gap: 4px;"></div>
                         </div>
 
                         <div style="margin-bottom: 20px;">
                             <h4 style="font-size: 14px; font-weight: 700; color: var(--text-primary); margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border);">🧱 SHEETROCK / DRYWALL</h4>
-                            <div id="sheetrock-tasks" style="display: flex; flex-direction: column; gap: 6px;">
-                            </div>
+                            <div id="sheetrock-tasks" style="display: flex; flex-direction: column; gap: 4px;"></div>
                         </div>
 
                         <div style="margin-bottom: 20px;">
                             <h4 style="font-size: 14px; font-weight: 700; color: var(--text-primary); margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border);">🪶 FLOORING (TILE)</h4>
-                            <div id="tile-tasks" style="display: flex; flex-direction: column; gap: 6px;">
-                            </div>
+                            <div id="tile-tasks" style="display: flex; flex-direction: column; gap: 4px;"></div>
                         </div>
 
                         <div style="margin-bottom: 20px;">
                             <h4 style="font-size: 14px; font-weight: 700; color: var(--text-primary); margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border);">🎨 PAINT & FINISHES</h4>
-                            <div id="paint-tasks" style="display: flex; flex-direction: column; gap: 6px;">
-                            </div>
+                            <div id="paint-tasks" style="display: flex; flex-direction: column; gap: 4px;"></div>
                         </div>
 
                         <div style="margin-bottom: 20px;">
                             <h4 style="font-size: 14px; font-weight: 700; color: var(--text-primary); margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border);">🚛 CLEANUP & LOGISTICS</h4>
-                            <div id="cleanup-tasks" style="display: flex; flex-direction: column; gap: 6px;">
-                            </div>
-                        </div>
-
-                        <!-- Progress Bar -->
-                        <div style="margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border);">
-                            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-                                <span style="font-size: 13px; font-weight: 600;">Progress</span>
-                                <span id="reno-progress-text" style="font-size: 13px; color: var(--text-secondary);">0 / 0 tasks</span>
-                            </div>
-                            <div class="progress-bar">
-                                <div class="progress-fill" id="reno-progress-bar" style="width: 0%; transition: width 0.3s ease;"></div>
-                            </div>
+                            <div id="cleanup-tasks" style="display: flex; flex-direction: column; gap: 4px;"></div>
                         </div>
                     </div>
                 </div>
@@ -1590,91 +1609,147 @@
         }
         updateTime(); setInterval(updateTime, 30000);
 
-        // === RENOVATION CHECKLIST ===
+        // === RENOVATION DECISION TRACKER ===
+        // fairLow/fairHigh = fair market range, quoted = COHEVI price
         const RENO_TASKS = {
             'demo-tasks': [
-                { id: 'demo1', text: 'Strip existing floor finish — 278.1 m²', quoted: '$4,207', fair: '$1,500–2,500' },
-                { id: 'demo2', text: 'Break up floor — work area 62.1 m²', quoted: '$365', fair: '$200–300' },
-                { id: 'demo3', text: 'Break up floor — office & stairway 79.96 m²', quoted: '$470', fair: '$250–350' },
-                { id: 'demo4', text: 'Break up floor — private salon 54.18 m²', quoted: '$319', fair: '$175–250' },
-                { id: 'demo5', text: 'Break up floor — bar 25.3 m²', quoted: '$149', fair: '$80–120' },
-                { id: 'demo6', text: 'Break up floor — main salon 71.84 m²', quoted: '$423', fair: '$225–325' },
-                { id: 'demo7', text: 'Break up floor — left salon 54.66 m² (optional)', quoted: '$322', fair: '$175–250' },
-                { id: 'demo8', text: 'Remove rotted ceiling — work area 29.8 m²', quoted: '$175', fair: '$75–120' },
-                { id: 'demo9', text: 'Demolish walls — work area 19 m²', quoted: '$112', fair: '$50–80' },
+                { id: 'demo1', text: 'Strip existing floor finish — 278.1 m²', quoted: 4207, fairLow: 1500, fairHigh: 2500 },
+                { id: 'demo2', text: 'Break up floor — work area 62.1 m²', quoted: 365, fairLow: 200, fairHigh: 300 },
+                { id: 'demo3', text: 'Break up floor — office & stairway 79.96 m²', quoted: 470, fairLow: 250, fairHigh: 350 },
+                { id: 'demo4', text: 'Break up floor — private salon 54.18 m²', quoted: 319, fairLow: 175, fairHigh: 250 },
+                { id: 'demo5', text: 'Break up floor — bar 25.3 m²', quoted: 149, fairLow: 80, fairHigh: 120 },
+                { id: 'demo6', text: 'Break up floor — main salon 71.84 m²', quoted: 423, fairLow: 225, fairHigh: 325 },
+                { id: 'demo7', text: 'Break up floor — left salon 54.66 m² (optional)', quoted: 322, fairLow: 175, fairHigh: 250 },
+                { id: 'demo8', text: 'Remove rotted ceiling — work area 29.8 m²', quoted: 175, fairLow: 75, fairHigh: 120 },
+                { id: 'demo9', text: 'Demolish walls — work area 19 m²', quoted: 112, fairLow: 50, fairHigh: 80 },
             ],
             'structural-tasks': [
-                { id: 'str1', text: 'New floor base (fino) — 278.1 m²', quoted: '$8,530', fair: '$3,700–5,600' },
-                { id: 'str2', text: 'Roof waterproofing — 278.1 m² ⭐ TOP PRIORITY', quoted: '$3,506', fair: '$1,700–2,400' },
-                { id: 'str3', text: 'New ceiling — work area 11.6 m² 🚨', quoted: '$2,535', fair: '$580–970' },
-                { id: 'str4', text: 'Replace transparent aluzinc roofing — 24 m²', quoted: '$2,622', fair: '$1,000–1,600' },
+                { id: 'str1', text: 'New floor base (fino) — 278.1 m²', quoted: 8530, fairLow: 3700, fairHigh: 5600 },
+                { id: 'str2', text: 'Roof waterproofing — 278.1 m² ⭐ TOP PRIORITY', quoted: 3506, fairLow: 1700, fairHigh: 2400 },
+                { id: 'str3', text: 'New ceiling — work area 11.6 m² 🚨', quoted: 2535, fairLow: 580, fairHigh: 970 },
+                { id: 'str4', text: 'Replace aluzinc roofing — 24 m²', quoted: 2622, fairLow: 1000, fairHigh: 1600 },
             ],
             'sheetrock-tasks': [
-                { id: 'sr1', text: 'Sheetrock — main salon walls 148.41 m²', quoted: '$4,739', fair: '$2,000–3,000' },
-                { id: 'sr2', text: 'Sheetrock — bar walls 65.24 m²', quoted: '$2,084', fair: '$850–1,300' },
-                { id: 'sr3', text: 'Sheetrock — private salon walls 154.45 m²', quoted: '$4,932', fair: '$2,050–3,100' },
-                { id: 'sr4', text: 'Sheetrock — left salon walls 104 m²', quoted: '$3,321', fair: '$1,400–2,100' },
-                { id: 'sr5', text: 'Sheetrock — stairway ceiling 29.8 m²', quoted: '$951', fair: '$500–750' },
-                { id: 'sr6', text: 'Stucco/plaster — work area walls 333.86 m²', quoted: '$4,209', fair: '$2,000–2,800' },
+                { id: 'sr1', text: 'Sheetrock — main salon walls 148.41 m²', quoted: 4739, fairLow: 2000, fairHigh: 3000 },
+                { id: 'sr2', text: 'Sheetrock — bar walls 65.24 m²', quoted: 2084, fairLow: 850, fairHigh: 1300 },
+                { id: 'sr3', text: 'Sheetrock — private salon walls 154.45 m²', quoted: 4932, fairLow: 2050, fairHigh: 3100 },
+                { id: 'sr4', text: 'Sheetrock — left salon walls 104 m²', quoted: 3321, fairLow: 1400, fairHigh: 2100 },
+                { id: 'sr5', text: 'Sheetrock — stairway ceiling 29.8 m²', quoted: 951, fairLow: 500, fairHigh: 750 },
+                { id: 'sr6', text: 'Stucco/plaster — work area walls 333.86 m²', quoted: 4209, fairLow: 2000, fairHigh: 2800 },
             ],
             'tile-tasks': [
-                { id: 'tile1', text: 'Floor tile — main salon 71.84 m²', quoted: '$1,811', fair: '$710–1,070' },
-                { id: 'tile2', text: 'Floor tile — bar 25.3 m²', quoted: '$638', fair: '$250–380' },
-                { id: 'tile3', text: 'Floor tile — work area 142.06 m²', quoted: '$3,582', fair: '$1,420–2,130' },
-                { id: 'tile4', text: 'Floor tile — left salon 54.66 m²', quoted: '$1,378', fair: '$550–820' },
-                { id: 'tile5', text: 'Floor tile — private salon 54.18 m²', quoted: '$1,366', fair: '$540–810' },
+                { id: 'tile1', text: 'Floor tile — main salon 71.84 m²', quoted: 1811, fairLow: 710, fairHigh: 1070 },
+                { id: 'tile2', text: 'Floor tile — bar 25.3 m²', quoted: 638, fairLow: 250, fairHigh: 380 },
+                { id: 'tile3', text: 'Floor tile — work area 142.06 m²', quoted: 3582, fairLow: 1420, fairHigh: 2130 },
+                { id: 'tile4', text: 'Floor tile — left salon 54.66 m²', quoted: 1378, fairLow: 550, fairHigh: 820 },
+                { id: 'tile5', text: 'Floor tile — private salon 54.18 m²', quoted: 1366, fairLow: 540, fairHigh: 810 },
             ],
             'paint-tasks': [
-                { id: 'pnt1', text: 'Paint walls — 835.76 m²', quoted: '$4,916', fair: '$2,100–3,500' },
-                { id: 'pnt2', text: 'Paint ceilings — 293.86 m²', quoted: '$1,976', fair: '$1,000–1,500' },
-                { id: 'pnt3', text: 'Restore & paint bar wood furniture', quoted: '$3,361', fair: '$1,000–1,680' },
-                { id: 'pnt4', text: 'Replace bar mirrors', quoted: '$756', fair: '$250–420' },
-                { id: 'pnt5', text: 'Replace fixed glass in door — 3 m²', quoted: '$1,261', fair: '$420–670' },
+                { id: 'pnt1', text: 'Paint walls — 835.76 m²', quoted: 4916, fairLow: 2100, fairHigh: 3500 },
+                { id: 'pnt2', text: 'Paint ceilings — 293.86 m²', quoted: 1976, fairLow: 1000, fairHigh: 1500 },
+                { id: 'pnt3', text: 'Restore & paint bar wood furniture', quoted: 3361, fairLow: 1000, fairHigh: 1680 },
+                { id: 'pnt4', text: 'Replace bar mirrors', quoted: 756, fairLow: 250, fairHigh: 420 },
+                { id: 'pnt5', text: 'Replace fixed glass in door — 3 m²', quoted: 1261, fairLow: 420, fairHigh: 670 },
             ],
             'cleanup-tasks': [
-                { id: 'cln1', text: 'Debris/waste hauling — 129 m³', quoted: '$1,626', fair: '$650–970' },
-                { id: 'cln2', text: 'Scaffolding — 30 days', quoted: '$1,412', fair: '$500–750' },
-                { id: 'cln3', text: 'Final deep clean — 293.86 m²', quoted: '$1,235', fair: '$500–740' },
+                { id: 'cln1', text: 'Debris/waste hauling — 129 m³', quoted: 1626, fairLow: 650, fairHigh: 970 },
+                { id: 'cln2', text: 'Scaffolding — 30 days', quoted: 1412, fairLow: 500, fairHigh: 750 },
+                { id: 'cln3', text: 'Final deep clean — 293.86 m²', quoted: 1235, fairLow: 500, fairHigh: 740 },
             ]
         };
 
-        // Load saved state from localStorage
-        const savedChecks = JSON.parse(localStorage.getItem('renoChecklist') || '{}');
+        const COHEVI_TOTAL = 84390;
+        // States: null = undecided, 'do' = doing, 'later' = save for later, 'skip' = not doing
+        let decisions = JSON.parse(localStorage.getItem('renoDecisions') || '{}');
+
+        function fairMid(t) { return Math.round((t.fairLow + t.fairHigh) / 2); }
+        function fmt(n) { return '$' + n.toLocaleString(); }
+
+        function getAllTasks() {
+            let all = [];
+            Object.values(RENO_TASKS).forEach(tasks => all.push(...tasks));
+            return all;
+        }
+
+        function updateCostSummary() {
+            const all = getAllTasks();
+            let doing = { cost: 0, count: 0 }, later = { cost: 0, count: 0 }, skip = { cost: 0, count: 0 }, undecided = { cost: 0, count: 0 };
+            all.forEach(t => {
+                const mid = fairMid(t);
+                const state = decisions[t.id] || null;
+                if (state === 'do') { doing.cost += mid; doing.count++; }
+                else if (state === 'later') { later.cost += mid; later.count++; }
+                else if (state === 'skip') { skip.cost += mid; skip.count++; }
+                else { undecided.cost += mid; undecided.count++; }
+            });
+
+            document.getElementById('cost-doing').textContent = fmt(doing.cost);
+            document.getElementById('count-doing').textContent = doing.count + ' items';
+            document.getElementById('cost-later').textContent = fmt(later.cost);
+            document.getElementById('count-later').textContent = later.count + ' items';
+            document.getElementById('cost-skip').textContent = fmt(skip.cost);
+            document.getElementById('count-skip').textContent = skip.count + ' items';
+            document.getElementById('cost-undecided').textContent = fmt(undecided.cost);
+            document.getElementById('count-undecided').textContent = undecided.count + ' items';
+
+            const totalBudget = doing.cost + later.cost;
+            document.getElementById('cost-total').textContent = fmt(totalBudget);
+            document.getElementById('cost-savings').textContent = fmt(COHEVI_TOTAL - totalBudget);
+        }
+
+        function setDecision(id, state) {
+            const current = decisions[id];
+            // Toggle: if clicking same state, go back to undecided
+            decisions[id] = (current === state) ? null : state;
+            localStorage.setItem('renoDecisions', JSON.stringify(decisions));
+            renderRenoTasks();
+            updateCostSummary();
+        }
+
+        function resetAllDecisions() {
+            if (!confirm('Reset all decisions? This will clear everything.')) return;
+            decisions = {};
+            localStorage.setItem('renoDecisions', JSON.stringify(decisions));
+            renderRenoTasks();
+            updateCostSummary();
+        }
+
+        function btnStyle(active, color, bg) {
+            return `padding:4px 10px;border-radius:10px;font-size:11px;font-weight:600;cursor:pointer;border:2px solid ${active ? color : '#e2e8f0'};background:${active ? bg : 'transparent'};color:${active ? color : '#94a3b8'};transition:all 0.15s;`;
+        }
 
         function renderRenoTasks() {
-            let totalTasks = 0, completedTasks = 0;
             Object.entries(RENO_TASKS).forEach(([containerId, tasks]) => {
                 const container = document.getElementById(containerId);
                 if (!container) return;
                 container.innerHTML = tasks.map(t => {
-                    const checked = savedChecks[t.id] || false;
-                    totalTasks++;
-                    if (checked) completedTasks++;
-                    return `<label style="display: flex; align-items: flex-start; gap: 10px; padding: 8px 10px; border-radius: 8px; cursor: pointer; transition: background 0.15s; ${checked ? 'opacity: 0.5; text-decoration: line-through;' : ''}" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='transparent'">
-                        <input type="checkbox" ${checked ? 'checked' : ''} onchange="toggleRenoTask('${t.id}', this.checked)" style="margin-top: 3px; cursor: pointer; accent-color: var(--brand-color);">
-                        <div style="flex: 1; font-size: 13px; line-height: 1.5;">
-                            <span>${t.text}</span>
-                            <span style="color: var(--text-secondary); font-size: 12px; margin-left: 8px;">(Quoted: <span style="color: #ef4444;">${t.quoted}</span> → Fair: <span style="color: #10b981;">${t.fair}</span>)</span>
+                    const state = decisions[t.id] || null;
+                    const mid = fairMid(t);
+                    const isDo = state === 'do', isLater = state === 'later', isSkip = state === 'skip';
+                    const rowBg = isSkip ? '#fafafa' : (isDo ? '#f0fdf4' : (isLater ? '#fffbeb' : 'transparent'));
+                    const textStyle = isSkip ? 'text-decoration: line-through; opacity: 0.5;' : '';
+                    
+                    return `<div style="display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 8px; background: ${rowBg}; transition: all 0.15s;">
+                        <div style="display: flex; gap: 4px; flex-shrink: 0;">
+                            <button onclick="setDecision('${t.id}','do')" style="${btnStyle(isDo, '#166534', '#dcfce7')}">✅ Do</button>
+                            <button onclick="setDecision('${t.id}','later')" style="${btnStyle(isLater, '#854d0e', '#fef9c3')}">⏳ Later</button>
+                            <button onclick="setDecision('${t.id}','skip')" style="${btnStyle(isSkip, '#991b1b', '#fee2e2')}">❌ Skip</button>
                         </div>
-                    </label>`;
+                        <div style="flex: 1; font-size: 13px; line-height: 1.4; ${textStyle}">
+                            ${t.text}
+                        </div>
+                        <div style="text-align: right; flex-shrink: 0; min-width: 90px;">
+                            <div style="font-size: 13px; font-weight: 600; color: ${isDo || isLater ? '#10b981' : '#64748b'};">${fmt(mid)}</div>
+                            <div style="font-size: 10px; color: #94a3b8; text-decoration: line-through;">${fmt(t.quoted)}</div>
+                        </div>
+                    </div>`;
                 }).join('');
             });
-            // Update progress
-            const pct = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
-            const bar = document.getElementById('reno-progress-bar');
-            const txt = document.getElementById('reno-progress-text');
-            if (bar) bar.style.width = pct + '%';
-            if (txt) txt.textContent = `${completedTasks} / ${totalTasks} tasks (${pct}%)`;
         }
 
-        function toggleRenoTask(id, checked) {
-            savedChecks[id] = checked;
-            localStorage.setItem('renoChecklist', JSON.stringify(savedChecks));
-            renderRenoTasks();
-        }
-
-        // Render on load
+        // Initial render
         renderRenoTasks();
+        updateCostSummary();
     </script>
 </body>
 </html>
