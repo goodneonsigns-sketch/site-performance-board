@@ -1624,10 +1624,10 @@
                 { id: 'demo9', text: 'Demolish walls — work area 19 m²', quoted: 112, fairLow: 50, fairHigh: 80 },
             ],
             'structural-tasks': [
-                { id: 'str1', text: 'New floor base (fino) — 278.1 m²', quoted: 8530, fairLow: 3700, fairHigh: 5600 },
-                { id: 'str2', text: 'Roof waterproofing — 278.1 m² ⭐ TOP PRIORITY', quoted: 3506, fairLow: 1700, fairHigh: 2400 },
-                { id: 'str3', text: 'New ceiling — work area 11.6 m² 🚨', quoted: 2535, fairLow: 580, fairHigh: 970 },
-                { id: 'str4', text: 'Replace aluzinc roofing — 24 m²', quoted: 2622, fairLow: 1000, fairHigh: 1600 },
+                { id: 'str1', text: 'New floor base (fino) — 278.1 m²', quoted: 8530, fairLow: 8530, fairHigh: 8530, cohevi: true },
+                { id: 'str2', text: 'Roof waterproofing — 278.1 m² ⭐ TOP PRIORITY', quoted: 3506, fairLow: 3506, fairHigh: 3506, cohevi: true },
+                { id: 'str3', text: 'New ceiling — work area 11.6 m²', quoted: 2535, fairLow: 2535, fairHigh: 2535, cohevi: true },
+                { id: 'str4', text: 'Replace aluzinc roofing — 24 m²', quoted: 2622, fairLow: 2622, fairHigh: 2622, cohevi: true },
             ],
             'sheetrock-tasks': [
                 { id: 'sr1', text: 'Sheetrock — main salon walls 148.41 m²', quoted: 4739, fairLow: 2000, fairHigh: 3000 },
@@ -1740,7 +1740,7 @@
                         </div>
                         <div style="text-align: right; flex-shrink: 0; min-width: 90px;">
                             <div style="font-size: 13px; font-weight: 600; color: ${isDo || isLater ? '#10b981' : '#64748b'};">${fmt(mid)}</div>
-                            <div style="font-size: 10px; color: #94a3b8; text-decoration: line-through;">${fmt(t.quoted)}</div>
+                            ${t.cohevi ? '<div style="font-size: 10px; color: #f59e0b;">COHEVI — negotiate ↓</div>' : '<div style="font-size: 10px; color: #94a3b8; text-decoration: line-through;">' + fmt(t.quoted) + '</div>'}
                         </div>
                     </div>`;
                 }).join('');
