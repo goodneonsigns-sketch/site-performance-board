@@ -1548,9 +1548,18 @@
             sessionStorage.setItem('activeTab', tabName);
             if (tabName === 'posts') renderPosts();
         }
-        tabs.forEach(tab => tab.addEventListener('click', () => switchTab(tab.dataset.tab)));
+        tabs.forEach(tab => tab.addEventListener('click', function(e) {
+            e.preventDefault();
+            const t = this.dataset.tab;
+            window.location.hash = t;
+            switchTab(t);
+        }));
+        window.addEventListener('hashchange', () => {
+            const h = window.location.hash.slice(1);
+            if (h) switchTab(h);
+        });
         const savedTab = window.location.hash.slice(1) || sessionStorage.getItem('activeTab') || 'overview';
-        if (savedTab !== 'overview') switchTab(savedTab);
+        switchTab(savedTab || 'overview');
 
         let currentFilter = 'all', currentSort = 'newest';
         function renderPosts() {
