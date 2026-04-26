@@ -861,6 +861,10 @@
                 <span class="nav-icon">📝</span>
                 <span>Posts</span>
             </a>
+            <a href="#renovation" class="nav-tab" data-tab="renovation">
+                <span class="nav-icon">🏗️</span>
+                <span>Renovation</span>
+            </a>
             <a href="#settings" class="nav-tab" data-tab="settings">
                 <span class="nav-icon">⚙️</span>
                 <span>Settings</span>
@@ -1088,6 +1092,372 @@
                 </div>
             </div>
 
+            <!-- Renovation Tab -->
+            <div id="renovation" class="tab-content">
+                <header>
+                    <div class="header-content">
+                        <div class="company-header">
+                            <div class="brand-bar"></div>
+                            <div class="logo-placeholder">🏗️</div>
+                            <h1>Zona Colonial — Renovation Report</h1>
+                        </div>
+                        <div class="timestamp">Assessment Date: April 25, 2026</div>
+                    </div>
+                </header>
+
+                <!-- Summary Cards -->
+                <div class="metrics-row">
+                    <div class="metric-card" style="border-top: 3px solid #ef4444;">
+                        <div class="metric-value">3</div>
+                        <div class="metric-label">Critical Issues</div>
+                        <div class="metric-trend">🔴</div>
+                    </div>
+                    <div class="metric-card" style="border-top: 3px solid #f59e0b;">
+                        <div class="metric-value">3</div>
+                        <div class="metric-label">High Priority</div>
+                        <div class="metric-trend">🟠</div>
+                    </div>
+                    <div class="metric-card" style="border-top: 3px solid #3b82f6;">
+                        <div class="metric-value">4</div>
+                        <div class="metric-label">Medium Priority</div>
+                        <div class="metric-trend">🟡</div>
+                    </div>
+                    <div class="metric-card" style="border-top: 3px solid #10b981;">
+                        <div class="metric-value">5</div>
+                        <div class="metric-label">Areas in Good Shape</div>
+                        <div class="metric-trend">✅</div>
+                    </div>
+                </div>
+
+                <!-- COHEVI Quote vs Fair Market -->
+                <div class="section-card" style="margin-bottom: 24px; border-left: 4px solid #ef4444;">
+                    <div class="section-header">
+                        <h3>💰 COHEVI Proposal Audit (Presupuesto #10501)</h3>
+                        <span class="section-icon">📋</span>
+                    </div>
+                    <div class="section-content">
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 20px;">
+                            <div style="background: #fef2f2; border-radius: 8px; padding: 16px; text-align: center;">
+                                <div style="font-size: 24px; font-weight: 700; color: #ef4444;">$84,390</div>
+                                <div style="font-size: 13px; color: #991b1b; margin-top: 4px;">COHEVI Quoted</div>
+                            </div>
+                            <div style="background: #f0fdf4; border-radius: 8px; padding: 16px; text-align: center;">
+                                <div style="font-size: 24px; font-weight: 700; color: #10b981;">$35K–48K</div>
+                                <div style="font-size: 13px; color: #166534; margin-top: 4px;">Fair Market Estimate</div>
+                            </div>
+                            <div style="background: #fffbeb; border-radius: 8px; padding: 16px; text-align: center;">
+                                <div style="font-size: 24px; font-weight: 700; color: #f59e0b;">75–140%</div>
+                                <div style="font-size: 13px; color: #92400e; margin-top: 4px;">Markup Over Market</div>
+                            </div>
+                        </div>
+                        <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.6;">
+                            Contractor: Constructora Herrera Vizcaino S.R.L. (COHEVI) — Every line item priced at or above US contractor rates despite DR labor costs. 
+                            FOPETCONS charged at 3% (actual law mandates 1%). No material vs. labor split provided. 20% overhead stacked on already inflated numbers.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Top 5 Inflated Items -->
+                <div class="section-card" style="margin-bottom: 24px;">
+                    <div class="section-header">
+                        <h3>🏆 Top 5 Most Inflated Items</h3>
+                        <span class="section-icon">📊</span>
+                    </div>
+                    <div class="section-content" style="overflow-x: auto;">
+                        <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+                            <thead>
+                                <tr style="border-bottom: 2px solid var(--border);">
+                                    <th style="padding: 10px 12px; text-align: left; color: var(--text-secondary); font-weight: 600;">#</th>
+                                    <th style="padding: 10px 12px; text-align: left; color: var(--text-secondary); font-weight: 600;">Item</th>
+                                    <th style="padding: 10px 12px; text-align: right; color: var(--text-secondary); font-weight: 600;">Quoted</th>
+                                    <th style="padding: 10px 12px; text-align: right; color: var(--text-secondary); font-weight: 600;">Fair Est.</th>
+                                    <th style="padding: 10px 12px; text-align: right; color: var(--text-secondary); font-weight: 600;">Markup</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom: 1px solid var(--border);">
+                                    <td style="padding: 10px 12px;">🚨</td>
+                                    <td style="padding: 10px 12px;">New ceiling — work area (11.6 m²)</td>
+                                    <td style="padding: 10px 12px; text-align: right; font-weight: 600; color: #ef4444;">$2,535</td>
+                                    <td style="padding: 10px 12px; text-align: right; color: #10b981;">$580–970</td>
+                                    <td style="padding: 10px 12px; text-align: right; font-weight: 700; color: #ef4444;">160–330%</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--border);">
+                                    <td style="padding: 10px 12px;">2</td>
+                                    <td style="padding: 10px 12px;">Restore & paint bar furniture</td>
+                                    <td style="padding: 10px 12px; text-align: right; font-weight: 600; color: #ef4444;">$3,361</td>
+                                    <td style="padding: 10px 12px; text-align: right; color: #10b981;">$1,000–1,680</td>
+                                    <td style="padding: 10px 12px; text-align: right; font-weight: 700; color: #ef4444;">100–230%</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--border);">
+                                    <td style="padding: 10px 12px;">3</td>
+                                    <td style="padding: 10px 12px;">Replace fixed glass in door (3 m²)</td>
+                                    <td style="padding: 10px 12px; text-align: right; font-weight: 600; color: #ef4444;">$1,261</td>
+                                    <td style="padding: 10px 12px; text-align: right; color: #10b981;">$420–670</td>
+                                    <td style="padding: 10px 12px; text-align: right; font-weight: 700; color: #ef4444;">90–200%</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--border);">
+                                    <td style="padding: 10px 12px;">4</td>
+                                    <td style="padding: 10px 12px;">Replace bar mirrors</td>
+                                    <td style="padding: 10px 12px; text-align: right; font-weight: 600; color: #ef4444;">$756</td>
+                                    <td style="padding: 10px 12px; text-align: right; color: #10b981;">$250–420</td>
+                                    <td style="padding: 10px 12px; text-align: right; font-weight: 700; color: #ef4444;">80–200%</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 10px 12px;">5</td>
+                                    <td style="padding: 10px 12px;">Remove existing floor finish (278 m²)</td>
+                                    <td style="padding: 10px 12px; text-align: right; font-weight: 600; color: #ef4444;">$4,207</td>
+                                    <td style="padding: 10px 12px; text-align: right; color: #10b981;">$1,500–2,500</td>
+                                    <td style="padding: 10px 12px; text-align: right; font-weight: 700; color: #ef4444;">70–180%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Walkthrough Assessment -->
+                <div class="section-card" style="margin-bottom: 24px; border-left: 4px solid #3b82f6;">
+                    <div class="section-header">
+                        <h3>🎥 Walkthrough Video Assessment</h3>
+                        <span class="section-icon">🔍</span>
+                    </div>
+                    <div class="section-content">
+                        <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 16px;">5 walkthrough videos analyzed (49 frames) — April 25, 2026</p>
+                        <div style="background: #fef2f2; border-radius: 8px; padding: 16px; margin-bottom: 16px;">
+                            <div style="font-weight: 700; color: #991b1b; margin-bottom: 8px;">⚠️ #1 Problem: WATER</div>
+                            <p style="font-size: 13px; color: #7f1d1d; line-height: 1.6;">Almost every major issue traces back to roof/waterproofing failure. Fix the roof FIRST — everything else is cosmetic waste until water intrusion is solved.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Priority Issues Grid -->
+                <div class="sections-grid">
+                    <!-- Critical -->
+                    <div class="section-card" style="border-top: 3px solid #ef4444;">
+                        <div class="section-header">
+                            <h3>🔴 Critical Issues</h3>
+                        </div>
+                        <div class="section-content">
+                            <div class="data-item">
+                                <div class="data-label">Roof waterproofing failure</div>
+                                <div class="data-value" style="color: #ef4444;">Source of all water damage</div>
+                            </div>
+                            <div class="data-item">
+                                <div class="data-label">Active water infiltration</div>
+                                <div class="data-value" style="color: #ef4444;">Work area, kitchen, stairwell</div>
+                            </div>
+                            <div class="data-item">
+                                <div class="data-label">Possible mold/mildew</div>
+                                <div class="data-value" style="color: #ef4444;">Kitchen ceiling (green discoloration)</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- High Priority -->
+                    <div class="section-card" style="border-top: 3px solid #f59e0b;">
+                        <div class="section-header">
+                            <h3>🟠 High Priority</h3>
+                        </div>
+                        <div class="section-content">
+                            <div class="data-item">
+                                <div class="data-label">Rising damp at wall bases</div>
+                                <div class="data-value" style="color: #f59e0b;">Main salon, kitchen, interior rooms</div>
+                            </div>
+                            <div class="data-item">
+                                <div class="data-label">Missing stair handrails</div>
+                                <div class="data-value" style="color: #f59e0b;">Safety / code violation</div>
+                            </div>
+                            <div class="data-item">
+                                <div class="data-label">Skylight structural failure</div>
+                                <div class="data-value" style="color: #f59e0b;">Panels missing, vegetation growing through</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Medium Priority -->
+                    <div class="section-card" style="border-top: 3px solid #3b82f6;">
+                        <div class="section-header">
+                            <h3>🟡 Medium Priority</h3>
+                        </div>
+                        <div class="section-content">
+                            <div class="data-item">
+                                <div class="data-label">Bathroom incomplete</div>
+                                <div class="data-value" style="color: #3b82f6;">No fixtures, tile damage</div>
+                            </div>
+                            <div class="data-item">
+                                <div class="data-label">Electrical incomplete</div>
+                                <div class="data-value" style="color: #3b82f6;">Exposed wiring, missing covers</div>
+                            </div>
+                            <div class="data-item">
+                                <div class="data-label">Plaster delamination</div>
+                                <div class="data-value" style="color: #3b82f6;">Kitchen, work area</div>
+                            </div>
+                            <div class="data-item">
+                                <div class="data-label">Floor finishing needed</div>
+                                <div class="data-value" style="color: #3b82f6;">Work area (bare concrete), kitchen</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Good Shape -->
+                    <div class="section-card" style="border-top: 3px solid #10b981;">
+                        <div class="section-header">
+                            <h3>✅ In Good Shape</h3>
+                        </div>
+                        <div class="section-content">
+                            <div class="data-item">
+                                <div class="data-label">Front entrance</div>
+                                <div class="data-value" style="color: #10b981;">Modern glass doors, good tile</div>
+                            </div>
+                            <div class="data-item">
+                                <div class="data-label">Colonial stone wall</div>
+                                <div class="data-value" style="color: #10b981;">Preserved behind glass — feature</div>
+                            </div>
+                            <div class="data-item">
+                                <div class="data-label">Some floor areas</div>
+                                <div class="data-value" style="color: #10b981;">Polished tile & wood-look porcelain</div>
+                            </div>
+                            <div class="data-item">
+                                <div class="data-label">Structural integrity</div>
+                                <div class="data-value" style="color: #10b981;">Masonry walls & beams are sound</div>
+                            </div>
+                            <div class="data-item">
+                                <div class="data-label">Bathroom (partial)</div>
+                                <div class="data-value" style="color: #10b981;">Tiled, plumbed — just needs fixtures</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Room-by-Room Breakdown -->
+                <div class="section-card" style="margin-top: 24px;">
+                    <div class="section-header">
+                        <h3>🏠 Room-by-Room Breakdown</h3>
+                        <span class="section-icon">📋</span>
+                    </div>
+                    <div class="section-content" style="overflow-x: auto;">
+                        <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+                            <thead>
+                                <tr style="border-bottom: 2px solid var(--border);">
+                                    <th style="padding: 10px 12px; text-align: left; color: var(--text-secondary); font-weight: 600;">Room</th>
+                                    <th style="padding: 10px 12px; text-align: center; color: var(--text-secondary); font-weight: 600;">Condition</th>
+                                    <th style="padding: 10px 12px; text-align: left; color: var(--text-secondary); font-weight: 600;">Key Issues</th>
+                                    <th style="padding: 10px 12px; text-align: left; color: var(--text-secondary); font-weight: 600;">Action Needed</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom: 1px solid var(--border);">
+                                    <td style="padding: 10px 12px; font-weight: 500;">Entrance / Front</td>
+                                    <td style="padding: 10px 12px; text-align: center;"><span style="background: #dcfce7; color: #166534; padding: 2px 10px; border-radius: 12px; font-size: 12px; font-weight: 600;">GOOD</span></td>
+                                    <td style="padding: 10px 12px; font-size: 13px;">Minor exposed wiring, unfinished door frame</td>
+                                    <td style="padding: 10px 12px; font-size: 13px;">Finish electrical, touch-ups only</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--border);">
+                                    <td style="padding: 10px 12px; font-weight: 500;">Main Salon</td>
+                                    <td style="padding: 10px 12px; text-align: center;"><span style="background: #fef9c3; color: #854d0e; padding: 2px 10px; border-radius: 12px; font-size: 12px; font-weight: 600;">FAIR</span></td>
+                                    <td style="padding: 10px 12px; font-size: 13px;">Rising damp at wall bases, salt deposits</td>
+                                    <td style="padding: 10px 12px; font-size: 13px;">Fix drainage/waterproofing, repaint</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--border);">
+                                    <td style="padding: 10px 12px; font-weight: 500;">Bathroom</td>
+                                    <td style="padding: 10px 12px; text-align: center;"><span style="background: #dbeafe; color: #1e40af; padding: 2px 10px; border-radius: 12px; font-size: 12px; font-weight: 600;">INCOMPLETE</span></td>
+                                    <td style="padding: 10px 12px; font-size: 13px;">No fixtures, accent tiles damaged</td>
+                                    <td style="padding: 10px 12px; font-size: 13px;">Install fixtures, repair tiles</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--border);">
+                                    <td style="padding: 10px 12px; font-weight: 500;">Work Area / Storage</td>
+                                    <td style="padding: 10px 12px; text-align: center;"><span style="background: #fee2e2; color: #991b1b; padding: 2px 10px; border-radius: 12px; font-size: 12px; font-weight: 600;">POOR</span></td>
+                                    <td style="padding: 10px 12px; font-size: 13px;">Severe ceiling water damage, bare concrete floor</td>
+                                    <td style="padding: 10px 12px; font-size: 13px;">Replace ceiling, waterproof, finish floor</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--border);">
+                                    <td style="padding: 10px 12px; font-weight: 500;">Private Salon / Interior</td>
+                                    <td style="padding: 10px 12px; text-align: center;"><span style="background: #fef9c3; color: #854d0e; padding: 2px 10px; border-radius: 12px; font-size: 12px; font-weight: 600;">FAIR-POOR</span></td>
+                                    <td style="padding: 10px 12px; font-size: 13px;">Moisture staining walls & ceiling, split-level access</td>
+                                    <td style="padding: 10px 12px; font-size: 13px;">Moisture remediation, repaint</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--border);">
+                                    <td style="padding: 10px 12px; font-weight: 500;">Rooftop</td>
+                                    <td style="padding: 10px 12px; text-align: center;"><span style="background: #fee2e2; color: #991b1b; padding: 2px 10px; border-radius: 12px; font-size: 12px; font-weight: 600;">POOR</span></td>
+                                    <td style="padding: 10px 12px; font-size: 13px;">Waterproofing coating failing, parapet deteriorating</td>
+                                    <td style="padding: 10px 12px; font-size: 13px;">Full re-waterproof — TOP PRIORITY</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--border);">
+                                    <td style="padding: 10px 12px; font-weight: 500;">Kitchen / Utility</td>
+                                    <td style="padding: 10px 12px; text-align: center;"><span style="background: #fee2e2; color: #991b1b; padding: 2px 10px; border-radius: 12px; font-size: 12px; font-weight: 600;">POOR</span></td>
+                                    <td style="padding: 10px 12px; font-size: 13px;">Plaster delamination, possible mold, degraded floor</td>
+                                    <td style="padding: 10px 12px; font-size: 13px;">Mold assessment, strip & redo walls/ceiling</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 10px 12px; font-weight: 500;">Stairwell / Skylight</td>
+                                    <td style="padding: 10px 12px; text-align: center;"><span style="background: #fee2e2; color: #991b1b; padding: 2px 10px; border-radius: 12px; font-size: 12px; font-weight: 600;">POOR</span></td>
+                                    <td style="padding: 10px 12px; font-size: 13px;">Skylight panels missing, no handrails, vegetation growing in</td>
+                                    <td style="padding: 10px 12px; font-size: 13px;">Replace skylight, add handrails, debris cleanup</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Master Task Checklist -->
+                <div class="section-card" style="margin-top: 24px;">
+                    <div class="section-header">
+                        <h3>✅ Master Task Checklist</h3>
+                        <span class="section-icon">📝</span>
+                    </div>
+                    <div class="section-content">
+                        <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 16px;">Check off items as completed. Prices show COHEVI quote → fair market estimate.</p>
+                        
+                        <div style="margin-bottom: 20px;">
+                            <h4 style="font-size: 14px; font-weight: 700; color: var(--text-primary); margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border);">🔨 DEMOLITION & STRUCTURAL</h4>
+                            <div id="demo-tasks" style="display: flex; flex-direction: column; gap: 6px;">
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 20px;">
+                            <h4 style="font-size: 14px; font-weight: 700; color: var(--text-primary); margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border);">🏗️ STRUCTURAL / WATERPROOFING / ROOF</h4>
+                            <div id="structural-tasks" style="display: flex; flex-direction: column; gap: 6px;">
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 20px;">
+                            <h4 style="font-size: 14px; font-weight: 700; color: var(--text-primary); margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border);">🧱 SHEETROCK / DRYWALL</h4>
+                            <div id="sheetrock-tasks" style="display: flex; flex-direction: column; gap: 6px;">
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 20px;">
+                            <h4 style="font-size: 14px; font-weight: 700; color: var(--text-primary); margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border);">🪶 FLOORING (TILE)</h4>
+                            <div id="tile-tasks" style="display: flex; flex-direction: column; gap: 6px;">
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 20px;">
+                            <h4 style="font-size: 14px; font-weight: 700; color: var(--text-primary); margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border);">🎨 PAINT & FINISHES</h4>
+                            <div id="paint-tasks" style="display: flex; flex-direction: column; gap: 6px;">
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 20px;">
+                            <h4 style="font-size: 14px; font-weight: 700; color: var(--text-primary); margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border);">🚛 CLEANUP & LOGISTICS</h4>
+                            <div id="cleanup-tasks" style="display: flex; flex-direction: column; gap: 6px;">
+                            </div>
+                        </div>
+
+                        <!-- Progress Bar -->
+                        <div style="margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border);">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                                <span style="font-size: 13px; font-weight: 600;">Progress</span>
+                                <span id="reno-progress-text" style="font-size: 13px; color: var(--text-secondary);">0 / 0 tasks</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="reno-progress-bar" style="width: 0%; transition: width 0.3s ease;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Settings Tab -->
             <div id="settings" class="tab-content">
                 <div class="section-card">
@@ -1215,6 +1585,92 @@
             if (el) el.textContent = now.toLocaleString('en-US', {weekday:'long',year:'numeric',month:'long',day:'numeric',hour:'2-digit',minute:'2-digit',timeZone:'America/New_York'});
         }
         updateTime(); setInterval(updateTime, 30000);
+
+        // === RENOVATION CHECKLIST ===
+        const RENO_TASKS = {
+            'demo-tasks': [
+                { id: 'demo1', text: 'Strip existing floor finish — 278.1 m²', quoted: '$4,207', fair: '$1,500–2,500' },
+                { id: 'demo2', text: 'Break up floor — work area 62.1 m²', quoted: '$365', fair: '$200–300' },
+                { id: 'demo3', text: 'Break up floor — office & stairway 79.96 m²', quoted: '$470', fair: '$250–350' },
+                { id: 'demo4', text: 'Break up floor — private salon 54.18 m²', quoted: '$319', fair: '$175–250' },
+                { id: 'demo5', text: 'Break up floor — bar 25.3 m²', quoted: '$149', fair: '$80–120' },
+                { id: 'demo6', text: 'Break up floor — main salon 71.84 m²', quoted: '$423', fair: '$225–325' },
+                { id: 'demo7', text: 'Break up floor — left salon 54.66 m² (optional)', quoted: '$322', fair: '$175–250' },
+                { id: 'demo8', text: 'Remove rotted ceiling — work area 29.8 m²', quoted: '$175', fair: '$75–120' },
+                { id: 'demo9', text: 'Demolish walls — work area 19 m²', quoted: '$112', fair: '$50–80' },
+            ],
+            'structural-tasks': [
+                { id: 'str1', text: 'New floor base (fino) — 278.1 m²', quoted: '$8,530', fair: '$3,700–5,600' },
+                { id: 'str2', text: 'Roof waterproofing — 278.1 m² ⭐ TOP PRIORITY', quoted: '$3,506', fair: '$1,700–2,400' },
+                { id: 'str3', text: 'New ceiling — work area 11.6 m² 🚨', quoted: '$2,535', fair: '$580–970' },
+                { id: 'str4', text: 'Replace transparent aluzinc roofing — 24 m²', quoted: '$2,622', fair: '$1,000–1,600' },
+            ],
+            'sheetrock-tasks': [
+                { id: 'sr1', text: 'Sheetrock — main salon walls 148.41 m²', quoted: '$4,739', fair: '$2,000–3,000' },
+                { id: 'sr2', text: 'Sheetrock — bar walls 65.24 m²', quoted: '$2,084', fair: '$850–1,300' },
+                { id: 'sr3', text: 'Sheetrock — private salon walls 154.45 m²', quoted: '$4,932', fair: '$2,050–3,100' },
+                { id: 'sr4', text: 'Sheetrock — left salon walls 104 m²', quoted: '$3,321', fair: '$1,400–2,100' },
+                { id: 'sr5', text: 'Sheetrock — stairway ceiling 29.8 m²', quoted: '$951', fair: '$500–750' },
+                { id: 'sr6', text: 'Stucco/plaster — work area walls 333.86 m²', quoted: '$4,209', fair: '$2,000–2,800' },
+            ],
+            'tile-tasks': [
+                { id: 'tile1', text: 'Floor tile — main salon 71.84 m²', quoted: '$1,811', fair: '$710–1,070' },
+                { id: 'tile2', text: 'Floor tile — bar 25.3 m²', quoted: '$638', fair: '$250–380' },
+                { id: 'tile3', text: 'Floor tile — work area 142.06 m²', quoted: '$3,582', fair: '$1,420–2,130' },
+                { id: 'tile4', text: 'Floor tile — left salon 54.66 m²', quoted: '$1,378', fair: '$550–820' },
+                { id: 'tile5', text: 'Floor tile — private salon 54.18 m²', quoted: '$1,366', fair: '$540–810' },
+            ],
+            'paint-tasks': [
+                { id: 'pnt1', text: 'Paint walls — 835.76 m²', quoted: '$4,916', fair: '$2,100–3,500' },
+                { id: 'pnt2', text: 'Paint ceilings — 293.86 m²', quoted: '$1,976', fair: '$1,000–1,500' },
+                { id: 'pnt3', text: 'Restore & paint bar wood furniture', quoted: '$3,361', fair: '$1,000–1,680' },
+                { id: 'pnt4', text: 'Replace bar mirrors', quoted: '$756', fair: '$250–420' },
+                { id: 'pnt5', text: 'Replace fixed glass in door — 3 m²', quoted: '$1,261', fair: '$420–670' },
+            ],
+            'cleanup-tasks': [
+                { id: 'cln1', text: 'Debris/waste hauling — 129 m³', quoted: '$1,626', fair: '$650–970' },
+                { id: 'cln2', text: 'Scaffolding — 30 days', quoted: '$1,412', fair: '$500–750' },
+                { id: 'cln3', text: 'Final deep clean — 293.86 m²', quoted: '$1,235', fair: '$500–740' },
+            ]
+        };
+
+        // Load saved state from localStorage
+        const savedChecks = JSON.parse(localStorage.getItem('renoChecklist') || '{}');
+
+        function renderRenoTasks() {
+            let totalTasks = 0, completedTasks = 0;
+            Object.entries(RENO_TASKS).forEach(([containerId, tasks]) => {
+                const container = document.getElementById(containerId);
+                if (!container) return;
+                container.innerHTML = tasks.map(t => {
+                    const checked = savedChecks[t.id] || false;
+                    totalTasks++;
+                    if (checked) completedTasks++;
+                    return `<label style="display: flex; align-items: flex-start; gap: 10px; padding: 8px 10px; border-radius: 8px; cursor: pointer; transition: background 0.15s; ${checked ? 'opacity: 0.5; text-decoration: line-through;' : ''}" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='transparent'">
+                        <input type="checkbox" ${checked ? 'checked' : ''} onchange="toggleRenoTask('${t.id}', this.checked)" style="margin-top: 3px; cursor: pointer; accent-color: var(--brand-color);">
+                        <div style="flex: 1; font-size: 13px; line-height: 1.5;">
+                            <span>${t.text}</span>
+                            <span style="color: var(--text-secondary); font-size: 12px; margin-left: 8px;">(Quoted: <span style="color: #ef4444;">${t.quoted}</span> → Fair: <span style="color: #10b981;">${t.fair}</span>)</span>
+                        </div>
+                    </label>`;
+                }).join('');
+            });
+            // Update progress
+            const pct = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
+            const bar = document.getElementById('reno-progress-bar');
+            const txt = document.getElementById('reno-progress-text');
+            if (bar) bar.style.width = pct + '%';
+            if (txt) txt.textContent = `${completedTasks} / ${totalTasks} tasks (${pct}%)`;
+        }
+
+        function toggleRenoTask(id, checked) {
+            savedChecks[id] = checked;
+            localStorage.setItem('renoChecklist', JSON.stringify(savedChecks));
+            renderRenoTasks();
+        }
+
+        // Render on load
+        renderRenoTasks();
     </script>
 </body>
 </html>
