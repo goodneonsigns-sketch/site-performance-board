@@ -21,7 +21,7 @@
           "Install 'Tidio - Live Chat & AI Chatbot'",
           "Create a Tidio account (use goodneonsigns@gmail.com)",
           "Set your chat widget color to match Lux branding (dark theme, orange accent #ff7b00)",
-          "Set welcome message: 'Hey! 👋 Welcome to Lux Neon Art Gallery. How can I help you today?'",
+          "Set welcome message: 'Hey! \ud83d\udc4b Welcome to Lux Neon Art Gallery. How can I help you today?'",
           "Enable auto-responses for common questions (hours, location, custom neon pricing)",
           "Download the Tidio mobile app so you can reply from your phone",
           "Set offline message: 'We are currently away. Leave your name and number and we will get back to you ASAP!'",
@@ -162,7 +162,7 @@
         "id": "lex-lux-hours-update",
         "project": "lux",
         "title": "Update hours to 10AM-6PM on Google, Yelp, Facebook, TripAdvisor",
-        "description": "Website is updated. Now update third-party listings to match. Google is highest priority — most aggregators pull from it.",
+        "description": "Website is updated. Now update third-party listings to match. Google is highest priority \u2014 most aggregators pull from it.",
         "steps": [
           "Google Business Profile: business.google.com > Lux Neon > Hours > Mon-Fri close at 6:00 PM",
           "Yelp: biz.yelp.com > Business Info > Hours (fix Sat/Sun to By Appointment instead of Closed)",
@@ -262,10 +262,10 @@
         "id": "lex-tidio-lyro-ai-2026-03-26",
         "project": "lux",
         "title": "Set Up Lyro AI in Tidio Dashboard",
-        "description": "Jackie installed Tidio live chat and delivered full Lyro AI setup instructions. Now you just need to enable and configure Lyro AI in the Tidio dashboard. Instructions were sent — this is a quick 10-minute setup.",
+        "description": "Jackie installed Tidio live chat and delivered full Lyro AI setup instructions. Now you just need to enable and configure Lyro AI in the Tidio dashboard. Instructions were sent \u2014 this is a quick 10-minute setup.",
         "steps": [
           "Log into app.tidio.com",
-          "Go to Automation → Lyro AI",
+          "Go to Automation \u2192 Lyro AI",
           "Enable Lyro AI",
           "Add your FAQ content (hours, pricing, location, services)",
           "Set fallback action: 'Forward to live agent'",
@@ -282,10 +282,10 @@
         "title": "Update Hours on Google Business, Yelp, Facebook, TripAdvisor",
         "description": "Lux Neon hours may be outdated or inconsistent across platforms. Consistent NAP (Name, Address, Phone + Hours) is critical for local SEO.",
         "steps": [
-          "Google Business: business.google.com → Edit profile → Hours",
-          "Yelp: biz.yelp.com → Business Information → Hours",
-          "Facebook: Your page → Edit Page Info → Hours",
-          "TripAdvisor: Your listing → Edit → Business Details → Hours",
+          "Google Business: business.google.com \u2192 Edit profile \u2192 Hours",
+          "Yelp: biz.yelp.com \u2192 Business Information \u2192 Hours",
+          "Facebook: Your page \u2192 Edit Page Info \u2192 Hours",
+          "TripAdvisor: Your listing \u2192 Edit \u2192 Business Details \u2192 Hours",
           "Make sure all show the same hours"
         ],
         "priority": "medium",
@@ -414,7 +414,7 @@
         "description": "The GoodNeon WordPress app password expired. Jackie cannot post, edit, or manage any GoodNeon content without it. Need a fresh app password to restore access.",
         "steps": [
           "Log into GoodNeon WordPress admin",
-          "Go to Users → Your Profile (top right of admin)",
+          "Go to Users \u2192 Your Profile (top right of admin)",
           "Scroll down to 'Application Passwords'",
           "Create a new app password named 'Jackie'",
           "Copy and send the generated password to Jackie in Discord"
@@ -524,8 +524,8 @@
         "steps": [
           "Send Jackie the Shirtsy WordPress admin URL (likely shirtsy.com/wp-admin)",
           "Either: share admin username + password",
-          "Or: Go to Users → Add New → create a new admin user for Jackie",
-          "Or: Go to your profile → Application Passwords → create 'Jackie' app password"
+          "Or: Go to Users \u2192 Add New \u2192 create a new admin user for Jackie",
+          "Or: Go to your profile \u2192 Application Passwords \u2192 create 'Jackie' app password"
         ],
         "priority": "critical",
         "completed": false,
@@ -561,7 +561,7 @@
         "id": "jackie-blog-audit-cleanup-2026-03-26",
         "project": "all",
         "title": "Blog Audit & Cleanup: Lux (31), Coconut (26), Reclaimed (13), Crown (1)",
-        "description": "Comprehensive blog audit and cleanup across all sites: 71 total fixes applied — SEO metadata, formatting, broken links, and content quality improvements.",
+        "description": "Comprehensive blog audit and cleanup across all sites: 71 total fixes applied \u2014 SEO metadata, formatting, broken links, and content quality improvements.",
         "priority": "high",
         "completed": true,
         "createdAt": "2026-03-25T00:00:00Z",
@@ -572,7 +572,7 @@
         "id": "jackie-blog-featured-images-2026-03-26",
         "project": "all",
         "title": "~45 Blog Articles Need Featured Images (Coconut & Reclaimed)",
-        "description": "After blog audit, approximately 45 blog articles on Coconut Bikini and Reclaimed Closet are missing featured images. In progress — images being generated and assigned.",
+        "description": "After blog audit, approximately 45 blog articles on Coconut Bikini and Reclaimed Closet are missing featured images. In progress \u2014 images being generated and assigned.",
         "priority": "medium",
         "completed": false,
         "createdAt": "2026-03-26T14:00:00Z",
@@ -583,11 +583,11 @@
       {
         "id": "lex-google-ads-oauth-2026-03-26",
         "project": "system",
-        "title": "Click Google Ads OAuth Link (ONE CLICK — unblocks 3 campaigns)",
+        "title": "Click Google Ads OAuth Link (ONE CLICK \u2014 unblocks 3 campaigns)",
         "description": "Jackie built the OAuth callback at ops.jackiespanties.com/callback. You just need to click a link and paste the auth code back to Jackie. This unblocks all Google Ads automation: Custom Neon Signs optimization, Event Venue Rental ($40/day new campaign), and Podcast Studio campaign.",
         "steps": [
           "Ask Jackie for the Google Ads OAuth authorization URL",
-          "Click the link — it opens Google sign-in",
+          "Click the link \u2014 it opens Google sign-in",
           "Sign in with your Google Ads account",
           "Copy the auth code from the callback page",
           "Paste the code to Jackie in Discord"
@@ -604,8 +604,8 @@
         "description": "Before Jackie can set up call and message conversion tracking, you need to accept Google's Terms for Call Ads and Messaging Ads in your Google Ads account.",
         "steps": [
           "Go to ads.google.com",
-          "Tools & Settings → Billing & Payments → look for any terms acceptance prompts",
-          "Or: Tools & Settings → Measurement → Conversions → look for call/messaging setup"
+          "Tools & Settings \u2192 Billing & Payments \u2192 look for any terms acceptance prompts",
+          "Or: Tools & Settings \u2192 Measurement \u2192 Conversions \u2192 look for call/messaging setup"
         ],
         "priority": "high",
         "completed": false,
@@ -620,8 +620,8 @@
         "title": "Claim @luxneon.do on Instagram and Facebook",
         "description": "30-day social media calendar and all content is ready for Lux Neon DR in Dominican Spanish. Jackie just needs the accounts to exist so content can be scheduled. Claim the handle before someone else does!",
         "steps": [
-          "Open Instagram → Create new business account → username: luxneon.do (or luxneondo)",
-          "Open Facebook → Create new Page → Lux Neon DR",
+          "Open Instagram \u2192 Create new business account \u2192 username: luxneon.do (or luxneondo)",
+          "Open Facebook \u2192 Create new Page \u2192 Lux Neon DR",
           "Set profile photo (Lux Neon DR logo)",
           "Add bio/description in Spanish",
           "Connect both to Meta Business Suite",
@@ -639,11 +639,11 @@
         "description": "Without a Shopify admin API token, Jackie cannot automate product uploads, blog posts, or any content changes to the DR store.",
         "steps": [
           "Log into ydciat-m8.myshopify.com/admin",
-          "Go to Settings → Apps and Sales Channels",
+          "Go to Settings \u2192 Apps and Sales Channels",
           "Click 'Develop apps'",
-          "Click 'Create an app' → name it 'Jackie'",
-          "Under 'API credentials' → Configure Admin API scopes (select all read/write)",
-          "Install the app → Copy the Admin API access token (starts with shpat_)",
+          "Click 'Create an app' \u2192 name it 'Jackie'",
+          "Under 'API credentials' \u2192 Configure Admin API scopes (select all read/write)",
+          "Install the app \u2192 Copy the Admin API access token (starts with shpat_)",
           "Send to Jackie in Discord"
         ],
         "priority": "critical",
@@ -694,12 +694,12 @@
   "jackie_responses": {
     "shirtsy-3": {
       "status": "done",
-      "response": "# Shirtsy Status Report — April 26, 2026\n\n## Completed Tasks\n- ✅ **6 New Shirtsy Blog Posts Drafted** (completed 2026-03-26T14:00:00Z)\n  - Wrote 6 new blog post drafts for Shirtsy. Ready to publish once WP credentials are provided.\n\n## Pending Tasks (Blocked — Need Lex Action)\n- 🟡 **Claim Shirtsy profile on Trustpilot** [high]\n  - Go to trustpilot.com/review/shirtsy.com and claim the business profile. Currently unclaimed with 2.3/5 rating.\n  - Steps: 4 action items defined\n- 🟡 **Respond to BBB complaints (F rating fix)** [high]\n  - Shirtsy has an F rating because of 2 unanswered complaints. Responding alone should improve the grade.\n  - Steps: 4 action items defined\n- 🟡 **Create/verify Google Business Profile for Shirtsy** [high]\n  - Shirtsy may not have a Google Business Profile. Need one to collect Google Reviews.\n  - Steps: 5 action items defined\n- 🔴 **Provide Shirtsy WP Admin Credentials** [critical]\n  - Jackie has 6 blog post drafts ready to publish on Shirtsy and 3 off-topic posts to delete. Cannot do any of this without WordPress admin access.\n  - Steps: 4 action items defined\n\n## Key Blockers\n1. **WP Admin Access** (CRITICAL) — Jackie has 6 blog posts drafted and 3 off-topic posts to delete. Cannot publish without credentials.\n2. **Trustpilot Claim** — Shirtsy has 2.3/5 rating, unclaimed. Claiming allows review responses.\n3. **BBB Complaints** — F rating due to 2-3 unanswered complaints. Responding alone should improve grade.\n4. **Google Business Profile** — May not exist yet. Needed for Google Reviews and local SEO.\n\n## Summary\n- 1 task(s) complete, 4 task(s) pending\n- All pending tasks are blocked on Lex providing access/credentials or taking manual action on external platforms\n- 6 SEO blog posts are drafted and ready to publish the moment WP access is provided",
+      "response": "# Shirtsy Status Report \u2014 April 26, 2026\n\n## Completed Tasks\n- \u2705 **6 New Shirtsy Blog Posts Drafted** (completed 2026-03-26T14:00:00Z)\n  - Wrote 6 new blog post drafts for Shirtsy. Ready to publish once WP credentials are provided.\n\n## Pending Tasks (Blocked \u2014 Need Lex Action)\n- \ud83d\udfe1 **Claim Shirtsy profile on Trustpilot** [high]\n  - Go to trustpilot.com/review/shirtsy.com and claim the business profile. Currently unclaimed with 2.3/5 rating.\n  - Steps: 4 action items defined\n- \ud83d\udfe1 **Respond to BBB complaints (F rating fix)** [high]\n  - Shirtsy has an F rating because of 2 unanswered complaints. Responding alone should improve the grade.\n  - Steps: 4 action items defined\n- \ud83d\udfe1 **Create/verify Google Business Profile for Shirtsy** [high]\n  - Shirtsy may not have a Google Business Profile. Need one to collect Google Reviews.\n  - Steps: 5 action items defined\n- \ud83d\udd34 **Provide Shirtsy WP Admin Credentials** [critical]\n  - Jackie has 6 blog post drafts ready to publish on Shirtsy and 3 off-topic posts to delete. Cannot do any of this without WordPress admin access.\n  - Steps: 4 action items defined\n\n## Key Blockers\n1. **WP Admin Access** (CRITICAL) \u2014 Jackie has 6 blog posts drafted and 3 off-topic posts to delete. Cannot publish without credentials.\n2. **Trustpilot Claim** \u2014 Shirtsy has 2.3/5 rating, unclaimed. Claiming allows review responses.\n3. **BBB Complaints** \u2014 F rating due to 2-3 unanswered complaints. Responding alone should improve grade.\n4. **Google Business Profile** \u2014 May not exist yet. Needed for Google Reviews and local SEO.\n\n## Summary\n- 1 task(s) complete, 4 task(s) pending\n- All pending tasks are blocked on Lex providing access/credentials or taking manual action on external platforms\n- 6 SEO blog posts are drafted and ready to publish the moment WP access is provided",
       "completed_at": "2026-04-26T14:03:41Z",
       "summary": "Shirtsy status report generated: 1 task complete (6 blog drafts), 4 tasks blocked pending Lex action (WP access, Trustpilot claim, BBB complaints, GBP creation)"
     }
   },
-  "lastUpdated": "2026-04-28T22:03:00Z",
+  "lastUpdated": "2026-04-28T23:01:00Z",
   "source": "ops-dashboard",
   "activityLog": [
     {
@@ -713,406 +713,413 @@
     {
       "timestamp": "2026-04-26T15:01:00Z",
       "type": "hourly-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
       "details": "Checked board-state.json. 6 tasks in execute state (lux-1 through lux-4, lux-oauth, lux-7), 1 todo (reclaimed-1), 1 done (shirtsy-3). No tasks with jackie-execute status found. No action required.",
       "status": "no-action"
     },
     {
       "timestamp": "2026-04-26T16:01:00Z",
       "type": "hourly-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
       "details": "Checked board-state.json. Task states unchanged: 6 execute (lux-1 through lux-4, lux-oauth, lux-7), 1 todo (reclaimed-1), 1 done (shirtsy-3). No jackie-execute tasks found. No action required.",
       "status": "no-action"
     },
     {
       "timestamp": "2026-04-26T17:02:00Z",
       "type": "hourly-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
       "details": "Checked board-state.json. Task states unchanged: 6 execute (lux-1 through lux-4, lux-oauth, lux-7), 1 todo (reclaimed-1), 1 done (shirtsy-3). No jackie-execute tasks found. No action required.",
       "status": "no-action"
     },
     {
       "timestamp": "2026-04-26T18:01:00Z",
       "type": "hourly-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
       "details": "Checked board-state.json. Task states unchanged: 6 execute (lux-1 through lux-4, lux-oauth, lux-7), 1 todo (reclaimed-1), 1 done (shirtsy-3). No jackie-execute tasks found. No action required.",
       "status": "no-action"
     },
     {
       "timestamp": "2026-04-26T19:05:00Z",
       "type": "hourly-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
       "details": "Checked board-state.json. Task states unchanged: 6 execute (lux-1 through lux-4, lux-oauth, lux-7), 1 todo (reclaimed-1), 1 done (shirtsy-3). No jackie-execute tasks found. No action required.",
       "status": "no-action"
     },
     {
       "timestamp": "2026-04-26T20:02:00Z",
       "type": "hourly-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
       "details": "Checked board-state.json. Task states unchanged: 6 execute (lux-1 through lux-4, lux-oauth, lux-7), 1 todo (reclaimed-1), 1 done (shirtsy-3). No jackie-execute tasks found. No action required.",
       "status": "no-action"
     },
     {
       "timestamp": "2026-04-26T21:01:00Z",
       "type": "hourly-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
       "details": "Checked board-state.json. Task states unchanged: 6 execute (lux-1 through lux-4, lux-oauth, lux-7), 1 todo (reclaimed-1), 1 done (shirtsy-3). No jackie-execute tasks found. No action required.",
       "status": "no-action"
     },
     {
       "timestamp": "2026-04-26T22:02:00Z",
       "type": "hourly-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
       "details": "Checked board-state.json. Task states unchanged: 6 execute (lux-1 through lux-4, lux-oauth, lux-7), 1 todo (reclaimed-1), 1 done (shirtsy-3). No jackie-execute tasks found. No action required.",
       "status": "no-action"
     },
     {
       "timestamp": "2026-04-26T23:35:00Z",
       "type": "hourly-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
       "details": "Checked board-state.json. Task states unchanged: 6 execute (lux-1 through lux-4, lux-oauth, lux-7), 1 todo (reclaimed-1), 1 done (shirtsy-3). No jackie-execute tasks found. No action required.",
       "status": "no-action"
     },
     {
       "timestamp": "2026-04-27T00:01:00Z",
       "type": "hourly-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
       "details": "Checked board-state.json. Task states unchanged: 6 execute (lux-1 through lux-4, lux-oauth, lux-7), 1 todo (reclaimed-1), 1 done (shirtsy-3). No jackie-execute tasks found. No action required.",
       "status": "no-action"
     },
     {
       "timestamp": "2026-04-27T01:02:00Z",
       "type": "hourly-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
       "details": "Checked board-state.json. Task states unchanged: 6 execute (lux-1 through lux-4, lux-oauth, lux-7), 1 todo (reclaimed-1), 1 done (shirtsy-3). No jackie-execute tasks found. No action required.",
       "status": "no-action"
     },
     {
       "timestamp": "2026-04-27T02:02:00Z",
       "type": "hourly-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
       "details": "Checked board-state.json. Task states unchanged: 6 execute (lux-1 through lux-4, lux-oauth, lux-7), 1 todo (reclaimed-1), 1 done (shirtsy-3). No jackie-execute tasks found. No action required.",
       "status": "no-action"
     },
     {
       "timestamp": "2026-04-27T03:01:00Z",
       "type": "hourly-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
       "details": "Checked board-state.json. Task states unchanged: 6 execute (lux-1 through lux-4, lux-oauth, lux-7), 1 todo (reclaimed-1), 1 done (shirtsy-3). No jackie-execute tasks found. No action required.",
       "status": "no-action"
     },
     {
       "timestamp": "2026-04-27T04:02:00Z",
       "type": "hourly-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
       "details": "Checked board-state.json. Task states unchanged: 6 execute (lux-1 through lux-4, lux-oauth, lux-7), 1 todo (reclaimed-1), 1 done (shirtsy-3). No jackie-execute tasks found. No action required.",
       "status": "no-action"
     },
     {
       "timestamp": "2026-04-27T05:01:00Z",
       "type": "hourly-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
       "details": "Checked board-state.json. Task states unchanged: 6 execute (lux-1 through lux-4, lux-oauth, lux-7), 1 todo (reclaimed-1), 1 done (shirtsy-3). No jackie-execute tasks found. No action required.",
       "status": "no-action"
     },
     {
       "timestamp": "2026-04-27T06:01:00Z",
       "type": "hourly-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
       "details": "Checked board-state.json. Task states unchanged: 6 execute (lux-1 through lux-4, lux-oauth, lux-7), 1 todo (reclaimed-1), 1 done (shirtsy-3). No jackie-execute tasks found. No action required.",
       "status": "no-action"
     },
     {
       "timestamp": "2026-04-27T07:02:00Z",
       "type": "hourly-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
       "details": "Checked board-state.json. Task states unchanged: 6 execute (lux-1 through lux-4, lux-oauth, lux-7), 1 todo (reclaimed-1), 1 done (shirtsy-3). No jackie-execute tasks found. No action required.",
       "status": "no-action"
     },
     {
       "timestamp": "2026-04-27T08:01:00Z",
       "type": "hourly-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
       "details": "Checked board-state.json. Task states unchanged: 6 execute (lux-1 through lux-4, lux-oauth, lux-7), 1 todo (reclaimed-1), 1 done (shirtsy-3). No jackie-execute tasks found. No action required.",
       "status": "no-action"
     },
     {
       "timestamp": "2026-04-27T09:02:00Z",
       "type": "hourly-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
       "details": "Checked board-state.json. Task states unchanged: 6 execute (lux-1 through lux-4, lux-oauth, lux-7), 1 todo (reclaimed-1), 1 done (shirtsy-3). No jackie-execute tasks found. No action required.",
       "status": "no-action"
     },
     {
       "timestamp": "2026-04-27T10:01:00Z",
       "type": "hourly-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
       "details": "Checked board-state.json. Task states unchanged: 6 execute (lux-1 through lux-4, lux-oauth, lux-7), 1 todo (reclaimed-1), 1 done (shirtsy-3). No jackie-execute tasks found. No action required.",
       "status": "no-action"
     },
     {
       "timestamp": "2026-04-27T11:01:00Z",
       "type": "hourly-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
       "details": "Checked board-state.json. Task states unchanged: 6 execute (lux-1 through lux-4, lux-oauth, lux-7), 1 todo (reclaimed-1), 1 done (shirtsy-3). No jackie-execute tasks found. No action required.",
       "status": "no-action"
     },
     {
       "timestamp": "2026-04-27T12:02:00Z",
       "type": "hourly-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
       "details": "Checked board-state.json. Task states unchanged: 6 execute (lux-1 through lux-4, lux-oauth, lux-7), 1 todo (reclaimed-1), 1 done (shirtsy-3). No jackie-execute tasks found. No action required.",
       "status": "no-action"
     },
     {
       "timestamp": "2026-04-27T13:02:00Z",
       "type": "hourly-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
       "details": "Checked board-state.json. Task states unchanged: 6 execute (lux-1 through lux-4, lux-oauth, lux-7), 1 todo (reclaimed-1), 1 done (shirtsy-3). No jackie-execute tasks found. No action required.",
       "status": "no-action"
     },
     {
       "timestamp": "2026-04-27T14:01:00Z",
       "type": "hourly-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
       "details": "Checked board-state.json. Task states unchanged: 6 execute (lux-1 through lux-4, lux-oauth, lux-7), 1 todo (reclaimed-1), 1 done (shirtsy-3). No jackie-execute tasks found. No action required.",
       "status": "no-action"
     },
     {
       "timestamp": "2026-04-27T15:02:00Z",
       "type": "hourly-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
       "details": "Checked board-state.json. Task states unchanged: 6 execute (lux-1 through lux-4, lux-oauth, lux-7), 1 todo (reclaimed-1), 1 done (shirtsy-3). No jackie-execute tasks found. No action required.",
       "status": "no-action"
     },
     {
       "timestamp": "2026-04-27T16:01:00Z",
       "type": "hourly-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
       "details": "Checked board-state.json. Task states unchanged: 6 execute (lux-1 through lux-4, lux-oauth, lux-7), 1 todo (reclaimed-1), 1 done (shirtsy-3). No jackie-execute tasks found. No action required.",
       "status": "no-action"
     },
     {
       "timestamp": "2026-04-27T17:01:00Z",
       "type": "hourly-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
       "details": "Checked board-state.json. Task states unchanged: 6 execute (lux-1 through lux-4, lux-oauth, lux-7), 1 todo (reclaimed-1), 1 done (shirtsy-3). No jackie-execute tasks found. No action required.",
       "status": "no-action"
     },
     {
       "timestamp": "2026-04-27T18:02:00Z",
       "type": "hourly-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
       "details": "Checked board-state.json. Task states unchanged: 6 execute (lux-1 through lux-4, lux-oauth, lux-7), 1 todo (reclaimed-1), 1 done (shirtsy-3). No jackie-execute tasks found. No action required.",
       "status": "no-action"
     },
     {
       "timestamp": "2026-04-27T19:05:00Z",
       "type": "hourly-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
       "details": "Checked board-state.json. Task states unchanged: 6 execute (lux-1 through lux-4, lux-oauth, lux-7), 1 todo (reclaimed-1), 1 done (shirtsy-3). No jackie-execute tasks found. No action required.",
       "status": "no-action"
     },
     {
       "timestamp": "2026-04-27T20:02:00Z",
       "type": "hourly-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
       "details": "Checked board-state.json. Task states unchanged: 6 execute (lux-1 through lux-4, lux-oauth, lux-7), 1 todo (reclaimed-1), 1 done (shirtsy-3). No jackie-execute tasks found. No action required.",
       "status": "no-action"
     },
     {
       "timestamp": "2026-04-27T21:01:00Z",
       "type": "hourly-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
       "details": "Checked board-state.json. Task states unchanged: 6 execute (lux-1 through lux-4, lux-oauth, lux-7), 1 todo (reclaimed-1), 1 done (shirtsy-3). No jackie-execute tasks found. No action required.",
       "status": "no-action"
     },
     {
       "timestamp": "2026-04-27T22:02:00Z",
       "type": "hourly-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
       "details": "Checked board-state.json. Task states unchanged: 6 execute (lux-1 through lux-4, lux-oauth, lux-7), 1 todo (reclaimed-1), 1 done (shirtsy-3). No jackie-execute tasks found. No action required.",
       "status": "no-action"
     },
     {
       "timestamp": "2026-04-27T23:01:00Z",
       "type": "hourly-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
       "details": "Checked board-state.json. Task states unchanged: 6 execute (lux-1 through lux-4, lux-oauth, lux-7), 1 todo (reclaimed-1), 1 done (shirtsy-3). No jackie-execute tasks found. No action required.",
       "status": "no-action"
     },
     {
       "timestamp": "2026-04-28T00:01:00Z",
       "type": "hourly-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
       "details": "Checked board-state.json. Task states unchanged: 6 execute (lux-1 through lux-4, lux-oauth, lux-7), 1 todo (reclaimed-1), 1 done (shirtsy-3). No jackie-execute tasks found. No action required.",
       "status": "no-action"
     },
     {
       "timestamp": "2026-04-28T01:02:00Z",
       "type": "hourly-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
       "details": "Checked board-state.json. Task states unchanged: 6 execute (lux-1 through lux-4, lux-oauth, lux-7), 1 todo (reclaimed-1), 1 done (shirtsy-3). No jackie-execute tasks found. No action required.",
       "status": "no-action"
     },
     {
       "timestamp": "2026-04-28T02:02:00Z",
       "type": "hourly-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
       "details": "Checked board-state.json. Task states unchanged: 6 execute (lux-1 through lux-4, lux-oauth, lux-7), 1 todo (reclaimed-1), 1 done (shirtsy-3). No jackie-execute tasks found. No action required.",
       "status": "no-action"
     },
     {
       "timestamp": "2026-04-28T03:01:00Z",
       "type": "hourly-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
       "details": "Checked board-state.json. Task states unchanged: 6 execute (lux-1 through lux-4, lux-oauth, lux-7), 1 todo (reclaimed-1), 1 done (shirtsy-3). No jackie-execute tasks found. No action required.",
       "status": "no-action"
     },
     {
       "timestamp": "2026-04-28T04:02:00Z",
       "type": "hourly-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
       "details": "Checked board-state.json. Task states unchanged: 6 execute (lux-1 through lux-4, lux-oauth, lux-7), 1 todo (reclaimed-1), 1 done (shirtsy-3). No jackie-execute tasks found. No action required.",
       "status": "no-action"
     },
     {
       "timestamp": "2026-04-28T05:01:00Z",
       "type": "hourly-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
       "details": "Checked board-state.json. Task states unchanged: 6 execute (lux-1 through lux-4, lux-oauth, lux-7), 1 todo (reclaimed-1), 1 done (shirtsy-3). No jackie-execute tasks found. No action required.",
       "status": "no-action"
     },
     {
       "timestamp": "2026-04-28T06:01:00Z",
       "type": "hourly-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
       "details": "Checked board-state.json. Task states unchanged: 6 execute (lux-1 through lux-4, lux-oauth, lux-7), 1 todo (reclaimed-1), 1 done (shirtsy-3). No jackie-execute tasks found. No action required.",
       "status": "no-action"
     },
     {
       "timestamp": "2026-04-28T07:02:00Z",
       "type": "hourly-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
       "details": "Checked board-state.json. Task states unchanged: 6 execute (lux-1 through lux-4, lux-oauth, lux-7), 1 todo (reclaimed-1), 1 done (shirtsy-3). No jackie-execute tasks found. No action required.",
       "status": "no-action"
     },
     {
       "timestamp": "2026-04-28T07:04:00Z",
       "type": "hourly-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
       "details": "Checked board-state.json. Task states unchanged: 6 execute (lux-1 through lux-4, lux-oauth, lux-7), 1 todo (reclaimed-1), 1 done (shirtsy-3). No jackie-execute tasks found. No action required.",
       "status": "no-action"
     },
     {
       "timestamp": "2026-04-28T07:06:00Z",
       "type": "hourly-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
       "details": "Checked board-state.json. Task states unchanged: 6 execute (lux-1 through lux-4, lux-oauth, lux-7), 1 todo (reclaimed-1), 1 done (shirtsy-3). No jackie-execute tasks found. No action required.",
       "status": "no-action"
     },
     {
       "timestamp": "2026-04-28T08:01:00Z",
       "type": "hourly-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
       "details": "Checked board-state.json. Task states unchanged: 6 execute (lux-1 through lux-4, lux-oauth, lux-7), 1 todo (reclaimed-1), 1 done (shirtsy-3). No jackie-execute tasks found. No action required.",
       "status": "no-action"
     },
     {
       "timestamp": "2026-04-28T09:02:00Z",
       "type": "hourly-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
       "details": "Checked board-state.json. Task states unchanged: 6 execute (lux-1 through lux-4, lux-oauth, lux-7), 1 todo (reclaimed-1), 1 done (shirtsy-3). No jackie-execute tasks found. No action required.",
       "status": "no-action"
     },
     {
       "timestamp": "2026-04-28T10:01:00Z",
       "type": "hourly-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
       "details": "Checked board-state.json. Task states unchanged: 6 execute (lux-1 through lux-4, lux-oauth, lux-7), 1 todo (reclaimed-1), 1 done (shirtsy-3). No jackie-execute tasks found. No action required.",
       "status": "no-action"
     },
     {
       "timestamp": "2026-04-28T11:01:00Z",
       "type": "hourly-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
       "details": "Checked board-state.json. Task states unchanged: 6 execute (lux-1 through lux-4, lux-oauth, lux-7), 1 todo (reclaimed-1), 1 done (shirtsy-3). No jackie-execute tasks found. No action required.",
       "status": "no-action"
     },
     {
       "timestamp": "2026-04-28T12:02:00Z",
       "type": "hourly-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
       "details": "Checked board-state.json. Task states unchanged: 6 execute (lux-1 through lux-4, lux-oauth, lux-7), 1 todo (reclaimed-1), 1 done (shirtsy-3). No jackie-execute tasks found. No action required.",
       "status": "no-action"
     },
     {
       "timestamp": "2026-04-28T13:01:00Z",
       "type": "hourly-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
       "details": "Checked board-state.json. Task states unchanged: 6 execute (lux-1 through lux-4, lux-oauth, lux-7), 1 todo (reclaimed-1), 1 done (shirtsy-3). No jackie-execute tasks found. No action required.",
       "status": "no-action"
     },
     {
       "timestamp": "2026-04-28T14:02:00Z",
       "type": "hourly-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
       "details": "Checked board-state.json. Task states unchanged: 6 execute (lux-1 through lux-4, lux-oauth, lux-7), 1 todo (reclaimed-1), 1 done (shirtsy-3). No jackie-execute tasks found. No action required.",
       "status": "no-action"
     },
     {
       "timestamp": "2026-04-28T15:01:00Z",
       "type": "hourly-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
       "details": "Checked board-state.json. Task states unchanged: 6 execute (lux-1 through lux-4, lux-oauth, lux-7), 1 todo (reclaimed-1), 1 done (shirtsy-3). No jackie-execute tasks found. No action required.",
       "status": "no-action"
     },
     {
       "timestamp": "2026-04-28T16:01:00Z",
       "type": "hourly-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
       "details": "Checked board-state.json. Task states unchanged: 6 execute (lux-1 through lux-4, lux-oauth, lux-7), 1 todo (reclaimed-1), 1 done (shirtsy-3). No jackie-execute tasks found. No action required.",
       "status": "no-action"
     },
     {
       "timestamp": "2026-04-28T17:02:00Z",
       "type": "hourly-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
       "details": "Checked board-state.json. Task states unchanged: 6 execute (lux-1 through lux-4, lux-oauth, lux-7), 1 todo (reclaimed-1), 1 done (shirtsy-3). No jackie-execute tasks found. No action required.",
       "status": "no-action"
     },
     {
       "timestamp": "2026-04-28T18:01:00Z",
       "type": "hourly-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
       "details": "Checked board-state.json. Task states unchanged: 6 execute (lux-1 through lux-4, lux-oauth, lux-7), 1 todo (reclaimed-1), 1 done (shirtsy-3). No jackie-execute tasks found. No action required.",
       "status": "no-action"
     },
     {
       "timestamp": "2026-04-28T19:05:00Z",
       "type": "hourly-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
       "details": "Checked board-state.json. Task states unchanged: 6 execute (lux-1 through lux-4, lux-oauth, lux-7), 1 todo (reclaimed-1), 1 done (shirtsy-3). No jackie-execute tasks found. No action required.",
       "status": "no-action"
     },
     {
       "timestamp": "2026-04-28T20:02:00Z",
       "type": "hourly-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
       "details": "Checked board-state.json. Task states unchanged: 6 execute (lux-1 through lux-4, lux-oauth, lux-7), 1 todo (reclaimed-1), 1 done (shirtsy-3). No jackie-execute tasks found. No action required.",
       "status": "no-action"
     },
     {
       "timestamp": "2026-04-28T21:01:00Z",
       "type": "hourly-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
       "details": "Checked board-state.json. Task states unchanged: 6 execute (lux-1 through lux-4, lux-oauth, lux-7), 1 todo (reclaimed-1), 1 done (shirtsy-3). No jackie-execute tasks found. No action required.",
       "status": "no-action"
     },
     {
       "timestamp": "2026-04-28T22:03:00Z",
       "type": "hourly-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
+      "details": "Checked board-state.json. Task states unchanged: 6 execute (lux-1 through lux-4, lux-oauth, lux-7), 1 todo (reclaimed-1), 1 done (shirtsy-3). No jackie-execute tasks found. No action required.",
+      "status": "no-action"
+    },
+    {
+      "timestamp": "2026-04-28T23:01:00Z",
+      "type": "hourly-check",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
       "details": "Checked board-state.json. Task states unchanged: 6 execute (lux-1 through lux-4, lux-oauth, lux-7), 1 todo (reclaimed-1), 1 done (shirtsy-3). No jackie-execute tasks found. No action required.",
       "status": "no-action"
     }
