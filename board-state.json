@@ -699,86 +699,9 @@
       "summary": "Shirtsy status report generated: 1 task complete (6 blog drafts), 4 tasks blocked pending Lex action (WP access, Trustpilot claim, BBB complaints, GBP creation)"
     }
   },
-  "lastUpdated": "2026-05-05T11:01:00Z",
+  "lastUpdated": "2026-05-05T12:02:00Z",
   "source": "ops-dashboard",
   "activityLog": [
-    {
-      "timestamp": "2026-05-04T14:02:00Z",
-      "type": "hourly-check",
-      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
-      "details": "Scanned taskStates: 6 execute (lux dept legacy \u2014 no prompts), 1 todo (reclaimed-1), 1 done (shirtsy-3). No tasks with jackie-execute status found. Board idle.",
-      "status": "ok"
-    },
-    {
-      "timestamp": "2026-05-04T15:01:00Z",
-      "type": "hourly-check",
-      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
-      "details": "Scanned taskStates: 6 execute (lux dept legacy \u2014 no prompts), 1 todo (reclaimed-1), 1 done (shirtsy-3). No tasks with jackie-execute status found. Board idle.",
-      "status": "ok"
-    },
-    {
-      "timestamp": "2026-05-04T16:02:00Z",
-      "type": "hourly-check",
-      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
-      "details": "Scanned taskStates: 6 execute (lux dept legacy \u2014 no prompts), 1 todo (reclaimed-1), 1 done (shirtsy-3). No tasks with jackie-execute status found. Board idle.",
-      "status": "ok"
-    },
-    {
-      "timestamp": "2026-05-04T17:02:00Z",
-      "type": "hourly-check",
-      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
-      "details": "Scanned taskStates: 6 execute (lux dept legacy \u2014 no prompts), 1 todo (reclaimed-1), 1 done (shirtsy-3). No tasks with jackie-execute status found. Board idle.",
-      "status": "ok"
-    },
-    {
-      "timestamp": "2026-05-04T18:01:00Z",
-      "type": "hourly-check",
-      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
-      "details": "Scanned taskStates: 6 execute (lux dept legacy \u2014 no prompts), 1 todo (reclaimed-1), 1 done (shirtsy-3). No tasks with jackie-execute status found. Board idle.",
-      "status": "ok"
-    },
-    {
-      "timestamp": "2026-05-04T20:03:00Z",
-      "type": "hourly-check",
-      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
-      "details": "Scanned taskStates: 6 execute (lux dept legacy \u2014 no prompts), 1 todo (reclaimed-1), 1 done (shirtsy-3). No tasks with jackie-execute status found. Board idle.",
-      "status": "ok"
-    },
-    {
-      "timestamp": "2026-05-04T21:01:00Z",
-      "type": "hourly-check",
-      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
-      "details": "Scanned taskStates: 6 execute (lux dept legacy \u2014 no prompts), 1 todo (reclaimed-1), 1 done (shirtsy-3). No tasks with jackie-execute status found. Board idle.",
-      "status": "ok"
-    },
-    {
-      "timestamp": "2026-05-04T22:02:00Z",
-      "type": "hourly-check",
-      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
-      "details": "Scanned taskStates: 6 execute (lux dept legacy \u2014 no prompts), 1 todo (reclaimed-1), 1 done (shirtsy-3). No tasks with jackie-execute status found. Board idle.",
-      "status": "ok"
-    },
-    {
-      "timestamp": "2026-05-04T23:01:00Z",
-      "type": "hourly-check",
-      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
-      "details": "Scanned taskStates: 6 execute (lux dept legacy \u2014 no prompts), 1 todo (reclaimed-1), 1 done (shirtsy-3). No tasks with jackie-execute status or valid prompts to action.",
-      "status": "idle"
-    },
-    {
-      "timestamp": "2026-05-05T00:01:00Z",
-      "type": "hourly-check",
-      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
-      "details": "Scanned taskStates: 6 execute (lux dept legacy \u2014 no prompts), 1 todo (reclaimed-1), 1 done (shirtsy-3). No tasks with jackie-execute status found. Board idle.",
-      "status": "idle"
-    },
-    {
-      "timestamp": "2026-05-05T01:02:00Z",
-      "type": "hourly-check",
-      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
-      "details": "Scanned taskStates: 6 execute (lux dept legacy \u2014 no prompts), 1 todo (reclaimed-1), 1 done (shirtsy-3). No tasks with jackie-execute status found. Board idle.",
-      "status": "idle"
-    },
     {
       "timestamp": "2026-05-05T02:02:00Z",
       "type": "hourly-check",
@@ -844,6 +767,13 @@
     },
     {
       "timestamp": "2026-05-05T11:01:00Z",
+      "type": "hourly-check",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
+      "details": "Scanned taskStates: 6 execute (lux dept legacy \u2014 no prompts), 1 todo (reclaimed-1), 1 done (shirtsy-3). No tasks with status jackie-execute found. Board idle.",
+      "status": "idle"
+    },
+    {
+      "timestamp": "2026-05-05T12:02:00Z",
       "type": "hourly-check",
       "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
       "details": "Scanned taskStates: 6 execute (lux dept legacy \u2014 no prompts), 1 todo (reclaimed-1), 1 done (shirtsy-3). No tasks with status jackie-execute found. Board idle.",
