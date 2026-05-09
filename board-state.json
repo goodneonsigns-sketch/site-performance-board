@@ -918,6 +918,13 @@
       "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
       "details": "Scanned all taskStates and taskPrompts. No tasks with jackie-execute status. Active states: lux-1/2/3/4/7/oauth=execute (Lex tasks), reclaimed-1=todo, shirtsy-3=done. No action needed.",
       "status": "idle"
+    },
+    {
+      "timestamp": "2026-05-09T06:01:00Z",
+      "type": "ops-check",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
+      "details": "Checked board-state.json. 6 tasks in execute state (lux-1 thru lux-7, lux-oauth), 1 todo (reclaimed-1), 1 done (shirtsy-3). No jackie-execute tasks found. No action needed.",
+      "status": "no-action"
     }
   ]
 }
