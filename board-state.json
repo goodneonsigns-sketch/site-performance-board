@@ -699,16 +699,9 @@
       "summary": "Shirtsy status report generated: 1 task complete (6 blog drafts), 4 tasks blocked pending Lex action (WP access, Trustpilot claim, BBB complaints, GBP creation)"
     }
   },
-  "lastUpdated": "2026-05-11T08:01:00Z",
+  "lastUpdated": "2026-05-11T09:02:00Z",
   "source": "ops-dashboard",
   "activityLog": [
-    {
-      "timestamp": "2026-05-11T03:01:00Z",
-      "type": "hourly-check",
-      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
-      "details": "Scanned all taskStates and taskPrompts. No tasks with jackie-execute status. Active states: lux-1/2/3/4/7/oauth=execute (Lex tasks), reclaimed-1=todo, shirtsy-3=done. No action needed.",
-      "status": "idle"
-    },
     {
       "timestamp": "2026-05-11T04:02:00Z",
       "type": "hourly-check",
@@ -742,6 +735,13 @@
       "type": "hourly-check",
       "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
       "details": "Scanned all taskStates and taskPrompts. No tasks with jackie-execute status. Active states: lux-1/2/3/4/7/oauth=execute (Lex tasks), reclaimed-1=todo, shirtsy-3=done. Activity log trimmed from 37 entries to 6 (kept last 5 + this entry) to reduce file bloat.",
+      "status": "idle"
+    },
+    {
+      "timestamp": "2026-05-11T09:02:00Z",
+      "type": "hourly-check",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
+      "details": "Scanned all taskStates and taskPrompts. No tasks with jackie-execute status. Active states: lux-1/2/3/4/7/oauth=execute (Lex tasks), reclaimed-1=todo, shirtsy-3=done. No action needed.",
       "status": "idle"
     }
   ]
