@@ -1,1056 +1,1063 @@
 {
-    "taskStates": {
-        "lux-1": "execute",
-        "lux-2": "execute",
-        "lux-3": "execute",
-        "lux-4": "execute",
-        "lux-oauth": "execute",
-        "lux-7": "execute",
-        "reclaimed-1": "todo",
-        "shirtsy-3": "done"
-    },
-    "lexTasks": {
-        "lux": [
-            {
-                "id": "lex-install-tidio",
-                "project": "lux",
-                "title": "Install Tidio Live Chat on Lux Neon",
-                "description": "Install the Tidio live chat app from Shopify App Store. Free plan includes live chat, chatbot, and mobile app so you can reply to customer inquiries from your phone.",
-                "steps": [
-                    "Go to Shopify Admin > Apps > Search 'Tidio'",
-                    "Install 'Tidio - Live Chat & AI Chatbot'",
-                    "Create a Tidio account (use goodneonsigns@gmail.com)",
-                    "Set your chat widget color to match Lux branding (dark theme, orange accent #ff7b00)",
-                    "Set welcome message: 'Hey! \ud83d\udc4b Welcome to Lux Neon Art Gallery. How can I help you today?'",
-                    "Enable auto-responses for common questions (hours, location, custom neon pricing)",
-                    "Download the Tidio mobile app so you can reply from your phone",
-                    "Set offline message: 'We are currently away. Leave your name and number and we will get back to you ASAP!'",
-                    "Test it by visiting luxneonartgallery.com"
-                ],
-                "priority": "high",
-                "completed": true,
-                "createdAt": "2026-03-14T13:05:00Z",
-                "addedBy": "Jackie",
-                "completedAt": "2026-03-14T22:42:44Z"
-            },
-            {
-                "id": "lex-google-business",
-                "project": "lux",
-                "title": "Verify & Optimize Google Business Profile",
-                "description": "Make sure your Google Business Profile is claimed, verified, and fully optimized. This is critical for 'near me' searches and local SEO. Google Maps = free leads.",
-                "steps": [
-                    "Go to business.google.com and search for 'Lux Neon Art Gallery'",
-                    "Claim the listing if not already claimed (verify via phone or postcard)",
-                    "Update business hours: Mon-Sat 11 AM - 7 PM",
-                    "Add all services: Art Gallery, Custom Neon Signs, Event Venue, Podcast Studio",
-                    "Upload 20+ high-quality photos (gallery interior, artwork, events, exterior)",
-                    "Add your phone number: (954) 477-2768",
-                    "Add website: luxneonartgallery.com",
-                    "Write a keyword-rich business description (250+ words)",
-                    "Enable messaging so customers can message you from Google",
-                    "Ask 5-10 happy customers to leave Google reviews this week",
-                    "Post a Google Business update about current exhibitions"
-                ],
-                "priority": "critical",
-                "completed": false,
-                "createdAt": "2026-03-14T13:05:00Z",
-                "addedBy": "Jackie"
-            },
-            {
-                "id": "lex-homepage-meta",
-                "project": "lux",
-                "title": "Update Lux Neon Homepage SEO (Shopify Admin)",
-                "description": "Go to Shopify Admin > Online Store > Preferences. Update the Homepage title and meta description. Jackie cannot do this via API.",
-                "steps": [
-                    "Log into Shopify Admin at bc414e-2.myshopify.com/admin",
-                    "Go to Online Store > Preferences",
-                    "Set Homepage title to: Lux Neon Art Gallery | LED Fine Art, Custom Neon Signs & Event Venue | Dania Beach FL",
-                    "Set Meta description to: South Florida's premier LED fine art gallery featuring neon art, custom signs, and pop art by local artists. Visit our Dania Beach gallery, rent our event space, or shop 350+ original pieces online.",
-                    "Click Save"
-                ],
-                "priority": "high",
-                "completed": true,
-                "createdAt": "2026-03-14T12:55:00Z",
-                "addedBy": "Jackie",
-                "completedAt": "2026-03-14T22:42:44Z"
-            },
-            {
-                "id": "lex-gbp-access",
-                "project": "lux",
-                "title": "Give Jackie Access to Google Business Profile",
-                "description": "Add Jackie's Google account as a manager on the Lux Neon GBP listing so she can optimize it, post updates, respond to reviews, and manage local SEO.",
-                "steps": [
-                    "Go to business.google.com",
-                    "Select 'Lux Neon Art Gallery' listing",
-                    "Click the 3-dot menu or 'Users' / 'Managers'",
-                    "Click 'Add User' or 'Invite New Manager'",
-                    "Add jackypanty647@gmail.com as a Manager",
-                    "Confirm the invitation",
-                    "Tell Jackie once done so she can accept and start optimizing"
-                ],
-                "priority": "critical",
-                "completed": true,
-                "createdAt": "2026-03-14T13:10:00Z",
-                "addedBy": "Jackie",
-                "completedAt": "2026-03-14T15:38:00Z"
-            },
-            {
-                "id": "lex-google-ads-access",
-                "project": "lux",
-                "title": "Share Google Ads Account Access with Jackie",
-                "description": "Jackie needs access to your Google Ads account to set up and manage campaigns for Lux Neon. Share the account or invite her email.",
-                "steps": [
-                    "Go to ads.google.com",
-                    "If you don't have an account yet: Create one using goodneonsigns@gmail.com",
-                    "Go to Tools & Settings > Access and Security",
-                    "Click the blue + button to invite a user",
-                    "Add jackypanty647@gmail.com with 'Standard' access level",
-                    "Set a monthly budget you're comfortable with (recommended: $30-50/day to start)",
-                    "Share your Google Ads Customer ID (10-digit number at top of the page) with Jackie",
-                    "If you already have the Google Ads tag (AW-11110782537) linked, mention that too"
-                ],
-                "priority": "high",
-                "completed": true,
-                "createdAt": "2026-03-14T13:10:00Z",
-                "addedBy": "Jackie",
-                "completedAt": "2026-03-14T16:33:00Z"
-            },
-            {
-                "id": "lex-gcloud-api-access",
-                "project": "lux",
-                "title": "Give Jackie Google Cloud Console Access",
-                "description": "Jackie needs access to your Google Cloud Console to set up the Google Business Profile API and Google Ads API. This lets her manage your GBP listings and ad campaigns programmatically.",
-                "steps": [
-                    "Go to https://console.cloud.google.com",
-                    "If you don't have a project yet: Click 'Select a project' > 'New Project' > name it 'Lux Neon' > Create",
-                    "Once in the project, go to 'IAM & Admin' > 'IAM' in the left sidebar",
-                    "Click '+ GRANT ACCESS' at the top",
-                    "In 'New principals' enter: jackypanty647@gmail.com",
-                    "For Role, select 'Editor' (this gives Jackie access to set up APIs)",
-                    "Click 'Save'",
-                    "Then go to 'APIs & Services' > 'Library'",
-                    "Search for and ENABLE these APIs: 'My Business Business Information API', 'My Business Account Management API', 'Google Ads API'",
-                    "Tell Jackie the Project ID (shown at top of console) when done"
-                ],
-                "priority": "critical",
-                "completed": true,
-                "createdAt": "2026-03-14T15:44:00Z",
-                "addedBy": "Jackie",
-                "completedAt": "2026-03-14T15:55:00Z"
-            },
-            {
-                "id": "lex-iam-editor",
-                "project": "lux",
-                "title": "Add Jackie as Editor in Google Cloud IAM",
-                "description": "The APIs are enabled but Jackie still needs IAM access to the project to create OAuth credentials and manage the APIs.",
-                "steps": [
-                    "Go to https://console.cloud.google.com/iam-admin/iam?project=angelic-bee-490015-s0",
-                    "Click '+ GRANT ACCESS' at the top of the page",
-                    "In 'New principals' enter: jackypanty647@gmail.com",
-                    "Click 'Select a role' dropdown",
-                    "Choose 'Basic' > 'Editor'",
-                    "Click 'Save'",
-                    "That's it! Tell Jackie when done."
-                ],
-                "priority": "critical",
-                "completed": true,
-                "createdAt": "2026-03-14T16:01:00Z",
-                "addedBy": "Jackie",
-                "completedAt": "2026-03-14T16:01:00Z"
-            },
-            {
-                "id": "lex-lux-hours-update",
-                "project": "lux",
-                "title": "Update hours to 10AM-6PM on Google, Yelp, Facebook, TripAdvisor",
-                "description": "Website is updated. Now update third-party listings to match. Google is highest priority \u2014 most aggregators pull from it.",
-                "steps": [
-                    "Google Business Profile: business.google.com > Lux Neon > Hours > Mon-Fri close at 6:00 PM",
-                    "Yelp: biz.yelp.com > Business Info > Hours (fix Sat/Sun to By Appointment instead of Closed)",
-                    "Facebook: Page Settings > Business Info > Hours",
-                    "TripAdvisor: Owner portal > Update hours"
-                ],
-                "priority": "high",
-                "completed": true,
-                "createdAt": "2026-03-16T16:00:00Z",
-                "addedBy": "Jackie",
-                "completedAt": "2026-03-17T01:10:03.335Z"
-            },
-            {
-                "id": "jackie-lux-app-audit",
-                "project": "lux",
-                "title": "Audit & disable unnecessary Shopify app scripts on homepage",
-                "description": "77 scripts loading on homepage. Many apps only needed on specific pages.",
-                "priority": "high",
-                "category": "speed",
-                "completed": false,
-                "createdAt": "2026-03-17T03:44:00Z",
-                "addedBy": "Jackie"
-            },
-            {
-                "id": "jackie-lux-remove-polyfill",
-                "project": "lux",
-                "title": "Find and remove 334KB polyfill bundle (injected by app)",
-                "priority": "medium",
-                "category": "speed",
-                "completed": false,
-                "createdAt": "2026-03-17T03:44:00Z",
-                "addedBy": "Jackie"
-            },
-            {
-                "id": "jackie-lux-compress-remaining-images",
-                "project": "lux",
-                "title": "Convert remaining large PNGs to WebP across all templates",
-                "description": "mika_queen1 (506KB), event-space (288KB), rainbow (243KB)",
-                "priority": "medium",
-                "category": "speed",
-                "completed": false,
-                "createdAt": "2026-03-17T03:44:00Z",
-                "addedBy": "Jackie"
-            },
-            {
-                "id": "jackie-lux-css-consolidation",
-                "project": "lux",
-                "title": "Consolidate fragmented CSS (20+ files per page)",
-                "priority": "low",
-                "category": "speed",
-                "completed": false,
-                "createdAt": "2026-03-17T03:44:00Z",
-                "addedBy": "Jackie"
-            },
-            {
-                "id": "jackie-lux-reduce-html-bloat",
-                "project": "lux",
-                "title": "Reduce HTML payload from 195KB to under 50KB",
-                "priority": "medium",
-                "category": "speed",
-                "completed": false,
-                "createdAt": "2026-03-17T03:44:00Z",
-                "addedBy": "Jackie"
-            },
-            {
-                "id": "jackie-lux-lazy-load-belowfold",
-                "project": "lux",
-                "title": "Add loading=lazy to all below-fold images",
-                "priority": "medium",
-                "category": "speed",
-                "completed": false,
-                "createdAt": "2026-03-17T03:44:00Z",
-                "addedBy": "Jackie"
-            },
-            {
-                "id": "jackie-lux-local-landing-pages",
-                "project": "lux",
-                "title": "Create local SEO landing pages for 0-difficulty keywords",
-                "description": "neon signs Fort Lauderdale, custom neon signs Miami, podcast studio Fort Lauderdale, event venue Dania Beach",
-                "priority": "high",
-                "category": "seo",
-                "completed": false,
-                "createdAt": "2026-03-17T03:44:00Z",
-                "addedBy": "Jackie"
-            },
-            {
-                "id": "jackie-lux-uppromote-cls-fix",
-                "project": "lux",
-                "title": "Fix CLS caused by uppromote affiliate banner injection",
-                "priority": "medium",
-                "category": "speed",
-                "completed": false,
-                "createdAt": "2026-03-17T03:44:00Z",
-                "addedBy": "Jackie"
-            },
-            {
-                "id": "lex-tidio-lyro-ai-2026-03-26",
-                "project": "lux",
-                "title": "Set Up Lyro AI in Tidio Dashboard",
-                "description": "Jackie installed Tidio live chat and delivered full Lyro AI setup instructions. Now you just need to enable and configure Lyro AI in the Tidio dashboard. Instructions were sent \u2014 this is a quick 10-minute setup.",
-                "steps": [
-                    "Log into app.tidio.com",
-                    "Go to Automation \u2192 Lyro AI",
-                    "Enable Lyro AI",
-                    "Add your FAQ content (hours, pricing, location, services)",
-                    "Set fallback action: 'Forward to live agent'",
-                    "Test with a sample question"
-                ],
-                "priority": "medium",
-                "completed": false,
-                "createdAt": "2026-03-26T14:00:00Z",
-                "addedBy": "Jackie"
-            },
-            {
-                "id": "lex-update-hours-2026-03-26",
-                "project": "lux",
-                "title": "Update Hours on Google Business, Yelp, Facebook, TripAdvisor",
-                "description": "Lux Neon hours may be outdated or inconsistent across platforms. Consistent NAP (Name, Address, Phone + Hours) is critical for local SEO.",
-                "steps": [
-                    "Google Business: business.google.com \u2192 Edit profile \u2192 Hours",
-                    "Yelp: biz.yelp.com \u2192 Business Information \u2192 Hours",
-                    "Facebook: Your page \u2192 Edit Page Info \u2192 Hours",
-                    "TripAdvisor: Your listing \u2192 Edit \u2192 Business Details \u2192 Hours",
-                    "Make sure all show the same hours"
-                ],
-                "priority": "medium",
-                "completed": false,
-                "createdAt": "2026-03-26T14:00:00Z",
-                "addedBy": "Jackie"
-            },
-            {
-                "id": "jackie-tidio-hide-admin-2026-03-26",
-                "project": "lux",
-                "title": "Tidio Hidden for Admin Users",
-                "description": "Configured Tidio live chat widget to be hidden from logged-in admin users so it doesn't clutter the store management experience.",
-                "priority": "medium",
-                "completed": true,
-                "createdAt": "2026-03-26T10:00:00Z",
-                "completedAt": "2026-03-26T14:00:00Z",
-                "addedBy": "Jackie"
-            },
-            {
-                "id": "jackie-neon-images-2026-03-26",
-                "project": "lux",
-                "title": "28 Neon Sign Images Generated & Uploaded",
-                "description": "Generated and uploaded 28 AI neon sign product images to Lux Neon store using OpenAI image generation.",
-                "priority": "high",
-                "completed": true,
-                "createdAt": "2026-03-25T00:00:00Z",
-                "completedAt": "2026-03-26T14:00:00Z",
-                "addedBy": "Jackie"
-            },
-            {
-                "id": "jackie-spartan-warrior-product-2026-03-26",
-                "project": "lux",
-                "title": "Spartan Warrior Product Created ($400)",
-                "description": "Created the Spartan Warrior neon sign product listing on Lux at $400 price point.",
-                "priority": "medium",
-                "completed": true,
-                "createdAt": "2026-03-26T10:00:00Z",
-                "completedAt": "2026-03-26T14:00:00Z",
-                "addedBy": "Jackie"
-            },
-            {
-                "id": "jackie-flickity-bug-fix-2026-03-26",
-                "project": "lux",
-                "title": "Flickity JS Bug Fixed",
-                "description": "Fixed Flickity carousel JavaScript bug that was causing layout issues on Lux storefront.",
-                "priority": "high",
-                "completed": true,
-                "createdAt": "2026-03-25T00:00:00Z",
-                "completedAt": "2026-03-26T14:00:00Z",
-                "addedBy": "Jackie"
-            },
-            {
-                "id": "jackie-pagefly-disabled-2026-03-26",
-                "project": "lux",
-                "title": "PageFly Disabled",
-                "description": "Disabled PageFly page builder app on Lux to reduce script bloat and improve page load speed.",
-                "priority": "medium",
-                "completed": true,
-                "createdAt": "2026-03-26T10:00:00Z",
-                "completedAt": "2026-03-26T14:00:00Z",
-                "addedBy": "Jackie"
-            },
-            {
-                "id": "jackie-footer-macarons-removed-2026-03-26",
-                "project": "lux",
-                "title": "Footer Macarons Link Removed",
-                "description": "Removed outdated macarons link from the Lux Neon footer navigation.",
-                "priority": "low",
-                "completed": true,
-                "createdAt": "2026-03-26T10:00:00Z",
-                "completedAt": "2026-03-26T14:00:00Z",
-                "addedBy": "Jackie"
-            },
-            {
-                "id": "jackie-event-venue-campaign-plan-2026-03-26",
-                "project": "lux",
-                "title": "Event Venue Campaign Plan Ready",
-                "description": "Complete Google Ads campaign plan drafted for Lux Event Venue Rental. Ready to launch once OAuth is authorized.",
-                "priority": "high",
-                "completed": true,
-                "createdAt": "2026-03-26T10:00:00Z",
-                "completedAt": "2026-03-26T14:00:00Z",
-                "addedBy": "Jackie"
-            },
-            {
-                "id": "jackie-lux-business-profile-saved-2026-03-26",
-                "project": "lux",
-                "title": "Lux Business Profile Saved",
-                "description": "Saved and documented the full Lux Neon business profile including contact info, hours, services, and social handles.",
-                "priority": "medium",
-                "completed": true,
-                "createdAt": "2026-03-26T10:00:00Z",
-                "completedAt": "2026-03-26T14:00:00Z",
-                "addedBy": "Jackie"
-            },
-            {
-                "id": "jackie-google-ads-conversion-tracking-2026-03-26",
-                "project": "lux",
-                "title": "Google Ads Conversion Tracking Setup",
-                "description": "Setting up conversion tracking for Google Ads campaigns (form submissions, calls, purchases). Blocked pending OAuth authorization from Lex.",
-                "priority": "high",
-                "completed": false,
-                "createdAt": "2026-03-26T14:00:00Z",
-                "addedBy": "Jackie"
-            }
+  "taskStates": {
+    "lux-1": "execute",
+    "lux-2": "execute",
+    "lux-3": "execute",
+    "lux-4": "execute",
+    "lux-oauth": "execute",
+    "lux-7": "execute",
+    "reclaimed-1": "todo",
+    "shirtsy-3": "done"
+  },
+  "lexTasks": {
+    "lux": [
+      {
+        "id": "lex-install-tidio",
+        "project": "lux",
+        "title": "Install Tidio Live Chat on Lux Neon",
+        "description": "Install the Tidio live chat app from Shopify App Store. Free plan includes live chat, chatbot, and mobile app so you can reply to customer inquiries from your phone.",
+        "steps": [
+          "Go to Shopify Admin > Apps > Search 'Tidio'",
+          "Install 'Tidio - Live Chat & AI Chatbot'",
+          "Create a Tidio account (use goodneonsigns@gmail.com)",
+          "Set your chat widget color to match Lux branding (dark theme, orange accent #ff7b00)",
+          "Set welcome message: 'Hey! \ud83d\udc4b Welcome to Lux Neon Art Gallery. How can I help you today?'",
+          "Enable auto-responses for common questions (hours, location, custom neon pricing)",
+          "Download the Tidio mobile app so you can reply from your phone",
+          "Set offline message: 'We are currently away. Leave your name and number and we will get back to you ASAP!'",
+          "Test it by visiting luxneonartgallery.com"
         ],
-        "goodneon": [
-            {
-                "id": "lex-gn-swap-image",
-                "project": "goodneon",
-                "title": "Swap 864KB mock image in Elementor homepage editor with optimized WebP (16x23-mock-optimized in media library)",
-                "priority": "high",
-                "completed": false
-            },
-            {
-                "id": "lex-gn-cloudflare-apo",
-                "project": "goodneon",
-                "title": "Enable Cloudflare APO for WordPress ($5/mo) in Cloudflare dashboard",
-                "priority": "high",
-                "completed": false
-            },
-            {
-                "id": "lex-goodneon-wp-password-2026-03-26",
-                "project": "goodneon",
-                "title": "Generate New GoodNeon WP App Password",
-                "description": "The GoodNeon WordPress app password expired. Jackie cannot post, edit, or manage any GoodNeon content without it. Need a fresh app password to restore access.",
-                "steps": [
-                    "Log into GoodNeon WordPress admin",
-                    "Go to Users \u2192 Your Profile (top right of admin)",
-                    "Scroll down to 'Application Passwords'",
-                    "Create a new app password named 'Jackie'",
-                    "Copy and send the generated password to Jackie in Discord"
-                ],
-                "priority": "critical",
-                "completed": false,
-                "createdAt": "2026-03-26T14:00:00Z",
-                "addedBy": "Jackie"
-            }
+        "priority": "high",
+        "completed": true,
+        "createdAt": "2026-03-14T13:05:00Z",
+        "addedBy": "Jackie",
+        "completedAt": "2026-03-14T22:42:44Z"
+      },
+      {
+        "id": "lex-google-business",
+        "project": "lux",
+        "title": "Verify & Optimize Google Business Profile",
+        "description": "Make sure your Google Business Profile is claimed, verified, and fully optimized. This is critical for 'near me' searches and local SEO. Google Maps = free leads.",
+        "steps": [
+          "Go to business.google.com and search for 'Lux Neon Art Gallery'",
+          "Claim the listing if not already claimed (verify via phone or postcard)",
+          "Update business hours: Mon-Sat 11 AM - 7 PM",
+          "Add all services: Art Gallery, Custom Neon Signs, Event Venue, Podcast Studio",
+          "Upload 20+ high-quality photos (gallery interior, artwork, events, exterior)",
+          "Add your phone number: (954) 477-2768",
+          "Add website: luxneonartgallery.com",
+          "Write a keyword-rich business description (250+ words)",
+          "Enable messaging so customers can message you from Google",
+          "Ask 5-10 happy customers to leave Google reviews this week",
+          "Post a Google Business update about current exhibitions"
         ],
-        "coconut": [
-            {
-                "id": "lex-coconut-klaviyo",
-                "project": "coconut",
-                "title": "Set up Klaviyo account for Coconut Bikini & share API key with Jackie",
-                "priority": "high",
-                "completed": false
-            }
+        "priority": "critical",
+        "completed": false,
+        "createdAt": "2026-03-14T13:05:00Z",
+        "addedBy": "Jackie"
+      },
+      {
+        "id": "lex-homepage-meta",
+        "project": "lux",
+        "title": "Update Lux Neon Homepage SEO (Shopify Admin)",
+        "description": "Go to Shopify Admin > Online Store > Preferences. Update the Homepage title and meta description. Jackie cannot do this via API.",
+        "steps": [
+          "Log into Shopify Admin at bc414e-2.myshopify.com/admin",
+          "Go to Online Store > Preferences",
+          "Set Homepage title to: Lux Neon Art Gallery | LED Fine Art, Custom Neon Signs & Event Venue | Dania Beach FL",
+          "Set Meta description to: South Florida's premier LED fine art gallery featuring neon art, custom signs, and pop art by local artists. Visit our Dania Beach gallery, rent our event space, or shop 350+ original pieces online.",
+          "Click Save"
         ],
-        "reclaimed": [
-            {
-                "id": "lex-reclaimed-klaviyo",
-                "project": "reclaimed",
-                "title": "Set up Klaviyo account for Reclaimed Closet & share API key with Jackie",
-                "priority": "high",
-                "completed": false
-            },
-            {
-                "id": "lex-reclaimed-footer-sizechart",
-                "project": "reclaimed",
-                "title": "Add Size Chart link to footer navigation",
-                "description": "Size chart page is live at /pages/size-chart. Add the link to your footer menu.",
-                "steps": [
-                    "Go to Shopify Admin > Online Store > Navigation",
-                    "Click 'Footer' menu",
-                    "Click 'Add menu item'",
-                    "Name: 'Size Chart', Link: /pages/size-chart",
-                    "Save"
-                ],
-                "priority": "medium",
-                "status": "todo"
-            },
-            {
-                "id": "lex-reclaimed-nav-scope",
-                "project": "reclaimed",
-                "title": "Add navigation scopes to Jackie's Reclaimed app",
-                "description": "Jackie needs read_navigation + write_navigation scopes to manage menus via API.",
-                "steps": [
-                    "Go to Shopify Partners > Apps > Jackie's Reclaimed Closet app",
-                    "Configuration > API access scopes",
-                    "Add: read_navigation, write_navigation",
-                    "Save and re-authorize the app"
-                ],
-                "priority": "medium",
-                "status": "todo"
-            }
+        "priority": "high",
+        "completed": true,
+        "createdAt": "2026-03-14T12:55:00Z",
+        "addedBy": "Jackie",
+        "completedAt": "2026-03-14T22:42:44Z"
+      },
+      {
+        "id": "lex-gbp-access",
+        "project": "lux",
+        "title": "Give Jackie Access to Google Business Profile",
+        "description": "Add Jackie's Google account as a manager on the Lux Neon GBP listing so she can optimize it, post updates, respond to reviews, and manage local SEO.",
+        "steps": [
+          "Go to business.google.com",
+          "Select 'Lux Neon Art Gallery' listing",
+          "Click the 3-dot menu or 'Users' / 'Managers'",
+          "Click 'Add User' or 'Invite New Manager'",
+          "Add jackypanty647@gmail.com as a Manager",
+          "Confirm the invitation",
+          "Tell Jackie once done so she can accept and start optimizing"
         ],
-        "shirtsy": [
-            {
-                "id": "lex-shirtsy-trustpilot-claim",
-                "project": "shirtsy",
-                "title": "Claim Shirtsy profile on Trustpilot",
-                "description": "Go to trustpilot.com/review/shirtsy.com and claim the business profile. Currently unclaimed with 2.3/5 rating.",
-                "steps": [
-                    "Go to trustpilot.com/review/shirtsy.com",
-                    "Click 'Is this your company?' or 'Claim your profile'",
-                    "Verify ownership via email (use shirtsy business email)",
-                    "Once claimed, Jackie will draft responses to all reviews"
-                ],
-                "priority": "high",
-                "status": "todo"
-            },
-            {
-                "id": "lex-shirtsy-bbb-respond",
-                "project": "shirtsy",
-                "title": "Respond to BBB complaints (F rating fix)",
-                "description": "Shirtsy has an F rating because of 2 unanswered complaints. Responding alone should improve the grade.",
-                "steps": [
-                    "Log into BBB at bbb.org",
-                    "Go to Shirtsy LLC profile > Complaints",
-                    "Respond to all 3 complaints (Jackie will draft responses)",
-                    "Consider applying for BBB Accreditation (~$500/yr)"
-                ],
-                "priority": "high",
-                "status": "todo"
-            },
-            {
-                "id": "lex-shirtsy-gbp-create",
-                "project": "shirtsy",
-                "title": "Create/verify Google Business Profile for Shirtsy",
-                "description": "Shirtsy may not have a Google Business Profile. Need one to collect Google Reviews.",
-                "steps": [
-                    "Search 'Shirtsy' on Google Maps",
-                    "If no listing: create one at business.google.com",
-                    "Business: Shirtsy LLC, 1210 Stirling Rd STE 1A, Dania Beach FL 33004",
-                    "Category: Custom T-shirt Store / Printing Service",
-                    "Verify via mail or phone"
-                ],
-                "priority": "high",
-                "status": "todo"
-            },
-            {
-                "id": "lex-shirtsy-wp-access-2026-03-26",
-                "project": "shirtsy",
-                "title": "Provide Shirtsy WP Admin Credentials",
-                "description": "Jackie has 6 blog post drafts ready to publish on Shirtsy and 3 off-topic posts to delete. Cannot do any of this without WordPress admin access.",
-                "steps": [
-                    "Send Jackie the Shirtsy WordPress admin URL (likely shirtsy.com/wp-admin)",
-                    "Either: share admin username + password",
-                    "Or: Go to Users \u2192 Add New \u2192 create a new admin user for Jackie",
-                    "Or: Go to your profile \u2192 Application Passwords \u2192 create 'Jackie' app password"
-                ],
-                "priority": "critical",
-                "completed": false,
-                "createdAt": "2026-03-26T14:00:00Z",
-                "addedBy": "Jackie"
-            },
-            {
-                "id": "jackie-shirtsy-blog-drafts-2026-03-26",
-                "project": "shirtsy",
-                "title": "6 New Shirtsy Blog Posts Drafted",
-                "description": "Wrote 6 new blog post drafts for Shirtsy. Ready to publish once WP credentials are provided.",
-                "priority": "high",
-                "completed": true,
-                "createdAt": "2026-03-25T00:00:00Z",
-                "completedAt": "2026-03-26T14:00:00Z",
-                "addedBy": "Jackie"
-            }
+        "priority": "critical",
+        "completed": true,
+        "createdAt": "2026-03-14T13:10:00Z",
+        "addedBy": "Jackie",
+        "completedAt": "2026-03-14T15:38:00Z"
+      },
+      {
+        "id": "lex-google-ads-access",
+        "project": "lux",
+        "title": "Share Google Ads Account Access with Jackie",
+        "description": "Jackie needs access to your Google Ads account to set up and manage campaigns for Lux Neon. Share the account or invite her email.",
+        "steps": [
+          "Go to ads.google.com",
+          "If you don't have an account yet: Create one using goodneonsigns@gmail.com",
+          "Go to Tools & Settings > Access and Security",
+          "Click the blue + button to invite a user",
+          "Add jackypanty647@gmail.com with 'Standard' access level",
+          "Set a monthly budget you're comfortable with (recommended: $30-50/day to start)",
+          "Share your Google Ads Customer ID (10-digit number at top of the page) with Jackie",
+          "If you already have the Google Ads tag (AW-11110782537) linked, mention that too"
         ],
-        "all": [
-            {
-                "id": "jackie-cloudflare-cache-security-fix",
-                "project": "all",
-                "title": "EMERGENCY: Fix Cloudflare caching user-specific pages (data leak)",
-                "description": "Cloudflare was caching /my-account/ and /client-dashboard/ and serving them to other users. Purged all caches and added bypass rules on Crown, Shirtsy, GoodNeon.",
-                "priority": "critical",
-                "category": "security",
-                "completed": true,
-                "createdAt": "2026-03-24T19:28:00Z",
-                "completedAt": "2026-03-24T19:35:00Z",
-                "addedBy": "Jackie"
-            },
-            {
-                "id": "jackie-blog-audit-cleanup-2026-03-26",
-                "project": "all",
-                "title": "Blog Audit & Cleanup: Lux (31), Coconut (26), Reclaimed (13), Crown (1)",
-                "description": "Comprehensive blog audit and cleanup across all sites: 71 total fixes applied \u2014 SEO metadata, formatting, broken links, and content quality improvements.",
-                "priority": "high",
-                "completed": true,
-                "createdAt": "2026-03-25T00:00:00Z",
-                "completedAt": "2026-03-26T14:00:00Z",
-                "addedBy": "Jackie"
-            },
-            {
-                "id": "jackie-blog-featured-images-2026-03-26",
-                "project": "all",
-                "title": "~45 Blog Articles Need Featured Images (Coconut & Reclaimed)",
-                "description": "After blog audit, approximately 45 blog articles on Coconut Bikini and Reclaimed Closet are missing featured images. In progress \u2014 images being generated and assigned.",
-                "priority": "medium",
-                "completed": false,
-                "createdAt": "2026-03-26T14:00:00Z",
-                "addedBy": "Jackie"
-            }
+        "priority": "high",
+        "completed": true,
+        "createdAt": "2026-03-14T13:10:00Z",
+        "addedBy": "Jackie",
+        "completedAt": "2026-03-14T16:33:00Z"
+      },
+      {
+        "id": "lex-gcloud-api-access",
+        "project": "lux",
+        "title": "Give Jackie Google Cloud Console Access",
+        "description": "Jackie needs access to your Google Cloud Console to set up the Google Business Profile API and Google Ads API. This lets her manage your GBP listings and ad campaigns programmatically.",
+        "steps": [
+          "Go to https://console.cloud.google.com",
+          "If you don't have a project yet: Click 'Select a project' > 'New Project' > name it 'Lux Neon' > Create",
+          "Once in the project, go to 'IAM & Admin' > 'IAM' in the left sidebar",
+          "Click '+ GRANT ACCESS' at the top",
+          "In 'New principals' enter: jackypanty647@gmail.com",
+          "For Role, select 'Editor' (this gives Jackie access to set up APIs)",
+          "Click 'Save'",
+          "Then go to 'APIs & Services' > 'Library'",
+          "Search for and ENABLE these APIs: 'My Business Business Information API', 'My Business Account Management API', 'Google Ads API'",
+          "Tell Jackie the Project ID (shown at top of console) when done"
         ],
-        "system": [
-            {
-                "id": "lex-google-ads-oauth-2026-03-26",
-                "project": "system",
-                "title": "Click Google Ads OAuth Link (ONE CLICK \u2014 unblocks 3 campaigns)",
-                "description": "Jackie built the OAuth callback at ops.jackiespanties.com/callback. You just need to click a link and paste the auth code back to Jackie. This unblocks all Google Ads automation: Custom Neon Signs optimization, Event Venue Rental ($40/day new campaign), and Podcast Studio campaign.",
-                "steps": [
-                    "Ask Jackie for the Google Ads OAuth authorization URL",
-                    "Click the link \u2014 it opens Google sign-in",
-                    "Sign in with your Google Ads account",
-                    "Copy the auth code from the callback page",
-                    "Paste the code to Jackie in Discord"
-                ],
-                "priority": "critical",
-                "completed": false,
-                "createdAt": "2026-03-26T14:00:00Z",
-                "addedBy": "Jackie"
-            },
-            {
-                "id": "lex-google-ads-terms-2026-03-26",
-                "project": "system",
-                "title": "Accept Call & Messaging Ads Terms in Google Ads",
-                "description": "Before Jackie can set up call and message conversion tracking, you need to accept Google's Terms for Call Ads and Messaging Ads in your Google Ads account.",
-                "steps": [
-                    "Go to ads.google.com",
-                    "Tools & Settings \u2192 Billing & Payments \u2192 look for any terms acceptance prompts",
-                    "Or: Tools & Settings \u2192 Measurement \u2192 Conversions \u2192 look for call/messaging setup"
-                ],
-                "priority": "high",
-                "completed": false,
-                "createdAt": "2026-03-26T14:00:00Z",
-                "addedBy": "Jackie"
-            }
+        "priority": "critical",
+        "completed": true,
+        "createdAt": "2026-03-14T15:44:00Z",
+        "addedBy": "Jackie",
+        "completedAt": "2026-03-14T15:55:00Z"
+      },
+      {
+        "id": "lex-iam-editor",
+        "project": "lux",
+        "title": "Add Jackie as Editor in Google Cloud IAM",
+        "description": "The APIs are enabled but Jackie still needs IAM access to the project to create OAuth credentials and manage the APIs.",
+        "steps": [
+          "Go to https://console.cloud.google.com/iam-admin/iam?project=angelic-bee-490015-s0",
+          "Click '+ GRANT ACCESS' at the top of the page",
+          "In 'New principals' enter: jackypanty647@gmail.com",
+          "Click 'Select a role' dropdown",
+          "Choose 'Basic' > 'Editor'",
+          "Click 'Save'",
+          "That's it! Tell Jackie when done."
         ],
-        "luxdo": [
-            {
-                "id": "lex-luxneon-do-social-2026-03-26",
-                "project": "luxdo",
-                "title": "Claim @luxneon.do on Instagram and Facebook",
-                "description": "30-day social media calendar and all content is ready for Lux Neon DR in Dominican Spanish. Jackie just needs the accounts to exist so content can be scheduled. Claim the handle before someone else does!",
-                "steps": [
-                    "Open Instagram \u2192 Create new business account \u2192 username: luxneon.do (or luxneondo)",
-                    "Open Facebook \u2192 Create new Page \u2192 Lux Neon DR",
-                    "Set profile photo (Lux Neon DR logo)",
-                    "Add bio/description in Spanish",
-                    "Connect both to Meta Business Suite",
-                    "Send Jackie the account details so content can be scheduled"
-                ],
-                "priority": "high",
-                "completed": false,
-                "createdAt": "2026-03-26T14:00:00Z",
-                "addedBy": "Jackie"
-            },
-            {
-                "id": "lex-luxdr-shopify-token-2026-03-26",
-                "project": "luxdo",
-                "title": "Generate Shopify Admin Token (shpat_) for Lux DR Store",
-                "description": "Without a Shopify admin API token, Jackie cannot automate product uploads, blog posts, or any content changes to the DR store.",
-                "steps": [
-                    "Log into ydciat-m8.myshopify.com/admin",
-                    "Go to Settings \u2192 Apps and Sales Channels",
-                    "Click 'Develop apps'",
-                    "Click 'Create an app' \u2192 name it 'Jackie'",
-                    "Under 'API credentials' \u2192 Configure Admin API scopes (select all read/write)",
-                    "Install the app \u2192 Copy the Admin API access token (starts with shpat_)",
-                    "Send to Jackie in Discord"
-                ],
-                "priority": "critical",
-                "completed": false,
-                "createdAt": "2026-03-26T14:00:00Z",
-                "addedBy": "Jackie"
-            },
-            {
-                "id": "jackie-luxdr-strategy-2026-03-26",
-                "project": "luxdo",
-                "title": "Lux DR: Local SEO, Content Calendar, WhatsApp Templates, Social Plan",
-                "description": "Complete Dominican Republic market strategy delivered: local SEO plan, 30-day content calendar in Dominican Spanish, WhatsApp message templates, and social media plan for @luxneon.do.",
-                "priority": "high",
-                "completed": true,
-                "createdAt": "2026-03-25T00:00:00Z",
-                "completedAt": "2026-03-26T14:00:00Z",
-                "addedBy": "Jackie"
-            },
-            {
-                "id": "jackie-luxdr-address-confirmed-2026-03-26",
-                "project": "luxdo",
-                "title": "Lux DR Physical Address Confirmed (Gazcue, Santo Domingo)",
-                "description": "Confirmed and documented the Lux DR physical address in Gazcue, Santo Domingo for local SEO and business listings.",
-                "priority": "medium",
-                "completed": true,
-                "createdAt": "2026-03-26T10:00:00Z",
-                "completedAt": "2026-03-26T14:00:00Z",
-                "addedBy": "Jackie"
-            }
-        ]
-    },
-    "taskPrompts": {
-        "reclaimed-1": {
-            "prompt": "help me strategize a seasonal seo push, running weekly",
-            "priority": "normal",
-            "assigned_at": "2026-04-03T21:38:16.614Z",
-            "sent": true,
-            "history": []
-        },
-        "shirtsy-3": {
-            "prompt": "give me a report when complete",
-            "priority": "normal",
-            "assigned_at": "2026-04-26T13:32:44.317Z",
-            "sent": true,
-            "history": []
-        }
-    },
-    "jackie_responses": {
-        "shirtsy-3": {
-            "status": "done",
-            "response": "# Shirtsy Status Report \u2014 April 26, 2026\n\n## Completed Tasks\n- \u2705 **6 New Shirtsy Blog Posts Drafted** (completed 2026-03-26T14:00:00Z)\n  - Wrote 6 new blog post drafts for Shirtsy. Ready to publish once WP credentials are provided.\n\n## Pending Tasks (Blocked \u2014 Need Lex Action)\n- \ud83d\udfe1 **Claim Shirtsy profile on Trustpilot** [high]\n  - Go to trustpilot.com/review/shirtsy.com and claim the business profile. Currently unclaimed with 2.3/5 rating.\n  - Steps: 4 action items defined\n- \ud83d\udfe1 **Respond to BBB complaints (F rating fix)** [high]\n  - Shirtsy has an F rating because of 2 unanswered complaints. Responding alone should improve the grade.\n  - Steps: 4 action items defined\n- \ud83d\udfe1 **Create/verify Google Business Profile for Shirtsy** [high]\n  - Shirtsy may not have a Google Business Profile. Need one to collect Google Reviews.\n  - Steps: 5 action items defined\n- \ud83d\udd34 **Provide Shirtsy WP Admin Credentials** [critical]\n  - Jackie has 6 blog post drafts ready to publish on Shirtsy and 3 off-topic posts to delete. Cannot do any of this without WordPress admin access.\n  - Steps: 4 action items defined\n\n## Key Blockers\n1. **WP Admin Access** (CRITICAL) \u2014 Jackie has 6 blog posts drafted and 3 off-topic posts to delete. Cannot publish without credentials.\n2. **Trustpilot Claim** \u2014 Shirtsy has 2.3/5 rating, unclaimed. Claiming allows review responses.\n3. **BBB Complaints** \u2014 F rating due to 2-3 unanswered complaints. Responding alone should improve grade.\n4. **Google Business Profile** \u2014 May not exist yet. Needed for Google Reviews and local SEO.\n\n## Summary\n- 1 task(s) complete, 4 task(s) pending\n- All pending tasks are blocked on Lex providing access/credentials or taking manual action on external platforms\n- 6 SEO blog posts are drafted and ready to publish the moment WP access is provided",
-            "completed_at": "2026-04-26T14:03:41Z",
-            "summary": "Shirtsy status report generated: 1 task complete (6 blog drafts), 4 tasks blocked pending Lex action (WP access, Trustpilot claim, BBB complaints, GBP creation)"
-        }
-    },
-    "lastUpdated": "2026-05-16T10:01:00Z",
-    "source": "ops-dashboard",
-    "activityLog": [
-        {
-            "timestamp": "2026-05-14T01:02:00Z",
-            "type": "hourly-check",
-            "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
-            "details": "Scanned all taskStates and taskPrompts. No tasks with jackie-execute status. Active states: lux-1/2/3/4/7/oauth=execute (Lex tasks), reclaimed-1=todo, shirtsy-3=done. Board idle.",
-            "status": "idle"
-        },
-        {
-            "timestamp": "2026-05-14T02:02:00Z",
-            "type": "hourly-check",
-            "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
-            "details": "Scanned all taskStates and taskPrompts. No tasks with jackie-execute status. Active states: lux-1/2/3/4/7/oauth=execute (Lex tasks), reclaimed-1=todo, shirtsy-3=done. Board idle.",
-            "status": "idle"
-        },
-        {
-            "timestamp": "2026-05-14T03:01:00Z",
-            "type": "hourly-check",
-            "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
-            "details": "Scanned taskStates and taskPrompts. No new tasks with jackie-execute status. reclaimed-1 remains todo, shirtsy-3 is done. 6 lux tasks in execute state (these are Lex manual tasks, not Jackie-executable). Board is idle.",
-            "status": "no-action"
-        },
-        {
-            "timestamp": "2026-05-14T04:02:00Z",
-            "type": "hourly-check",
-            "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
-            "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo, shirtsy-3=done. 6 lux tasks in execute state (Lex manual tasks). Board idle.",
-            "status": "idle"
-        },
-        {
-            "timestamp": "2026-05-14T05:01:00Z",
-            "type": "hourly-check",
-            "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
-            "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo, shirtsy-3=done. 6 lux tasks in execute state (Lex manual tasks). Board idle.",
-            "status": "idle"
-        },
-        {
-            "timestamp": "2026-05-14T06:02:00Z",
-            "type": "hourly-check",
-            "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
-            "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo, shirtsy-3=done. 6 lux tasks in execute state (Lex manual tasks). Board idle.",
-            "status": "idle"
-        },
-        {
-            "timestamp": "2026-05-14T07:01:00Z",
-            "type": "hourly-check",
-            "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
-            "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo, shirtsy-3=done. 6 lux tasks in execute state (Lex manual tasks). Board idle.",
-            "status": "idle"
-        },
-        {
-            "timestamp": "2026-05-14T08:01:00Z",
-            "type": "hourly-check",
-            "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
-            "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo, shirtsy-3=done. 6 lux tasks in execute state (Lex manual tasks). Board idle.",
-            "status": "idle"
-        },
-        {
-            "timestamp": "2026-05-14T09:02:00Z",
-            "type": "hourly-check",
-            "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
-            "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo, shirtsy-3=done. 6 lux tasks in execute state (Lex manual tasks). Board idle.",
-            "status": "idle"
-        },
-        {
-            "timestamp": "2026-05-14T10:01:00Z",
-            "type": "hourly-check",
-            "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
-            "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo, shirtsy-3=done. 6 lux tasks in execute state (Lex manual tasks). Board idle.",
-            "status": "idle"
-        },
-        {
-            "timestamp": "2026-05-14T11:01:00Z",
-            "type": "hourly-check",
-            "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
-            "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo, shirtsy-3=done. 6 lux tasks in execute state (Lex manual tasks). Board idle.",
-            "status": "idle"
-        },
-        {
-            "timestamp": "2026-05-14T12:02:00Z",
-            "type": "hourly-check",
-            "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
-            "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo (sent), shirtsy-3=done (sent). 6 lux tasks in execute state (Lex manual). Board idle.",
-            "status": "no-action"
-        },
-        {
-            "timestamp": "2026-05-14T13:01:00Z",
-            "type": "hourly-check",
-            "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
-            "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo (sent), shirtsy-3=done (sent). 6 lux tasks in execute state (Lex manual). Board idle.",
-            "status": "no-action"
-        },
-        {
-            "timestamp": "2026-05-14T14:05:00Z",
-            "type": "hourly-check",
-            "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
-            "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo (sent), shirtsy-3=done (sent). 6 lux tasks in execute state (Lex manual). Board idle.",
-            "status": "no-action"
-        },
-        {
-            "timestamp": "2026-05-14T15:01:00Z",
-            "type": "hourly-check",
-            "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
-            "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo (sent), shirtsy-3=done (sent). 6 lux tasks in execute state (Lex manual). Board idle.",
-            "status": "no-action"
-        },
-        {
-            "timestamp": "2026-05-14T16:02:00Z",
-            "type": "hourly-check",
-            "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
-            "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo (sent), shirtsy-3=done (sent). 6 lux tasks in execute state (Lex manual). Board idle.",
-            "status": "no-action"
-        },
-        {
-            "timestamp": "2026-05-14T17:02:00Z",
-            "type": "hourly-check",
-            "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
-            "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo (sent), shirtsy-3=done (sent). 6 lux tasks in execute state (Lex manual). Board idle.",
-            "status": "no-action"
-        },
-        {
-            "timestamp": "2026-05-14T18:02:00Z",
-            "type": "hourly-check",
-            "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
-            "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo (sent), shirtsy-3=done (sent). 6 lux tasks in execute state (Lex manual). Board idle.",
-            "status": "no-action"
-        },
-        {
-            "timestamp": "2026-05-14T20:04:00Z",
-            "type": "hourly-check",
-            "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
-            "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo (sent), shirtsy-3=done (sent). 6 lux tasks in execute state (Lex manual). Board idle.",
-            "status": "no-action"
-        },
-        {
-            "timestamp": "2026-05-14T21:01:00Z",
-            "type": "hourly-check",
-            "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
-            "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo (sent), shirtsy-3=done (sent). 6 lux tasks in execute state (Lex manual). Board idle.",
-            "status": "no-action"
-        },
-        {
-            "timestamp": "2026-05-14T22:02:00Z",
-            "type": "hourly-check",
-            "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
-            "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo (sent), shirtsy-3=done (sent). 6 lux tasks in execute state (Lex manual). Board idle.",
-            "status": "no-action"
-        },
-        {
-            "timestamp": "2026-05-14T23:01:00Z",
-            "type": "hourly-check",
-            "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
-            "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo (sent), shirtsy-3=done (sent). 6 lux tasks in execute state (Lex manual). Board idle.",
-            "status": "no-action"
-        },
-        {
-            "timestamp": "2026-05-15T00:01:00Z",
-            "type": "hourly-check",
-            "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
-            "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo (sent), shirtsy-3=done (sent). 6 lux tasks in execute state (Lex manual). Board idle.",
-            "status": "no-action"
-        },
-        {
-            "timestamp": "2026-05-15T02:02:00Z",
-            "type": "hourly-check",
-            "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
-            "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo (sent), shirtsy-3=done (sent). 6 lux tasks in execute state (Lex manual). Board idle.",
-            "status": "no-action"
-        },
-        {
-            "timestamp": "2026-05-15T03:01:00Z",
-            "type": "hourly-check",
-            "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
-            "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo (sent), shirtsy-3=done (sent). 6 lux tasks in execute state (Lex manual). Board idle.",
-            "status": "no-action"
-        },
-        {
-            "timestamp": "2026-05-15T04:01:00Z",
-            "type": "hourly-check",
-            "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
-            "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo, shirtsy-3=done. 6 lux tasks in execute state (Lex manual tasks). Board idle.",
-            "status": "idle"
-        },
-        {
-            "timestamp": "2026-05-15T05:02:00Z",
-            "type": "hourly-check",
-            "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
-            "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo, shirtsy-3=done. 6 lux tasks in execute state (Lex manual tasks). Board idle.",
-            "status": "idle"
-        },
-        {
-            "timestamp": "2026-05-15T06:01:00Z",
-            "type": "hourly-check",
-            "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
-            "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo, shirtsy-3=done. 6 lux tasks in execute state (Lex manual tasks). Board idle.",
-            "status": "idle"
-        },
-        {
-            "timestamp": "2026-05-15T07:01:00Z",
-            "type": "hourly-check",
-            "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
-            "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo, shirtsy-3=done. 6 lux tasks in execute state (Lex manual tasks). Board idle.",
-            "status": "idle"
-        },
-        {
-            "timestamp": "2026-05-15T14:02:00Z",
-            "type": "hourly-check",
-            "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
-            "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo, shirtsy-3=done. 6 lux tasks in execute state (Lex manual tasks). Board idle.",
-            "status": "idle"
-        },
-        {
-            "timestamp": "2026-05-15T15:01:00Z",
-            "type": "hourly-check",
-            "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
-            "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo, shirtsy-3=done. 6 lux tasks in execute state (Lex manual tasks). Board idle.",
-            "status": "idle"
-        },
-        {
-            "timestamp": "2026-05-15T16:01:00Z",
-            "type": "hourly-check",
-            "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
-            "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo, shirtsy-3=done. 6 lux tasks in execute state (Lex manual tasks). Board idle.",
-            "status": "idle"
-        },
-        {
-            "timestamp": "2026-05-15T17:02:00Z",
-            "type": "hourly-check",
-            "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
-            "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo, shirtsy-3=done. 6 lux tasks in execute state (Lex manual tasks). Board idle.",
-            "status": "idle"
-        },
-        {
-            "timestamp": "2026-05-15T18:02:00Z",
-            "type": "hourly-check",
-            "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
-            "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo, shirtsy-3=done. 6 lux tasks in execute state (Lex manual tasks). Board idle.",
-            "status": "idle"
-        },
-        {
-            "timestamp": "2026-05-15T19:05:00Z",
-            "type": "hourly-check",
-            "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
-            "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo, shirtsy-3=done. 6 lux tasks in execute state (Lex manual tasks). Board idle.",
-            "status": "idle"
-        },
-        {
-            "timestamp": "2026-05-15T20:03:00Z",
-            "type": "hourly-check",
-            "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
-            "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo, shirtsy-3=done. 6 lux tasks in execute state (Lex manual tasks). Board idle.",
-            "status": "idle"
-        },
-        {
-            "timestamp": "2026-05-15T21:01:00Z",
-            "type": "hourly-check",
-            "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
-            "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo, shirtsy-3=done. 6 lux tasks in execute state (Lex manual tasks). Board idle.",
-            "status": "idle"
-        },
-        {
-            "timestamp": "2026-05-15T22:01:00Z",
-            "type": "hourly-check",
-            "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
-            "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo, shirtsy-3=done. 6 lux tasks in execute state (Lex manual tasks). Board idle.",
-            "status": "idle"
-        },
-        {
-            "timestamp": "2026-05-15T23:01:00Z",
-            "type": "hourly-check",
-            "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
-            "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo, shirtsy-3=done. 6 lux tasks in execute state (Lex manual tasks). Board idle.",
-            "status": "idle"
-        },
-        {
-            "timestamp": "2026-05-16T00:01:00Z",
-            "type": "hourly-check",
-            "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
-            "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo, shirtsy-3=done. 6 lux tasks in execute state (Lex manual tasks). Board idle.",
-            "status": "idle"
-        },
-        {
-            "timestamp": "2026-05-16T01:02:00Z",
-            "type": "hourly-check",
-            "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
-            "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo, shirtsy-3=done. 6 lux tasks in execute state (Lex manual tasks). Board idle.",
-            "status": "idle"
-        },
-        {
-            "timestamp": "2026-05-16T02:02:00Z",
-            "type": "hourly-check",
-            "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
-            "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo, shirtsy-3=done. 6 lux tasks in execute state (Lex manual tasks). Board idle.",
-            "status": "idle"
-        },
-        {
-            "timestamp": "2026-05-16T03:01:00Z",
-            "type": "hourly-check",
-            "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
-            "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo, shirtsy-3=done. 6 lux tasks in execute state (Lex manual tasks). Board idle.",
-            "status": "idle"
-        },
-        {
-            "timestamp": "2026-05-16T04:02:00Z",
-            "type": "hourly-check",
-            "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
-            "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo, shirtsy-3=done. 6 lux tasks in execute state (Lex manual tasks). Board idle.",
-            "status": "idle"
-        },
-        {
-            "timestamp": "2026-05-16T05:01:00Z",
-            "type": "hourly-check",
-            "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
-            "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo, shirtsy-3=done. 6 lux tasks in execute state (Lex manual tasks). Board idle.",
-            "status": "idle"
-        },
-        {
-            "timestamp": "2026-05-16T06:01:00Z",
-            "type": "hourly-check",
-            "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
-            "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo, shirtsy-3=done. 6 lux tasks in execute state (Lex manual tasks). Board idle.",
-            "status": "idle"
-        },
-        {
-            "timestamp": "2026-05-16T07:01:00Z",
-            "type": "hourly-check",
-            "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
-            "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo, shirtsy-3=done. 6 lux tasks in execute state (Lex manual tasks). Board idle.",
-            "status": "idle"
-        },
-        {
-            "timestamp": "2026-05-16T08:01:00Z",
-            "type": "hourly-check",
-            "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
-            "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo, shirtsy-3=done. 6 lux tasks in execute state (Lex manual tasks). Board idle.",
-            "status": "idle"
-        },
-        {
-            "timestamp": "2026-05-16T09:02:00Z",
-            "type": "hourly-check",
-            "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
-            "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo (sent), shirtsy-3=done (sent). 6 lux tasks in execute state (Lex manual). Board idle.",
-            "status": "no-action"
-        },
-        {
-            "timestamp": "2026-05-16T10:01:00Z",
-            "type": "hourly-check",
-            "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
-            "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo, shirtsy-3=done. 6 lux tasks in execute state (Lex manual tasks). Board idle.",
-            "status": "idle"
-        }
+        "priority": "critical",
+        "completed": true,
+        "createdAt": "2026-03-14T16:01:00Z",
+        "addedBy": "Jackie",
+        "completedAt": "2026-03-14T16:01:00Z"
+      },
+      {
+        "id": "lex-lux-hours-update",
+        "project": "lux",
+        "title": "Update hours to 10AM-6PM on Google, Yelp, Facebook, TripAdvisor",
+        "description": "Website is updated. Now update third-party listings to match. Google is highest priority \u2014 most aggregators pull from it.",
+        "steps": [
+          "Google Business Profile: business.google.com > Lux Neon > Hours > Mon-Fri close at 6:00 PM",
+          "Yelp: biz.yelp.com > Business Info > Hours (fix Sat/Sun to By Appointment instead of Closed)",
+          "Facebook: Page Settings > Business Info > Hours",
+          "TripAdvisor: Owner portal > Update hours"
+        ],
+        "priority": "high",
+        "completed": true,
+        "createdAt": "2026-03-16T16:00:00Z",
+        "addedBy": "Jackie",
+        "completedAt": "2026-03-17T01:10:03.335Z"
+      },
+      {
+        "id": "jackie-lux-app-audit",
+        "project": "lux",
+        "title": "Audit & disable unnecessary Shopify app scripts on homepage",
+        "description": "77 scripts loading on homepage. Many apps only needed on specific pages.",
+        "priority": "high",
+        "category": "speed",
+        "completed": false,
+        "createdAt": "2026-03-17T03:44:00Z",
+        "addedBy": "Jackie"
+      },
+      {
+        "id": "jackie-lux-remove-polyfill",
+        "project": "lux",
+        "title": "Find and remove 334KB polyfill bundle (injected by app)",
+        "priority": "medium",
+        "category": "speed",
+        "completed": false,
+        "createdAt": "2026-03-17T03:44:00Z",
+        "addedBy": "Jackie"
+      },
+      {
+        "id": "jackie-lux-compress-remaining-images",
+        "project": "lux",
+        "title": "Convert remaining large PNGs to WebP across all templates",
+        "description": "mika_queen1 (506KB), event-space (288KB), rainbow (243KB)",
+        "priority": "medium",
+        "category": "speed",
+        "completed": false,
+        "createdAt": "2026-03-17T03:44:00Z",
+        "addedBy": "Jackie"
+      },
+      {
+        "id": "jackie-lux-css-consolidation",
+        "project": "lux",
+        "title": "Consolidate fragmented CSS (20+ files per page)",
+        "priority": "low",
+        "category": "speed",
+        "completed": false,
+        "createdAt": "2026-03-17T03:44:00Z",
+        "addedBy": "Jackie"
+      },
+      {
+        "id": "jackie-lux-reduce-html-bloat",
+        "project": "lux",
+        "title": "Reduce HTML payload from 195KB to under 50KB",
+        "priority": "medium",
+        "category": "speed",
+        "completed": false,
+        "createdAt": "2026-03-17T03:44:00Z",
+        "addedBy": "Jackie"
+      },
+      {
+        "id": "jackie-lux-lazy-load-belowfold",
+        "project": "lux",
+        "title": "Add loading=lazy to all below-fold images",
+        "priority": "medium",
+        "category": "speed",
+        "completed": false,
+        "createdAt": "2026-03-17T03:44:00Z",
+        "addedBy": "Jackie"
+      },
+      {
+        "id": "jackie-lux-local-landing-pages",
+        "project": "lux",
+        "title": "Create local SEO landing pages for 0-difficulty keywords",
+        "description": "neon signs Fort Lauderdale, custom neon signs Miami, podcast studio Fort Lauderdale, event venue Dania Beach",
+        "priority": "high",
+        "category": "seo",
+        "completed": false,
+        "createdAt": "2026-03-17T03:44:00Z",
+        "addedBy": "Jackie"
+      },
+      {
+        "id": "jackie-lux-uppromote-cls-fix",
+        "project": "lux",
+        "title": "Fix CLS caused by uppromote affiliate banner injection",
+        "priority": "medium",
+        "category": "speed",
+        "completed": false,
+        "createdAt": "2026-03-17T03:44:00Z",
+        "addedBy": "Jackie"
+      },
+      {
+        "id": "lex-tidio-lyro-ai-2026-03-26",
+        "project": "lux",
+        "title": "Set Up Lyro AI in Tidio Dashboard",
+        "description": "Jackie installed Tidio live chat and delivered full Lyro AI setup instructions. Now you just need to enable and configure Lyro AI in the Tidio dashboard. Instructions were sent \u2014 this is a quick 10-minute setup.",
+        "steps": [
+          "Log into app.tidio.com",
+          "Go to Automation \u2192 Lyro AI",
+          "Enable Lyro AI",
+          "Add your FAQ content (hours, pricing, location, services)",
+          "Set fallback action: 'Forward to live agent'",
+          "Test with a sample question"
+        ],
+        "priority": "medium",
+        "completed": false,
+        "createdAt": "2026-03-26T14:00:00Z",
+        "addedBy": "Jackie"
+      },
+      {
+        "id": "lex-update-hours-2026-03-26",
+        "project": "lux",
+        "title": "Update Hours on Google Business, Yelp, Facebook, TripAdvisor",
+        "description": "Lux Neon hours may be outdated or inconsistent across platforms. Consistent NAP (Name, Address, Phone + Hours) is critical for local SEO.",
+        "steps": [
+          "Google Business: business.google.com \u2192 Edit profile \u2192 Hours",
+          "Yelp: biz.yelp.com \u2192 Business Information \u2192 Hours",
+          "Facebook: Your page \u2192 Edit Page Info \u2192 Hours",
+          "TripAdvisor: Your listing \u2192 Edit \u2192 Business Details \u2192 Hours",
+          "Make sure all show the same hours"
+        ],
+        "priority": "medium",
+        "completed": false,
+        "createdAt": "2026-03-26T14:00:00Z",
+        "addedBy": "Jackie"
+      },
+      {
+        "id": "jackie-tidio-hide-admin-2026-03-26",
+        "project": "lux",
+        "title": "Tidio Hidden for Admin Users",
+        "description": "Configured Tidio live chat widget to be hidden from logged-in admin users so it doesn't clutter the store management experience.",
+        "priority": "medium",
+        "completed": true,
+        "createdAt": "2026-03-26T10:00:00Z",
+        "completedAt": "2026-03-26T14:00:00Z",
+        "addedBy": "Jackie"
+      },
+      {
+        "id": "jackie-neon-images-2026-03-26",
+        "project": "lux",
+        "title": "28 Neon Sign Images Generated & Uploaded",
+        "description": "Generated and uploaded 28 AI neon sign product images to Lux Neon store using OpenAI image generation.",
+        "priority": "high",
+        "completed": true,
+        "createdAt": "2026-03-25T00:00:00Z",
+        "completedAt": "2026-03-26T14:00:00Z",
+        "addedBy": "Jackie"
+      },
+      {
+        "id": "jackie-spartan-warrior-product-2026-03-26",
+        "project": "lux",
+        "title": "Spartan Warrior Product Created ($400)",
+        "description": "Created the Spartan Warrior neon sign product listing on Lux at $400 price point.",
+        "priority": "medium",
+        "completed": true,
+        "createdAt": "2026-03-26T10:00:00Z",
+        "completedAt": "2026-03-26T14:00:00Z",
+        "addedBy": "Jackie"
+      },
+      {
+        "id": "jackie-flickity-bug-fix-2026-03-26",
+        "project": "lux",
+        "title": "Flickity JS Bug Fixed",
+        "description": "Fixed Flickity carousel JavaScript bug that was causing layout issues on Lux storefront.",
+        "priority": "high",
+        "completed": true,
+        "createdAt": "2026-03-25T00:00:00Z",
+        "completedAt": "2026-03-26T14:00:00Z",
+        "addedBy": "Jackie"
+      },
+      {
+        "id": "jackie-pagefly-disabled-2026-03-26",
+        "project": "lux",
+        "title": "PageFly Disabled",
+        "description": "Disabled PageFly page builder app on Lux to reduce script bloat and improve page load speed.",
+        "priority": "medium",
+        "completed": true,
+        "createdAt": "2026-03-26T10:00:00Z",
+        "completedAt": "2026-03-26T14:00:00Z",
+        "addedBy": "Jackie"
+      },
+      {
+        "id": "jackie-footer-macarons-removed-2026-03-26",
+        "project": "lux",
+        "title": "Footer Macarons Link Removed",
+        "description": "Removed outdated macarons link from the Lux Neon footer navigation.",
+        "priority": "low",
+        "completed": true,
+        "createdAt": "2026-03-26T10:00:00Z",
+        "completedAt": "2026-03-26T14:00:00Z",
+        "addedBy": "Jackie"
+      },
+      {
+        "id": "jackie-event-venue-campaign-plan-2026-03-26",
+        "project": "lux",
+        "title": "Event Venue Campaign Plan Ready",
+        "description": "Complete Google Ads campaign plan drafted for Lux Event Venue Rental. Ready to launch once OAuth is authorized.",
+        "priority": "high",
+        "completed": true,
+        "createdAt": "2026-03-26T10:00:00Z",
+        "completedAt": "2026-03-26T14:00:00Z",
+        "addedBy": "Jackie"
+      },
+      {
+        "id": "jackie-lux-business-profile-saved-2026-03-26",
+        "project": "lux",
+        "title": "Lux Business Profile Saved",
+        "description": "Saved and documented the full Lux Neon business profile including contact info, hours, services, and social handles.",
+        "priority": "medium",
+        "completed": true,
+        "createdAt": "2026-03-26T10:00:00Z",
+        "completedAt": "2026-03-26T14:00:00Z",
+        "addedBy": "Jackie"
+      },
+      {
+        "id": "jackie-google-ads-conversion-tracking-2026-03-26",
+        "project": "lux",
+        "title": "Google Ads Conversion Tracking Setup",
+        "description": "Setting up conversion tracking for Google Ads campaigns (form submissions, calls, purchases). Blocked pending OAuth authorization from Lex.",
+        "priority": "high",
+        "completed": false,
+        "createdAt": "2026-03-26T14:00:00Z",
+        "addedBy": "Jackie"
+      }
+    ],
+    "goodneon": [
+      {
+        "id": "lex-gn-swap-image",
+        "project": "goodneon",
+        "title": "Swap 864KB mock image in Elementor homepage editor with optimized WebP (16x23-mock-optimized in media library)",
+        "priority": "high",
+        "completed": false
+      },
+      {
+        "id": "lex-gn-cloudflare-apo",
+        "project": "goodneon",
+        "title": "Enable Cloudflare APO for WordPress ($5/mo) in Cloudflare dashboard",
+        "priority": "high",
+        "completed": false
+      },
+      {
+        "id": "lex-goodneon-wp-password-2026-03-26",
+        "project": "goodneon",
+        "title": "Generate New GoodNeon WP App Password",
+        "description": "The GoodNeon WordPress app password expired. Jackie cannot post, edit, or manage any GoodNeon content without it. Need a fresh app password to restore access.",
+        "steps": [
+          "Log into GoodNeon WordPress admin",
+          "Go to Users \u2192 Your Profile (top right of admin)",
+          "Scroll down to 'Application Passwords'",
+          "Create a new app password named 'Jackie'",
+          "Copy and send the generated password to Jackie in Discord"
+        ],
+        "priority": "critical",
+        "completed": false,
+        "createdAt": "2026-03-26T14:00:00Z",
+        "addedBy": "Jackie"
+      }
+    ],
+    "coconut": [
+      {
+        "id": "lex-coconut-klaviyo",
+        "project": "coconut",
+        "title": "Set up Klaviyo account for Coconut Bikini & share API key with Jackie",
+        "priority": "high",
+        "completed": false
+      }
+    ],
+    "reclaimed": [
+      {
+        "id": "lex-reclaimed-klaviyo",
+        "project": "reclaimed",
+        "title": "Set up Klaviyo account for Reclaimed Closet & share API key with Jackie",
+        "priority": "high",
+        "completed": false
+      },
+      {
+        "id": "lex-reclaimed-footer-sizechart",
+        "project": "reclaimed",
+        "title": "Add Size Chart link to footer navigation",
+        "description": "Size chart page is live at /pages/size-chart. Add the link to your footer menu.",
+        "steps": [
+          "Go to Shopify Admin > Online Store > Navigation",
+          "Click 'Footer' menu",
+          "Click 'Add menu item'",
+          "Name: 'Size Chart', Link: /pages/size-chart",
+          "Save"
+        ],
+        "priority": "medium",
+        "status": "todo"
+      },
+      {
+        "id": "lex-reclaimed-nav-scope",
+        "project": "reclaimed",
+        "title": "Add navigation scopes to Jackie's Reclaimed app",
+        "description": "Jackie needs read_navigation + write_navigation scopes to manage menus via API.",
+        "steps": [
+          "Go to Shopify Partners > Apps > Jackie's Reclaimed Closet app",
+          "Configuration > API access scopes",
+          "Add: read_navigation, write_navigation",
+          "Save and re-authorize the app"
+        ],
+        "priority": "medium",
+        "status": "todo"
+      }
+    ],
+    "shirtsy": [
+      {
+        "id": "lex-shirtsy-trustpilot-claim",
+        "project": "shirtsy",
+        "title": "Claim Shirtsy profile on Trustpilot",
+        "description": "Go to trustpilot.com/review/shirtsy.com and claim the business profile. Currently unclaimed with 2.3/5 rating.",
+        "steps": [
+          "Go to trustpilot.com/review/shirtsy.com",
+          "Click 'Is this your company?' or 'Claim your profile'",
+          "Verify ownership via email (use shirtsy business email)",
+          "Once claimed, Jackie will draft responses to all reviews"
+        ],
+        "priority": "high",
+        "status": "todo"
+      },
+      {
+        "id": "lex-shirtsy-bbb-respond",
+        "project": "shirtsy",
+        "title": "Respond to BBB complaints (F rating fix)",
+        "description": "Shirtsy has an F rating because of 2 unanswered complaints. Responding alone should improve the grade.",
+        "steps": [
+          "Log into BBB at bbb.org",
+          "Go to Shirtsy LLC profile > Complaints",
+          "Respond to all 3 complaints (Jackie will draft responses)",
+          "Consider applying for BBB Accreditation (~$500/yr)"
+        ],
+        "priority": "high",
+        "status": "todo"
+      },
+      {
+        "id": "lex-shirtsy-gbp-create",
+        "project": "shirtsy",
+        "title": "Create/verify Google Business Profile for Shirtsy",
+        "description": "Shirtsy may not have a Google Business Profile. Need one to collect Google Reviews.",
+        "steps": [
+          "Search 'Shirtsy' on Google Maps",
+          "If no listing: create one at business.google.com",
+          "Business: Shirtsy LLC, 1210 Stirling Rd STE 1A, Dania Beach FL 33004",
+          "Category: Custom T-shirt Store / Printing Service",
+          "Verify via mail or phone"
+        ],
+        "priority": "high",
+        "status": "todo"
+      },
+      {
+        "id": "lex-shirtsy-wp-access-2026-03-26",
+        "project": "shirtsy",
+        "title": "Provide Shirtsy WP Admin Credentials",
+        "description": "Jackie has 6 blog post drafts ready to publish on Shirtsy and 3 off-topic posts to delete. Cannot do any of this without WordPress admin access.",
+        "steps": [
+          "Send Jackie the Shirtsy WordPress admin URL (likely shirtsy.com/wp-admin)",
+          "Either: share admin username + password",
+          "Or: Go to Users \u2192 Add New \u2192 create a new admin user for Jackie",
+          "Or: Go to your profile \u2192 Application Passwords \u2192 create 'Jackie' app password"
+        ],
+        "priority": "critical",
+        "completed": false,
+        "createdAt": "2026-03-26T14:00:00Z",
+        "addedBy": "Jackie"
+      },
+      {
+        "id": "jackie-shirtsy-blog-drafts-2026-03-26",
+        "project": "shirtsy",
+        "title": "6 New Shirtsy Blog Posts Drafted",
+        "description": "Wrote 6 new blog post drafts for Shirtsy. Ready to publish once WP credentials are provided.",
+        "priority": "high",
+        "completed": true,
+        "createdAt": "2026-03-25T00:00:00Z",
+        "completedAt": "2026-03-26T14:00:00Z",
+        "addedBy": "Jackie"
+      }
+    ],
+    "all": [
+      {
+        "id": "jackie-cloudflare-cache-security-fix",
+        "project": "all",
+        "title": "EMERGENCY: Fix Cloudflare caching user-specific pages (data leak)",
+        "description": "Cloudflare was caching /my-account/ and /client-dashboard/ and serving them to other users. Purged all caches and added bypass rules on Crown, Shirtsy, GoodNeon.",
+        "priority": "critical",
+        "category": "security",
+        "completed": true,
+        "createdAt": "2026-03-24T19:28:00Z",
+        "completedAt": "2026-03-24T19:35:00Z",
+        "addedBy": "Jackie"
+      },
+      {
+        "id": "jackie-blog-audit-cleanup-2026-03-26",
+        "project": "all",
+        "title": "Blog Audit & Cleanup: Lux (31), Coconut (26), Reclaimed (13), Crown (1)",
+        "description": "Comprehensive blog audit and cleanup across all sites: 71 total fixes applied \u2014 SEO metadata, formatting, broken links, and content quality improvements.",
+        "priority": "high",
+        "completed": true,
+        "createdAt": "2026-03-25T00:00:00Z",
+        "completedAt": "2026-03-26T14:00:00Z",
+        "addedBy": "Jackie"
+      },
+      {
+        "id": "jackie-blog-featured-images-2026-03-26",
+        "project": "all",
+        "title": "~45 Blog Articles Need Featured Images (Coconut & Reclaimed)",
+        "description": "After blog audit, approximately 45 blog articles on Coconut Bikini and Reclaimed Closet are missing featured images. In progress \u2014 images being generated and assigned.",
+        "priority": "medium",
+        "completed": false,
+        "createdAt": "2026-03-26T14:00:00Z",
+        "addedBy": "Jackie"
+      }
+    ],
+    "system": [
+      {
+        "id": "lex-google-ads-oauth-2026-03-26",
+        "project": "system",
+        "title": "Click Google Ads OAuth Link (ONE CLICK \u2014 unblocks 3 campaigns)",
+        "description": "Jackie built the OAuth callback at ops.jackiespanties.com/callback. You just need to click a link and paste the auth code back to Jackie. This unblocks all Google Ads automation: Custom Neon Signs optimization, Event Venue Rental ($40/day new campaign), and Podcast Studio campaign.",
+        "steps": [
+          "Ask Jackie for the Google Ads OAuth authorization URL",
+          "Click the link \u2014 it opens Google sign-in",
+          "Sign in with your Google Ads account",
+          "Copy the auth code from the callback page",
+          "Paste the code to Jackie in Discord"
+        ],
+        "priority": "critical",
+        "completed": false,
+        "createdAt": "2026-03-26T14:00:00Z",
+        "addedBy": "Jackie"
+      },
+      {
+        "id": "lex-google-ads-terms-2026-03-26",
+        "project": "system",
+        "title": "Accept Call & Messaging Ads Terms in Google Ads",
+        "description": "Before Jackie can set up call and message conversion tracking, you need to accept Google's Terms for Call Ads and Messaging Ads in your Google Ads account.",
+        "steps": [
+          "Go to ads.google.com",
+          "Tools & Settings \u2192 Billing & Payments \u2192 look for any terms acceptance prompts",
+          "Or: Tools & Settings \u2192 Measurement \u2192 Conversions \u2192 look for call/messaging setup"
+        ],
+        "priority": "high",
+        "completed": false,
+        "createdAt": "2026-03-26T14:00:00Z",
+        "addedBy": "Jackie"
+      }
+    ],
+    "luxdo": [
+      {
+        "id": "lex-luxneon-do-social-2026-03-26",
+        "project": "luxdo",
+        "title": "Claim @luxneon.do on Instagram and Facebook",
+        "description": "30-day social media calendar and all content is ready for Lux Neon DR in Dominican Spanish. Jackie just needs the accounts to exist so content can be scheduled. Claim the handle before someone else does!",
+        "steps": [
+          "Open Instagram \u2192 Create new business account \u2192 username: luxneon.do (or luxneondo)",
+          "Open Facebook \u2192 Create new Page \u2192 Lux Neon DR",
+          "Set profile photo (Lux Neon DR logo)",
+          "Add bio/description in Spanish",
+          "Connect both to Meta Business Suite",
+          "Send Jackie the account details so content can be scheduled"
+        ],
+        "priority": "high",
+        "completed": false,
+        "createdAt": "2026-03-26T14:00:00Z",
+        "addedBy": "Jackie"
+      },
+      {
+        "id": "lex-luxdr-shopify-token-2026-03-26",
+        "project": "luxdo",
+        "title": "Generate Shopify Admin Token (shpat_) for Lux DR Store",
+        "description": "Without a Shopify admin API token, Jackie cannot automate product uploads, blog posts, or any content changes to the DR store.",
+        "steps": [
+          "Log into ydciat-m8.myshopify.com/admin",
+          "Go to Settings \u2192 Apps and Sales Channels",
+          "Click 'Develop apps'",
+          "Click 'Create an app' \u2192 name it 'Jackie'",
+          "Under 'API credentials' \u2192 Configure Admin API scopes (select all read/write)",
+          "Install the app \u2192 Copy the Admin API access token (starts with shpat_)",
+          "Send to Jackie in Discord"
+        ],
+        "priority": "critical",
+        "completed": false,
+        "createdAt": "2026-03-26T14:00:00Z",
+        "addedBy": "Jackie"
+      },
+      {
+        "id": "jackie-luxdr-strategy-2026-03-26",
+        "project": "luxdo",
+        "title": "Lux DR: Local SEO, Content Calendar, WhatsApp Templates, Social Plan",
+        "description": "Complete Dominican Republic market strategy delivered: local SEO plan, 30-day content calendar in Dominican Spanish, WhatsApp message templates, and social media plan for @luxneon.do.",
+        "priority": "high",
+        "completed": true,
+        "createdAt": "2026-03-25T00:00:00Z",
+        "completedAt": "2026-03-26T14:00:00Z",
+        "addedBy": "Jackie"
+      },
+      {
+        "id": "jackie-luxdr-address-confirmed-2026-03-26",
+        "project": "luxdo",
+        "title": "Lux DR Physical Address Confirmed (Gazcue, Santo Domingo)",
+        "description": "Confirmed and documented the Lux DR physical address in Gazcue, Santo Domingo for local SEO and business listings.",
+        "priority": "medium",
+        "completed": true,
+        "createdAt": "2026-03-26T10:00:00Z",
+        "completedAt": "2026-03-26T14:00:00Z",
+        "addedBy": "Jackie"
+      }
     ]
+  },
+  "taskPrompts": {
+    "reclaimed-1": {
+      "prompt": "help me strategize a seasonal seo push, running weekly",
+      "priority": "normal",
+      "assigned_at": "2026-04-03T21:38:16.614Z",
+      "sent": true,
+      "history": []
+    },
+    "shirtsy-3": {
+      "prompt": "give me a report when complete",
+      "priority": "normal",
+      "assigned_at": "2026-04-26T13:32:44.317Z",
+      "sent": true,
+      "history": []
+    }
+  },
+  "jackie_responses": {
+    "shirtsy-3": {
+      "status": "done",
+      "response": "# Shirtsy Status Report \u2014 April 26, 2026\n\n## Completed Tasks\n- \u2705 **6 New Shirtsy Blog Posts Drafted** (completed 2026-03-26T14:00:00Z)\n  - Wrote 6 new blog post drafts for Shirtsy. Ready to publish once WP credentials are provided.\n\n## Pending Tasks (Blocked \u2014 Need Lex Action)\n- \ud83d\udfe1 **Claim Shirtsy profile on Trustpilot** [high]\n  - Go to trustpilot.com/review/shirtsy.com and claim the business profile. Currently unclaimed with 2.3/5 rating.\n  - Steps: 4 action items defined\n- \ud83d\udfe1 **Respond to BBB complaints (F rating fix)** [high]\n  - Shirtsy has an F rating because of 2 unanswered complaints. Responding alone should improve the grade.\n  - Steps: 4 action items defined\n- \ud83d\udfe1 **Create/verify Google Business Profile for Shirtsy** [high]\n  - Shirtsy may not have a Google Business Profile. Need one to collect Google Reviews.\n  - Steps: 5 action items defined\n- \ud83d\udd34 **Provide Shirtsy WP Admin Credentials** [critical]\n  - Jackie has 6 blog post drafts ready to publish on Shirtsy and 3 off-topic posts to delete. Cannot do any of this without WordPress admin access.\n  - Steps: 4 action items defined\n\n## Key Blockers\n1. **WP Admin Access** (CRITICAL) \u2014 Jackie has 6 blog posts drafted and 3 off-topic posts to delete. Cannot publish without credentials.\n2. **Trustpilot Claim** \u2014 Shirtsy has 2.3/5 rating, unclaimed. Claiming allows review responses.\n3. **BBB Complaints** \u2014 F rating due to 2-3 unanswered complaints. Responding alone should improve grade.\n4. **Google Business Profile** \u2014 May not exist yet. Needed for Google Reviews and local SEO.\n\n## Summary\n- 1 task(s) complete, 4 task(s) pending\n- All pending tasks are blocked on Lex providing access/credentials or taking manual action on external platforms\n- 6 SEO blog posts are drafted and ready to publish the moment WP access is provided",
+      "completed_at": "2026-04-26T14:03:41Z",
+      "summary": "Shirtsy status report generated: 1 task complete (6 blog drafts), 4 tasks blocked pending Lex action (WP access, Trustpilot claim, BBB complaints, GBP creation)"
+    }
+  },
+  "lastUpdated": "2026-05-16T11:01:00Z",
+  "source": "ops-dashboard",
+  "activityLog": [
+    {
+      "timestamp": "2026-05-14T01:02:00Z",
+      "type": "hourly-check",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
+      "details": "Scanned all taskStates and taskPrompts. No tasks with jackie-execute status. Active states: lux-1/2/3/4/7/oauth=execute (Lex tasks), reclaimed-1=todo, shirtsy-3=done. Board idle.",
+      "status": "idle"
+    },
+    {
+      "timestamp": "2026-05-14T02:02:00Z",
+      "type": "hourly-check",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
+      "details": "Scanned all taskStates and taskPrompts. No tasks with jackie-execute status. Active states: lux-1/2/3/4/7/oauth=execute (Lex tasks), reclaimed-1=todo, shirtsy-3=done. Board idle.",
+      "status": "idle"
+    },
+    {
+      "timestamp": "2026-05-14T03:01:00Z",
+      "type": "hourly-check",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
+      "details": "Scanned taskStates and taskPrompts. No new tasks with jackie-execute status. reclaimed-1 remains todo, shirtsy-3 is done. 6 lux tasks in execute state (these are Lex manual tasks, not Jackie-executable). Board is idle.",
+      "status": "no-action"
+    },
+    {
+      "timestamp": "2026-05-14T04:02:00Z",
+      "type": "hourly-check",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
+      "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo, shirtsy-3=done. 6 lux tasks in execute state (Lex manual tasks). Board idle.",
+      "status": "idle"
+    },
+    {
+      "timestamp": "2026-05-14T05:01:00Z",
+      "type": "hourly-check",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
+      "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo, shirtsy-3=done. 6 lux tasks in execute state (Lex manual tasks). Board idle.",
+      "status": "idle"
+    },
+    {
+      "timestamp": "2026-05-14T06:02:00Z",
+      "type": "hourly-check",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
+      "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo, shirtsy-3=done. 6 lux tasks in execute state (Lex manual tasks). Board idle.",
+      "status": "idle"
+    },
+    {
+      "timestamp": "2026-05-14T07:01:00Z",
+      "type": "hourly-check",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
+      "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo, shirtsy-3=done. 6 lux tasks in execute state (Lex manual tasks). Board idle.",
+      "status": "idle"
+    },
+    {
+      "timestamp": "2026-05-14T08:01:00Z",
+      "type": "hourly-check",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
+      "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo, shirtsy-3=done. 6 lux tasks in execute state (Lex manual tasks). Board idle.",
+      "status": "idle"
+    },
+    {
+      "timestamp": "2026-05-14T09:02:00Z",
+      "type": "hourly-check",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
+      "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo, shirtsy-3=done. 6 lux tasks in execute state (Lex manual tasks). Board idle.",
+      "status": "idle"
+    },
+    {
+      "timestamp": "2026-05-14T10:01:00Z",
+      "type": "hourly-check",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
+      "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo, shirtsy-3=done. 6 lux tasks in execute state (Lex manual tasks). Board idle.",
+      "status": "idle"
+    },
+    {
+      "timestamp": "2026-05-14T11:01:00Z",
+      "type": "hourly-check",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
+      "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo, shirtsy-3=done. 6 lux tasks in execute state (Lex manual tasks). Board idle.",
+      "status": "idle"
+    },
+    {
+      "timestamp": "2026-05-14T12:02:00Z",
+      "type": "hourly-check",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
+      "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo (sent), shirtsy-3=done (sent). 6 lux tasks in execute state (Lex manual). Board idle.",
+      "status": "no-action"
+    },
+    {
+      "timestamp": "2026-05-14T13:01:00Z",
+      "type": "hourly-check",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
+      "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo (sent), shirtsy-3=done (sent). 6 lux tasks in execute state (Lex manual). Board idle.",
+      "status": "no-action"
+    },
+    {
+      "timestamp": "2026-05-14T14:05:00Z",
+      "type": "hourly-check",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
+      "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo (sent), shirtsy-3=done (sent). 6 lux tasks in execute state (Lex manual). Board idle.",
+      "status": "no-action"
+    },
+    {
+      "timestamp": "2026-05-14T15:01:00Z",
+      "type": "hourly-check",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
+      "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo (sent), shirtsy-3=done (sent). 6 lux tasks in execute state (Lex manual). Board idle.",
+      "status": "no-action"
+    },
+    {
+      "timestamp": "2026-05-14T16:02:00Z",
+      "type": "hourly-check",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
+      "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo (sent), shirtsy-3=done (sent). 6 lux tasks in execute state (Lex manual). Board idle.",
+      "status": "no-action"
+    },
+    {
+      "timestamp": "2026-05-14T17:02:00Z",
+      "type": "hourly-check",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
+      "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo (sent), shirtsy-3=done (sent). 6 lux tasks in execute state (Lex manual). Board idle.",
+      "status": "no-action"
+    },
+    {
+      "timestamp": "2026-05-14T18:02:00Z",
+      "type": "hourly-check",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
+      "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo (sent), shirtsy-3=done (sent). 6 lux tasks in execute state (Lex manual). Board idle.",
+      "status": "no-action"
+    },
+    {
+      "timestamp": "2026-05-14T20:04:00Z",
+      "type": "hourly-check",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
+      "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo (sent), shirtsy-3=done (sent). 6 lux tasks in execute state (Lex manual). Board idle.",
+      "status": "no-action"
+    },
+    {
+      "timestamp": "2026-05-14T21:01:00Z",
+      "type": "hourly-check",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
+      "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo (sent), shirtsy-3=done (sent). 6 lux tasks in execute state (Lex manual). Board idle.",
+      "status": "no-action"
+    },
+    {
+      "timestamp": "2026-05-14T22:02:00Z",
+      "type": "hourly-check",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
+      "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo (sent), shirtsy-3=done (sent). 6 lux tasks in execute state (Lex manual). Board idle.",
+      "status": "no-action"
+    },
+    {
+      "timestamp": "2026-05-14T23:01:00Z",
+      "type": "hourly-check",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
+      "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo (sent), shirtsy-3=done (sent). 6 lux tasks in execute state (Lex manual). Board idle.",
+      "status": "no-action"
+    },
+    {
+      "timestamp": "2026-05-15T00:01:00Z",
+      "type": "hourly-check",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
+      "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo (sent), shirtsy-3=done (sent). 6 lux tasks in execute state (Lex manual). Board idle.",
+      "status": "no-action"
+    },
+    {
+      "timestamp": "2026-05-15T02:02:00Z",
+      "type": "hourly-check",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
+      "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo (sent), shirtsy-3=done (sent). 6 lux tasks in execute state (Lex manual). Board idle.",
+      "status": "no-action"
+    },
+    {
+      "timestamp": "2026-05-15T03:01:00Z",
+      "type": "hourly-check",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
+      "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo (sent), shirtsy-3=done (sent). 6 lux tasks in execute state (Lex manual). Board idle.",
+      "status": "no-action"
+    },
+    {
+      "timestamp": "2026-05-15T04:01:00Z",
+      "type": "hourly-check",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
+      "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo, shirtsy-3=done. 6 lux tasks in execute state (Lex manual tasks). Board idle.",
+      "status": "idle"
+    },
+    {
+      "timestamp": "2026-05-15T05:02:00Z",
+      "type": "hourly-check",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
+      "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo, shirtsy-3=done. 6 lux tasks in execute state (Lex manual tasks). Board idle.",
+      "status": "idle"
+    },
+    {
+      "timestamp": "2026-05-15T06:01:00Z",
+      "type": "hourly-check",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
+      "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo, shirtsy-3=done. 6 lux tasks in execute state (Lex manual tasks). Board idle.",
+      "status": "idle"
+    },
+    {
+      "timestamp": "2026-05-15T07:01:00Z",
+      "type": "hourly-check",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
+      "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo, shirtsy-3=done. 6 lux tasks in execute state (Lex manual tasks). Board idle.",
+      "status": "idle"
+    },
+    {
+      "timestamp": "2026-05-15T14:02:00Z",
+      "type": "hourly-check",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
+      "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo, shirtsy-3=done. 6 lux tasks in execute state (Lex manual tasks). Board idle.",
+      "status": "idle"
+    },
+    {
+      "timestamp": "2026-05-15T15:01:00Z",
+      "type": "hourly-check",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
+      "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo, shirtsy-3=done. 6 lux tasks in execute state (Lex manual tasks). Board idle.",
+      "status": "idle"
+    },
+    {
+      "timestamp": "2026-05-15T16:01:00Z",
+      "type": "hourly-check",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
+      "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo, shirtsy-3=done. 6 lux tasks in execute state (Lex manual tasks). Board idle.",
+      "status": "idle"
+    },
+    {
+      "timestamp": "2026-05-15T17:02:00Z",
+      "type": "hourly-check",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
+      "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo, shirtsy-3=done. 6 lux tasks in execute state (Lex manual tasks). Board idle.",
+      "status": "idle"
+    },
+    {
+      "timestamp": "2026-05-15T18:02:00Z",
+      "type": "hourly-check",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
+      "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo, shirtsy-3=done. 6 lux tasks in execute state (Lex manual tasks). Board idle.",
+      "status": "idle"
+    },
+    {
+      "timestamp": "2026-05-15T19:05:00Z",
+      "type": "hourly-check",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
+      "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo, shirtsy-3=done. 6 lux tasks in execute state (Lex manual tasks). Board idle.",
+      "status": "idle"
+    },
+    {
+      "timestamp": "2026-05-15T20:03:00Z",
+      "type": "hourly-check",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
+      "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo, shirtsy-3=done. 6 lux tasks in execute state (Lex manual tasks). Board idle.",
+      "status": "idle"
+    },
+    {
+      "timestamp": "2026-05-15T21:01:00Z",
+      "type": "hourly-check",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
+      "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo, shirtsy-3=done. 6 lux tasks in execute state (Lex manual tasks). Board idle.",
+      "status": "idle"
+    },
+    {
+      "timestamp": "2026-05-15T22:01:00Z",
+      "type": "hourly-check",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
+      "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo, shirtsy-3=done. 6 lux tasks in execute state (Lex manual tasks). Board idle.",
+      "status": "idle"
+    },
+    {
+      "timestamp": "2026-05-15T23:01:00Z",
+      "type": "hourly-check",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
+      "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo, shirtsy-3=done. 6 lux tasks in execute state (Lex manual tasks). Board idle.",
+      "status": "idle"
+    },
+    {
+      "timestamp": "2026-05-16T00:01:00Z",
+      "type": "hourly-check",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
+      "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo, shirtsy-3=done. 6 lux tasks in execute state (Lex manual tasks). Board idle.",
+      "status": "idle"
+    },
+    {
+      "timestamp": "2026-05-16T01:02:00Z",
+      "type": "hourly-check",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
+      "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo, shirtsy-3=done. 6 lux tasks in execute state (Lex manual tasks). Board idle.",
+      "status": "idle"
+    },
+    {
+      "timestamp": "2026-05-16T02:02:00Z",
+      "type": "hourly-check",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
+      "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo, shirtsy-3=done. 6 lux tasks in execute state (Lex manual tasks). Board idle.",
+      "status": "idle"
+    },
+    {
+      "timestamp": "2026-05-16T03:01:00Z",
+      "type": "hourly-check",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
+      "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo, shirtsy-3=done. 6 lux tasks in execute state (Lex manual tasks). Board idle.",
+      "status": "idle"
+    },
+    {
+      "timestamp": "2026-05-16T04:02:00Z",
+      "type": "hourly-check",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
+      "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo, shirtsy-3=done. 6 lux tasks in execute state (Lex manual tasks). Board idle.",
+      "status": "idle"
+    },
+    {
+      "timestamp": "2026-05-16T05:01:00Z",
+      "type": "hourly-check",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
+      "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo, shirtsy-3=done. 6 lux tasks in execute state (Lex manual tasks). Board idle.",
+      "status": "idle"
+    },
+    {
+      "timestamp": "2026-05-16T06:01:00Z",
+      "type": "hourly-check",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
+      "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo, shirtsy-3=done. 6 lux tasks in execute state (Lex manual tasks). Board idle.",
+      "status": "idle"
+    },
+    {
+      "timestamp": "2026-05-16T07:01:00Z",
+      "type": "hourly-check",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
+      "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo, shirtsy-3=done. 6 lux tasks in execute state (Lex manual tasks). Board idle.",
+      "status": "idle"
+    },
+    {
+      "timestamp": "2026-05-16T08:01:00Z",
+      "type": "hourly-check",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
+      "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo, shirtsy-3=done. 6 lux tasks in execute state (Lex manual tasks). Board idle.",
+      "status": "idle"
+    },
+    {
+      "timestamp": "2026-05-16T09:02:00Z",
+      "type": "hourly-check",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
+      "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo (sent), shirtsy-3=done (sent). 6 lux tasks in execute state (Lex manual). Board idle.",
+      "status": "no-action"
+    },
+    {
+      "timestamp": "2026-05-16T10:01:00Z",
+      "type": "hourly-check",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
+      "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo, shirtsy-3=done. 6 lux tasks in execute state (Lex manual tasks). Board idle.",
+      "status": "idle"
+    },
+    {
+      "timestamp": "2026-05-16T11:01:00Z",
+      "type": "hourly-check",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
+      "details": "Scanned taskStates and taskPrompts. No tasks with jackie-execute status. reclaimed-1=todo, shirtsy-3=done. 6 lux tasks in execute state (Lex manual tasks). Board idle.",
+      "status": "idle"
+    }
+  ]
 }
