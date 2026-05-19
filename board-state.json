@@ -703,13 +703,6 @@
   "source": "ops-dashboard",
   "activityLog": [
     {
-      "timestamp": "2026-05-18T03:01:00Z",
-      "type": "hourly-check",
-      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
-      "details": "Scanned taskStates: lux-1 thru lux-7 (execute), reclaimed-1 (todo), shirtsy-3 (done). No jackie-execute status found. No danaTasks section present. Board idle.",
-      "status": "idle"
-    },
-    {
       "timestamp": "2026-05-18T04:02:00Z",
       "type": "hourly-check",
       "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
@@ -907,6 +900,13 @@
     },
     {
       "timestamp": "2026-05-19T08:01:00Z",
+      "type": "hourly-check",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
+      "details": "Scanned taskStates: lux-1 thru lux-7 (execute), reclaimed-1 (todo), shirtsy-3 (done). No jackie-execute status found. No danaTasks section present. Board idle.",
+      "status": "idle"
+    },
+    {
+      "timestamp": "2026-05-19T09:02:00Z",
       "type": "hourly-check",
       "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
       "details": "Scanned taskStates: lux-1 thru lux-7 (execute), reclaimed-1 (todo), shirtsy-3 (done). No jackie-execute status found. No danaTasks section present. Board idle.",
