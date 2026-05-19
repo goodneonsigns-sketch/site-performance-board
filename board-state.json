@@ -699,7 +699,7 @@
       "summary": "Shirtsy status report generated: 1 task complete (6 blog drafts), 4 tasks blocked pending Lex action (WP access, Trustpilot claim, BBB complaints, GBP creation)"
     }
   },
-  "lastUpdated": "2026-05-19T03:02:00Z",
+  "lastUpdated": "2026-05-19T04:01:00Z",
   "source": "ops-dashboard",
   "activityLog": [
     {
@@ -890,6 +890,13 @@
       "summary": "Hourly ops board check \u2014 no new tasks queued",
       "details": "Checked board-state.json for jackie-execute tasks. No new task prompts found. 6 legacy lux tasks have execute state but no associated prompts or instructions \u2014 these appear to be stale entries from prior workflow. reclaimed-1 is in todo state (no prompt assigned). No action needed.",
       "status": "ok"
+    },
+    {
+      "timestamp": "2026-05-19T04:01:00Z",
+      "type": "hourly-check",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
+      "details": "Scanned taskStates: lux-1 thru lux-7 (execute), reclaimed-1 (todo), shirtsy-3 (done). No jackie-execute status found. No danaTasks section present. Board idle.",
+      "status": "idle"
     }
   ]
 }
