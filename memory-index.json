@@ -1,20 +1,20 @@
 {
-  "generated_at": "2026-05-24T01:48:16.871645",
+  "generated_at": "2026-05-24T03:13:35.068348",
   "stats": {
-    "total_days_logged": 72,
-    "total_entries": 736,
+    "total_days_logged": 73,
+    "total_entries": 737,
     "most_active_projects": [
       {
         "project": "Lux",
-        "days": 64
+        "days": 65
       },
       {
         "project": "Shirtsy",
-        "days": 52
+        "days": 53
       },
       {
         "project": "Reclaimed",
-        "days": 44
+        "days": 45
       },
       {
         "project": "Shopify",
@@ -25,9 +25,33 @@
         "days": 26
       }
     ],
-    "recent_activity_streak": 63
+    "recent_activity_streak": 64
   },
   "days": [
+    {
+      "date": "2026-05-24",
+      "filename": "2026-05-24.md",
+      "section_count": 1,
+      "word_count": 41,
+      "file_size_bytes": 287,
+      "activity_level": "light",
+      "projects": [
+        "Lux",
+        "Reclaimed",
+        "Shirtsy"
+      ],
+      "sections": [
+        {
+          "title": "3:02 AM \u2014 Hourly Ops Board Check",
+          "content": [
+            "- Pulled board-state.json, scanned taskStates",
+            "- No `jackie-execute` tasks found. Legacy `execute` statuses on lux-1 thru lux-7 + lux-oauth (no prompts). reclaimed-1 (todo), shirtsy-3 (done).",
+            "- Logged to activityLog, committed & pushed. Board idle.",
+            ""
+          ]
+        }
+      ]
+    },
     {
       "date": "2026-05-23",
       "filename": "2026-05-23.md",
@@ -36,8 +60,8 @@
       "file_size_bytes": 3172,
       "activity_level": "active",
       "projects": [
-        "Reclaimed",
         "Lux",
+        "Reclaimed",
         "Shirtsy"
       ],
       "sections": [
@@ -164,8 +188,8 @@
       "file_size_bytes": 286,
       "activity_level": "light",
       "projects": [
-        "Reclaimed",
         "Lux",
+        "Reclaimed",
         "Shirtsy"
       ],
       "sections": [
@@ -189,8 +213,8 @@
       "file_size_bytes": 1286,
       "activity_level": "moderate",
       "projects": [
-        "Reclaimed",
         "Lux",
+        "Reclaimed",
         "Shirtsy"
       ],
       "sections": [
@@ -248,11 +272,11 @@
       "file_size_bytes": 6029,
       "activity_level": "active",
       "projects": [
-        "Lux Neon",
-        "Lux",
-        "Reclaimed",
         "Shopify",
-        "Shirtsy"
+        "Reclaimed",
+        "Shirtsy",
+        "Lux Neon",
+        "Lux"
       ],
       "sections": [
         {
@@ -416,8 +440,8 @@
       "file_size_bytes": 2296,
       "activity_level": "active",
       "projects": [
-        "Reclaimed",
         "Lux",
+        "Reclaimed",
         "Shirtsy"
       ],
       "sections": [
@@ -517,8 +541,8 @@
       "file_size_bytes": 2008,
       "activity_level": "active",
       "projects": [
-        "Reclaimed",
         "Lux",
+        "Reclaimed",
         "Shirtsy"
       ],
       "sections": [
@@ -606,8 +630,8 @@
       "file_size_bytes": 1572,
       "activity_level": "moderate",
       "projects": [
-        "Reclaimed",
         "Lux",
+        "Reclaimed",
         "Shirtsy"
       ],
       "sections": [
@@ -678,11 +702,11 @@
       "file_size_bytes": 2828,
       "activity_level": "moderate",
       "projects": [
-        "Lux Neon",
-        "Lux",
-        "Reclaimed",
         "Shopify",
-        "Shirtsy"
+        "Reclaimed",
+        "Shirtsy",
+        "Lux Neon",
+        "Lux"
       ],
       "sections": [
         {
@@ -779,11 +803,11 @@
       "file_size_bytes": 10259,
       "activity_level": "very-active",
       "projects": [
-        "Lux Neon",
-        "Lux",
-        "Reclaimed",
         "Shopify",
-        "Shirtsy"
+        "Reclaimed",
+        "Shirtsy",
+        "Lux Neon",
+        "Lux"
       ],
       "sections": [
         {
@@ -1037,8 +1061,8 @@
       "file_size_bytes": 519,
       "activity_level": "light",
       "projects": [
-        "Reclaimed",
         "Lux",
+        "Reclaimed",
         "Shirtsy"
       ],
       "sections": [
@@ -1071,8 +1095,8 @@
       "file_size_bytes": 2337,
       "activity_level": "active",
       "projects": [
-        "Reclaimed",
         "Lux",
+        "Reclaimed",
         "Shirtsy"
       ],
       "sections": [
@@ -1164,9 +1188,9 @@
       "file_size_bytes": 2187,
       "activity_level": "moderate",
       "projects": [
+        "Lux",
         "Shopify",
         "Reclaimed",
-        "Lux",
         "Shirtsy"
       ],
       "sections": [
@@ -1250,8 +1274,8 @@
       "file_size_bytes": 1904,
       "activity_level": "moderate",
       "projects": [
-        "Reclaimed",
         "Lux",
+        "Reclaimed",
         "Shirtsy"
       ],
       "sections": [
@@ -1329,8 +1353,8 @@
       "file_size_bytes": 3618,
       "activity_level": "active",
       "projects": [
-        "Reclaimed",
         "Lux",
+        "Reclaimed",
         "Shirtsy"
       ],
       "sections": [
@@ -1439,8 +1463,8 @@
       "file_size_bytes": 1183,
       "activity_level": "moderate",
       "projects": [
-        "Reclaimed",
         "Lux",
+        "Reclaimed",
         "Shirtsy"
       ],
       "sections": [
@@ -1499,8 +1523,8 @@
       "file_size_bytes": 2526,
       "activity_level": "active",
       "projects": [
-        "Reclaimed",
         "Lux",
+        "Reclaimed",
         "Shirtsy"
       ],
       "sections": [
@@ -1601,8 +1625,8 @@
       "file_size_bytes": 1009,
       "activity_level": "moderate",
       "projects": [
-        "Reclaimed",
         "Lux",
+        "Reclaimed",
         "Shirtsy"
       ],
       "sections": [
@@ -1653,9 +1677,9 @@
       "file_size_bytes": 3849,
       "activity_level": "active",
       "projects": [
+        "Lux",
         "Virtus",
         "Reclaimed",
-        "Lux",
         "Shirtsy"
       ],
       "sections": [
@@ -1761,11 +1785,11 @@
       "file_size_bytes": 3470,
       "activity_level": "active",
       "projects": [
-        "Lux Neon",
-        "Lux",
-        "Reclaimed",
         "Shopify",
-        "Shirtsy"
+        "Reclaimed",
+        "Shirtsy",
+        "Lux Neon",
+        "Lux"
       ],
       "sections": [
         {
@@ -1873,8 +1897,8 @@
       "file_size_bytes": 2362,
       "activity_level": "active",
       "projects": [
-        "Reclaimed",
         "Lux",
+        "Reclaimed",
         "Shirtsy"
       ],
       "sections": [
@@ -1973,8 +1997,8 @@
       "file_size_bytes": 247,
       "activity_level": "light",
       "projects": [
-        "Reclaimed",
         "Lux",
+        "Reclaimed",
         "Shirtsy"
       ],
       "sections": [
@@ -1998,9 +2022,9 @@
       "file_size_bytes": 2774,
       "activity_level": "active",
       "projects": [
+        "Lux",
         "Shopify",
         "Reclaimed",
-        "Lux",
         "Shirtsy"
       ],
       "sections": [
@@ -2112,8 +2136,8 @@
       "file_size_bytes": 2365,
       "activity_level": "active",
       "projects": [
-        "Reclaimed",
         "Lux",
+        "Reclaimed",
         "Shirtsy"
       ],
       "sections": [
@@ -2221,8 +2245,8 @@
       "file_size_bytes": 2289,
       "activity_level": "active",
       "projects": [
-        "Reclaimed",
         "Lux",
+        "Reclaimed",
         "Shirtsy"
       ],
       "sections": [
@@ -2319,9 +2343,9 @@
       "file_size_bytes": 4210,
       "activity_level": "active",
       "projects": [
+        "Lux",
         "Reclaimed",
         "Shirtsy",
-        "Lux",
         "Crown"
       ],
       "sections": [
@@ -2462,9 +2486,9 @@
       "file_size_bytes": 2663,
       "activity_level": "moderate",
       "projects": [
+        "Lux",
         "Shopify",
         "Reclaimed",
-        "Lux",
         "Shirtsy"
       ],
       "sections": [
@@ -2549,8 +2573,8 @@
       "file_size_bytes": 2464,
       "activity_level": "active",
       "projects": [
-        "Reclaimed",
         "Lux",
+        "Reclaimed",
         "Shirtsy"
       ],
       "sections": [
@@ -2657,8 +2681,8 @@
       "file_size_bytes": 3217,
       "activity_level": "active",
       "projects": [
-        "Reclaimed",
         "Lux",
+        "Reclaimed",
         "Shirtsy"
       ],
       "sections": [
@@ -3064,9 +3088,9 @@
       "file_size_bytes": 4538,
       "activity_level": "moderate",
       "projects": [
+        "Lux",
         "Lux Neon",
         "Shopify",
-        "Lux",
         "Shirtsy"
       ],
       "sections": [
@@ -3224,8 +3248,8 @@
       "file_size_bytes": 2193,
       "activity_level": "active",
       "projects": [
-        "Shopify",
         "Lux",
+        "Shopify",
         "Crown"
       ],
       "sections": [
@@ -3435,10 +3459,10 @@
       "file_size_bytes": 7488,
       "activity_level": "active",
       "projects": [
-        "Cloudflare",
+        "Virtus",
         "Lux Neon",
-        "Lux",
-        "Virtus"
+        "Cloudflare",
+        "Lux"
       ],
       "sections": [
         {
@@ -4126,14 +4150,14 @@
       "file_size_bytes": 27670,
       "activity_level": "very-active",
       "projects": [
+        "WordPress",
+        "NET30",
+        "Shirtsy",
         "Crown",
         "Lux Neon",
-        "Lux",
-        "NET30",
-        "WordPress",
-        "Shirtsy",
         "Cloudflare",
-        "Nova Titans"
+        "Nova Titans",
+        "Lux"
       ],
       "sections": [
         {
@@ -4670,12 +4694,12 @@
       "file_size_bytes": 9819,
       "activity_level": "active",
       "projects": [
+        "Shopify",
+        "WordPress",
+        "Shirtsy",
         "Crown",
         "NET30",
-        "Lux",
-        "WordPress",
-        "Shopify",
-        "Shirtsy"
+        "Lux"
       ],
       "sections": [
         {
@@ -4876,13 +4900,13 @@
       "file_size_bytes": 10458,
       "activity_level": "active",
       "projects": [
-        "GoodNeon",
-        "Lux",
-        "Virtus",
-        "Cloudflare",
         "Shopify",
         "Coconut",
-        "Nova Titans"
+        "Virtus",
+        "GoodNeon",
+        "Cloudflare",
+        "Nova Titans",
+        "Lux"
       ],
       "sections": [
         {
@@ -5101,18 +5125,18 @@
       "file_size_bytes": 18546,
       "activity_level": "very-active",
       "projects": [
-        "Nova Titans",
-        "Crown",
-        "Lux Neon",
-        "GoodNeon",
-        "Lux",
-        "NET30",
-        "Virtus",
         "Reclaimed",
-        "Cloudflare",
         "Shopify",
         "Coconut",
-        "Shirtsy"
+        "NET30",
+        "Shirtsy",
+        "Crown",
+        "Virtus",
+        "Lux Neon",
+        "GoodNeon",
+        "Cloudflare",
+        "Nova Titans",
+        "Lux"
       ],
       "sections": [
         {
@@ -5517,16 +5541,16 @@
       "file_size_bytes": 11494,
       "activity_level": "very-active",
       "projects": [
-        "Nova Titans",
+        "Shopify",
+        "WordPress",
+        "NET30",
+        "Shirtsy",
         "Crown",
+        "Virtus",
         "Lux Neon",
         "GoodNeon",
-        "Lux",
-        "NET30",
-        "Virtus",
-        "WordPress",
-        "Shopify",
-        "Shirtsy"
+        "Nova Titans",
+        "Lux"
       ],
       "sections": [
         {
@@ -5774,11 +5798,11 @@
       "file_size_bytes": 10877,
       "activity_level": "very-active",
       "projects": [
-        "Crown",
-        "Lux",
-        "Cloudflare",
         "Shopify",
-        "Virtus"
+        "Crown",
+        "Virtus",
+        "Cloudflare",
+        "Lux"
       ],
       "sections": [
         {
@@ -6070,11 +6094,11 @@
       "file_size_bytes": 11169,
       "activity_level": "very-active",
       "projects": [
-        "Crown",
-        "Lux Neon",
-        "Lux",
         "Shopify",
-        "Virtus"
+        "Crown",
+        "Virtus",
+        "Lux Neon",
+        "Lux"
       ],
       "sections": [
         {
@@ -6334,14 +6358,14 @@
       "file_size_bytes": 11113,
       "activity_level": "active",
       "projects": [
-        "Crown",
-        "Lux Neon",
-        "Lux",
+        "Shopify",
         "WordPress",
         "Shirtsy",
+        "Crown",
+        "Virtus",
+        "Lux Neon",
         "Cloudflare",
-        "Shopify",
-        "Virtus"
+        "Lux"
       ],
       "sections": [
         {
@@ -6589,11 +6613,11 @@
       "file_size_bytes": 7060,
       "activity_level": "very-active",
       "projects": [
-        "Crown",
-        "Lux",
-        "Reclaimed",
         "Shopify",
-        "Virtus"
+        "Reclaimed",
+        "Crown",
+        "Virtus",
+        "Lux"
       ],
       "sections": [
         {
@@ -6773,15 +6797,15 @@
       "file_size_bytes": 27498,
       "activity_level": "very-active",
       "projects": [
-        "Crown",
-        "GoodNeon",
-        "Lux",
-        "Virtus",
         "Reclaimed",
-        "Cloudflare",
         "Shopify",
         "Coconut",
-        "Shirtsy"
+        "Shirtsy",
+        "Crown",
+        "Virtus",
+        "GoodNeon",
+        "Cloudflare",
+        "Lux"
       ],
       "sections": [
         {
@@ -7343,12 +7367,12 @@
       "file_size_bytes": 17809,
       "activity_level": "very-active",
       "projects": [
-        "Crown",
-        "Lux",
-        "Reclaimed",
-        "Cloudflare",
         "Shopify",
-        "Virtus"
+        "Reclaimed",
+        "Crown",
+        "Virtus",
+        "Cloudflare",
+        "Lux"
       ],
       "sections": [
         {
@@ -7746,14 +7770,14 @@
       "file_size_bytes": 9421,
       "activity_level": "active",
       "projects": [
-        "GoodNeon",
-        "Lux",
-        "Virtus",
         "Reclaimed",
-        "Cloudflare",
         "Shopify",
         "Coconut",
-        "Crown"
+        "Crown",
+        "Virtus",
+        "GoodNeon",
+        "Cloudflare",
+        "Lux"
       ],
       "sections": [
         {
@@ -7988,12 +8012,12 @@
       "file_size_bytes": 6615,
       "activity_level": "moderate",
       "projects": [
-        "Crown",
-        "Lux",
-        "WordPress",
-        "Cloudflare",
         "Shopify",
-        "Virtus"
+        "WordPress",
+        "Crown",
+        "Virtus",
+        "Cloudflare",
+        "Lux"
       ],
       "sections": [
         {
@@ -8249,8 +8273,8 @@
       "file_size_bytes": 7972,
       "activity_level": "moderate",
       "projects": [
-        "Lux Neon",
         "Lux",
+        "Lux Neon",
         "Shirtsy"
       ],
       "sections": [
@@ -8428,13 +8452,13 @@
       "file_size_bytes": 2458,
       "activity_level": "moderate",
       "projects": [
-        "Crown",
-        "GoodNeon",
-        "Lux",
         "Reclaimed",
         "Shopify",
         "Coconut",
-        "Shirtsy"
+        "Shirtsy",
+        "Crown",
+        "GoodNeon",
+        "Lux"
       ],
       "sections": [
         {
@@ -8508,17 +8532,17 @@
       "file_size_bytes": 45304,
       "activity_level": "very-active",
       "projects": [
+        "Reclaimed",
+        "Shopify",
+        "WordPress",
+        "Coconut",
+        "Shirtsy",
         "Crown",
+        "Virtus",
         "Lux Neon",
         "GoodNeon",
-        "Lux",
-        "Virtus",
-        "Reclaimed",
-        "WordPress",
         "Cloudflare",
-        "Shopify",
-        "Coconut",
-        "Shirtsy"
+        "Lux"
       ],
       "sections": [
         {
@@ -9432,11 +9456,11 @@
       "file_size_bytes": 21594,
       "activity_level": "very-active",
       "projects": [
-        "Lux Neon",
-        "Lux",
+        "Shopify",
         "WordPress",
+        "Lux Neon",
         "Cloudflare",
-        "Shopify"
+        "Lux"
       ],
       "sections": [
         {
@@ -9848,15 +9872,15 @@
       "file_size_bytes": 27543,
       "activity_level": "very-active",
       "projects": [
-        "Nova Titans",
-        "Crown",
-        "Lux Neon",
-        "GoodNeon",
-        "Lux",
         "Reclaimed",
         "Shopify",
         "Coconut",
-        "Shirtsy"
+        "Shirtsy",
+        "Crown",
+        "Lux Neon",
+        "GoodNeon",
+        "Nova Titans",
+        "Lux"
       ],
       "sections": [
         {
@@ -10384,16 +10408,16 @@
       "file_size_bytes": 23900,
       "activity_level": "very-active",
       "projects": [
-        "Nova Titans",
+        "Shopify",
+        "WordPress",
+        "NET30",
+        "Shirtsy",
         "Crown",
         "Lux Neon",
         "GoodNeon",
-        "Lux",
-        "NET30",
-        "WordPress",
         "Cloudflare",
-        "Shopify",
-        "Shirtsy"
+        "Nova Titans",
+        "Lux"
       ],
       "sections": [
         {
@@ -10859,17 +10883,17 @@
       "file_size_bytes": 12002,
       "activity_level": "very-active",
       "projects": [
+        "Reclaimed",
+        "Shopify",
+        "WordPress",
+        "Coconut",
+        "Shirtsy",
         "Crown",
+        "Virtus",
         "Lux Neon",
         "GoodNeon",
-        "Lux",
-        "Virtus",
-        "Reclaimed",
-        "WordPress",
         "Cloudflare",
-        "Shopify",
-        "Coconut",
-        "Shirtsy"
+        "Lux"
       ],
       "sections": [
         {
@@ -11150,14 +11174,14 @@
       "file_size_bytes": 10958,
       "activity_level": "moderate",
       "projects": [
-        "Lux Neon",
-        "GoodNeon",
-        "Lux",
         "Reclaimed",
-        "Cloudflare",
         "Shopify",
         "Coconut",
-        "Nova Titans"
+        "Lux Neon",
+        "GoodNeon",
+        "Cloudflare",
+        "Nova Titans",
+        "Lux"
       ],
       "sections": [
         {
@@ -11377,12 +11401,12 @@
       "file_size_bytes": 9060,
       "activity_level": "active",
       "projects": [
-        "GoodNeon",
-        "Lux",
+        "Shopify",
         "Reclaimed",
         "WordPress",
-        "Shopify",
-        "Coconut"
+        "Coconut",
+        "GoodNeon",
+        "Lux"
       ],
       "sections": [
         {
@@ -11594,9 +11618,9 @@
       "file_size_bytes": 4346,
       "activity_level": "light",
       "projects": [
+        "Lux",
         "Shopify",
-        "GoodNeon",
-        "Lux"
+        "GoodNeon"
       ],
       "sections": [
         {
@@ -11658,19 +11682,19 @@
       "file_size_bytes": 16245,
       "activity_level": "active",
       "projects": [
+        "Reclaimed",
+        "Shopify",
+        "WordPress",
+        "Coconut",
+        "Shirtsy",
         "Crown",
+        "Virtus",
         "Lux Neon",
         "GoodNeon",
-        "Lux",
-        "NET30",
         "NET60",
-        "Virtus",
-        "Reclaimed",
-        "WordPress",
         "Cloudflare",
-        "Shopify",
-        "Coconut",
-        "Shirtsy"
+        "NET30",
+        "Lux"
       ],
       "sections": [
         {
@@ -12009,13 +12033,13 @@
       "file_size_bytes": 6938,
       "activity_level": "active",
       "projects": [
-        "Crown",
-        "GoodNeon",
-        "Lux",
+        "Shopify",
         "WordPress",
         "Shirtsy",
-        "Shopify",
-        "Virtus"
+        "Crown",
+        "Virtus",
+        "GoodNeon",
+        "Lux"
       ],
       "sections": [
         {
@@ -12202,15 +12226,15 @@
       "file_size_bytes": 8174,
       "activity_level": "moderate",
       "projects": [
-        "Crown",
-        "Lux Neon",
-        "GoodNeon",
-        "Lux",
-        "Virtus",
         "Reclaimed",
         "Shopify",
         "Coconut",
-        "Shirtsy"
+        "Shirtsy",
+        "Crown",
+        "Virtus",
+        "Lux Neon",
+        "GoodNeon",
+        "Lux"
       ],
       "sections": [
         {
@@ -12391,17 +12415,17 @@
       "file_size_bytes": 9018,
       "activity_level": "very-active",
       "projects": [
+        "Reclaimed",
+        "Shopify",
+        "WordPress",
+        "Coconut",
+        "Shirtsy",
         "Crown",
+        "Virtus",
         "Lux Neon",
         "GoodNeon",
-        "Lux",
         "NET30",
-        "Virtus",
-        "Reclaimed",
-        "WordPress",
-        "Shopify",
-        "Coconut",
-        "Shirtsy"
+        "Lux"
       ],
       "sections": [
         {
@@ -12648,14 +12672,14 @@
       "file_size_bytes": 12488,
       "activity_level": "moderate",
       "projects": [
+        "Reclaimed",
+        "Shopify",
+        "WordPress",
+        "Coconut",
         "Lux Neon",
         "GoodNeon",
-        "Lux",
-        "Reclaimed",
-        "WordPress",
         "Cloudflare",
-        "Shopify",
-        "Coconut"
+        "Lux"
       ],
       "sections": [
         {
@@ -12908,17 +12932,17 @@
       "file_size_bytes": 8103,
       "activity_level": "very-active",
       "projects": [
+        "Reclaimed",
+        "Shopify",
+        "WordPress",
+        "Coconut",
+        "Shirtsy",
         "Crown",
+        "Virtus",
         "Lux Neon",
         "GoodNeon",
-        "Lux",
-        "Virtus",
-        "Reclaimed",
-        "WordPress",
         "Cloudflare",
-        "Shopify",
-        "Coconut",
-        "Shirtsy"
+        "Lux"
       ],
       "sections": [
         {
@@ -13138,11 +13162,11 @@
       "file_size_bytes": 2542,
       "activity_level": "moderate",
       "projects": [
+        "Shirtsy",
         "Crown",
         "Lux Neon",
         "GoodNeon",
-        "Lux",
-        "Shirtsy"
+        "Lux"
       ],
       "sections": [
         {
