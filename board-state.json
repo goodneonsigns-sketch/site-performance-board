@@ -995,6 +995,13 @@
       "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
       "details": "Checked taskStates and taskPrompts. 6 lux tasks in execute state (dept-level, not jackie-execute). reclaimed-1 is todo. shirtsy-3 is done. No new work for Jackie this cycle.",
       "status": "no-action"
+    },
+    {
+      "timestamp": "2026-05-29T07:02:48Z",
+      "type": "ops-check",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
+      "details": "Scanned all taskStates, deptTasks, lexTasks, and top-level tasks. No items with status jackie-execute. Board is clear.",
+      "status": "no-action"
     }
   ]
 }
