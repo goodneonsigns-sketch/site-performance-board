@@ -848,6 +848,13 @@
       "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
       "details": "Scanned all tasks and taskStates. No tasks with jackie-execute status found. 6 tasks in execute state (lux-1 through lux-4, lux-oauth, lux-7) are legacy dept-level flags. reclaimed-1 = todo, shirtsy-3 = done. Board is idle.",
       "status": "ok"
+    },
+    {
+      "timestamp": "2026-06-02T17:02:00Z",
+      "type": "ops-check",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
+      "details": "Scanned taskStates and all task arrays. No tasks with status jackie-execute found. 6 tasks in execute state (Lex tasks), 1 todo (reclaimed-1), 1 done (shirtsy-3). Board is clean.",
+      "status": "ok"
     }
   ]
 }
