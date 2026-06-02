@@ -699,7 +699,7 @@
       "summary": "Shirtsy status report generated: 1 task complete (6 blog drafts), 4 tasks blocked pending Lex action (WP access, Trustpilot claim, BBB complaints, GBP creation)"
     }
   },
-  "lastUpdated": "2026-06-02T08:01:00Z",
+  "lastUpdated": "2026-06-02T09:02:00Z",
   "source": "ops-dashboard",
   "activityLog": [
     {
@@ -792,6 +792,13 @@
       "summary": "Hourly ops board check \u2014 no new tasks queued",
       "details": "Scanned board-state.json for jackie-execute tasks. None found. taskStates: lux-1..lux-7 = execute (legacy), reclaimed-1 = todo, shirtsy-3 = done. No actionable items.",
       "status": "clean"
+    },
+    {
+      "timestamp": "2026-06-02T09:02:00Z",
+      "type": "routine-check",
+      "summary": "Hourly ops board check \u2014 no new tasks queued",
+      "details": "Scanned board-state.json for jackie-execute tasks. None found. taskStates: lux-1..lux-7 = execute (legacy), reclaimed-1 = todo, shirtsy-3 = done. No actionable items.",
+      "status": "ok"
     }
   ]
 }
