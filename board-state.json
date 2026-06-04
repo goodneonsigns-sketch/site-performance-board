@@ -699,7 +699,7 @@
       "summary": "Shirtsy status report generated: 1 task complete (6 blog drafts), 4 tasks blocked pending Lex action (WP access, Trustpilot claim, BBB complaints, GBP creation)"
     }
   },
-  "lastUpdated": "2026-06-04T02:02:00Z",
+  "lastUpdated": "2026-06-04T03:02:00Z",
   "source": "ops-dashboard",
   "activityLog": [
     {
@@ -879,6 +879,13 @@
     },
     {
       "timestamp": "2026-06-04T02:02:00Z",
+      "type": "routine-check",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
+      "details": "No taskPrompts with jackie-execute status found. 6 legacy execute flags (lux-1 through lux-4, lux-oauth, lux-7) remain orphaned \u2014 no prompts or task definitions attached. 1 todo (reclaimed-1), 1 done (shirtsy-3). Board idle.",
+      "status": "no-action"
+    },
+    {
+      "timestamp": "2026-06-04T03:02:00Z",
       "type": "routine-check",
       "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
       "details": "No taskPrompts with jackie-execute status found. 6 legacy execute flags (lux-1 through lux-4, lux-oauth, lux-7) remain orphaned \u2014 no prompts or task definitions attached. 1 todo (reclaimed-1), 1 done (shirtsy-3). Board idle.",
