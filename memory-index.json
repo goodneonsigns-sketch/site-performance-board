@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-06-04T18:12:52.029677",
+  "generated_at": "2026-06-04T21:13:33.136567",
   "stats": {
     "total_days_logged": 84,
-    "total_entries": 831,
+    "total_entries": 834,
     "most_active_projects": [
       {
         "project": "Lux",
@@ -31,15 +31,15 @@
     {
       "date": "2026-06-04",
       "filename": "2026-06-04.md",
-      "section_count": 6,
-      "word_count": 363,
-      "file_size_bytes": 2516,
-      "activity_level": "moderate",
+      "section_count": 9,
+      "word_count": 700,
+      "file_size_bytes": 5185,
+      "activity_level": "active",
       "projects": [
         "Lux",
-        "Lux Neon",
+        "Reclaimed",
         "Shirtsy",
-        "Reclaimed"
+        "Lux Neon"
       ],
       "sections": [
         {
@@ -110,6 +110,63 @@
             "- **Fonts/colours**: Lex added them manually \u2705",
             "- **Backgrounds**: 4 AI-generated backgrounds created (brick wall, wood panel, concrete, bar interior) \u2014 deployed to sales-preview.lux-dr-art.pages.dev/backgrounds.html",
             "- Lex said \"i took care of that already\" re: translations/currency/backgrounds \u2014 customiser is configured \u2705",
+            ""
+          ]
+        },
+        {
+          "title": "6:00 PM \u2014 Google Workspace + GBP Full Setup \u2705",
+          "content": [
+            "",
+            "- GCP Project: **jackie** (jackie-495814, project #192127994397)",
+            "- OAuth Client: Desktop app \"Jackie\"",
+            "- Client ID: `[REDACTED_GOOGLE_CLIENT_ID]`",
+            "- Client Secret: `[REDACTED_GOOGLE_CLIENT_SECRET]`",
+            "- Redirect URI: `http://127.0.0.1:8080/callback`",
+            "- Tokens: `.secrets/lux-workspace-tokens.json` + `.secrets/lux-workspace.env`",
+            "- Scopes: gmail.send, gmail.readonly, calendar, drive, admin.directory.user, admin.directory.user.readonly, business.manage",
+            "- **APIs enabled in jackie project**: Gmail, Drive, Calendar, Admin SDK, My Business Account Management, My Business Business Information, Business Profile Performance",
+            "- Verified working: Gmail \u2705, Drive \u2705, Calendar \u2705, Admin \u2705 (3 users: lux@, ivan@, jose@)",
+            "",
+            "- **lux@luxneon.do** \u2014 Nicolas Gonzalez (admin)",
+            "- **ivan@luxneon.do** \u2014 Ivan Castillo",
+            "- **jose@luxneon.do** \u2014 Jose Fortunado",
+            "",
+            "- **artes/** (1Oc0T_Xg5RfPubgv5w1Fmh2XJsT6YUflx) \u2014 13 original photos",
+            "- **artes/editado/** \u2014 30 edited artwork images (main content source)",
+            "- **lux producion 1/** \u2014 empty",
+            "- **lux producion 2/** \u2014 empty",
+            "- **jardin/** \u2014 garden photos",
+            "- **promotions/** \u2014 1 video (El Lux Neon.MOV)",
+            "- Root: various artwork JPEGs, packing list, spreadsheets",
+            "",
+            "- **Legacy mybusiness.googleapis.com** enabled on OpenClaw project (743931807036) under jackypanty647@gmail.com",
+            "- Post creation: `POST mybusiness.googleapis.com/v4/accounts/117114490909345902153/locations/12742998217548254272/localPosts`",
+            "- Uses jackypanty647 token (GBP) + lux workspace token (Drive) \u2014 TWO DIFFERENT tokens",
+            "- Image posts work: share Drive image publicly \u2192 use download URL as sourceUrl",
+            "- First post with image created successfully (IMG_5398.jpg)",
+            "",
+            "- Cron ID: `aeab7947-136f-40df-9705-b518d2e458a4`",
+            "- Schedule: Every day at 9:00 AM Santo Domingo time",
+            "- Flow: refresh tokens \u2192 pick random image from artes/editado \u2192 share publicly \u2192 write Spanish caption \u2192 create GBP post",
+            "- Announces to #lux-dr",
+            "- 30 images = 1 month of unique daily posts before repeating",
+            ""
+          ]
+        },
+        {
+          "title": "7:02 PM \u2014 Hourly Ops Board Check",
+          "content": [
+            "- Board scanned: no `jackie-execute` tasks queued",
+            "- Task states: lux-1\u20137 execute (legacy/orphaned), reclaimed-1 todo, shirtsy-3 done",
+            "- Activity log entry added, board-state.json pushed",
+            ""
+          ]
+        },
+        {
+          "title": "9:01 PM \u2014 Hourly Ops Board Check",
+          "content": [
+            "- Pulled board-state.json \u2014 no `jackie-execute` tasks queued",
+            "- Logged routine check to activityLog, committed & pushed",
             ""
           ]
         }
@@ -209,10 +266,10 @@
       "file_size_bytes": 3080,
       "activity_level": "active",
       "projects": [
+        "Shopify",
         "Lux",
         "Shirtsy",
-        "Reclaimed",
-        "Shopify"
+        "Reclaimed"
       ],
       "sections": [
         {
@@ -452,12 +509,12 @@
       "file_size_bytes": 6065,
       "activity_level": "active",
       "projects": [
-        "Crown",
         "Shirtsy",
         "Reclaimed",
-        "Lux",
-        "GoodNeon",
+        "Crown",
         "Lux Neon",
+        "GoodNeon",
+        "Lux",
         "Virtus"
       ],
       "sections": [
@@ -766,8 +823,8 @@
       "projects": [
         "Shirtsy",
         "Reclaimed",
-        "Lux",
         "Lux Neon",
+        "Lux",
         "Shopify"
       ],
       "sections": [
@@ -1513,8 +1570,8 @@
       "projects": [
         "Shirtsy",
         "Reclaimed",
-        "Lux",
         "Lux Neon",
+        "Lux",
         "Shopify"
       ],
       "sections": [
@@ -1943,8 +2000,8 @@
       "projects": [
         "Shirtsy",
         "Reclaimed",
-        "Lux",
         "Lux Neon",
+        "Lux",
         "Shopify"
       ],
       "sections": [
@@ -2044,8 +2101,8 @@
       "projects": [
         "Shirtsy",
         "Reclaimed",
-        "Lux",
         "Lux Neon",
+        "Lux",
         "Shopify"
       ],
       "sections": [
@@ -2427,10 +2484,10 @@
       "file_size_bytes": 2187,
       "activity_level": "moderate",
       "projects": [
+        "Shopify",
         "Lux",
         "Shirtsy",
-        "Reclaimed",
-        "Shopify"
+        "Reclaimed"
       ],
       "sections": [
         {
@@ -3026,8 +3083,8 @@
       "projects": [
         "Shirtsy",
         "Reclaimed",
-        "Lux",
         "Lux Neon",
+        "Lux",
         "Shopify"
       ],
       "sections": [
@@ -3261,10 +3318,10 @@
       "file_size_bytes": 2774,
       "activity_level": "active",
       "projects": [
+        "Shopify",
         "Lux",
         "Shirtsy",
-        "Reclaimed",
-        "Shopify"
+        "Reclaimed"
       ],
       "sections": [
         {
@@ -3583,8 +3640,8 @@
       "activity_level": "active",
       "projects": [
         "Crown",
-        "Shirtsy",
         "Lux",
+        "Shirtsy",
         "Reclaimed"
       ],
       "sections": [
@@ -3725,10 +3782,10 @@
       "file_size_bytes": 2663,
       "activity_level": "moderate",
       "projects": [
+        "Shopify",
         "Lux",
         "Shirtsy",
-        "Reclaimed",
-        "Shopify"
+        "Reclaimed"
       ],
       "sections": [
         {
@@ -3749,11 +3806,11 @@
             "2. **No new blog content** \u2014 last published post is Apr 11, used already",
             "- Need a new blog article published before the newsletter adds value",
             "",
-            "1. \"Neon Art for Restaurants, Bars, and Hotels...\" (used in Apr 14 campaign `01KP64SKFN9EJ3FDKPNW2FNDY3`)",
+            "1. \"Neon Art for Restaurants, Bars, and Hotels...\" (used in Apr 14 campaign [REDACTED_TOKEN])",
             "2. \"Why Neon Art Must Be Experienced in Person...\"",
             "3. \"The Interior Designer's Guide to Neon Art...\"",
             "4. \"From Concept to Glow: Inside the Custom Neon Commission Process...\"",
-            "5. \"The Art of Collecting Neon...\" (used in Apr 7 campaign `01KNM44PY5G2PVP5VPCFSMHB7V`)",
+            "5. \"The Art of Collecting Neon...\" (used in Apr 7 campaign [REDACTED_TOKEN])",
             ""
           ]
         },
@@ -4327,10 +4384,10 @@
       "file_size_bytes": 4538,
       "activity_level": "moderate",
       "projects": [
+        "Shopify",
         "Lux",
-        "Lux Neon",
         "Shirtsy",
-        "Shopify"
+        "Lux Neon"
       ],
       "sections": [
         {
@@ -4340,7 +4397,7 @@
             "- Shopify article pull: \u2705 Success",
             "- Article: \"Art and Wine Evenings: Why Gallery Events Are the Most Exciting Night Out in South Florida\"",
             "- Published: 2026-04-11",
-            "- \u26a0\ufe0f Same article as last week (Apr 14 newsletter, campaign `01KP64SKFN9EJ3FDKPNW2FNDY3`) \u2014 no new blog post since",
+            "- \u26a0\ufe0f Same article as last week (Apr 14 newsletter, campaign [REDACTED_TOKEN]) \u2014 no new blog post since",
             "- Klaviyo API calls: \u274c HTTP 401 (authentication_failed)",
             "- Key `pk_167addbd15ce4f73e0ec071be372df4449` has been revoked or regenerated",
             "- Was working as recently as Apr 14",
@@ -4488,8 +4545,8 @@
       "activity_level": "active",
       "projects": [
         "Crown",
-        "Lux",
-        "Shopify"
+        "Shopify",
+        "Lux"
       ],
       "sections": [
         {
@@ -4698,10 +4755,10 @@
       "file_size_bytes": 7488,
       "activity_level": "active",
       "projects": [
-        "Lux Neon",
         "Lux",
-        "Virtus",
-        "Cloudflare"
+        "Cloudflare",
+        "Lux Neon",
+        "Virtus"
       ],
       "sections": [
         {
@@ -5053,9 +5110,9 @@
       "file_size_bytes": 17118,
       "activity_level": "very-active",
       "projects": [
+        "Cloudflare",
         "Shirtsy",
-        "NET30",
-        "Cloudflare"
+        "NET30"
       ],
       "sections": [
         {
@@ -5127,10 +5184,10 @@
           "title": "Klaviyo Affiliate Campaign Drafts Created (~9:15 PM 04/14)",
           "content": [
             "- Created 4 draft campaigns in Klaviyo (Shirtsy account):",
-            "1. **Affiliate Reactivation \u2014 Dormant** \u2192 Campaign `01KP7BAWVMBZKNKMRYGYQFPDGW`, Message `01KP7BAWVYG0YT1B5K0YBB6BG4`, Template `WhReta`, List Yr7sgH (1,798 profiles)",
-            "2. **Affiliate \u2014 Payout Method Missing** \u2192 Campaign `01KP7BAZ0SQEC2EEQFSJFCW8G2`, Message `01KP7BAZ119Q90KPVKMS4C84FT`, Template `TSqik4`, List RMMGw2 (470 profiles)",
-            "3. **Affiliate VIP \u2014 Top Performer Boost** \u2192 Campaign `01KP7BB18NTZ3GTZHCYV6CS0GP`, Message `01KP7BB18W0HAQ3GXEJGDC46TX`, Template `Xtg5m2`, List YbdFex (8 profiles)",
-            "4. **Affiliate Win-Back \u2014 $20 Commission Bump** \u2192 Campaign `01KP7BB3KE0RKDQBVJER7SSB25`, Message `01KP7BB3KP5QR3H2Q09W8WHNPK`, Template `V3P9dU`, List Yr7sgH (1,798 profiles)",
+            "1. **Affiliate Reactivation \u2014 Dormant** \u2192 Campaign [REDACTED_TOKEN], Message [REDACTED_TOKEN], Template `WhReta`, List Yr7sgH (1,798 profiles)",
+            "2. **Affiliate \u2014 Payout Method Missing** \u2192 Campaign [REDACTED_TOKEN], Message [REDACTED_TOKEN], Template `TSqik4`, List RMMGw2 (470 profiles)",
+            "3. **Affiliate VIP \u2014 Top Performer Boost** \u2192 Campaign [REDACTED_TOKEN], Message [REDACTED_TOKEN], Template `Xtg5m2`, List YbdFex (8 profiles)",
+            "4. **Affiliate Win-Back \u2014 $20 Commission Bump** \u2192 Campaign [REDACTED_TOKEN], Message [REDACTED_TOKEN], Template `V3P9dU`, List Yr7sgH (1,798 profiles)",
             "- Templates created but **cannot be assigned to campaigns via API** \u2014 Klaviyo doesn't support template\u2192campaign assignment through PATCH or relationships endpoint",
             "- Lex needs to manually select the template for each campaign in the Klaviyo UI (Edit Content \u2192 pick matching template)",
             "- Subject lines, lists, sender (`affiliates@shirtsy.com` / \"Shirtsy Affiliates\"), preview text, and schedule (Apr 16 1PM UTC) all set via API",
@@ -5141,17 +5198,17 @@
         {
           "title": "AdRoll Shirtsy Audit (8:30 AM)",
           "content": [
-            "- Pixel ID: `6RZ5PYQSVVBFNMN2BSSBTA`",
-            "- Advertiser ID: `JS27SXD6PBEQVPOEMTKN3V`",
+            "- Pixel ID: [REDACTED_TOKEN]",
+            "- Advertiser ID: [REDACTED_TOKEN]",
             "- Status: `placed_code` (AdRoll thinks it's active)",
             "- **Last tracked conversion: Feb 10, 2026** \u2014 64-day blackout",
             "- Base pixel JS (`roundtrip.js`) is **NOT loading** on shirtsy.com",
             "- WooCommerce Conversion Tracking plugin output is empty (comment tags with no code)",
             "- Custom addToCart script exists referencing `adroll.track()` but library never loads, so calls silently fail",
             "",
-            "1. **Lookalike Prospecting** (EID: `PDF2G7GQ2RED5AE2OZYL6T`): $28/day, 19,293 imps, 57 clicks (0.30% CTR), $0.48 CPC, 0 conversions",
-            "2. **Retargeting Retention** (EID: `HOJGDX55QZAOVH54PQUEWB`): $28/day, 1,882 imps, **0 clicks**, 0 conversions \u2014 TOTAL WASTE",
-            "3. **Retargeting Abandoned Applicants** (EID: `FVPSQAHIGBCFNEUMKM4654`): $49/day, 5,663 imps, 4 clicks (0.07% CTR), $12.11 CPC, 0 conversions",
+            "1. **Lookalike Prospecting** (EID: [REDACTED_TOKEN]): $28/day, 19,293 imps, 57 clicks (0.30% CTR), $0.48 CPC, 0 conversions",
+            "2. **Retargeting Retention** (EID: [REDACTED_TOKEN]): $28/day, 1,882 imps, **0 clicks**, 0 conversions \u2014 TOTAL WASTE",
+            "3. **Retargeting Abandoned Applicants** (EID: [REDACTED_TOKEN]): $49/day, 5,663 imps, 4 clicks (0.07% CTR), $12.11 CPC, 0 conversions",
             "- 2 social campaigns with $0 budget: Cart Abandoners (BED5XS5KANHR3JGBV78C4G), Browse Abandoners (3R7T2A7QVVBRHMHX528C4G)",
             "- 1 paused (ZLVXCMEZOBASPJ3SX6GOY6), 1 completed (BCDO5HBZSBB4PPEAPJQCAV)",
             "",
@@ -5389,12 +5446,12 @@
       "file_size_bytes": 27670,
       "activity_level": "very-active",
       "projects": [
-        "Crown",
         "Shirtsy",
+        "Crown",
+        "Lux Neon",
+        "Nova Titans",
         "NET30",
         "Lux",
-        "Nova Titans",
-        "Lux Neon",
         "WordPress",
         "Cloudflare"
       ],
@@ -5466,8 +5523,8 @@
           "content": [
             "- **Article:** \"Art and Wine Evenings: Why Gallery Events Are the Most Exciting Night Out in South Florida\"",
             "- **Published:** 2026-04-11",
-            "- **Klaviyo Campaign:** `01KP64SKFN9EJ3FDKPNW2FNDY3` \u2014 DRAFT",
-            "- **Campaign Message:** `01KP64SKG04KM9EHNFXS3NAEP9`",
+            "- **Klaviyo Campaign:** [REDACTED_TOKEN] \u2014 DRAFT",
+            "- **Campaign Message:** [REDACTED_TOKEN]",
             "- **Template:** `XMWDQG` (cloned from `QS8SQW`)",
             "- **Lists:** RifYyL (Lux All Clients) + URa3Mk (Newsletter)",
             "- **Subject:** \u2728 Art and Wine Evenings: Why Gallery Events Are the Most Exciting Night Out in South Florida",
@@ -5933,8 +5990,8 @@
       "file_size_bytes": 9819,
       "activity_level": "active",
       "projects": [
-        "Crown",
         "Shirtsy",
+        "Crown",
         "NET30",
         "Lux",
         "WordPress",
@@ -6139,13 +6196,13 @@
       "file_size_bytes": 10458,
       "activity_level": "active",
       "projects": [
-        "Coconut",
-        "Cloudflare",
-        "Lux",
         "Nova Titans",
         "GoodNeon",
-        "Virtus",
-        "Shopify"
+        "Coconut",
+        "Lux",
+        "Shopify",
+        "Cloudflare",
+        "Virtus"
       ],
       "sections": [
         {
@@ -6364,18 +6421,18 @@
       "file_size_bytes": 18546,
       "activity_level": "very-active",
       "projects": [
-        "Coconut",
-        "Crown",
         "Shirtsy",
-        "Cloudflare",
-        "NET30",
         "Reclaimed",
-        "Lux",
-        "Nova Titans",
-        "GoodNeon",
+        "Crown",
         "Lux Neon",
-        "Virtus",
-        "Shopify"
+        "Coconut",
+        "GoodNeon",
+        "Nova Titans",
+        "NET30",
+        "Lux",
+        "Shopify",
+        "Cloudflare",
+        "Virtus"
       ],
       "sections": [
         {
@@ -6780,16 +6837,16 @@
       "file_size_bytes": 11494,
       "activity_level": "very-active",
       "projects": [
-        "Crown",
-        "WordPress",
         "Shirtsy",
-        "NET30",
-        "Lux",
+        "Crown",
+        "Lux Neon",
         "Nova Titans",
         "GoodNeon",
-        "Lux Neon",
-        "Virtus",
-        "Shopify"
+        "NET30",
+        "Lux",
+        "WordPress",
+        "Shopify",
+        "Virtus"
       ],
       "sections": [
         {
@@ -7037,11 +7094,11 @@
       "file_size_bytes": 10877,
       "activity_level": "very-active",
       "projects": [
-        "Virtus",
         "Crown",
         "Lux",
+        "Shopify",
         "Cloudflare",
-        "Shopify"
+        "Virtus"
       ],
       "sections": [
         {
@@ -7334,10 +7391,10 @@
       "activity_level": "very-active",
       "projects": [
         "Crown",
-        "Lux",
         "Lux Neon",
-        "Virtus",
-        "Shopify"
+        "Lux",
+        "Shopify",
+        "Virtus"
       ],
       "sections": [
         {
@@ -7597,14 +7654,14 @@
       "file_size_bytes": 11113,
       "activity_level": "active",
       "projects": [
-        "Crown",
-        "WordPress",
         "Shirtsy",
-        "Cloudflare",
-        "Lux",
+        "Crown",
         "Lux Neon",
-        "Virtus",
-        "Shopify"
+        "Lux",
+        "WordPress",
+        "Shopify",
+        "Cloudflare",
+        "Virtus"
       ],
       "sections": [
         {
@@ -7683,8 +7740,8 @@
             "- **Image:** https://cdn.shopify.com/s/files/1/0802/0013/9031/articles/2026-03-28-blog-image.png?v=1774700487",
             "",
             "- **Campaign Name:** Lux Weekly Newsletter \u2014 Apr 07",
-            "- **Campaign ID:** `01KNM44PY5G2PVP5VPCFSMHB7V`",
-            "- **Campaign Message ID:** `01KNM44PYFABNWGE1F7D84EQ3W`",
+            "- **Campaign ID:** [REDACTED_TOKEN]",
+            "- **Campaign Message ID:** [REDACTED_TOKEN]",
             "- **Template ID:** `VqJk2H` (cloned by Klaviyo to `WkQDUK`)",
             "- **Subject:** \u2728 The Art of Collecting Neon: A Connoisseur's Guide to Building a Luminous Art Collection in South Florida",
             "- **From:** Lux Neon Art Gallery <luxneon2023@gmail.com>",
@@ -7800,7 +7857,7 @@
           "title": "Shirtsy \u2014 Credit Card Payment Issue Investigation (3:55 PM)",
           "content": [
             "- **Problem:** Lex reports customers can't pay with credit cards at checkout. Related to Cloudflare blocking Authorize.net gateway.",
-            "- **Shirtsy Cloudflare:** Zone `7b8b9eb5c336f5b19e231f9be1f7c36c` (Pro plan)",
+            "- **Shirtsy Cloudflare:** Zone [REDACTED_TOKEN] (Pro plan)",
             "",
             "- **Security Level: HIGH** (set during March 23 attack \u2014 still elevated)",
             "- **Browser Integrity Check: ON**",
@@ -7852,11 +7909,11 @@
       "file_size_bytes": 7060,
       "activity_level": "very-active",
       "projects": [
-        "Crown",
         "Reclaimed",
+        "Crown",
         "Lux",
-        "Virtus",
-        "Shopify"
+        "Shopify",
+        "Virtus"
       ],
       "sections": [
         {
@@ -8036,15 +8093,15 @@
       "file_size_bytes": 27498,
       "activity_level": "very-active",
       "projects": [
-        "Coconut",
-        "Crown",
         "Shirtsy",
-        "Cloudflare",
         "Reclaimed",
-        "Lux",
+        "Crown",
+        "Coconut",
         "GoodNeon",
-        "Virtus",
-        "Shopify"
+        "Lux",
+        "Shopify",
+        "Cloudflare",
+        "Virtus"
       ],
       "sections": [
         {
@@ -8476,10 +8533,10 @@
             "7. **\"Still a long way to go\"** \u2014 homepage improved but needs more polish",
             "8. **\"Only see changes to home page\"** \u2014 inner pages were untouched in first rebuild",
             "",
-            "- OAuth code exchange: `45c2dfac8b0a8e8e5eb2e3903b7340ad`",
+            "- OAuth code exchange: [REDACTED_TOKEN]",
             "- New token: `[REDACTED_TOKEN]` (full access, saved to `.secrets/luxneon-do.env`)",
             "- Store handle confirmed: `ydciat-m8.myshopify.com` / `luxneon.do`",
-            "- OAuth App Client ID: `ff1af38470e91a1956cfcb3a31b38da9`",
+            "- OAuth App Client ID: [REDACTED_TOKEN]",
             "",
             "- **123 total images** pulled via GraphQL Files API",
             "- **28 product mockups** (v2 PNGs)",
@@ -8606,12 +8663,12 @@
       "file_size_bytes": 17809,
       "activity_level": "very-active",
       "projects": [
-        "Crown",
-        "Cloudflare",
         "Reclaimed",
+        "Crown",
         "Lux",
-        "Virtus",
-        "Shopify"
+        "Shopify",
+        "Cloudflare",
+        "Virtus"
       ],
       "sections": [
         {
@@ -8905,7 +8962,7 @@
           "title": "Reclaimed Closet \u2014 Final Sprint (3:50-4:30 PM ET)",
           "content": [
             "",
-            "- Found in `config/settings_data.json` as app embed block `15683396631634586217`",
+            "- Found in `config/settings_data.json` as app embed block [REDACTED_TOKEN]",
             "- Type: `shopify://apps/inbox/blocks/chat/841fc607-4181-4ad1-842d-e24d7f8bad6b`",
             "- Set `disabled: true` via PUT to theme assets API",
             "- Verified: `grep -c \"inbox-chat-loader\"` \u2192 0 on live site",
@@ -9009,14 +9066,14 @@
       "file_size_bytes": 9421,
       "activity_level": "active",
       "projects": [
-        "Coconut",
-        "Crown",
-        "Cloudflare",
         "Reclaimed",
-        "Lux",
+        "Crown",
+        "Coconut",
         "GoodNeon",
-        "Virtus",
-        "Shopify"
+        "Lux",
+        "Shopify",
+        "Cloudflare",
+        "Virtus"
       ],
       "sections": [
         {
@@ -9046,8 +9103,8 @@
           "content": [
             "- Feed: BeachesMLS Agent/Broker Licensed Feed - Broker Back Office",
             "- User: Nicolas A Gonzalez (flr.279629855)",
-            "- API Feed ID: `c5ptrbnk0630viwddp0mptsqv`",
-            "- Access Token: `26z7jhl5bp2d5snr2jwjgz6kl`",
+            "- API Feed ID: [REDACTED_TOKEN]",
+            "- Access Token: [REDACTED_TOKEN]",
             "- Endpoint: `https://replication.sparkapi.com/Version/3/Reso/OData/`",
             "- RESO Web API v3 (OData format) \u2014 NOT old Spark v1",
             "- 41,419 active listings, real South Florida data, live photos working",
@@ -9251,12 +9308,12 @@
       "file_size_bytes": 6615,
       "activity_level": "moderate",
       "projects": [
-        "Virtus",
         "Crown",
-        "Cloudflare",
         "Lux",
         "WordPress",
-        "Shopify"
+        "Shopify",
+        "Cloudflare",
+        "Virtus"
       ],
       "sections": [
         {
@@ -9357,13 +9414,13 @@
             "- Miami/South Florida color palette: ocean blues, coral, teal, sunset orange",
             "- 7 pages: Home (hero with AI waterfront mansion), About (Alexis Hernandez broker + Nicolas Gonzalez agent), Services, Areas, Listings, Blog, Contact",
             "- **Compliance requirements met**: \"Virtus Realty Group \u2014 Brokered by Alexis Hernandez\" in header/footer, immediately clear it's Real Estate",
-            "- **Spark MLS API integrated**: Demo token `6a1em1yiaz8mtyxwcadzo8hnl`, proxy via Cloudflare Pages Function at `/api/listings` (CORS fix)",
+            "- **Spark MLS API integrated**: Demo token [REDACTED_TOKEN], proxy via Cloudflare Pages Function at `/api/listings` (CORS fix)",
             "- **Hero image**: AI-generated South Florida waterfront mansion (Mediterranean, dock, yacht, palm trees, golden hour) \u2014 2.8MB",
             "- **Cloudflare Pages deployed**: Project `virtus-realty`, URL: https://virtus-realty.pages.dev",
             "- **New Cloudflare API token created**: \"Jackie\" token with Pages + DNS + Zone + Cache + Firewall + Page Rules permissions",
             "- Token: saved to `.secrets/cloudflare.env` as main token (replaced old WordPress-scoped token)",
             "- **virtusrealtygroup.com moved to Cloudflare DNS**:",
-            "- Zone ID: `eb36262f5cba608eb27ea11e6e27fd91`",
+            "- Zone ID: [REDACTED_TOKEN]",
             "- Nameservers: `amanda.ns.cloudflare.com`, `archer.ns.cloudflare.com` (propagated)",
             "- Old records cleaned: 9 Microsoft 365/GoDaddy records deleted",
             "- New records: root + www CNAME \u2192 `virtus-realty.pages.dev` (proxied)",
@@ -9387,8 +9444,8 @@
       "file_size_bytes": 1017,
       "activity_level": "light",
       "projects": [
-        "Lux",
-        "Shopify"
+        "Shopify",
+        "Lux"
       ],
       "sections": [
         {
@@ -9423,8 +9480,8 @@
       "file_size_bytes": 3176,
       "activity_level": "moderate",
       "projects": [
-        "Lux",
-        "Shopify"
+        "Shopify",
+        "Lux"
       ],
       "sections": [
         {
@@ -9513,8 +9570,8 @@
       "activity_level": "moderate",
       "projects": [
         "Lux",
-        "Lux Neon",
-        "Shirtsy"
+        "Shirtsy",
+        "Lux Neon"
       ],
       "sections": [
         {
@@ -9652,8 +9709,8 @@
       "file_size_bytes": 771,
       "activity_level": "light",
       "projects": [
-        "Lux",
-        "Shopify"
+        "Shopify",
+        "Lux"
       ],
       "sections": [
         {
@@ -9691,12 +9748,12 @@
       "file_size_bytes": 2458,
       "activity_level": "moderate",
       "projects": [
-        "Coconut",
-        "Crown",
         "Shirtsy",
         "Reclaimed",
-        "Lux",
+        "Crown",
+        "Coconut",
         "GoodNeon",
+        "Lux",
         "Shopify"
       ],
       "sections": [
@@ -9771,17 +9828,17 @@
       "file_size_bytes": 45304,
       "activity_level": "very-active",
       "projects": [
-        "Coconut",
-        "Crown",
-        "WordPress",
         "Shirtsy",
-        "Cloudflare",
         "Reclaimed",
-        "Lux",
-        "GoodNeon",
+        "Crown",
         "Lux Neon",
-        "Virtus",
-        "Shopify"
+        "Coconut",
+        "GoodNeon",
+        "Lux",
+        "WordPress",
+        "Shopify",
+        "Cloudflare",
+        "Virtus"
       ],
       "sections": [
         {
@@ -10236,8 +10293,8 @@
           "title": "Google Business Profile Data Discovered",
           "content": [
             "- **Lux Neon Art Gallery**: Place ID `ChIJI0BNRmKr2YgRdA36JNVJ_GQ`, Maps CID `7276772277721107828`",
-            "- **GoodNeon**: Place ID `ChIJ_46H2hir2YgRWDd4KXBY0t0`, Maps CID `15983935266246637400`",
-            "- GBP Account: `114177212485969605856` (Nicolas Gonzalez)",
+            "- **GoodNeon**: Place ID `ChIJ_46H2hir2YgRWDd4KXBY0t0`, Maps CID [REDACTED_TOKEN]",
+            "- GBP Account: [REDACTED_TOKEN] (Nicolas Gonzalez)",
             "- Review URL: `https://search.google.com/local/writereview?placeid=ChIJI0BNRmKr2YgRdA36JNVJ_GQ`",
             ""
           ]
@@ -10377,7 +10434,7 @@
             "- `messages.channel` filter required for listing: `filter=equals(messages.channel,'email')`",
             "- Template cloning: `POST /template-clone` with `{\"data\": {\"type\": \"template\", \"id\": \"xxx\"}}`",
             "",
-            "- Campaign: `01KMR9WQGAWBFE1F9ZQFG15T5N` \u2014 sent to lex@lexgraphic.com via \"Test \u2014 Lex Only\" list (XeyUZ9)",
+            "- Campaign: [REDACTED_TOKEN] \u2014 sent to lex@lexgraphic.com via \"Test \u2014 Lex Only\" list (XeyUZ9)",
             "- Template used: VZWzS4 (auto-cloned to TKhEnQ by Klaviyo)",
             "- Subject: \"\u2728 The Intersection of Neon Art and Contemporary Design\"",
             "- Status: 202 Accepted (sent successfully)",
@@ -10434,11 +10491,11 @@
             "",
             "Lex didn't receive the test newsletter email sent to lex@lexgraphic.com.",
             "",
-            "1. **First campaign** (TEST Newsletter FINAL, `01KMR9WQGAWBFE1F9ZQFG15T5N`) \u2014 sent from `luxneon2023@gmail.com`",
+            "1. **First campaign** (TEST Newsletter FINAL, [REDACTED_TOKEN]) \u2014 sent from `luxneon2023@gmail.com`",
             "- Profile was `NEVER_SUBSCRIBED` \u2192 Klaviyo suppressed it entirely",
             "- Gmail sender = no DKIM authentication = spam risk",
             "",
-            "2. **Second campaign** (TEST Newsletter v2, `01KMRA7ZFHGC7X4GZBVH07XNMH`) \u2014 sent from `martketing@luxneonartgallery.com`",
+            "2. **Second campaign** (TEST Newsletter v2, [REDACTED_TOKEN]) \u2014 sent from `martketing@luxneonartgallery.com`",
             "- Profile was subscribed by then \u2705",
             "- Klaviyo event log confirms `Received Email` at 18:57:13 UTC \u2705",
             "- But Lex still didn't find it \u2192 likely landing in spam/promotions",
@@ -10472,7 +10529,7 @@
             "- Account org: Lux Neon Art Gallery",
             "- Address: 1210 Stirling Rd, 1a, Dania Beach, FL 33004",
             "- Total campaigns ever sent: ~20 (since Sep 2024)",
-            "- Lex's profile ID: `01J5KBE4YMX98S1FJQ5Q325G3M`",
+            "- Lex's profile ID: [REDACTED_TOKEN]",
             ""
           ]
         },
@@ -10516,7 +10573,7 @@
             "- Also a UDM Pro, fw 3.1.16, runs Access + Talk apps",
             "- Internal IP: 10.1.10.70, currently offline",
             "",
-            "**Site:** \"Default\" (ID: `635ab15f7236f5068f3522b9`)",
+            "**Site:** \"Default\" (ID: [REDACTED_TOKEN])",
             "- 5 total devices (1 gateway, 4 WiFi APs)",
             "- 74 WiFi clients currently connected",
             "- 20 wired clients",
@@ -10695,11 +10752,11 @@
       "file_size_bytes": 21594,
       "activity_level": "very-active",
       "projects": [
-        "WordPress",
-        "Lux",
         "Lux Neon",
-        "Cloudflare",
-        "Shopify"
+        "Lux",
+        "WordPress",
+        "Shopify",
+        "Cloudflare"
       ],
       "sections": [
         {
@@ -11111,14 +11168,14 @@
       "file_size_bytes": 27543,
       "activity_level": "very-active",
       "projects": [
-        "Coconut",
-        "Crown",
         "Shirtsy",
         "Reclaimed",
-        "Lux",
-        "Nova Titans",
-        "GoodNeon",
+        "Crown",
         "Lux Neon",
+        "Coconut",
+        "GoodNeon",
+        "Nova Titans",
+        "Lux",
         "Shopify"
       ],
       "sections": [
@@ -11189,8 +11246,8 @@
           "content": [
             "- `google-ads.env` refresh token: \u2705 WORKING (gets valid access tokens)",
             "- `google-tokens.json` refresh token: \u274c EXPIRED/REVOKED (invalid_grant)",
-            "- Both use same client ID: `743931807036-od1p48i85nnc1g2gtciudppa0ncb2hs3.apps.googleusercontent.com`",
-            "- `google-cloud.env` has different client secret (`GOCSPX-KXd6w...`) vs `google-ads.env` (`GOCSPX--ANdM...`)",
+            "- Both use same client ID: `[REDACTED_GOOGLE_CLIENT_ID]`",
+            "- `google-cloud.env` has different client secret (`[REDACTED_GOOGLE_CLIENT_SECRET]...`) vs `google-ads.env` (`[REDACTED_GOOGLE_CLIENT_SECRET]...`)",
             "- Need to re-authorize google-tokens.json eventually (has broader scopes: business.manage, calendar, analytics, etc.)",
             ""
           ]
@@ -11409,12 +11466,12 @@
           "content": [
             "- API IS enabled on GCP project (Lex confirmed via screenshot \u2014 shows 8 requests, 100% error rate)",
             "- `google-tokens.json` refresh token is EXPIRED/REVOKED (invalid_grant) \u2014 needs re-auth",
-            "- Both env files use same OAuth client ID: `743931807036-od1p48i85nnc1g2gtciudppa0ncb2hs3.apps.googleusercontent.com`",
+            "- Both env files use same OAuth client ID: `[REDACTED_GOOGLE_CLIENT_ID]`",
             "- `google-ads.env` has different client secret than `google-cloud.env`",
             "- **Root cause found**: API v19 is **SUNSET** (returns 501 UNIMPLEMENTED)",
             "- **v20, v21, v22 exist** \u2014 but return `DEVELOPER_TOKEN_INVALID` on v22",
             "- v22 is the current/latest Google Ads API version (confirmed from Google support forum)",
-            "- Developer token `rzZeTvhtkILAFw0lhEPnXQ` shows as **invalid** on v22",
+            "- Developer token [REDACTED_TOKEN] shows as **invalid** on v22",
             "- Token was obtained under manager account 543-649-2290, shows \"Basic Access\" in API Center",
             "- **Theory**: Token may need regeneration, or was issued for older API versions only",
             "- **Next step**: Lex needs to go to ads.google.com \u2192 Tools & Settings \u2192 Setup \u2192 API Center to verify/regenerate dev token",
@@ -11436,7 +11493,7 @@
           "title": "Google Ads API \u2014 WORKING! (4:25 PM ET)",
           "content": [
             "- Root cause of all earlier failures: **TYPO in developer token** \u2014 had uppercase `I` instead of lowercase `l`",
-            "- Correct token: `rzZeTvhtklLAFw0lhEPnXQ` (saved to `.secrets/google-ads.env`)",
+            "- Correct token: [REDACTED_TOKEN] (saved to `.secrets/google-ads.env`)",
             "- API version: **v23** (v23.1 exists but v23 works fine)",
             "- Manager account: 543-649-2290 (\"lux neon\") \u2014 this is the MCC",
             "- Sub-accounts under manager:",
@@ -11647,16 +11704,16 @@
       "file_size_bytes": 23900,
       "activity_level": "very-active",
       "projects": [
-        "Crown",
         "Shirtsy",
-        "Cloudflare",
-        "NET30",
-        "Lux",
+        "Crown",
+        "Lux Neon",
         "Nova Titans",
         "GoodNeon",
-        "Lux Neon",
+        "NET30",
+        "Lux",
         "WordPress",
-        "Shopify"
+        "Shopify",
+        "Cloudflare"
       ],
       "sections": [
         {
@@ -11952,10 +12009,10 @@
             "- Shirtsy: 0.18s TTFB (HIT \u2705, already was)",
             "- GoodNeon: 2.7s \u2192 0.29s \u2192 **0.14s** TTFB (HIT \u2705)",
             "",
-            "- Crown Cache Everything: `e5f791578e3a6c260c3cb3cb12c37eb6`",
-            "- Crown wp-admin bypass: `180043c4a595326a87a32b5a266a103d`",
-            "- GoodNeon Cache Everything: `17d896e78bfe51e80ffa92e9726796fa`",
-            "- GoodNeon wp-admin bypass: `a83a8de1cfc2d95364d1ca5390ecfaa5`",
+            "- Crown Cache Everything: [REDACTED_TOKEN]",
+            "- Crown wp-admin bypass: [REDACTED_TOKEN]",
+            "- GoodNeon Cache Everything: [REDACTED_TOKEN]",
+            "- GoodNeon wp-admin bypass: [REDACTED_TOKEN]",
             "",
             "- goodneon-1: Cache-Control fix \u2192 done",
             "- goodneon-3: Edge caching \u2192 done",
@@ -12005,9 +12062,9 @@
             "- Same smart expression as Shirtsy: excludes wp-admin, wp-login, cart, checkout, my-account, client-dashboard, account, login, lost-password, register, logged-in cookies, woo sessions",
             "4. **Updated Shirtsy's Cache Rule** \u2014 added `/client-dashboard/` to exclusion list (was missing)",
             "",
-            "- Crown: Ruleset `2e76a25efc224be08c9e8f7c1f072258`",
-            "- GoodNeon: Ruleset `882173b8ed1b4ccfa5d082870113d532`",
-            "- Shirtsy: Ruleset `e3b87920d0ed40018055d3b8bd5a2362`, Rule `034326dfdad34050a2d14d0dce170df1` (updated)",
+            "- Crown: Ruleset [REDACTED_TOKEN]",
+            "- GoodNeon: Ruleset [REDACTED_TOKEN]",
+            "- Shirtsy: Ruleset [REDACTED_TOKEN], Rule [REDACTED_TOKEN] (updated)",
             "",
             "- All 3 sites: Homepage \u2192 HIT \u2705, /my-account/ \u2192 DYNAMIC \u2705, /client-dashboard/ \u2192 DYNAMIC \u2705, /cart/ \u2192 DYNAMIC \u2705",
             "",
@@ -12104,7 +12161,7 @@
             "- Note: Telnyx also blocked registration (\"security standards\" error)",
             "- WhatsApp button on luxneon.do will use Lex's personal 954-498-3728 instead",
             "",
-            "- Client ID: `ff1af38470e91a1956cfcb3a31b38da9`",
+            "- Client ID: [REDACTED_TOKEN]",
             "- Client Secret: `[REDACTED_SECRET]` (created March 22, 2026 4:38 PM)",
             "- API contact email: `lux@luxneon.do`",
             "- Callback URL: `https://ops.jackiespanties.com/callback`",
@@ -12122,17 +12179,17 @@
       "file_size_bytes": 12002,
       "activity_level": "very-active",
       "projects": [
-        "Coconut",
-        "Crown",
-        "WordPress",
         "Shirtsy",
-        "Cloudflare",
         "Reclaimed",
-        "Lux",
-        "GoodNeon",
+        "Crown",
         "Lux Neon",
-        "Virtus",
-        "Shopify"
+        "Coconut",
+        "GoodNeon",
+        "Lux",
+        "WordPress",
+        "Shopify",
+        "Cloudflare",
+        "Virtus"
       ],
       "sections": [
         {
@@ -12413,14 +12470,14 @@
       "file_size_bytes": 10958,
       "activity_level": "moderate",
       "projects": [
-        "Coconut",
         "Reclaimed",
-        "Lux",
-        "Nova Titans",
-        "GoodNeon",
         "Lux Neon",
-        "Cloudflare",
-        "Shopify"
+        "Coconut",
+        "GoodNeon",
+        "Nova Titans",
+        "Lux",
+        "Shopify",
+        "Cloudflare"
       ],
       "sections": [
         {
@@ -12640,10 +12697,10 @@
       "file_size_bytes": 9060,
       "activity_level": "active",
       "projects": [
-        "Coconut",
         "Reclaimed",
-        "Lux",
+        "Coconut",
         "GoodNeon",
+        "Lux",
         "WordPress",
         "Shopify"
       ],
@@ -12858,8 +12915,8 @@
       "activity_level": "light",
       "projects": [
         "GoodNeon",
-        "Lux",
-        "Shopify"
+        "Shopify",
+        "Lux"
       ],
       "sections": [
         {
@@ -12921,19 +12978,19 @@
       "file_size_bytes": 16245,
       "activity_level": "active",
       "projects": [
-        "Coconut",
+        "Shirtsy",
+        "Reclaimed",
         "Crown",
         "NET60",
-        "Shirtsy",
-        "WordPress",
-        "NET30",
-        "Reclaimed",
-        "Cloudflare",
-        "Lux",
-        "GoodNeon",
         "Lux Neon",
-        "Virtus",
-        "Shopify"
+        "Coconut",
+        "GoodNeon",
+        "NET30",
+        "Lux",
+        "WordPress",
+        "Shopify",
+        "Cloudflare",
+        "Virtus"
       ],
       "sections": [
         {
@@ -13272,13 +13329,13 @@
       "file_size_bytes": 6938,
       "activity_level": "active",
       "projects": [
-        "Crown",
-        "WordPress",
         "Shirtsy",
-        "Lux",
+        "Crown",
         "GoodNeon",
-        "Virtus",
-        "Shopify"
+        "Lux",
+        "WordPress",
+        "Shopify",
+        "Virtus"
       ],
       "sections": [
         {
@@ -13465,15 +13522,15 @@
       "file_size_bytes": 8174,
       "activity_level": "moderate",
       "projects": [
-        "Coconut",
-        "Crown",
         "Shirtsy",
         "Reclaimed",
-        "Lux",
-        "GoodNeon",
+        "Crown",
         "Lux Neon",
-        "Virtus",
-        "Shopify"
+        "Coconut",
+        "GoodNeon",
+        "Lux",
+        "Shopify",
+        "Virtus"
       ],
       "sections": [
         {
@@ -13654,17 +13711,17 @@
       "file_size_bytes": 9018,
       "activity_level": "very-active",
       "projects": [
-        "Coconut",
-        "Crown",
-        "WordPress",
         "Shirtsy",
-        "NET30",
         "Reclaimed",
-        "Lux",
-        "GoodNeon",
+        "Crown",
         "Lux Neon",
-        "Virtus",
-        "Shopify"
+        "Coconut",
+        "GoodNeon",
+        "NET30",
+        "Lux",
+        "WordPress",
+        "Shopify",
+        "Virtus"
       ],
       "sections": [
         {
@@ -13911,14 +13968,14 @@
       "file_size_bytes": 12488,
       "activity_level": "moderate",
       "projects": [
-        "Coconut",
-        "Cloudflare",
         "Reclaimed",
-        "Lux",
-        "GoodNeon",
         "Lux Neon",
+        "Coconut",
+        "GoodNeon",
+        "Lux",
         "WordPress",
-        "Shopify"
+        "Shopify",
+        "Cloudflare"
       ],
       "sections": [
         {
@@ -13977,7 +14034,7 @@
             "- Project ID: angelic-bee-490015-s0",
             "- APIs enabled: My Business Business Information, My Business Account Management, Google Ads, Google Analytics, Google Calendar",
             "- IAM access for jackypanty647@gmail.com: \u2705 GRANTED (Editor)",
-            "- OAuth Client ID: 743931807036-od1p48i85nnc1g2gtciudppa0ncb2hs3.apps.googleusercontent.com",
+            "- OAuth Client ID: [REDACTED_GOOGLE_CLIENT_ID]",
             "- OAuth tokens saved: .secrets/google-tokens.json (refresh token valid)",
             "- GBP API quota: PENDING \u2014 Lux Case ID 1-312000039580, GoodNeon Case ID 2-783700039980 (up to 5 business days)",
             "- Cron checking daily: 9cd622ff-c705-4141-a161-470e906d7a9d",
@@ -14171,17 +14228,17 @@
       "file_size_bytes": 8103,
       "activity_level": "very-active",
       "projects": [
-        "Coconut",
-        "Crown",
-        "WordPress",
         "Shirtsy",
-        "Cloudflare",
         "Reclaimed",
-        "Lux",
-        "GoodNeon",
+        "Crown",
         "Lux Neon",
-        "Virtus",
-        "Shopify"
+        "Coconut",
+        "GoodNeon",
+        "Lux",
+        "WordPress",
+        "Shopify",
+        "Cloudflare",
+        "Virtus"
       ],
       "sections": [
         {
@@ -14401,11 +14458,11 @@
       "file_size_bytes": 2542,
       "activity_level": "moderate",
       "projects": [
-        "Crown",
         "Shirtsy",
-        "Lux",
+        "Crown",
+        "Lux Neon",
         "GoodNeon",
-        "Lux Neon"
+        "Lux"
       ],
       "sections": [
         {

@@ -65,6 +65,14 @@ def sanitize_content(text):
     text = re.sub(r'sl\.[a-zA-Z0-9._-]{50,}', '[REDACTED_DROPBOX_TOKEN]', text)
     # JWT tokens
     text = re.sub(r'eyJ[a-zA-Z0-9_-]{20,}\.[a-zA-Z0-9_-]{20,}\.[a-zA-Z0-9_-]{20,}', '[REDACTED_JWT]', text)
+    # Google OAuth Client IDs (numbers-alphanums.apps.googleusercontent.com)
+    text = re.sub(r'[0-9]+-[a-zA-Z0-9]+\.apps\.googleusercontent\.com', '[REDACTED_GOOGLE_CLIENT_ID]', text)
+    # Google OAuth Client Secrets (GOCSPX-...)
+    text = re.sub(r'GOCSPX-[a-zA-Z0-9_-]+', '[REDACTED_GOOGLE_CLIENT_SECRET]', text)
+    # Google Developer Tokens
+    text = re.sub(r'`[a-zA-Z0-9]{20,}`', lambda m: m.group(0) if any(w in m.group(0).lower() for w in ['redact']) else '[REDACTED_TOKEN]', text)
+    # Generic Client Secret patterns
+    text = re.sub(r'(Client Secret|client_secret)\s*[:=`]\s*`?[A-Za-z0-9_-]{20,}`?', r'\1: [REDACTED]', text, flags=re.IGNORECASE)
     return text
 
 
