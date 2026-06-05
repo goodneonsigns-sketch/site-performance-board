@@ -710,7 +710,7 @@
       "summary": "Shirtsy status report generated: 1 task complete (6 blog drafts), 4 tasks blocked pending Lex action (WP access, Trustpilot claim, BBB complaints, GBP creation)"
     }
   },
-  "lastUpdated": "2026-06-05T16:02:00Z",
+  "lastUpdated": "2026-06-05T17:02:00Z",
   "source": "ops-dashboard",
   "activityLog": [
     {
@@ -739,6 +739,13 @@
       "type": "ops-check",
       "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
       "details": "Task states: lux-1=execute, lux-2=execute, lux-3=execute, lux-4=execute, lux-oauth=execute, lux-7=execute, reclaimed-1=execute, shirtsy-3=done, reclaimed-5=execute, reclaimed-10=execute, coconut-1=execute, coconut-3=execute. No tasks with jackie-execute status. Board idle.",
+      "status": "idle"
+    },
+    {
+      "timestamp": "2026-06-05T17:02:00Z",
+      "type": "ops-check",
+      "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
+      "details": "Task states: lux-1=execute, lux-2=execute, lux-3=execute, lux-4=execute, lux-oauth=execute, lux-7=execute, reclaimed-1=execute, shirtsy-3=done, reclaimed-5=execute, reclaimed-10=execute, coconut-1=execute, coconut-3=execute. No tasks with jackie-execute status. reclaimed-1 has taskPrompt (seasonal SEO push) but status remains execute (not jackie-execute). Board idle.",
       "status": "idle"
     }
   ]
