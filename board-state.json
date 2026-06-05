@@ -6,7 +6,7 @@
     "lux-4": "execute",
     "lux-oauth": "execute",
     "lux-7": "execute",
-    "reclaimed-1": "todo",
+    "reclaimed-1": "execute",
     "shirtsy-3": "done"
   },
   "lexTasks": {
@@ -679,9 +679,16 @@
     "reclaimed-1": {
       "prompt": "help me strategize a seasonal seo push, running weekly",
       "priority": "normal",
-      "assigned_at": "2026-04-03T21:38:16.614Z",
+      "assigned_at": "2026-06-05T12:28:39.881Z",
       "sent": true,
-      "history": []
+      "history": [
+        {
+          "prompt": "help me strategize a seasonal seo push, running weekly",
+          "priority": "normal",
+          "at": "2026-04-03T21:38:16.614Z",
+          "sent": true
+        }
+      ]
     },
     "shirtsy-3": {
       "prompt": "give me a report when complete",
@@ -699,120 +706,6 @@
       "summary": "Shirtsy status report generated: 1 task complete (6 blog drafts), 4 tasks blocked pending Lex action (WP access, Trustpilot claim, BBB complaints, GBP creation)"
     }
   },
-  "lastUpdated": "2026-06-05T12:02:00Z",
-  "source": "ops-dashboard",
-  "activityLog": [
-    {
-      "timestamp": "2026-06-04T21:01:00Z",
-      "type": "routine-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
-      "details": "Board scanned. Task states: lux-1 thru lux-7 at execute (legacy/orphaned), reclaimed-1 todo, shirtsy-3 done. No jackie-execute taskPrompts found. No action needed.",
-      "status": "no-action"
-    },
-    {
-      "timestamp": "2026-06-04T22:02:00Z",
-      "type": "routine-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
-      "details": "Board scanned. Task states: lux-1 thru lux-7 at execute (legacy/orphaned), reclaimed-1 todo, shirtsy-3 done. No jackie-execute taskPrompts found. No action needed.",
-      "status": "no-action"
-    },
-    {
-      "timestamp": "2026-06-04T23:02:00Z",
-      "type": "routine-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
-      "details": "Board scanned. Task states: lux-1 thru lux-7 at execute (legacy/orphaned), reclaimed-1 todo, shirtsy-3 done. No jackie-execute taskPrompts found. No action needed.",
-      "status": "no-action"
-    },
-    {
-      "timestamp": "2026-06-05T00:02:00Z",
-      "type": "routine-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
-      "details": "Board scanned. Task states: lux-1 thru lux-7 at execute (legacy/orphaned), reclaimed-1 todo, shirtsy-3 done. No jackie-execute taskPrompts found. No action needed.",
-      "status": "no-action"
-    },
-    {
-      "timestamp": "2026-06-05T01:01:00Z",
-      "type": "ops-check",
-      "summary": "Hourly ops board check — no tasks queued",
-      "details": "Checked board-state.json for jackie-execute tasks. None found. All clear.",
-      "status": "complete"
-    },
-    {
-      "timestamp": "2026-06-05T02:02:00Z",
-      "type": "routine-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
-      "details": "Board scanned. Task states: lux-1 thru lux-7 at execute (legacy/orphaned), reclaimed-1 todo, shirtsy-3 done. No jackie-execute taskPrompts found. No action needed.",
-      "status": "no-action"
-    },
-    {
-      "timestamp": "2026-06-05T03:02:00Z",
-      "type": "routine-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
-      "details": "6 legacy taskStates with execute status but no taskPrompts — not actionable. reclaimed-1 still todo. No new work from Dana.",
-      "status": "no-action"
-    },
-    {
-      "timestamp": "2026-06-05T04:01:00Z",
-      "type": "routine-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
-      "details": "6 legacy taskStates with execute status but no taskPrompts — not actionable. reclaimed-1 still todo. No new work from Dana.",
-      "status": "no-action"
-    },
-    {
-      "timestamp": "2026-06-05T05:02:00Z",
-      "type": "routine-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
-      "details": "6 legacy taskStates with execute status but no taskPrompts — not actionable. reclaimed-1 still todo. No new work from Dana.",
-      "status": "no-action"
-    },
-    {
-      "timestamp": "2026-06-05T06:02:00Z",
-      "type": "routine-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
-      "details": "6 legacy taskStates with execute status but no taskPrompts — not actionable. reclaimed-1 still todo. No new work from Dana.",
-      "status": "no-action"
-    },
-    {
-      "timestamp": "2026-06-05T07:01:00Z",
-      "type": "routine-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
-      "details": "6 legacy taskStates with execute status but no taskPrompts — not actionable. reclaimed-1 still todo. No new work from Dana.",
-      "status": "no-action"
-    },
-    {
-      "timestamp": "2026-06-05T08:01:00Z",
-      "type": "routine-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
-      "details": "6 legacy taskStates with execute status but no taskPrompts — not actionable. reclaimed-1 still todo. No new work from Dana.",
-      "status": "no-action"
-    },
-    {
-      "timestamp": "2026-06-05T09:02:00Z",
-      "type": "routine-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
-      "details": "6 legacy taskStates with execute status but no taskPrompts — not actionable. reclaimed-1 still todo. No new work from Dana.",
-      "status": "no-action"
-    },
-    {
-      "timestamp": "2026-06-05T10:02:00Z",
-      "type": "routine-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
-      "details": "6 legacy taskStates with execute status but no taskPrompts — not actionable. reclaimed-1 still todo. No new work from Dana.",
-      "status": "no-action"
-    },
-    {
-      "timestamp": "2026-06-05T11:02:00Z",
-      "type": "routine-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
-      "details": "6 legacy taskStates with execute status but no taskPrompts — not actionable. reclaimed-1 still todo. No new work from Dana.",
-      "status": "no-action"
-    },
-    {
-      "timestamp": "2026-06-05T12:02:00Z",
-      "type": "routine-check",
-      "summary": "Hourly ops board check — no jackie-execute tasks queued",
-      "details": "6 legacy taskStates with execute status but no taskPrompts — not actionable. reclaimed-1 still todo. No new work from Dana.",
-      "status": "no-action"
-    }
-  ]
+  "lastUpdated": "2026-06-05T12:28:44.899Z",
+  "source": "ops-dashboard"
 }
