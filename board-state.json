@@ -855,6 +855,13 @@
       "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
       "details": "Board scanned. Task states: lux-1 thru lux-7 at execute (legacy/orphaned), reclaimed-1 todo, shirtsy-3 done. No jackie-execute taskPrompts found. No action needed.",
       "status": "no-action"
+    },
+    {
+      "timestamp": "2026-06-05T01:01:00Z",
+      "type": "ops-check",
+      "summary": "Hourly ops board check \u2014 no tasks queued",
+      "details": "Checked board-state.json for jackie-execute tasks. None found. All clear.",
+      "status": "complete"
     }
   ]
 }
