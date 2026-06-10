@@ -6,7 +6,7 @@
     "lux-4": "execute",
     "lux-oauth": "execute",
     "lux-7": "execute",
-    "reclaimed-1": "execute",
+    "reclaimed-1": "done",
     "shirtsy-3": "done",
     "reclaimed-5": "execute",
     "reclaimed-10": "execute",
@@ -708,9 +708,15 @@
       "response": "# Shirtsy Status Report \u2014 April 26, 2026\n\n## Completed Tasks\n- \u2705 **6 New Shirtsy Blog Posts Drafted** (completed 2026-03-26T14:00:00Z)\n  - Wrote 6 new blog post drafts for Shirtsy. Ready to publish once WP credentials are provided.\n\n## Pending Tasks (Blocked \u2014 Need Lex Action)\n- \ud83d\udfe1 **Claim Shirtsy profile on Trustpilot** [high]\n  - Go to trustpilot.com/review/shirtsy.com and claim the business profile. Currently unclaimed with 2.3/5 rating.\n  - Steps: 4 action items defined\n- \ud83d\udfe1 **Respond to BBB complaints (F rating fix)** [high]\n  - Shirtsy has an F rating because of 2 unanswered complaints. Responding alone should improve the grade.\n  - Steps: 4 action items defined\n- \ud83d\udfe1 **Create/verify Google Business Profile for Shirtsy** [high]\n  - Shirtsy may not have a Google Business Profile. Need one to collect Google Reviews.\n  - Steps: 5 action items defined\n- \ud83d\udd34 **Provide Shirtsy WP Admin Credentials** [critical]\n  - Jackie has 6 blog post drafts ready to publish on Shirtsy and 3 off-topic posts to delete. Cannot do any of this without WordPress admin access.\n  - Steps: 4 action items defined\n\n## Key Blockers\n1. **WP Admin Access** (CRITICAL) \u2014 Jackie has 6 blog posts drafted and 3 off-topic posts to delete. Cannot publish without credentials.\n2. **Trustpilot Claim** \u2014 Shirtsy has 2.3/5 rating, unclaimed. Claiming allows review responses.\n3. **BBB Complaints** \u2014 F rating due to 2-3 unanswered complaints. Responding alone should improve grade.\n4. **Google Business Profile** \u2014 May not exist yet. Needed for Google Reviews and local SEO.\n\n## Summary\n- 1 task(s) complete, 4 task(s) pending\n- All pending tasks are blocked on Lex providing access/credentials or taking manual action on external platforms\n- 6 SEO blog posts are drafted and ready to publish the moment WP access is provided",
       "completed_at": "2026-04-26T14:03:41Z",
       "summary": "Shirtsy status report generated: 1 task complete (6 blog drafts), 4 tasks blocked pending Lex action (WP access, Trustpilot claim, BBB complaints, GBP creation)"
+    },
+    "reclaimed-1": {
+      "status": "done",
+      "started_at": "2026-06-10T05:02:00Z",
+      "completed_at": "2026-06-10T05:05:00Z",
+      "response": "# Reclaimed Closet \u2014 Seasonal SEO Push Strategy \u2705\n\nCreated a comprehensive weekly-cadence seasonal SEO strategy aligned to the sports calendar.\n\n## What's In The Plan\n- **Annual sports calendar** mapping content windows to peak search periods (NFL, NBA, NHL, MLB, College)\n- **8-week summer action plan** (June\u2013August) with specific blog posts, keyword targets, and collection page refreshes\n- **Weekly SEO cadence** \u2014 Monday publish, Wed research, Thu draft, Fri refresh\n- **Content templates** for quick team-specific and seasonal blog posts\n- **Keyword targets** by season with current rankings and goals\n- **Monthly KPIs** tracking organic sessions, keywords, and blog output\n\n## Immediate Priority (This Week June 10\u201316)\n1. Add \"2026\" to all team collection page titles\n2. Publish NFL preseason fashion trend post\n3. Refresh Dodgers corset product page (protect #4 ranking)\n4. Internal link audit \u2014 homepage \u2192 top collections\n5. Add seasonal structured data\n\n## Key Insight\nNFL preseason content needs to go live NOW (June/July) to index before August/September search spikes. The custom game day corset niche is still wide open \u2014 no serious SEO competition.\n\n\ud83d\udcc4 Full strategy: projects/reclaimed-closet/seasonal-seo-push-2026.md"
     }
   },
-  "lastUpdated": "2026-06-10T04:02:00Z",
+  "lastUpdated": "2026-06-10T05:05:00Z",
   "source": "ops-dashboard",
   "activityLog": [
     {
@@ -831,6 +837,14 @@
       "summary": "Hourly ops board check \u2014 no jackie-execute tasks queued",
       "details": "Task states: lux-1/2/3/4/7/oauth=execute, reclaimed-1/5/10=execute, coconut-1/3=execute, shirtsy-3=done. No tasks with jackie-execute status. Board idle.",
       "status": "no-action"
+    },
+    {
+      "timestamp": "2026-06-10T05:05:00Z",
+      "type": "task-completed",
+      "taskId": "reclaimed-1",
+      "summary": "Seasonal SEO Push Strategy created for Reclaimed Closet",
+      "details": "Created comprehensive weekly-cadence seasonal SEO strategy (projects/reclaimed-closet/seasonal-seo-push-2026.md). Covers annual sports calendar, 8-week summer action plan, weekly cadence, content templates, keyword targets by season, and monthly KPIs. Immediate focus: NFL preseason content blitz starting this week.",
+      "status": "done"
     }
   ]
 }
