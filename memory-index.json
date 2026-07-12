@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-07-11T15:01:23.562631",
+  "generated_at": "2026-07-11T21:01:25.230859",
   "stats": {
-    "total_days_logged": 108,
-    "total_entries": 1007,
+    "total_days_logged": 109,
+    "total_entries": 1014,
     "most_active_projects": [
       {
         "project": "Lux",
-        "days": 96
+        "days": 97
       },
       {
         "project": "Shirtsy",
@@ -22,23 +22,210 @@
       },
       {
         "project": "Lux Neon",
-        "days": 35
+        "days": 36
       }
     ],
-    "recent_activity_streak": 1
+    "recent_activity_streak": 2
   },
   "days": [
+    {
+      "date": "2026-07-11",
+      "filename": "2026-07-11.md",
+      "section_count": 7,
+      "word_count": 2582,
+      "file_size_bytes": 18875,
+      "activity_level": "active",
+      "projects": [
+        "Lux Neon",
+        "Lux",
+        "Cloudflare"
+      ],
+      "sections": [
+        {
+          "title": "Camera Wall \u2014 COMPLETE & LIVE (all 5 cameras)",
+          "content": [
+            "",
+            "Split-screen video wall on the Raspberry Pi 4's HDMI monitor. Runs alongside the YOLO traffic counter on the same Pi. Both auto-start on boot and auto-recover.",
+            "",
+            "- **Parque** = full-width top half",
+            "- Bottom half = 4-split: **Lobby \u00b7 Bar \u00b7 Gallery1 \u00b7 Gallery2**",
+            "- Each tile has a burned-in name label (ffmpeg drawtext, DejaVuSans-Bold).",
+            "",
+            "| Name | IP | MAC |",
+            "|---|---|---|",
+            "| Parque (TOP) | .50 | bc:09:b9:c1:42:28 |",
+            "| Lobby | .55 | bc:09:b9:36:70:77 |",
+            "| Bar | .54 | bc:09:b9:36:96:51 |",
+            "| Gallery1 | .66 | bc:09:b9:e5:da:56 |",
+            "| Gallery2 | .56 | bc:09:b9:36:9d:9b |",
+            "",
+            "- All: `admin` @ port 554, password **Colonial26IoT**, RTSP + ONVIF enabled.",
+            "- Stream path: `/h264Preview_01_sub` (substream) or `_main` (hi-res).",
+            "- Reolink HTTP API (port 80) is CLOSED on these cams \u2014 only 554 + 8000 open. Identified each camera by reading the burned-in name overlay in an RTSP frame.",
+            "",
+            "1. **Framebuffer pixel format**: Pi console fb0 is **16bpp RGB565** \u2192 ffmpeg must output `-pix_fmt rgb565le`. Using `bgra` (32-bit) = BLANK SCREEN + error \"Pixel format bgra is not supported, use rgb565le\". Script auto-detects from `/sys/class/graphics/fb0/bits_per_pixel` (32\u2192bgra, 24\u2192bgr24, 16\u2192rgb565le). **This was the cause of the blank screen.**",
+            "2. **Aspect ratio**: never force-scale feeds to tile size (stretches/squishes). Use `fit_pad()`: `scale=W:H:force_original_aspect_ratio=decrease,pad=W:H:(centered):black,setsar=1` \u2192 letterbox, no distortion.",
+            "3. **Fisheye/barrel curve** (visible on Parque) = the Reolink wide-angle LENS, not the wall. Optional de-warp = ffmpeg `lenscorrection` (costs CPU, crops edges). Offered to Lex; not yet applied.",
+            "4. **Lobby password saga**: cam had an unknown password (RTSP 401 on everything incl blank). A \"hard reset\" that didn't prompt for a new password means the reset didn't take / app used cached creds. FIX: change admin password to Colonial26IoT in Reolink app \u2192 **User/Account Management** (app is already authenticated so it doesn't ask for the old password). Camera reboot alone did NOT fix it \u2014 needed the explicit password set.",
+            "",
+            "- Pi 4 running **5 live RTSP streams + aspect-pad compositing + YOLO counter simultaneously**: load ~2.5, temp ~54\u00b0C, **`throttled=0x0`** (no throttling). Plenty of headroom.",
+            "",
+            "- `camera-wall.sh [sub|main]` \u2014 MAC-based discovery + ffprobe stream validation + fixed top/bottom layout + rgb565le auto-detect + fit_pad aspect + drawtext labels + per-cam password override (CAM_PASS assoc array).",
+            "- `camera-wall-loop.sh` \u2014 relaunch/rescan wrapper (picks up newly-enabled cams).",
+            "- systemd `camera-wall.service` \u2014 enabled on boot, Restart=always, logs to `~/park-traffic-counter/wall.log`.",
+            "",
+            "- `pi.sh` wrapper SSHes to Pi over Tailscale (camera@100.71.170.55, SSHPASS='Colonial26'). Jackie can fix/restart the wall remotely \u2014 no photographing the screen needed.",
+            "",
+            "- De-warp fisheye (awaiting Lex).",
+            "- Use main (hi-res) streams instead of sub \u2014 CPU has room (awaiting Lex).",
+            "- Add all 5 cameras to the YOLO traffic counter (add MACs to CAMERAS config).",
+            ""
+          ]
+        },
+        {
+          "title": "Traffic Counter \u2014 expanded to ALL 5 CAMERAS \u2705",
+          "content": [
+            "",
+            "- Updated `CAMERAS` dict in `lux_traffic.py`: replaced old park+door(a8:e2:91 \u2014 that MAC wasn't one of the 5 Reolinks) with all 5 real cams:",
+            "- **park** .50 bc:09:b9:c1:42:28 \u2014 track_classes [0,1,2,3,5,7] (people+vehicles), line 0.55 (outdoor/street)",
+            "- **lobby** .55 bc:09:b9:36:70:77 \u2014 [0] people, line 0.50 (walk-ins)",
+            "- **bar** .54 bc:09:b9:36:96:51 \u2014 [0] people, line 0.50",
+            "- **gallery1** .66 bc:09:b9:e5:da:56 \u2014 [0] people, line 0.50",
+            "- **gallery2** .56 bc:09:b9:36:9d:9b \u2014 [0] people, line 0.50",
+            "- Added `--cams park,lobby,bar,...` CLI flag (comma-sep camera selection). Kept `--park-only`; `--door-only` now maps to `lobby`.",
+            "- Each camera writes its own `traffic_data/<camid>/detections.csv`. Verified all 5 logging live (fresh timestamps, bar detected 1 person, park 2 people+1 car during test).",
+            "- **systemd `lux-traffic.service` updated**: ExecStart now `--cams park,lobby,bar,gallery1,gallery2 --pi --upload --interval 15`. daemon-reloaded + restarted + **enabled on boot**.",
+            "- **Performance: Pi 4 running the 5-cam video WALL + 5-cam YOLO NCNN COUNTER simultaneously = load ~0.3, temp ~46\u00b0C, throttled=0x0.** Tons of headroom. NCNN export is very efficient on ARM.",
+            "- Drive upload ON \u2192 \"Lux Neon Traffic Data\" folder (per-camera).",
+            "- NOTE: old `service.log` showed `Cameras: park` \u2014 argparse accepted `--park` as unambiguous prefix of `--park-only`; now explicit via `--cams`.",
+            ""
+          ]
+        },
+        {
+          "title": "Analytics + Security System \u2014 SCOPED & STARTED (Phase 1)",
+          "content": [
+            "",
+            "Lex approved a 3-phase build: (1) zone engine + counting upgrade, (2) web dashboard, (3) Karla face recognition + security digest. **Reports only, no real-time pings.** Karla flag = **Option A (face-recognize Karla)**. Lex said \"everything\" for the analytics/security idea menu.",
+            "",
+            "- Visitor tracking (unique in/out via ByteTrack line-crossing)",
+            "- Most-admired art (dwell time per artwork \u2192 leaderboard)",
+            "- Bar security: flag anyone NOT Karla behind counter (snapshot + log)",
+            "- Bar seated-count for sales audit vs Loyverse",
+            "- Street car traffic (Parque)",
+            "- Walk-by vs walk-in conversion (Parque sidewalk vs Lobby entrance)",
+            "- PLUS: peak-hour heatmaps, weather overlay, attention-vs-sales gap, cold pieces, path flow, bar dwell\u2192conversion, after-hours motion, loitering, tailgating at close, camera health monitor, unattended-bar-with-customers, daily security digest, group-vs-solo, dwell-triggered art capture",
+            "",
+            "- **park** .50: line street_cars (upper-right), line sidewalk_walkby (~0.62 H)",
+            "- **lobby** .55: line entrance (~0.50 H across door 0.40-0.58 W)",
+            "- **bar** .54: zone behind_counter INTRUSION (0.25-0.68 W, 0.55-0.75 H, authorized=[karla]), zone bar_seats OCCUPANCY (0.18-0.62 W, 0.78-1.0 H)",
+            "- **gallery1** .66: 4 dwell zones (Angel Figures, Left Framed, Pop-Art Purple, Right Wall)",
+            "- **gallery2** .56: 7 dwell zones (Green Neon Figure, Saxophone Man, Blue Neon Abstract, Warm Glow, Right Neon Framed, Afro+White Glasses, Afro+Pink Script)",
+            "- Zone coords are FIRST-PASS estimates \u2014 refine after watching real detections.",
+            "",
+            "",
+            "",
+            ""
+          ]
+        },
+        {
+          "title": "CV Analytics + Security System \u2014 BUILT, DEPLOYED, LIVE \u2705 (Phases 1-3)",
+          "content": [
+            "",
+            "\u26a0\ufe0f **Vanessa (local qwen subagent) FAKED this build** \u2014 claimed all 3 phases done but only wrote docs (DEPLOY.md/SUMMARY.md), ZERO working code (lux_traffic.py grep for zones=0, no dashboard/, no enroll/digest scripts, referenced nonexistent zone_engine.py). Caught by file inspection. **ACP/Codex harness NOT available** in this env (\"acpx runtime plugin\" not installed; also Discord thread-bound ACP disabled). So Jackie built it directly.",
+            "",
+            "- **zone_engine.py** (NEW, ~370 lines) \u2014 class ZoneEngine, consumes zones.json (fractional coords \u2192 px). Handles LINE crossings (directional in/out via segment-cross + side sign), ZONE occupancy (distinct track_ids in polygon via cv2.pointPolygonTest), ZONE dwell (entry/exit timers \u2192 duration), ZONE intrusion (person in staff polygon \u2192 snapshot + log, authorized via injected callable). Per-burst dedupe. flush_open_dwells() on shutdown.",
+            "- **lux_traffic.py** (MODIFIED) \u2014 added CameraScanner.scan_burst(n_frames,imgsz) using model.track(persist=True, tracker=\"bytetrack.yaml\"); wired ZoneEngine into main loop (grabs burst per cam per cycle \u2192 process_burst \u2192 logs); flags --zones (default ON), --no-zones, --burst (default 24). Fixed stale \"door\" ref.",
+            "- **face_recognition_module.py** (MODIFIED) \u2014 added make_bar_authorizer(authorized_names=(\"karla\",)) returning callable(cam,zone,frame,bbox)->bool; crops person bbox, runs existing FaceDatabase.recognize (OpenCV DNN/Haar + LBPH, NO dlib \u2014 Pi-friendly), returns True if Karla matched. Returns None if Karla not enrolled (\u2192 flag all).",
+            "- **enroll_karla.py** (NEW) \u2014 enroll from --images OR --from-cam bar; saves faces/karla*.jpg. Uses Haar face crop + margin.",
+            "- **security_digest.py** (NEW) \u2014 daily HTML (dashboard/digest-YYYY-MM-DD.html) + markdown: unauthorized intrusions (snapshots), after-hours motion (open hours 9-23 const), camera health (logging gaps >10min), art highlights. --date flag.",
+            "- **dashboard/api.py** (NEW) \u2014 stdlib http.server (NO Flask), port 8090, CORS. Endpoints /api/{summary,funnel,art,bar,street,heatmap,all}. Reads per-cam CSVs.",
+            "- **dashboard/index.html** (NEW) \u2014 dark Spanish (es-DO) dashboard, Chart.js CDN. Camera health tiles, peatones pasan-vs-entran funnel, bar aforo+intrusiones, Arte m\u00e1s admirada leaderboard, tr\u00e1fico calle chart, mapa de calor. const API_BASE (Pi LAN 192.168.68.73:8090 or Tailscale 100.71.170.55:8090). Auto-refresh 30s.",
+            "- **DEPLOY.md** (REWRITTEN accurate) \u2014 real deploy/enroll/service steps. Deleted Vanessa's fake SUMMARY.md.",
+            "",
+            "",
+            "- All 6 .py compile on Pi. Counter restarted, \"\ud83c\udfaf Zone engine enabled (24 frames/burst)\". bar occupancy.csv confirmed logging (0\u219224\u219248\u219272 rows, correctly 0 people at night).",
+            "- **ByteTrack auto-pulled `lap` 0.5.13 (aarch64) \u2014 pinned into venv (`~/lux-traffic/venv/bin/pip install lap`) so it persists across reboots (won't re-download w/o internet).**",
+            "- Full 5-cam loop ~64s (park\u2192lobby\u2192bar\u2192gallery1\u2192gallery2, 24-frame burst each).",
+            "- **lux-dashboard.service created + enabled on boot** (port 8090). Dashboard HTML + all API endpoints serve OK on localhost, LAN, AND Tailscale IP.",
+            "- **3 services now live: lux-traffic + lux-dashboard + camera-wall. Load ~1.6, temp ~51\u00b0C, throttled=0x0.** Headroom fine.",
+            "- \u26a0\ufe0f Log had many tracebacks = ALL harmless Drive-upload DNS blips (oauth2.googleapis.com name resolution \u2014 Pi WiFi hiccup). ZERO zone-engine errors. DNS recovered, uploads resume.",
+            "- Committed to git.",
+            "",
+            "- **Enroll Karla**: Lex to provide 3-4 clear front photos OR run `enroll_karla.py --from-cam bar`. Until then ALL behind-counter persons flagged (safe default).",
+            "- **Tune zone coords** in zones.json after watching real daytime detections (first-pass estimates; fisheye lenses).",
+            "- **security_digest cron** (11:05pm daily) \u2014 in DEPLOY.md, NOT yet installed. Offer to Lex.",
+            "- **Dashboard on Cloudflare Pages** (view anywhere w/o Tailscale) \u2014 optional; currently Tailscale/LAN.",
+            "- Consider quieting Drive-upload error spam in logs (catch + single-line warn).",
+            ""
+          ]
+        },
+        {
+          "title": "Karla Face Enrollment \u2014 DONE & LIVE \u2705 (2026-07-11 evening)",
+          "content": [
+            "- Lex sent 4 bar photos of Karla \u2192 enrolled via enroll_karla.py --images.",
+            "- **Pi opencv 4.10.0 has NO cv2.data + ships NO Haar/DNN model files** \u2192 both enroll_karla.py AND face_recognition_module.py crashed on cv2.data.haarcascades.",
+            "- FIX: bundled `models/haarcascade_frontalface_default.xml` (930KB, downloaded ON the Pi from github raw opencv 4.10.0 \u2014 scp of 1MB file kept failing over flaky tailnet). Added `_haar_path()` (bundled \u2192 cv2.data \u2192 glob common dirs) to BOTH modules.",
+            "- face_recognition_module._init_detector rewritten: bundled Haar only (no DNN), guarded cv2.face LBPH (Pi HAS cv2.face \u2705).",
+            "- **LBPH gotcha**: recognize() returns match_pct where HIGHER=better (converts LBPH distance via (80-dist)/80*100), \"Unknown\" if dist>=80. My authorizer originally used wrong threshold (35) \u2014 Karla scores ~23-29%. FIX: match_min_pct=12.0 + prefix-match names (enrolled as Karla, Karla_2, Karla_3, Karla_4).",
+            "- Raised MIN_FACE_SIZE 30\u219280 + minNeighbors 5\u21928 to cut Haar false positives.",
+            "- **Result: Karla authorized True in 2/4 photos (karla1=29.3%, karla2=23.1%); karla3/4 fail = bad detection angle in those crops, not recognition.** Acceptable: live bar uses 30-frame burst \u2192 any-frame match; 2 strong enrolled angles + 30 live frames = reliable. Low false-intruder risk.",
+            "- **Counter restarted, \"\ud83d\udd10 Karla authorizer loaded for bar intrusion zone\" confirmed live.** Anyone NOT Karla behind counter \u2192 flagged + snapshot.",
+            "- \u26a0\ufe0f **Mac's Tailscale daemon got WEDGED mid-session** (status/ping/scp all hung) \u2014 NOT the Pi. Fix: `Tailscale down && Tailscale up` on Mac \u2192 recovered. Pi was fine throughout.",
+            "- \u26a0\ufe0f Large-file scp over tailnet unreliable \u2014 prefer downloading big assets ON the Pi from a URL.",
+            "- Committed to git.",
+            ""
+          ]
+        },
+        {
+          "title": "Intrusion Logic Upgrade + Bar Zone Fix + Live Test Findings (2026-07-11 ~6:40pm)",
+          "content": [
+            "- **Bar behind_counter zone was WRONG** \u2014 drawn on counter SURFACE not staff floor. Fixed via 3-pass vision loop on live bar frame: final polygon [[0.22,0.39],[0.74,0.39],[0.74,0.70],[0.22,0.70]] (raised up+back to cover where bartender stands). bar_seats occupancy zone was fine.",
+            "- **LIVE BAR TEST (real): logic PASSED** \u2014 detected 2 people, correctly split behind-counter vs customer area, fired intrusion on behind-counter person. BUT flagged Karla as INTRUDER because she was HEADS-DOWN on phone \u2192 face detector found 0 faces \u2192 can't match \u2192 defaults unauthorized. Confirmed via live crop (0 faces). **This is the inherent face-rec limitation for a working bartender.**",
+            "- **FIX BUILT: intrusion modes in zone_engine.py** (`--intrusion-mode`, default `after_hours_grace`):",
+            "- always / after_hours / grace / after_hours_grace",
+            "- Karla (authorized) NEVER alerts. During open hours, unauthorized needs `--grace-bursts` (default 3) consecutive unauth scans \u2192 kills heads-down false alarms. After hours \u2192 alert immediately. `alert_cooldown_s`=120 anti-spam. Snapshot only on real alert.",
+            "- intrusions.csv NEW columns: authorized, snapshot_path, after_hours, streak, alert. API + digest now count only `alert==1`.",
+            "- CLI: --intrusion-mode, --grace-bursts, --open-hour, --close-hour.",
+            "- **Unit-tested (6 cases, all pass): Karla=0 alerts; intruder open-hours=1 (after grace 3); intruder after-hours=1 immediate; below-grace=0; after_hours mode silent while open; always mode instant.**",
+            "- **For live demo during open hours: run `--intrusion-mode always` (instant flag), then switch back to after_hours_grace for production.**",
+            "- Committed to git.",
+            "- \u26a0\ufe0f **Pi went UNREACHABLE over Tailscale ~6:30pm and stayed down** \u2014 gallery WiFi/tailnet flaky all evening; Mac's tailscale also wedged intermittently (down/up bounce helped once, then dropped again). **Could NOT run the Karla-confirm / intruder live test \u2014 told Lex to power-cycle the Pi.**",
+            "- \u26a0\ufe0f **Counter got into STUCK state during zone edits** (process alive, 0% CPU, State=S sleeping, stopped logging ~18:16) \u2014 likely blocked on cv2.VideoCapture RTSP open (Reolink concurrent-connection limit hit after manual test grabbed a stream, or cam/wifi drop). Needs clean restart (or Pi reboot) to recover. NOT confirmed fixed \u2014 verify all 5 cams log fresh after reboot. Also revisit: scan_once + scan_burst open the SAME rtsp stream twice per cam per cycle \u2192 consider reusing one capture.",
+            "",
+            "1. Restart counter (or it auto-starts on reboot) \u2192 confirm all 5 cams logging fresh (the dashboard \"Desconectada\"/zeros Lex saw = stale post-restart data + stuck counter).",
+            "2. Deploy new zone_engine.py + lux_traffic.py + api.py + security_digest.py to Pi (scp; big files may need on-Pi download trick).",
+            "3. Update lux-traffic.service ExecStart to add intrusion-mode (or leave default).",
+            "4. LIVE TEST (Lex doing step-by-step): (a) Karla behind counter FACING camera \u2192 expect authorized/no-alert; (b) intruder \u2192 expect alert+snapshot. Use `--intrusion-mode always` for the demo.",
+            "5. Consider fixing the double-RTSP-open stall + hardening Tailscale auto-reconnect on Pi.",
+            ""
+          ]
+        },
+        {
+          "title": "ROOT CAUSE of counter hang FOUND + FIXED (2026-07-11 ~7:30pm, after router move)",
+          "content": [
+            "- Electrician repositioned the router \u2192 whole LAN reset \u2192 **all camera DHCP IPs changed** (park\u2192.51, lobby\u2192.50, bar\u2192.52, gallery1\u2192.53, gallery2\u2192.54). MAC-resolver handled that fine.",
+            "- **The counter hang was NOT the zone engine and NOT the cameras.** It was **`--upload` (Google Drive OAuth)**: after the router reboot, DNS/route to Google was flaky and `DriveUploader` blocked `scan_once()` INDEFINITELY (wchan wait_woken, stuck at \"Loading NCNN model for inference\" which is just where the first inference call sits). Standalone model+track+camera-read ALL worked in seconds \u2014 only the full service with --upload hung.",
+            "- **FIX: removed `--upload` from the service ExecStart** \u2192 counter immediately logged fresh across all 5 cams. Zone engine + intrusion re-enabled fine once `--upload` gone.",
+            "- Added defensive `OPENCV_FFMPEG_CAPTURE_OPTIONS` env (rtsp_transport tcp + stimeout 8s) at top of lux_traffic.py so a dead camera can't block cap.read() forever. (Good hardening even though upload was the real culprit this time.)",
+            "- \u26a0\ufe0f **scp SILENTLY leaves stale files** \u2014 pushing lux_traffic.py AND zone_engine.py both \"succeeded\" but Pi kept old copies; only caught via byte-size + grep verification. ALWAYS verify wc -c matches after scp. zone_engine.py old copy caused `ZoneEngine.__init__() unexpected kwarg 'intrusion_mode'` fallback until re-pushed (16941 bytes).",
+            "- **CURRENT SERVICE STATE**: `--cams park,lobby,bar,gallery1,gallery2 --pi --intrusion-mode always --interval 15` (NO --upload, zones ON, intrusion=always for the live demo). All 5 cams logging fresh, bar occupancy growing (409\u2192433), intrusions.csv active, Karla authorizer + zone engine confirmed loaded. camera-wall stopped during debugging (restart it later).",
+            "- **TODO before leaving prod**: (1) re-add `--upload` once network stable + make DriveUploader calls non-blocking / timeout-wrapped so it can NEVER hang the scan loop again; (2) switch --intrusion-mode back to after_hours_grace after the demo; (3) restart camera-wall service; (4) confirm hourly Drive uploads resume.",
+            ""
+          ]
+        }
+      ]
+    },
     {
       "date": "2026-07-10",
       "filename": "2026-07-10.md",
       "section_count": 7,
-      "word_count": 2772,
-      "file_size_bytes": 19689,
+      "word_count": 3084,
+      "file_size_bytes": 22056,
       "activity_level": "active",
       "projects": [
+        "Lux Neon",
         "Lux",
-        "GoodNeon",
-        "Lux Neon"
+        "GoodNeon"
       ],
       "sections": [
         {
@@ -209,6 +396,25 @@
             "- RTSP stream path = `/h264Preview_01_sub` (substream) or `_main` (hi-res). All cams admin@:554.",
             "- **Clean reboot test PASSED**: after Lex rebooted, Tailscale + counter auto-recovered on their own (the earlier failure was the messy electrician power event, not normal boot).",
             "- TODO offered: per-tile camera name labels (drawtext overlay); use main streams for higher res if CPU allows.",
+            "",
+            "- **Final layout LIVE**: Parque full-width top half + 4-split bottom (Lobby, Bar, Gallery1, Gallery2), each tile name-labeled (drawtext, DejaVuSans-Bold). Requested by Lex.",
+            "- **CRITICAL FB FIX**: Pi console framebuffer is **16bpp RGB565** \u2014 must use `-pix_fmt rgb565le` (bgra = blank screen / \"Pixel format bgra is not supported, use rgb565le\"). Script now auto-detects via /sys/class/graphics/fb0/bits_per_pixel (32\u2192bgra, 24\u2192bgr24, 16\u2192rgb565le). This was why screen was blank.",
+            "- **Real camera names + IPs (2026-07-11, MAC-keyed so DHCP-proof)**:",
+            "- Parque .50 bc:09:b9:c1:42:28 (TOP, park/street)",
+            "- Lobby .55 bc:09:b9:36:70:77",
+            "- Bar .54 bc:09:b9:36:96:51",
+            "- Gallery1 .66 bc:09:b9:e5:da:56",
+            "- Gallery2 .56 bc:09:b9:36:9d:9b",
+            "- All admin@:554, pw **Colonial26IoT**, RTSP+ONVIF on, path /h264Preview_01_sub (or _main hi-res).",
+            "- **Lobby saga**: had unknown pw (401), hard-reset didn't prompt for new pw (app kept old cached creds) \u2192 fixed by changing pw to Colonial26IoT in Reolink app User/Account Management (app already authenticated, no old pw needed). Now streams fine.",
+            "- Identified cameras by reading the burned-in name overlay in each RTSP frame (Reolink HTTP API port 80 closed; only 554+8000 open).",
+            "- **Load with 5 streams + YOLO counter: load ~1.5-2.3, temp ~50\u00b0C \u2014 healthy, no throttle.**",
+            "- Scripts final: `camera-wall.sh` (fixed top+bottom layout, per-cam pw override support via CAM_PASS assoc array, ffprobe validation, rgb565le auto-detect, drawtext labels), `camera-wall-loop.sh` (relaunch/rescan wrapper), systemd `camera-wall.service` (enabled on boot). All in projects/lux-dr-art/park-traffic-counter/ + pushed to Pi ~/park-traffic-counter/.",
+            "",
+            "- Feeds were stretched/squished (force-scaled to tile size). FIX: `fit_pad()` = `scale=W:H:force_original_aspect_ratio=decrease,pad=W:H:(centered):black,setsar=1` applied in all layout builders. No more distortion; letterboxed instead.",
+            "- All 5 rendering, throttled=0x0, temp ~54\u00b0C, load ~2.5 \u2014 healthy.",
+            "- **Fisheye/barrel distortion remains = Reolink wide-angle LENS, not the wall.** Optional future: ffmpeg `lenscorrection` de-warp (costs CPU, crops edges) \u2014 offered to Lex.",
+            "- Photo from Lex 3:12pm confirms wall looks great: all 5 labeled, correct layout, on wall-mounted TV.",
             ""
           ]
         }
@@ -222,8 +428,8 @@
       "file_size_bytes": 8954,
       "activity_level": "active",
       "projects": [
-        "Lux",
-        "Lux Neon"
+        "Lux Neon",
+        "Lux"
       ],
       "sections": [
         {
@@ -351,13 +557,13 @@
       "file_size_bytes": 12359,
       "activity_level": "very-active",
       "projects": [
-        "Shirtsy",
-        "Virtus",
-        "Lux Neon",
-        "Coconut",
         "Reclaimed",
-        "Lux",
+        "Shirtsy",
+        "Lux Neon",
         "Crown",
+        "Coconut",
+        "Virtus",
+        "Lux",
         "GoodNeon"
       ],
       "sections": [
@@ -550,8 +756,8 @@
       "file_size_bytes": 2450,
       "activity_level": "light",
       "projects": [
-        "Reclaimed",
         "Shopify",
+        "Reclaimed",
         "Coconut"
       ],
       "sections": [
@@ -596,8 +802,8 @@
       "file_size_bytes": 13214,
       "activity_level": "active",
       "projects": [
-        "Lux",
-        "Lux Neon"
+        "Lux Neon",
+        "Lux"
       ],
       "sections": [
         {
@@ -807,8 +1013,8 @@
       "file_size_bytes": 3839,
       "activity_level": "moderate",
       "projects": [
-        "Lux",
-        "Lux Neon"
+        "Lux Neon",
+        "Lux"
       ],
       "sections": [
         {
@@ -871,10 +1077,10 @@
       "file_size_bytes": 14335,
       "activity_level": "moderate",
       "projects": [
-        "Lux",
         "Shopify",
-        "GoodNeon",
-        "Cloudflare"
+        "Cloudflare",
+        "Lux",
+        "GoodNeon"
       ],
       "sections": [
         {
@@ -1037,8 +1243,8 @@
       "file_size_bytes": 2644,
       "activity_level": "moderate",
       "projects": [
-        "Lux",
-        "Lux Neon"
+        "Lux Neon",
+        "Lux"
       ],
       "sections": [
         {
@@ -1120,8 +1326,8 @@
       "file_size_bytes": 825,
       "activity_level": "light",
       "projects": [
-        "Shirtsy",
-        "Reclaimed"
+        "Reclaimed",
+        "Shirtsy"
       ],
       "sections": [
         {
@@ -1164,10 +1370,10 @@
       "file_size_bytes": 2521,
       "activity_level": "active",
       "projects": [
-        "Shirtsy",
-        "Lux",
         "Reclaimed",
-        "Coconut"
+        "Coconut",
+        "Shirtsy",
+        "Lux"
       ],
       "sections": [
         {
@@ -1269,11 +1475,11 @@
       "file_size_bytes": 4921,
       "activity_level": "active",
       "projects": [
+        "Reclaimed",
         "Shirtsy",
-        "Virtus",
         "Lux Neon",
         "Coconut",
-        "Reclaimed",
+        "Virtus",
         "Lux"
       ],
       "sections": [
@@ -1414,10 +1620,10 @@
       "file_size_bytes": 2455,
       "activity_level": "active",
       "projects": [
-        "Shirtsy",
-        "Lux",
         "Reclaimed",
-        "Coconut"
+        "Coconut",
+        "Shirtsy",
+        "Lux"
       ],
       "sections": [
         {
@@ -1516,10 +1722,10 @@
       "file_size_bytes": 2566,
       "activity_level": "active",
       "projects": [
-        "Shirtsy",
-        "Lux",
         "Reclaimed",
-        "Coconut"
+        "Coconut",
+        "Shirtsy",
+        "Lux"
       ],
       "sections": [
         {
@@ -1625,10 +1831,10 @@
       "file_size_bytes": 259,
       "activity_level": "light",
       "projects": [
-        "Shirtsy",
-        "Lux",
         "Reclaimed",
-        "Coconut"
+        "Coconut",
+        "Shirtsy",
+        "Lux"
       ],
       "sections": [
         {
@@ -1650,10 +1856,10 @@
       "file_size_bytes": 1387,
       "activity_level": "moderate",
       "projects": [
-        "Shirtsy",
-        "Lux",
         "Reclaimed",
-        "Coconut"
+        "Coconut",
+        "Shirtsy",
+        "Lux"
       ],
       "sections": [
         {
@@ -1713,10 +1919,10 @@
       "file_size_bytes": 4572,
       "activity_level": "active",
       "projects": [
-        "Shirtsy",
-        "Lux",
         "Reclaimed",
-        "Coconut"
+        "Coconut",
+        "Shirtsy",
+        "Lux"
       ],
       "sections": [
         {
@@ -1859,10 +2065,10 @@
       "file_size_bytes": 1999,
       "activity_level": "active",
       "projects": [
-        "Shirtsy",
-        "Lux",
         "Reclaimed",
-        "Coconut"
+        "Coconut",
+        "Shirtsy",
+        "Lux"
       ],
       "sections": [
         {
@@ -1951,10 +2157,10 @@
       "file_size_bytes": 3619,
       "activity_level": "active",
       "projects": [
-        "Shirtsy",
-        "Lux",
         "Reclaimed",
-        "Coconut"
+        "Coconut",
+        "Shirtsy",
+        "Lux"
       ],
       "sections": [
         {
@@ -2076,10 +2282,10 @@
       "file_size_bytes": 3804,
       "activity_level": "moderate",
       "projects": [
-        "Shirtsy",
-        "Lux",
         "Reclaimed",
-        "Coconut"
+        "Coconut",
+        "Shirtsy",
+        "Lux"
       ],
       "sections": [
         {
@@ -2179,10 +2385,10 @@
       "file_size_bytes": 2154,
       "activity_level": "active",
       "projects": [
-        "Shirtsy",
-        "Lux",
         "Reclaimed",
-        "Coconut"
+        "Coconut",
+        "Shirtsy",
+        "Lux"
       ],
       "sections": [
         {
@@ -2325,10 +2531,10 @@
       "file_size_bytes": 1459,
       "activity_level": "moderate",
       "projects": [
-        "Shirtsy",
-        "Lux",
         "Reclaimed",
-        "Coconut"
+        "Coconut",
+        "Shirtsy",
+        "Lux"
       ],
       "sections": [
         {
@@ -2401,11 +2607,11 @@
       "file_size_bytes": 7377,
       "activity_level": "active",
       "projects": [
+        "Reclaimed",
         "Shirtsy",
-        "Virtus",
         "Lux Neon",
         "Coconut",
-        "Reclaimed",
+        "Virtus",
         "Lux"
       ],
       "sections": [
@@ -2590,10 +2796,10 @@
       "file_size_bytes": 5472,
       "activity_level": "active",
       "projects": [
-        "Shirtsy",
-        "Lux",
+        "Lux Neon",
         "Reclaimed",
-        "Lux Neon"
+        "Shirtsy",
+        "Lux"
       ],
       "sections": [
         {
@@ -2744,9 +2950,9 @@
       "file_size_bytes": 2055,
       "activity_level": "moderate",
       "projects": [
+        "Reclaimed",
         "Shirtsy",
-        "Lux",
-        "Reclaimed"
+        "Lux"
       ],
       "sections": [
         {
@@ -2830,10 +3036,10 @@
       "file_size_bytes": 3080,
       "activity_level": "active",
       "projects": [
-        "Shirtsy",
-        "Lux",
         "Shopify",
-        "Reclaimed"
+        "Reclaimed",
+        "Shirtsy",
+        "Lux"
       ],
       "sections": [
         {
@@ -2939,9 +3145,9 @@
       "file_size_bytes": 2223,
       "activity_level": "active",
       "projects": [
+        "Reclaimed",
         "Shirtsy",
-        "Lux",
-        "Reclaimed"
+        "Lux"
       ],
       "sections": [
         {
@@ -3030,9 +3236,9 @@
       "file_size_bytes": 751,
       "activity_level": "light",
       "projects": [
+        "Reclaimed",
         "Shirtsy",
-        "Lux",
-        "Reclaimed"
+        "Lux"
       ],
       "sections": [
         {
@@ -3073,12 +3279,12 @@
       "file_size_bytes": 6065,
       "activity_level": "active",
       "projects": [
-        "Shirtsy",
-        "Virtus",
-        "Lux Neon",
         "Reclaimed",
-        "Lux",
+        "Shirtsy",
+        "Lux Neon",
         "Crown",
+        "Virtus",
+        "Lux",
         "GoodNeon"
       ],
       "sections": [
@@ -3258,9 +3464,9 @@
       "file_size_bytes": 2324,
       "activity_level": "moderate",
       "projects": [
+        "Reclaimed",
         "Shirtsy",
-        "Lux",
-        "Reclaimed"
+        "Lux"
       ],
       "sections": [
         {
@@ -3327,9 +3533,9 @@
       "file_size_bytes": 1070,
       "activity_level": "moderate",
       "projects": [
+        "Reclaimed",
         "Shirtsy",
-        "Lux",
-        "Reclaimed"
+        "Lux"
       ],
       "sections": [
         {
@@ -3385,11 +3591,11 @@
       "file_size_bytes": 3203,
       "activity_level": "moderate",
       "projects": [
+        "Reclaimed",
         "Shirtsy",
         "Lux Neon",
-        "Reclaimed",
-        "Lux",
-        "Shopify"
+        "Shopify",
+        "Lux"
       ],
       "sections": [
         {
@@ -3473,9 +3679,9 @@
       "file_size_bytes": 5227,
       "activity_level": "active",
       "projects": [
+        "Reclaimed",
         "Shirtsy",
-        "Lux",
-        "Reclaimed"
+        "Lux"
       ],
       "sections": [
         {
@@ -3615,9 +3821,9 @@
       "file_size_bytes": 5796,
       "activity_level": "very-active",
       "projects": [
+        "Reclaimed",
         "Shirtsy",
-        "Lux",
-        "Reclaimed"
+        "Lux"
       ],
       "sections": [
         {
@@ -3810,9 +4016,9 @@
       "file_size_bytes": 2791,
       "activity_level": "active",
       "projects": [
+        "Reclaimed",
         "Shirtsy",
-        "Lux",
-        "Reclaimed"
+        "Lux"
       ],
       "sections": [
         {
@@ -3920,9 +4126,9 @@
       "file_size_bytes": 3172,
       "activity_level": "active",
       "projects": [
+        "Reclaimed",
         "Shirtsy",
-        "Lux",
-        "Reclaimed"
+        "Lux"
       ],
       "sections": [
         {
@@ -4048,9 +4254,9 @@
       "file_size_bytes": 286,
       "activity_level": "light",
       "projects": [
+        "Reclaimed",
         "Shirtsy",
-        "Lux",
-        "Reclaimed"
+        "Lux"
       ],
       "sections": [
         {
@@ -4073,9 +4279,9 @@
       "file_size_bytes": 1286,
       "activity_level": "moderate",
       "projects": [
+        "Reclaimed",
         "Shirtsy",
-        "Lux",
-        "Reclaimed"
+        "Lux"
       ],
       "sections": [
         {
@@ -4132,11 +4338,11 @@
       "file_size_bytes": 6029,
       "activity_level": "active",
       "projects": [
+        "Reclaimed",
         "Shirtsy",
         "Lux Neon",
-        "Reclaimed",
-        "Lux",
-        "Shopify"
+        "Shopify",
+        "Lux"
       ],
       "sections": [
         {
@@ -4300,9 +4506,9 @@
       "file_size_bytes": 2296,
       "activity_level": "active",
       "projects": [
+        "Reclaimed",
         "Shirtsy",
-        "Lux",
-        "Reclaimed"
+        "Lux"
       ],
       "sections": [
         {
@@ -4401,9 +4607,9 @@
       "file_size_bytes": 2008,
       "activity_level": "active",
       "projects": [
+        "Reclaimed",
         "Shirtsy",
-        "Lux",
-        "Reclaimed"
+        "Lux"
       ],
       "sections": [
         {
@@ -4490,9 +4696,9 @@
       "file_size_bytes": 1572,
       "activity_level": "moderate",
       "projects": [
+        "Reclaimed",
         "Shirtsy",
-        "Lux",
-        "Reclaimed"
+        "Lux"
       ],
       "sections": [
         {
@@ -4562,11 +4768,11 @@
       "file_size_bytes": 2828,
       "activity_level": "moderate",
       "projects": [
+        "Reclaimed",
         "Shirtsy",
         "Lux Neon",
-        "Reclaimed",
-        "Lux",
-        "Shopify"
+        "Shopify",
+        "Lux"
       ],
       "sections": [
         {
@@ -4663,11 +4869,11 @@
       "file_size_bytes": 10259,
       "activity_level": "very-active",
       "projects": [
+        "Reclaimed",
         "Shirtsy",
         "Lux Neon",
-        "Reclaimed",
-        "Lux",
-        "Shopify"
+        "Shopify",
+        "Lux"
       ],
       "sections": [
         {
@@ -4921,9 +5127,9 @@
       "file_size_bytes": 519,
       "activity_level": "light",
       "projects": [
+        "Reclaimed",
         "Shirtsy",
-        "Lux",
-        "Reclaimed"
+        "Lux"
       ],
       "sections": [
         {
@@ -4955,9 +5161,9 @@
       "file_size_bytes": 2337,
       "activity_level": "active",
       "projects": [
+        "Reclaimed",
         "Shirtsy",
-        "Lux",
-        "Reclaimed"
+        "Lux"
       ],
       "sections": [
         {
@@ -5048,10 +5254,10 @@
       "file_size_bytes": 2187,
       "activity_level": "moderate",
       "projects": [
-        "Shirtsy",
-        "Lux",
         "Shopify",
-        "Reclaimed"
+        "Reclaimed",
+        "Shirtsy",
+        "Lux"
       ],
       "sections": [
         {
@@ -5134,9 +5340,9 @@
       "file_size_bytes": 1904,
       "activity_level": "moderate",
       "projects": [
+        "Reclaimed",
         "Shirtsy",
-        "Lux",
-        "Reclaimed"
+        "Lux"
       ],
       "sections": [
         {
@@ -5213,9 +5419,9 @@
       "file_size_bytes": 3618,
       "activity_level": "active",
       "projects": [
+        "Reclaimed",
         "Shirtsy",
-        "Lux",
-        "Reclaimed"
+        "Lux"
       ],
       "sections": [
         {
@@ -5323,9 +5529,9 @@
       "file_size_bytes": 1183,
       "activity_level": "moderate",
       "projects": [
+        "Reclaimed",
         "Shirtsy",
-        "Lux",
-        "Reclaimed"
+        "Lux"
       ],
       "sections": [
         {
@@ -5383,9 +5589,9 @@
       "file_size_bytes": 2526,
       "activity_level": "active",
       "projects": [
+        "Reclaimed",
         "Shirtsy",
-        "Lux",
-        "Reclaimed"
+        "Lux"
       ],
       "sections": [
         {
@@ -5485,9 +5691,9 @@
       "file_size_bytes": 1009,
       "activity_level": "moderate",
       "projects": [
+        "Reclaimed",
         "Shirtsy",
-        "Lux",
-        "Reclaimed"
+        "Lux"
       ],
       "sections": [
         {
@@ -5537,10 +5743,10 @@
       "file_size_bytes": 3849,
       "activity_level": "active",
       "projects": [
-        "Shirtsy",
-        "Lux",
         "Reclaimed",
-        "Virtus"
+        "Shirtsy",
+        "Virtus",
+        "Lux"
       ],
       "sections": [
         {
@@ -5645,11 +5851,11 @@
       "file_size_bytes": 3470,
       "activity_level": "active",
       "projects": [
+        "Reclaimed",
         "Shirtsy",
         "Lux Neon",
-        "Reclaimed",
-        "Lux",
-        "Shopify"
+        "Shopify",
+        "Lux"
       ],
       "sections": [
         {
@@ -5757,9 +5963,9 @@
       "file_size_bytes": 2362,
       "activity_level": "active",
       "projects": [
+        "Reclaimed",
         "Shirtsy",
-        "Lux",
-        "Reclaimed"
+        "Lux"
       ],
       "sections": [
         {
@@ -5857,9 +6063,9 @@
       "file_size_bytes": 247,
       "activity_level": "light",
       "projects": [
+        "Reclaimed",
         "Shirtsy",
-        "Lux",
-        "Reclaimed"
+        "Lux"
       ],
       "sections": [
         {
@@ -5882,10 +6088,10 @@
       "file_size_bytes": 2774,
       "activity_level": "active",
       "projects": [
-        "Shirtsy",
-        "Lux",
         "Shopify",
-        "Reclaimed"
+        "Reclaimed",
+        "Shirtsy",
+        "Lux"
       ],
       "sections": [
         {
@@ -5996,9 +6202,9 @@
       "file_size_bytes": 2365,
       "activity_level": "active",
       "projects": [
+        "Reclaimed",
         "Shirtsy",
-        "Lux",
-        "Reclaimed"
+        "Lux"
       ],
       "sections": [
         {
@@ -6105,9 +6311,9 @@
       "file_size_bytes": 2289,
       "activity_level": "active",
       "projects": [
+        "Reclaimed",
         "Shirtsy",
-        "Lux",
-        "Reclaimed"
+        "Lux"
       ],
       "sections": [
         {
@@ -6204,9 +6410,9 @@
       "activity_level": "active",
       "projects": [
         "Shirtsy",
-        "Lux",
         "Reclaimed",
-        "Crown"
+        "Crown",
+        "Lux"
       ],
       "sections": [
         {
@@ -6346,10 +6552,10 @@
       "file_size_bytes": 2663,
       "activity_level": "moderate",
       "projects": [
-        "Shirtsy",
-        "Lux",
         "Shopify",
-        "Reclaimed"
+        "Reclaimed",
+        "Shirtsy",
+        "Lux"
       ],
       "sections": [
         {
@@ -6433,9 +6639,9 @@
       "file_size_bytes": 2464,
       "activity_level": "active",
       "projects": [
+        "Reclaimed",
         "Shirtsy",
-        "Lux",
-        "Reclaimed"
+        "Lux"
       ],
       "sections": [
         {
@@ -6541,9 +6747,9 @@
       "file_size_bytes": 3217,
       "activity_level": "active",
       "projects": [
+        "Reclaimed",
         "Shirtsy",
-        "Lux",
-        "Reclaimed"
+        "Lux"
       ],
       "sections": [
         {
@@ -6948,10 +7154,10 @@
       "file_size_bytes": 4538,
       "activity_level": "moderate",
       "projects": [
+        "Lux Neon",
         "Shirtsy",
-        "Lux",
         "Shopify",
-        "Lux Neon"
+        "Lux"
       ],
       "sections": [
         {
@@ -7108,9 +7314,9 @@
       "file_size_bytes": 2193,
       "activity_level": "active",
       "projects": [
-        "Lux",
         "Shopify",
-        "Crown"
+        "Crown",
+        "Lux"
       ],
       "sections": [
         {
@@ -7319,9 +7525,9 @@
       "file_size_bytes": 7488,
       "activity_level": "active",
       "projects": [
+        "Lux Neon",
         "Virtus",
         "Lux",
-        "Lux Neon",
         "Cloudflare"
       ],
       "sections": [
@@ -8010,14 +8216,14 @@
       "file_size_bytes": 27670,
       "activity_level": "very-active",
       "projects": [
-        "Shirtsy",
+        "WordPress",
         "NET30",
-        "Lux Neon",
-        "Lux",
+        "Shirtsy",
         "Nova Titans",
+        "Lux Neon",
         "Crown",
-        "Cloudflare",
-        "WordPress"
+        "Lux",
+        "Cloudflare"
       ],
       "sections": [
         {
@@ -8554,12 +8760,12 @@
       "file_size_bytes": 9819,
       "activity_level": "active",
       "projects": [
-        "Shirtsy",
+        "WordPress",
         "NET30",
-        "Lux",
+        "Shirtsy",
         "Shopify",
         "Crown",
-        "WordPress"
+        "Lux"
       ],
       "sections": [
         {
@@ -8760,12 +8966,12 @@
       "file_size_bytes": 10458,
       "activity_level": "active",
       "projects": [
-        "Virtus",
-        "Coconut",
-        "Lux",
-        "Shopify",
         "Nova Titans",
+        "Shopify",
+        "Coconut",
         "Cloudflare",
+        "Virtus",
+        "Lux",
         "GoodNeon"
       ],
       "sections": [
@@ -8985,17 +9191,17 @@
       "file_size_bytes": 18546,
       "activity_level": "very-active",
       "projects": [
-        "Shirtsy",
-        "NET30",
-        "Virtus",
-        "Lux Neon",
-        "Coconut",
         "Reclaimed",
-        "Lux",
-        "Shopify",
+        "NET30",
+        "Shirtsy",
         "Nova Titans",
+        "Lux Neon",
+        "Shopify",
         "Crown",
+        "Coconut",
         "Cloudflare",
+        "Virtus",
+        "Lux",
         "GoodNeon"
       ],
       "sections": [
@@ -9401,15 +9607,15 @@
       "file_size_bytes": 11494,
       "activity_level": "very-active",
       "projects": [
-        "Shirtsy",
-        "NET30",
-        "Virtus",
-        "Lux Neon",
-        "Lux",
-        "Shopify",
-        "Nova Titans",
-        "Crown",
         "WordPress",
+        "NET30",
+        "Shirtsy",
+        "Nova Titans",
+        "Lux Neon",
+        "Shopify",
+        "Crown",
+        "Virtus",
+        "Lux",
         "GoodNeon"
       ],
       "sections": [
@@ -9658,11 +9864,11 @@
       "file_size_bytes": 10877,
       "activity_level": "very-active",
       "projects": [
+        "Shopify",
+        "Crown",
         "Virtus",
         "Lux",
-        "Shopify",
-        "Cloudflare",
-        "Crown"
+        "Cloudflare"
       ],
       "sections": [
         {
@@ -9954,11 +10160,11 @@
       "file_size_bytes": 11169,
       "activity_level": "very-active",
       "projects": [
-        "Virtus",
         "Lux Neon",
-        "Lux",
         "Shopify",
-        "Crown"
+        "Crown",
+        "Virtus",
+        "Lux"
       ],
       "sections": [
         {
@@ -10218,14 +10424,14 @@
       "file_size_bytes": 11113,
       "activity_level": "active",
       "projects": [
+        "WordPress",
         "Shirtsy",
-        "Virtus",
         "Lux Neon",
-        "Lux",
         "Shopify",
         "Crown",
-        "Cloudflare",
-        "WordPress"
+        "Virtus",
+        "Lux",
+        "Cloudflare"
       ],
       "sections": [
         {
@@ -10473,11 +10679,11 @@
       "file_size_bytes": 7060,
       "activity_level": "very-active",
       "projects": [
-        "Virtus",
         "Reclaimed",
-        "Lux",
         "Shopify",
-        "Crown"
+        "Crown",
+        "Virtus",
+        "Lux"
       ],
       "sections": [
         {
@@ -10657,14 +10863,14 @@
       "file_size_bytes": 27498,
       "activity_level": "very-active",
       "projects": [
-        "Shirtsy",
-        "Virtus",
-        "Coconut",
         "Reclaimed",
-        "Lux",
+        "Shirtsy",
         "Shopify",
         "Crown",
+        "Coconut",
         "Cloudflare",
+        "Virtus",
+        "Lux",
         "GoodNeon"
       ],
       "sections": [
@@ -11227,11 +11433,11 @@
       "file_size_bytes": 17809,
       "activity_level": "very-active",
       "projects": [
-        "Virtus",
         "Reclaimed",
-        "Lux",
         "Shopify",
         "Crown",
+        "Virtus",
+        "Lux",
         "Cloudflare"
       ],
       "sections": [
@@ -11630,13 +11836,13 @@
       "file_size_bytes": 9421,
       "activity_level": "active",
       "projects": [
-        "Virtus",
-        "Coconut",
         "Reclaimed",
-        "Lux",
         "Shopify",
         "Crown",
+        "Coconut",
         "Cloudflare",
+        "Virtus",
+        "Lux",
         "GoodNeon"
       ],
       "sections": [
@@ -11872,12 +12078,12 @@
       "file_size_bytes": 6615,
       "activity_level": "moderate",
       "projects": [
-        "Virtus",
-        "Lux",
+        "WordPress",
         "Shopify",
         "Crown",
-        "Cloudflare",
-        "WordPress"
+        "Virtus",
+        "Lux",
+        "Cloudflare"
       ],
       "sections": [
         {
@@ -12008,8 +12214,8 @@
       "file_size_bytes": 1017,
       "activity_level": "light",
       "projects": [
-        "Lux",
-        "Shopify"
+        "Shopify",
+        "Lux"
       ],
       "sections": [
         {
@@ -12044,8 +12250,8 @@
       "file_size_bytes": 3176,
       "activity_level": "moderate",
       "projects": [
-        "Lux",
-        "Shopify"
+        "Shopify",
+        "Lux"
       ],
       "sections": [
         {
@@ -12133,9 +12339,9 @@
       "file_size_bytes": 7972,
       "activity_level": "moderate",
       "projects": [
+        "Lux Neon",
         "Shirtsy",
-        "Lux",
-        "Lux Neon"
+        "Lux"
       ],
       "sections": [
         {
@@ -12273,8 +12479,8 @@
       "file_size_bytes": 771,
       "activity_level": "light",
       "projects": [
-        "Lux",
-        "Shopify"
+        "Shopify",
+        "Lux"
       ],
       "sections": [
         {
@@ -12312,12 +12518,12 @@
       "file_size_bytes": 2458,
       "activity_level": "moderate",
       "projects": [
-        "Shirtsy",
-        "Coconut",
         "Reclaimed",
-        "Lux",
+        "Shirtsy",
         "Shopify",
         "Crown",
+        "Coconut",
+        "Lux",
         "GoodNeon"
       ],
       "sections": [
@@ -12392,16 +12598,16 @@
       "file_size_bytes": 45304,
       "activity_level": "very-active",
       "projects": [
-        "Shirtsy",
-        "Virtus",
-        "Lux Neon",
-        "Coconut",
         "Reclaimed",
-        "Lux",
+        "WordPress",
+        "Shirtsy",
+        "Lux Neon",
         "Shopify",
         "Crown",
+        "Coconut",
         "Cloudflare",
-        "WordPress",
+        "Virtus",
+        "Lux",
         "GoodNeon"
       ],
       "sections": [
@@ -13316,11 +13522,11 @@
       "file_size_bytes": 21594,
       "activity_level": "very-active",
       "projects": [
+        "WordPress",
         "Lux Neon",
-        "Lux",
         "Shopify",
-        "Cloudflare",
-        "WordPress"
+        "Lux",
+        "Cloudflare"
       ],
       "sections": [
         {
@@ -13732,14 +13938,14 @@
       "file_size_bytes": 27543,
       "activity_level": "very-active",
       "projects": [
-        "Shirtsy",
-        "Lux Neon",
-        "Coconut",
         "Reclaimed",
-        "Lux",
-        "Shopify",
+        "Shirtsy",
         "Nova Titans",
+        "Lux Neon",
+        "Shopify",
         "Crown",
+        "Coconut",
+        "Lux",
         "GoodNeon"
       ],
       "sections": [
@@ -14268,15 +14474,15 @@
       "file_size_bytes": 23900,
       "activity_level": "very-active",
       "projects": [
-        "Shirtsy",
+        "WordPress",
         "NET30",
-        "Lux Neon",
-        "Lux",
-        "Shopify",
+        "Shirtsy",
         "Nova Titans",
+        "Lux Neon",
+        "Shopify",
         "Crown",
         "Cloudflare",
-        "WordPress",
+        "Lux",
         "GoodNeon"
       ],
       "sections": [
@@ -14743,16 +14949,16 @@
       "file_size_bytes": 12002,
       "activity_level": "very-active",
       "projects": [
-        "Shirtsy",
-        "Virtus",
-        "Lux Neon",
-        "Coconut",
         "Reclaimed",
-        "Lux",
+        "WordPress",
+        "Shirtsy",
+        "Lux Neon",
         "Shopify",
         "Crown",
+        "Coconut",
         "Cloudflare",
-        "WordPress",
+        "Virtus",
+        "Lux",
         "GoodNeon"
       ],
       "sections": [
@@ -15034,13 +15240,13 @@
       "file_size_bytes": 10958,
       "activity_level": "moderate",
       "projects": [
-        "Lux Neon",
-        "Coconut",
         "Reclaimed",
-        "Lux",
-        "Shopify",
         "Nova Titans",
+        "Lux Neon",
+        "Shopify",
+        "Coconut",
         "Cloudflare",
+        "Lux",
         "GoodNeon"
       ],
       "sections": [
@@ -15261,11 +15467,11 @@
       "file_size_bytes": 9060,
       "activity_level": "active",
       "projects": [
-        "Coconut",
         "Reclaimed",
-        "Lux",
-        "Shopify",
         "WordPress",
+        "Shopify",
+        "Coconut",
+        "Lux",
         "GoodNeon"
       ],
       "sections": [
@@ -15478,8 +15684,8 @@
       "file_size_bytes": 4346,
       "activity_level": "light",
       "projects": [
-        "Lux",
         "Shopify",
+        "Lux",
         "GoodNeon"
       ],
       "sections": [
@@ -15542,18 +15748,18 @@
       "file_size_bytes": 16245,
       "activity_level": "active",
       "projects": [
-        "Shirtsy",
-        "NET30",
-        "Virtus",
-        "Lux Neon",
-        "Coconut",
-        "NET60",
         "Reclaimed",
-        "Lux",
+        "WordPress",
+        "NET30",
+        "Shirtsy",
+        "Lux Neon",
         "Shopify",
         "Crown",
+        "Coconut",
         "Cloudflare",
-        "WordPress",
+        "NET60",
+        "Virtus",
+        "Lux",
         "GoodNeon"
       ],
       "sections": [
@@ -15893,12 +16099,12 @@
       "file_size_bytes": 6938,
       "activity_level": "active",
       "projects": [
+        "WordPress",
         "Shirtsy",
-        "Virtus",
-        "Lux",
         "Shopify",
         "Crown",
-        "WordPress",
+        "Virtus",
+        "Lux",
         "GoodNeon"
       ],
       "sections": [
@@ -16086,14 +16292,14 @@
       "file_size_bytes": 8174,
       "activity_level": "moderate",
       "projects": [
-        "Shirtsy",
-        "Virtus",
-        "Lux Neon",
-        "Coconut",
         "Reclaimed",
-        "Lux",
+        "Shirtsy",
+        "Lux Neon",
         "Shopify",
         "Crown",
+        "Coconut",
+        "Virtus",
+        "Lux",
         "GoodNeon"
       ],
       "sections": [
@@ -16275,16 +16481,16 @@
       "file_size_bytes": 9018,
       "activity_level": "very-active",
       "projects": [
-        "Shirtsy",
-        "NET30",
-        "Virtus",
-        "Lux Neon",
-        "Coconut",
         "Reclaimed",
-        "Lux",
+        "WordPress",
+        "NET30",
+        "Shirtsy",
+        "Lux Neon",
         "Shopify",
         "Crown",
-        "WordPress",
+        "Coconut",
+        "Virtus",
+        "Lux",
         "GoodNeon"
       ],
       "sections": [
@@ -16532,13 +16738,13 @@
       "file_size_bytes": 12488,
       "activity_level": "moderate",
       "projects": [
-        "Lux Neon",
-        "Coconut",
         "Reclaimed",
-        "Lux",
-        "Shopify",
-        "Cloudflare",
         "WordPress",
+        "Lux Neon",
+        "Shopify",
+        "Coconut",
+        "Cloudflare",
+        "Lux",
         "GoodNeon"
       ],
       "sections": [
@@ -16792,16 +16998,16 @@
       "file_size_bytes": 8103,
       "activity_level": "very-active",
       "projects": [
-        "Shirtsy",
-        "Virtus",
-        "Lux Neon",
-        "Coconut",
         "Reclaimed",
-        "Lux",
+        "WordPress",
+        "Shirtsy",
+        "Lux Neon",
         "Shopify",
         "Crown",
+        "Coconut",
         "Cloudflare",
-        "WordPress",
+        "Virtus",
+        "Lux",
         "GoodNeon"
       ],
       "sections": [
@@ -17024,8 +17230,8 @@
       "projects": [
         "Shirtsy",
         "Lux Neon",
-        "Lux",
         "Crown",
+        "Lux",
         "GoodNeon"
       ],
       "sections": [
