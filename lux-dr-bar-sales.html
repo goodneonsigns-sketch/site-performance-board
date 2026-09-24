@@ -147,34 +147,13 @@ td.num{text-align:right;font-variant-numeric:tabular-nums}
 </main>
 
 <script>
-// ===== DATA: real Ventas from filed cuadres (float RD$4,500 excluded) =====
-// descuadre negative = drawer short. fondo shown when != 4500.
-const DAILY = [
-  {n:"0029", date:"2026-08-27", ventas:1147.27, efec:550.01,  tarj:597.26,  desc:9.99},
-  {n:"0031", date:"2026-08-29", ventas:2392.34, efec:1849.98, tarj:542.36,  desc:0.02},
-  {n:"0035", date:"2026-09-03", ventas:1100.00, efec:1100.00, tarj:0,       desc:0.00},
-  {n:"0040", date:"2026-09-09", ventas:1788.99, efec:650.00,  tarj:1138.98, desc:0.00},
-  {n:"0043", date:"2026-09-12", ventas:33659.30,efec:7987.21, tarj:25672.05,desc:162.79},
-  {n:"0044", date:"2026-09-13", ventas:0.00,    efec:0,       tarj:0,       desc:0.00},
-  {n:"0045", date:"2026-09-15", ventas:249.99,  efec:249.99,  tarj:0,       desc:0.01},
-  {n:"0046", date:"2026-09-16", ventas:0.00,    efec:0,       tarj:0,       desc:0.00},
-  {n:"0048", date:"2026-09-18", ventas:3949.98, efec:3949.98, tarj:0,       desc:-1319.58},
-  {n:"0049", date:"2026-09-23", ventas:792.36,  efec:249.99,  tarj:542.36,  desc:0.01, fondo:3000},
-];
-const CLOSED = ["2026-09-14","2026-09-21"];
-
-// ===== BAR PURCHASES (COGS): liquor + drink stock, from filed facturas (Drive) =====
-// pure=true means clearly liquor/drink stock; pure=false means mixed (has snacks/mixers).
-const PURCHASES = [
-  {date:"2026-08-13", vendor:"Supermercado Nacional (ron/corona/snacks)", amount:2699.35,  pure:false, ncf:"crédito fiscal"},
-  {date:"2026-08-15", vendor:"Patrón Liquor",                             amount:16330.00, pure:true,  ncf:"E310000006544"},
-  {date:"2026-09-11", vendor:"LONDEPOT (liquor bar stock)",              amount:74805.00, pure:true,  ncf:"E310000154797"},
-  {date:"2026-09-12", vendor:"Patrón Liquor",                             amount:5255.00,  pure:true,  ncf:"E310000006876"},
-];
+// ===== Data is loaded from data/lux-dr-bar-data.json (Jackie appends on every new cuadre/purchase) =====
+let DAILY=[], CLOSED=[], PURCHASES=[], META={};
 
 const fmt = v => "RD$"+v.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});
 const fmt0 = v => "RD$"+v.toLocaleString("en-US",{maximumFractionDigits:0});
 
+function render(){
 // ---- monthly aggregation ----
 function monthKey(d){return d.slice(0,7);}
 const months = {};
@@ -320,12 +299,28 @@ const tb=document.querySelector("#dailyTable tbody");
 });
 
 document.getElementById("gapsNote").innerHTML =
-  "Closed days (no cuadre expected): <b>Sep 14, Sep 21</b>. "+
-  "Still missing / not received: cuadres <b>0036–0039, 0041, 0042, 0047</b> and calendar days <b>Sep 19, 20, 22</b>. "+
-  "Last cuadre on file: <b>#0049 (23/09)</b>.";
+  "Closed days (no cuadre expected): <b>"+(CLOSED.map(d=>d.slice(5)).join(", ")||"—")+"</b>. "+
+  "Missing / not received cuadres: <b>"+((META.missingCuadres||[]).join(", ")||"none")+"</b>. "+
+  "Last cuadre on file: <b>#"+(META.lastCuadre||"?")+"</b>.";
 
 document.getElementById("subtitle").textContent =
-  "Ventas reales (float excluded) · "+DAILY.length+" cuadres on file · updated "+new Date().toISOString().slice(0,10);
+  "Ventas reales (float excluded) · "+DAILY.length+" cuadres on file · updated "+(META.updated||new Date().toISOString().slice(0,10));
+} // end render()
+
+// ---- bootstrap: load data, then render ----
+fetch("data/lux-dr-bar-data.json?v="+Date.now())
+  .then(r=>r.json())
+  .then(d=>{
+    DAILY = d.daily||[];
+    PURCHASES = d.purchases||[];
+    META = d._meta||{};
+    CLOSED = META.closedDays||[];
+    render();
+  })
+  .catch(e=>{
+    document.getElementById("subtitle").textContent="⚠️ Could not load bar data ("+e+")";
+    console.error(e);
+  });
 </script>
 </body>
 </html>
