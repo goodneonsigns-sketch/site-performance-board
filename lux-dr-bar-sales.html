@@ -109,6 +109,27 @@ td.num{text-align:right;font-variant-numeric:tabular-nums}
     </div>
   </div>
 
+  <div class="section-card" style="border-top:3px solid var(--brand-color)">
+    <div class="section-header"><h3>Profit &amp; Loss — Bar (Ventas vs Liquor/Drink COGS)</h3><span class="section-icon">⚖️</span></div>
+    <div class="metrics-row" style="margin-bottom:20px">
+      <div class="metric-card"><div class="metric-value" id="plRev">—</div><div class="metric-label">Total Ventas</div><div class="metric-trend up">💰</div></div>
+      <div class="metric-card"><div class="metric-value down" id="plCogs">—</div><div class="metric-label">Liquor/Drink Purchases (COGS)</div><div class="metric-trend down">🛒</div></div>
+      <div class="metric-card"><div class="metric-value" id="plGross">—</div><div class="metric-label">Gross (Ventas − COGS)</div><div class="metric-trend" id="plGrossTrend">📊</div></div>
+      <div class="metric-card"><div class="metric-value" id="plMargin">—</div><div class="metric-label">Gross Margin</div><div class="metric-trend flat">📐</div></div>
+    </div>
+    <div class="chart-wrap"><canvas id="plChart"></canvas></div>
+    <div class="note" id="plNote"></div>
+  </div>
+
+  <div class="section-card">
+    <div class="section-header"><h3>Liquor &amp; Drink Purchases (on file)</h3><span class="section-icon">🛒</span></div>
+    <table id="purchTable">
+      <thead><tr><th>Date</th><th>Vendor</th><th class="num">Amount RD$</th><th>Type</th><th>NCF</th></tr></thead>
+      <tbody></tbody>
+    </table>
+    <div class="note">COGS = liquor/drink stock purchases only (not construction, food, or supplies). Mixed receipts flagged. Purchases are lumpy (stock-ups), so period margin ≠ per-drink margin.</div>
+  </div>
+
   <div class="section-card">
     <div class="section-header"><h3>Insights</h3><span class="section-icon">💡</span></div>
     <div id="insights"></div>
@@ -141,6 +162,15 @@ const DAILY = [
   {n:"0049", date:"2026-09-23", ventas:792.36,  efec:249.99,  tarj:542.36,  desc:0.01, fondo:3000},
 ];
 const CLOSED = ["2026-09-14","2026-09-21"];
+
+// ===== BAR PURCHASES (COGS): liquor + drink stock, from filed facturas (Drive) =====
+// pure=true means clearly liquor/drink stock; pure=false means mixed (has snacks/mixers).
+const PURCHASES = [
+  {date:"2026-08-13", vendor:"Supermercado Nacional (ron/corona/snacks)", amount:2699.35,  pure:false, ncf:"crédito fiscal"},
+  {date:"2026-08-15", vendor:"Patrón Liquor",                             amount:16330.00, pure:true,  ncf:"E310000006544"},
+  {date:"2026-09-11", vendor:"LONDEPOT (liquor bar stock)",              amount:74805.00, pure:true,  ncf:"E310000154797"},
+  {date:"2026-09-12", vendor:"Patrón Liquor",                             amount:5255.00,  pure:true,  ncf:"E310000006876"},
+];
 
 const fmt = v => "RD$"+v.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});
 const fmt0 = v => "RD$"+v.toLocaleString("en-US",{maximumFractionDigits:0});
@@ -220,6 +250,47 @@ new Chart(document.getElementById("mixChart"),{
     plugins:{legend:{position:"bottom"},tooltip:{callbacks:{label:c=>c.label+": "+fmt(c.parsed)}}}}
 });
 
+// ---- P&L ----
+const totalRev = DAILY.reduce((s,r)=>s+r.ventas,0);          // all-period ventas (Aug+Sep on file)
+const totalCogs = PURCHASES.reduce((s,r)=>s+r.amount,0);
+const gross = totalRev - totalCogs;
+const margin = totalRev>0 ? (gross/totalRev*100) : 0;
+document.getElementById("plRev").textContent=fmt0(totalRev);
+document.getElementById("plCogs").textContent=fmt0(totalCogs);
+const gEl=document.getElementById("plGross");
+gEl.textContent=fmt0(gross); gEl.className="metric-value "+(gross>=0?"up":"down");
+document.getElementById("plGrossTrend").textContent=gross>=0?"🟢 positive":"🔴 negative";
+document.getElementById("plGrossTrend").className="metric-trend "+(gross>=0?"up":"down");
+document.getElementById("plMargin").textContent=Math.round(margin)+"%";
+
+// P&L by month: revenue vs cogs
+const plMonths = Array.from(new Set([...Object.keys(months),...PURCHASES.map(p=>monthKey(p.date))])).sort();
+const revByMonth = plMonths.map(m=>+(months[m]||0).toFixed(2));
+const cogsByMonth = plMonths.map(m=>+PURCHASES.filter(p=>monthKey(p.date)===m).reduce((s,p)=>s+p.amount,0).toFixed(2));
+new Chart(document.getElementById("plChart"),{
+  type:"bar",
+  data:{labels:plMonths.map(m=>monthNames[m]||m),datasets:[
+    {label:"Ventas (revenue)",data:revByMonth,backgroundColor:"#10b981",borderRadius:6},
+    {label:"Liquor/Drink COGS",data:cogsByMonth,backgroundColor:brand,borderRadius:6}
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{position:"top"},tooltip:{callbacks:{label:c=>c.dataset.label+": "+fmt(c.parsed.y)}}},
+    scales:{y:{beginAtZero:true,grid:{color:gridClr},ticks:{callback:v=>"RD$"+(v/1000)+"k"}},x:{grid:{display:false}}}}
+});
+document.getElementById("plNote").innerHTML =
+  "⚠️ <b>Timing mismatch:</b> purchases are <b>stock-ups</b> (e.g. LONDEPOT RD$74,805 on 11/09 is inventory that sells over weeks/months), not the cost of drinks sold this period. So a negative period 'gross' here means <b>you bought inventory</b>, not that the bar loses money per drink. A true per-drink margin needs consumption tracking (opening/closing inventory). This view = cash in vs cash out on bar stock.";
+
+// purchases table
+const pt=document.querySelector("#purchTable tbody");
+[...PURCHASES].reverse().forEach(p=>{
+  const tr=document.createElement("tr");
+  tr.innerHTML=`<td>${p.date.slice(5)}</td><td>${p.vendor}</td>
+    <td class="num"><b>${p.amount.toLocaleString("en-US",{minimumFractionDigits:2})}</b></td>
+    <td>${p.pure?'<span class="pill card">liquor</span>':'<span class="pill warn">mixed</span>'}</td>
+    <td style="font-size:11px;color:var(--text-secondary)">${p.ncf}</td>`;
+  pt.appendChild(tr);
+});
+
 // ---- insights ----
 const ins=document.getElementById("insights");
 const shortDays = sept.filter(r=>r.desc<-1);
@@ -229,6 +300,7 @@ html+=`<div class="insight">🏆 <b>Best day: ${best.date} (#${best.n}) = ${fmt(
 html+=`<div class="insight">💳 <b>Card is ${cardPct}% of Sept revenue</b> (${fmt(septCard)}), cash ${100-cardPct}% (${fmt(septCash)}). Card money lands via AZUL (minus fees).</div>`;
 if(shortDays.length){html+=`<div class="insight">⚠️ <b>Drawer short on ${shortDays.map(r=>r.date.slice(5)).join(", ")}</b> — cuadre #${shortDays[0].n} was ${fmt(shortDays[0].desc)} (En Caja vs Reportó). Needs cajero explanation.</div>`;}
 html+=`<div class="insight">🔎 <b>Float note:</b> cuadre 0049 (23/09) ran with Fondo Caja <b>RD$3,000</b> instead of the usual RD$4,500 — verify intentional.</div>`;
+html+=`<div class="insight">⚖️ <b>P&amp;L reality check:</b> liquor/drink purchases on file total <b>${fmt(totalCogs)}</b> vs Ventas <b>${fmt(totalRev)}</b>. The big <b>LONDEPOT RD$74,805 (11/09)</b> stock-up is inventory to sell over time — so the current negative period gross is an <b>inventory build</b>, not a loss per drink. Track opening/closing bottle counts for a true margin.</div>`;
 ins.innerHTML=html;
 
 // ---- daily table ----
