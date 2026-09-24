@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lux Neon DR — Bar Sales</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+:root{
+  --bg-primary:#f8fafc;--bg-card:#ffffff;--text-primary:#1e293b;--text-secondary:#64748b;
+  --border:#e2e8f0;--shadow:0 1px 3px rgba(0,0,0,0.1);--radius:12px;
+  --brand-color:#c4956a;--brand-light:#f5f0e9;
+  --success:#10b981;--warning:#f59e0b;--info:#3b82f6;--danger:#ef4444;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg-primary);color:var(--text-primary);line-height:1.5;min-height:100vh;display:flex}
+.sidebar{width:240px;background:var(--bg-card);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;height:100vh;z-index:100}
+.sidebar-header{padding:32px 24px 24px;border-bottom:1px solid var(--border)}
+.company-brand{display:flex;align-items:center;gap:12px}
+.brand-dot{width:12px;height:12px;background:var(--brand-color);border-radius:50%}
+.company-name{font-size:18px;font-weight:600}
+.nav-tabs{padding:24px 0;flex:1}
+.nav-tab{display:flex;align-items:center;gap:12px;padding:14px 24px;color:var(--text-secondary);text-decoration:none;transition:all .2s;border-left:3px solid transparent}
+.nav-tab:hover{background:var(--bg-primary);color:var(--text-primary)}
+.nav-tab.active{background:var(--brand-color);color:#fff;border-left-color:#fff}
+.nav-icon{font-size:18px}
+.sidebar-footer{padding:24px;border-top:1px solid var(--border)}
+.back-link{color:var(--text-secondary);text-decoration:none;font-size:14px;font-weight:500}
+.back-link:hover{color:var(--brand-color)}
+.main-content{margin-left:240px;flex:1;min-height:100vh}
+.content-wrapper{padding:32px 40px;max-width:1200px;margin:0 auto}
+header{margin-bottom:28px}
+.company-header{display:flex;align-items:center;gap:14px}
+.brand-bar{width:5px;height:38px;background:var(--brand-color);border-radius:3px}
+.logo-placeholder{width:38px;height:38px;border-radius:9px;background:var(--brand-light);color:var(--brand-color);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:20px}
+h1{font-size:24px;font-weight:700}
+.subtitle{color:var(--text-secondary);font-size:14px;margin-top:6px}
+.metrics-row{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:26px}
+.metric-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow)}
+.metric-value{font-size:22px;font-weight:700}
+.metric-label{color:var(--text-secondary);font-size:13px;margin-top:4px}
+.metric-trend{margin-top:8px;font-size:13px;font-weight:600}
+.up{color:var(--success)}.down{color:var(--danger)}.flat{color:var(--text-secondary)}
+.section-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);margin-bottom:22px}
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.section-header h3{font-size:16px;font-weight:600}
+.section-icon{font-size:18px}
+.chart-wrap{position:relative;height:320px}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--border)}
+th{color:var(--text-secondary);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.03em}
+td.num{text-align:right;font-variant-numeric:tabular-nums}
+.pill{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600}
+.pill.cash{background:#ecfdf5;color:#047857}.pill.card{background:#eff6ff;color:#1d4ed8}
+.pill.warn{background:#fef2f2;color:#b91c1c}
+.note{font-size:12px;color:var(--text-secondary);margin-top:10px;line-height:1.6}
+.insight{background:var(--brand-light);border-left:3px solid var(--brand-color);border-radius:8px;padding:14px 16px;font-size:13px;margin-bottom:12px}
+.insight b{color:var(--brand-color)}
+@media(max-width:900px){.metrics-row{grid-template-columns:repeat(2,1fr)}.two-col{grid-template-columns:1fr}.sidebar{transform:translateX(-100%)}.main-content{margin-left:0}}
+</style>
+</head>
+<body>
+<nav class="sidebar">
+  <div class="sidebar-header"><div class="company-brand"><div class="brand-dot"></div><div class="company-name">Lux Neon DR</div></div></div>
+  <div class="nav-tabs">
+    <a href="lux-dr-dashboard.html" class="nav-tab"><span class="nav-icon">📊</span><span>Overview</span></a>
+    <a href="lux-dr-bar-sales.html" class="nav-tab active"><span class="nav-icon">🍸</span><span>Bar Sales</span></a>
+    <a href="lux-dr-dashboard.html#renovation" class="nav-tab"><span class="nav-icon">🏗️</span><span>Renovation</span></a>
+  </div>
+  <div class="sidebar-footer"><a href="index.html" class="back-link">← Back to Hub</a></div>
+</nav>
+
+<main class="main-content">
+<div class="content-wrapper">
+  <header>
+    <div class="company-header">
+      <div class="brand-bar"></div>
+      <div class="logo-placeholder">🍸</div>
+      <h1>Bar Sales — Lux Neon DR 🇩🇴</h1>
+    </div>
+    <div class="subtitle" id="subtitle">Ventas reales (float RD$4,500 excluded) · from cuadres de caja</div>
+  </header>
+
+  <div class="metrics-row">
+    <div class="metric-card"><div class="metric-value" id="mTotal">—</div><div class="metric-label">Total Ventas (Sept)</div><div class="metric-trend up" id="mTotalTrend">📈</div></div>
+    <div class="metric-card"><div class="metric-value" id="mAvg">—</div><div class="metric-label">Avg / Open Day</div><div class="metric-trend flat">📊</div></div>
+    <div class="metric-card"><div class="metric-value" id="mBest">—</div><div class="metric-label">Best Day</div><div class="metric-trend up" id="mBestDate">—</div></div>
+    <div class="metric-card"><div class="metric-value" id="mCardMix">—</div><div class="metric-label">Card vs Cash</div><div class="metric-trend flat">💳</div></div>
+  </div>
+
+  <div class="section-card">
+    <div class="section-header"><h3>Weekly Bar Sales &amp; Trend</h3><span class="section-icon">📈</span></div>
+    <div class="chart-wrap"><canvas id="weeklyChart"></canvas></div>
+    <div class="note">Weeks are Mon–Sun. Bars = total Ventas that week; line = trend. Closed days (Sep 14, 21) excluded from day-count.</div>
+  </div>
+
+  <div class="two-col">
+    <div class="section-card">
+      <div class="section-header"><h3>Monthly Ventas</h3><span class="section-icon">📅</span></div>
+      <div class="chart-wrap" style="height:280px"><canvas id="monthlyChart"></canvas></div>
+    </div>
+    <div class="section-card">
+      <div class="section-header"><h3>Cash vs Card (Sept)</h3><span class="section-icon">💳</span></div>
+      <div class="chart-wrap" style="height:280px"><canvas id="mixChart"></canvas></div>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <div class="section-header"><h3>Insights</h3><span class="section-icon">💡</span></div>
+    <div id="insights"></div>
+  </div>
+
+  <div class="section-card">
+    <div class="section-header"><h3>Daily Cuadres (on file)</h3><span class="section-icon">🧾</span></div>
+    <table id="dailyTable">
+      <thead><tr><th>Cuadre</th><th>Date</th><th class="num">Ventas RD$</th><th class="num">Efectivo</th><th class="num">Tarjeta</th><th>Descuadre</th></tr></thead>
+      <tbody></tbody>
+    </table>
+    <div class="note" id="gapsNote"></div>
+  </div>
+</div>
+</main>
+
+<script>
+// ===== DATA: real Ventas from filed cuadres (float RD$4,500 excluded) =====
+// descuadre negative = drawer short. fondo shown when != 4500.
+const DAILY = [
+  {n:"0029", date:"2026-08-27", ventas:1147.27, efec:550.01,  tarj:597.26,  desc:9.99},
+  {n:"0031", date:"2026-08-29", ventas:2392.34, efec:1849.98, tarj:542.36,  desc:0.02},
+  {n:"0035", date:"2026-09-03", ventas:1100.00, efec:1100.00, tarj:0,       desc:0.00},
+  {n:"0040", date:"2026-09-09", ventas:1788.99, efec:650.00,  tarj:1138.98, desc:0.00},
+  {n:"0043", date:"2026-09-12", ventas:33659.30,efec:7987.21, tarj:25672.05,desc:162.79},
+  {n:"0044", date:"2026-09-13", ventas:0.00,    efec:0,       tarj:0,       desc:0.00},
+  {n:"0045", date:"2026-09-15", ventas:249.99,  efec:249.99,  tarj:0,       desc:0.01},
+  {n:"0046", date:"2026-09-16", ventas:0.00,    efec:0,       tarj:0,       desc:0.00},
+  {n:"0048", date:"2026-09-18", ventas:3949.98, efec:3949.98, tarj:0,       desc:-1319.58},
+  {n:"0049", date:"2026-09-23", ventas:792.36,  efec:249.99,  tarj:542.36,  desc:0.01, fondo:3000},
+];
+const CLOSED = ["2026-09-14","2026-09-21"];
+
+const fmt = v => "RD$"+v.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});
+const fmt0 = v => "RD$"+v.toLocaleString("en-US",{maximumFractionDigits:0});
+
+// ---- monthly aggregation ----
+function monthKey(d){return d.slice(0,7);}
+const months = {};
+DAILY.forEach(r=>{months[monthKey(r.date)]=(months[monthKey(r.date)]||0)+r.ventas;});
+const monthLabels = Object.keys(months).sort();
+const monthNames = {"2026-08":"Aug 2026","2026-09":"Sep 2026"};
+
+// ---- weekly aggregation (ISO Mon-Sun) ----
+function weekStart(dateStr){
+  const d=new Date(dateStr+"T00:00:00");
+  const day=(d.getDay()+6)%7; // Mon=0
+  d.setDate(d.getDate()-day);
+  return d.toISOString().slice(0,10);
+}
+const weeks={};
+DAILY.forEach(r=>{const w=weekStart(r.date);weeks[w]=(weeks[w]||0)+r.ventas;});
+const weekKeys=Object.keys(weeks).sort();
+const weekLabels=weekKeys.map(w=>{const d=new Date(w+"T00:00:00");const e=new Date(d);e.setDate(e.getDate()+6);
+  const mo=x=>x.toLocaleDateString("en-US",{month:"short",day:"numeric"});return mo(d)+"–"+mo(e);});
+const weekVals=weekKeys.map(w=>+weeks[w].toFixed(2));
+
+// ---- metrics ----
+const sept = DAILY.filter(r=>r.date.startsWith("2026-09"));
+const septTotal = sept.reduce((s,r)=>s+r.ventas,0);
+const openDays = sept.length; // filed days (0-sales days count as open)
+const avg = septTotal/openDays;
+const best = sept.reduce((a,b)=>b.ventas>a.ventas?b:a);
+const septCard = sept.reduce((s,r)=>s+r.tarj,0);
+const septCash = sept.reduce((s,r)=>s+r.efec,0);
+const cardPct = Math.round(septCard/(septCard+septCash)*100);
+
+document.getElementById("mTotal").textContent=fmt0(septTotal);
+document.getElementById("mAvg").textContent=fmt0(avg);
+document.getElementById("mBest").textContent=fmt0(best.ventas);
+document.getElementById("mBestDate").textContent="📅 "+best.date.slice(5)+" (#"+best.n+")";
+document.getElementById("mCardMix").textContent=cardPct+"% / "+(100-cardPct)+"%";
+document.getElementById("mTotalTrend").textContent="🍸 "+openDays+" days on file";
+
+// ---- charts ----
+const brand="#c4956a", brandFill="rgba(196,149,106,0.15)";
+const gridClr="rgba(148,163,184,0.15)";
+Chart.defaults.font.family="Inter";
+Chart.defaults.color="#64748b";
+
+new Chart(document.getElementById("weeklyChart"),{
+  data:{labels:weekLabels,datasets:[
+    {type:"bar",label:"Ventas",data:weekVals,backgroundColor:brand,borderRadius:6,order:2},
+    {type:"line",label:"Trend",data:weekVals,borderColor:"#1e293b",backgroundColor:"transparent",
+     tension:.35,pointRadius:4,pointBackgroundColor:"#1e293b",order:1}
+  ]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:true,position:"top"},
+      tooltip:{callbacks:{label:c=>fmt(c.parsed.y)}}},
+    scales:{y:{beginAtZero:true,grid:{color:gridClr},ticks:{callback:v=>"RD$"+(v/1000)+"k"}},x:{grid:{display:false}}}}
+});
+
+new Chart(document.getElementById("monthlyChart"),{
+  type:"bar",
+  data:{labels:monthLabels.map(m=>monthNames[m]||m),
+    datasets:[{label:"Ventas",data:monthLabels.map(m=>+months[m].toFixed(2)),
+    backgroundColor:brand,borderRadius:6}]},
+  options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>fmt(c.parsed.y)}}},
+    scales:{y:{beginAtZero:true,grid:{color:gridClr},ticks:{callback:v=>"RD$"+(v/1000)+"k"}},x:{grid:{display:false}}}}
+});
+
+new Chart(document.getElementById("mixChart"),{
+  type:"doughnut",
+  data:{labels:["Efectivo (cash)","Tarjeta (card)"],
+    datasets:[{data:[+septCash.toFixed(2),+septCard.toFixed(2)],
+    backgroundColor:["#10b981",brand],borderWidth:0}]},
+  options:{responsive:true,maintainAspectRatio:false,cutout:"62%",
+    plugins:{legend:{position:"bottom"},tooltip:{callbacks:{label:c=>c.label+": "+fmt(c.parsed)}}}}
+});
+
+// ---- insights ----
+const ins=document.getElementById("insights");
+const shortDays = sept.filter(r=>r.desc<-1);
+let html="";
+html+=`<div class="insight">📈 <b>Sept total so far: ${fmt(septTotal)}</b> across ${openDays} cuadres on file. Avg ${fmt(avg)} per open day.</div>`;
+html+=`<div class="insight">🏆 <b>Best day: ${best.date} (#${best.n}) = ${fmt(best.ventas)}</b> — mostly card (${fmt(best.tarj)} tarjeta). This single day is ${Math.round(best.ventas/septTotal*100)}% of the month's sales — likely an event/large tab. Worth confirming it was a real bar day.</div>`;
+html+=`<div class="insight">💳 <b>Card is ${cardPct}% of Sept revenue</b> (${fmt(septCard)}), cash ${100-cardPct}% (${fmt(septCash)}). Card money lands via AZUL (minus fees).</div>`;
+if(shortDays.length){html+=`<div class="insight">⚠️ <b>Drawer short on ${shortDays.map(r=>r.date.slice(5)).join(", ")}</b> — cuadre #${shortDays[0].n} was ${fmt(shortDays[0].desc)} (En Caja vs Reportó). Needs cajero explanation.</div>`;}
+html+=`<div class="insight">🔎 <b>Float note:</b> cuadre 0049 (23/09) ran with Fondo Caja <b>RD$3,000</b> instead of the usual RD$4,500 — verify intentional.</div>`;
+ins.innerHTML=html;
+
+// ---- daily table ----
+const tb=document.querySelector("#dailyTable tbody");
+[...DAILY].reverse().forEach(r=>{
+  const tr=document.createElement("tr");
+  const descClass = r.desc<-1?"pill warn":(Math.abs(r.desc)<0.05?"":"");
+  const descTxt = r.desc<-1?`<span class="pill warn">${r.desc.toFixed(2)}</span>`:r.desc.toFixed(2);
+  const mixPill = r.tarj>0 ? `<span class="pill card">card</span>` : (r.ventas>0?`<span class="pill cash">cash</span>`:"—");
+  tr.innerHTML=`<td>#${r.n}${r.fondo?' <span class="pill warn">fondo '+r.fondo+'</span>':''}</td>
+    <td>${r.date.slice(5)} ${mixPill}</td>
+    <td class="num"><b>${r.ventas.toLocaleString("en-US",{minimumFractionDigits:2})}</b></td>
+    <td class="num">${r.efec.toLocaleString("en-US",{minimumFractionDigits:2})}</td>
+    <td class="num">${r.tarj.toLocaleString("en-US",{minimumFractionDigits:2})}</td>
+    <td>${descTxt}</td>`;
+  tb.appendChild(tr);
+});
+
+document.getElementById("gapsNote").innerHTML =
+  "Closed days (no cuadre expected): <b>Sep 14, Sep 21</b>. "+
+  "Still missing / not received: cuadres <b>0036–0039, 0041, 0042, 0047</b> and calendar days <b>Sep 19, 20, 22</b>. "+
+  "Last cuadre on file: <b>#0049 (23/09)</b>.";
+
+document.getElementById("subtitle").textContent =
+  "Ventas reales (float excluded) · "+DAILY.length+" cuadres on file · updated "+new Date().toISOString().slice(0,10);
+</script>
+</body>
+</html>
