@@ -1,7 +1,7 @@
 {
   "_meta": {
     "description": "Lux Neon DR bar — cuadres de caja (Ventas, float excluded) + liquor/beverage purchases (COGS). Jackie appends on every new cuadre/purchase, then commits+pushes. Ventas = real sales, float RD$4,500 already excluded. desc negative = drawer short. fondo only shown when != 4500.",
-    "updated": "2026-09-26",
+    "updated": "2026-09-26T20:30",
     "closedDays": ["2026-09-14", "2026-09-21"],
     "missingCuadres": ["0036","0037","0038","0039","0041","0042","0047"],
     "lastCuadre": "0051"
@@ -24,6 +24,7 @@
     {"date":"2026-08-13","vendor":"Supermercado Nacional (ron/corona/snacks)","amount":2699.35,"pure":false,"ncf":"crédito fiscal"},
     {"date":"2026-08-15","vendor":"Patrón Liquor","amount":16330.00,"pure":true,"ncf":"E310000006544"},
     {"date":"2026-09-11","vendor":"LONDEPOT (liquor bar stock)","amount":74805.00,"pure":true,"ncf":"E310000154797"},
-    {"date":"2026-09-12","vendor":"Patrón Liquor","amount":5255.00,"pure":true,"ncf":"E310000006876"}
+    {"date":"2026-09-12","vendor":"Patrón Liquor","amount":5255.00,"pure":true,"ncf":"E310000006876"},
+    {"date":"2026-09-26","vendor":"Almacenes Unidos (Red Bull/Sprite/Coca/café/garnish)","amount":4947.45,"pure":false,"ncf":"E310002662680"}
   ]
 }
