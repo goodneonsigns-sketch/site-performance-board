@@ -1,10 +1,10 @@
 {
   "_meta": {
     "description": "Lux Neon DR bar — cuadres de caja (Ventas, float excluded) + liquor/beverage purchases (COGS). Jackie appends on every new cuadre/purchase, then commits+pushes. Ventas = real sales, float RD$4,500 already excluded. desc negative = drawer short. fondo only shown when != 4500.",
-    "updated": "2026-09-28",
-    "closedDays": ["2026-09-14", "2026-09-21"],
+    "updated": "2026-09-30",
+    "closedDays": ["2026-09-14", "2026-09-21", "2026-09-28"],
     "missingCuadres": ["0036","0037","0038","0039","0041","0042","0047"],
-    "lastCuadre": "0053"
+    "lastCuadre": "0054"
   },
   "daily": [
     {"n":"0029","date":"2026-08-27","ventas":1147.27,"efec":550.01,"tarj":597.26,"desc":9.99},
@@ -20,7 +20,8 @@
     {"n":"0050","date":"2026-09-24","ventas":1357.22,"efec":0,"tarj":1357.22,"desc":0.00},
     {"n":"0051","date":"2026-09-25","ventas":3897.99,"efec":1199.99,"tarj":2698.00,"desc":200.01,"fondo":4500},
     {"n":"0052","date":"2026-09-26","ventas":792.36,"efec":249.99,"tarj":542.36,"desc":0.01},
-    {"n":"0053","date":"2026-09-27","ventas":3471.19,"efec":0,"tarj":3471.19,"desc":0.00}
+    {"n":"0053","date":"2026-09-27","ventas":3471.19,"efec":0,"tarj":3471.19,"desc":0.00},
+    {"n":"0054","date":"2026-09-29","ventas":0.00,"efec":0,"tarj":0,"desc":0.00}
   ],
   "purchases": [
     {"date":"2026-08-13","vendor":"Supermercado Nacional (ron/corona/snacks)","amount":2699.35,"pure":false,"ncf":"crédito fiscal"},
